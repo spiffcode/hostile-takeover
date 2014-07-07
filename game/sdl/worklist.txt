@@ -1,0 +1,41 @@
+- TODOs
+
+- sound
+  - why was audio initially muted?
+  - volume control
+
+- network
+  - SDL_net?
+
+- sdl/savegame.cpp is platform dependent?
+
+- mission pack downloading
+- SpriteManager?
+- web ctl
+- Display::Init and other failure cases
+- fullscreen mode
+
+- "Conversion from string literal to 'char *' is deprecated"
+- "Implicit conversion shorts 64-bit value into a 32-bit value"
+- "Implicit conversion loses integer precision: 'long64' aka ('long long') to 'long'"
+
+- fix other warnings (after committing SDL)
+- replace SDL source tree w/ virgin package
+- get makefile.sdl working again
+- consolidate iPhone/SDL code (e.g. savegame.cpp)
+
+- file/dir names and locations
+  - Library/Completes, prefs.bin, MissionPackInfos, MissionPacks, SaveGames
+
+
+- Android?
+- iOS?
+  - dropped smarts for dealing with audio session interruption
+
+- Windows?
+
+
+Polish
+- >= 128px icons
+- About
+- efficient sleeping while waiting for system events

@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<Title>TemplateExtractor reference</Title>
+<link rel="stylesheet" type="text/css" href="AuthorKit.css">
+</HEAD>
+<BODY>
+
+<h4>TemplateExtractor Reference</h4>
+<p>TemplateExtractor.exe is a utility for extracting all the information needed 
+in Template Collection from three source files: a .png file with Template 
+images, a .png file with Template terrain info, and a .txt file with Template 
+names.</p>
+<p>For details on the formats of these source files see the
+<a href="TemplateArtGuidelines.htm">Template Art Guidelines</a>,
+<a href="TemplateTerrainGuidelines.htm">Template Terrain Guidelines</a>, and
+<a href="TemplateNamingGuidelines.htm">Template Naming Guidelines</a>.</p>
+<p class="labelproc">TemplateExtractor usage:</p>
+<p class="commandline">TemplateExtractor [-tc &lt;output.tc&gt;] [-n &lt;names.txt&gt;] -art 
+&lt;art.png&gt; -ter &lt;terrain.png&gt;</p>
+
+
+<p>If the output Template Collection is not specified each Template will be 
+written as a separate .png file using the name given in the names.txt file. If 
+no names file is specified the Templates are named &quot;templateNN&quot; where NN starts 
+at 00 and increments for each Template.</p>
+
+
+<p class="labelproc">Example:</p>
+<p class="commandline">TemplateExtractor -tc grassy.tc -n grassyNames.txt -art 
+grassyTemplates.png -ter grassyTerrain.png</p>
+<p>This will produce the Template Collection grassy.tc which may then be loaded 
+into the Map Editor for use or
+<a href="HowToAddATemplateCollectionToAGameDatabase.htm">added to a Game 
+Database</a>.</p>
+
+</BODY>
+</HTML>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{AA5B1574-27B8-4644-A766-EF1B1C5D748E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>bcr2</RootNamespace>
+    <AssemblyName>bcr2</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="ShowForm.cs" />
+    <Compile Include="..\SpiffLib\bitmapraw.cs">
+      <Link>bitmapraw.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\doublerect.cs">
+      <Link>doublerect.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\misc.cs">
+      <Link>misc.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\palette.cs">
+      <Link>palette.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\tbitmap.cs">
+      <Link>tbitmap.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\tbitmaptools.cs">
+      <Link>tbitmaptools.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="ShowForm.resx">
+      <DependentUpon>ShowForm.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties InternalTargetFrameworkVersion="3.5" />
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

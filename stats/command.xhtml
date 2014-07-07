@@ -1,0 +1,43 @@
+{% extends "basepage.xhtml" %}
+
+{% block head_css %}
+{{ block.super }}
+.messagebox {font-weight:bold;font-size:16px;padding:0;margin:15px 15px 15px 15px;}
+{% endblock %}
+
+{% block page_content %}
+<br />
+<form action="" method="post">
+<table style="width:100%;" cellspacing="0">
+<th></th><th align="left">Name</th><th align="left">Properties</th>
+{% for server in serverinfos %}
+    <tr class="{% cycle even-color,odd-color %}">
+        <td>
+            <input type="checkbox" name="{{ server.hash|escape }}" value="i"></input>
+        </td>
+        <td valign="middle">
+            {{ server.name }}
+        </td>
+        <td>
+            {% for prop in server.props %}
+                {{ prop|escape }}<br />
+            {% endfor %}
+        </td>
+    </tr>
+{% endfor %}
+</table>
+<br />
+<div class="messagebox">
+{% for error in errors %}
+    <p>{{ error }}</p>
+    {% if forloop.last %}
+        <br />
+    {% endif %}
+{% endfor %}
+</div>
+<div style="margin:0 15px 0 15px;">
+{% block form_elements %}{% endblock %}
+</div>
+</form>
+<div class="messagebox"><a href="{{ refresh_url|escape }}">Refresh</a>&nbsp;&nbsp;<a href="{{ admin_url|escape }}">Admin</a>&nbsp;&nbsp;<a href="{{ logout_url|escape }}">Logout</a></div>
+{% endblock %}

@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "wavcrunch", "wavcrunch.csproj", "{3F6EEDB0-982D-42E9-B098-34ABD50B60D2}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{3F6EEDB0-982D-42E9-B098-34ABD50B60D2}.Debug.ActiveCfg = Debug|.NET
+		{3F6EEDB0-982D-42E9-B098-34ABD50B60D2}.Debug.Build.0 = Debug|.NET
+		{3F6EEDB0-982D-42E9-B098-34ABD50B60D2}.Release.ActiveCfg = Release|.NET
+		{3F6EEDB0-982D-42E9-B098-34ABD50B60D2}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

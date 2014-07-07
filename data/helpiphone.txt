@@ -1,0 +1,470 @@
+<H1>HOSTILE TAKEOVER</H1>
+<H1>REPLACE ME: MAIN SITE URL</H1>
+<BR>
+<H1>TABLE OF CONTENTS</H1>
+<BR>
+<H2><A HREF="#background">Story Background</A><BR>
+<BR>
+<A HREF="#gettingstarted">Getting Started</A><BR>
+   <A HREF="#newgame">New Game</A><BR>
+   <A HREF="#playsolo">Play Game</A><BR>
+   <A HREF="#loadsingleplayer">Loading a Saved Game</A><BR>
+   <A HREF="#addonmissionpacks">Add-On Mission Packs</A><BR>
+   <A HREF="#gameoptions">Options</A><BR>
+<BR>
+<A HREF="#howtoplay">Game Play Controls</A><BR>
+   <A HREF="#scrollmap">Scrolling the Map</A><BR>
+   <A HREF="#multiselect">Selecting Multiple Units</A><BR>
+   <A HREF="#powerselect">Power Select</A><BR>
+   <A HREF="#clearselection">Clearing Selection</A><BR>
+   <A HREF="#menu">Menu</A><BR>
+   <A HREF="#indicators">Useful Indicators</A><BR>
+   <A HREF="#minimap">The Mini Map</A><BR>
+   <A HREF="#gameicons">Game Icons</A><BR>
+<BR>
+<A HREF="#gameMenu">In Game Menu</A><BR>
+   <A HREF="#stateobjectives">State Objectives</A><BR>
+   <A HREF="#gameoptions">Options</A><BR>
+   <A HREF="#savegame">Saving Your Game</A><BR>
+   <A HREF="#loadsingleplayer">Loading a Saved Game</A><BR>
+   <A HREF="#restartmission">Restart Mission</A><BR>
+   <A HREF="#abortmission">Abort Mission</A><BR>
+<BR>
+<A HREF="#personnel">Personnel</A><BR>
+   <A HREF="#security">Security Guard</A><BR>
+   <A HREF="#rockettrooper">Rocket Trooper</A><BR>
+   <A HREF="#corporateraider">Corporate Raider</A><BR>
+<BR>
+<A HREF="#vehicles">Vehicles</A><BR>
+   <A HREF="#sr98eagle">SR-98 Eagle</A><BR>
+   <A HREF="#t29broadsword">T-29 Broadsword</A><BR>
+   <A HREF="#m18hydra">M-18 Hydra</A><BR>
+   <A HREF="#t33liberator">T-33 Liberator</A><BR>
+   <A HREF="#g4bullpup">G-4 Bullpup</A><BR>
+   <A HREF="#h7dominion">H-7 Dominion</A><BR>
+   <A HREF="#a3cyclops">A-3 Cyclops</A><BR>
+<BR>
+<A HREF="#buildings">Buildings</A><BR>
+   <A HREF="#hq">Headquarters</A><BR>
+   <A HREF="#powergenerator">Power Generator</A><BR>
+   <A HREF="#processor">Galaxite Processor</A><BR>
+   <A HREF="#warehouse">Galaxite Storage Warehouse</A><BR>
+   <A HREF="#hrc">Human Resource Center (HRC)</A><BR>
+   <A HREF="#vts">Vehicle Transport Station (VTS)</A><BR>
+   <A HREF="#radar">Surveillance Center</A><BR>
+   <A HREF="#randd">Research & Development Center</A><BR>
+   <A HREF="#guntower">Gatling Tower</A><BR>
+   <A HREF="#rockettower">Rocket Tower</A><BR>
+   <A HREF="#upgrades">Research Upgrades</A><BR>
+<BR>
+<A HREF="#Tips">Tips</A><BR>
+   <A HREF="#buildingOpts">Building Options</A><BR>
+   <A HREF="#Transform">Transforming your Headquarters</A><BR>
+   <A HREF="#difficulty">Changing the game difficulty</A><BR>
+   <A HREF="#unitlimit">Reaching your Unit Limit</A><BR>
+   <A HREF="#tapecom">Speed Ecom Display </A><BR>
+   <A HREF="#appswitch">Switching Applications</A><BR>
+<BR>
+<A HREF="#authoring">Authoring Add-On Mission Packs</A><BR>
+<A HREF="#credits">Credits</A>
+</H2>
+<HR>
+<A NAME="background"><H1>STORY BACKGROUND</H1></A>
+<H2>The year is 2065 and mega corporations rule the galaxy. Two of the largest companies, ACME Exploration and OMNI Industries, are vying for dominance in the mining of an extremely rare and incredibly valuable mineral called Galaxite. Galaxite can be used to 'rip' particles from one location to another almost instantly and over any distance. This is accomplished by creating matching quirk fields which, when synchronized, create a momentary Einstein-Rosen wormhole bridge between the two locations. OMNI Industries is the largest corporation in existence with a Gross National Product (GNP) that exceeds that of all but the richest countries. OMNI has a stranglehold on a variety of different markets ranging from diamonds to Galaxite mining. ACME Exploration is the second largest corporation in existence and is urgently trying to secure the number 1 spot.<BR>
+Six weeks ago an ACME owned, unmanned probe en route to the star Tau Ceti reported back that an unexplored planet, Icarus, contained 'massive' Galaxite deposits. ACME has dispatched a colony ship to the location. On board are Gordon Fox, Mining Base Commander, Jana Perez, a Senior Research Scientist, her fiance, Andy Whitmore, a Mining Operations Trainee, and Arthur Olstrom, a Sr. Mining Executive; it includes the equipment and people necessary to exploit and defend their claim. If ACME can successfully claim Icarus it may well become the richest and most powerful mega corporation of them all!</H2>
+<HR>
+<A NAME="gettingstarted"><H1>GETTING STARTED </H1></A>
+<H2>When you begin the game, you will be presented with a number of options. Choose <A HREF="#playsolo">Play Game</A> to begin. New players will likely wish to <A HREF="#newgame">begin the story</A> missions from the beginning. <A HREF="#loadsingleplayer">Load Saved Game</A> allows you to resume any previously saved game. Finally, <A HREF="#addonmissionpacks">Add-on Mission Packs</A> will allow you to download from the hundreds of user authored add-on mission packs. A mission pack is a collection of one or more missions.</H2>
+<HR>
+<A NAME="newgame"><H1>BEGINNING A NEW GAME </H1></A>
+<H2>To start the story missions from the beginning, select <A HREF="#playsolo">Play Game</A>, then select the first mission in the list, Story Mission "M0: Introduction". This is a training mission which is an excellent place to start. You'll learn how to create buildings, build units and move your forces around. However, there are some features that are not covered in the training mission and are helpful to know ahead of time. Refer to <A HREF="#Tips">Tips</A> for more information. As you finish each mission you will be taken to the next mission in the adventures of Andy, Jana, Olstrom and Fox. Watch your rank increase with each successfully completed mission.</H2>
+<HR>
+<A NAME="playsolo"><H1>PLAY GAME </H1></A>
+<H2>To play a single player mission, choose "Play Game". This will show you a list of the story, challenge, and add-on single player missions installed your device, and allow you to play any one of them. New players are encouraged to <A HREF="#newgame">begin the story</A> missions by playing Story Mission "M0: Introduction". The story missions start out LOCKED. Missions unlock as you play through the game. Challenge missions are fun, challenging single missions, that come with the game. Add-on missions are authored by players and enthusiasts of the game using the Mission Editor that can be found on REPLACE ME: MAIN SITE URL.  Any missions installed from <A HREF="#addonmissionpacks">Add-on Mission Packs</A> will appear here. To scroll the list, flick the list with your finger. Once you begin a mission, if you switch away to another program, your current game will be auto-saved. If a mission ends in failure you will have an option to retry that mission. If you wish to preserve incremental progress within a mission, you can <A HREF="#savegame">save</A> the game at any time. Choosing Abort at the end of a mission will abort your game.</H2>
+<HR>
+<A NAME="addonmissionpacks"><H1>ADD-ON MISSION PACKS </H1></A>
+<H2>Choose "Add-On Mission Packs" to browse among and download any of the hundreds of user authored add-on mission packs. A mission pack is a collection of one or more missions created by a single author. Your device will download the mission pack list, which you can scroll through with your finger. Each item in the list is a mission pack. You can see the title of the pack, a brief description, the number of players the missions in this pack require, and the number of missions in the pack. To download a pack, simply select it, then press Download. You will see a progress indicator as the mission pack gets downloaded. Once downloaded, you can play the first mission in the mission pack right away by pressing the "Play" button, or select "Done" to go back to the mission pack list. A "+" indicator appears next mission packs that are installed on your device. To remove a mission pack, select it, and press the "Remove" button. To join others in a discussion of the mission pack, press the Discuss button to be taken to a discussion thread for that mission pack. The columns are sortable. Tap on Title, # Players, or # Missions to sort those columns. The "+" column is also sortable. Finally, to author missions of your own, visit the forums at REPLACE ME: MAIN SITE URL for more information.</H2>
+<HR>
+<A NAME="gameoptions"><H1>OPTIONS</H1></A>
+<H2>Adjust the game speed by adjusting the slider to the right for faster game play and to the left for a slower game play. Once the game is playing as fast as the device allows, increasing the game speed will not have an effect.<BR>
+There are three difficulty settings for the game. This setting can be changed at any time and will take effect immediately. <BR>
+Moving the volume slider to the right will increase the audio volume, moving it to the left will decrease the audio volume. You can mute all game sound by selecting the Mute checkbox.<BR>
+Moving the scroll speed slider to the right will increase the rate the map scrolls when you move your finger.<BR>
+Tapping the Default button will restore these settings to their default values.</H2>
+<HR>
+<A NAME="howtoplay"><H1>GAME PLAY CONTROLS </H1></A>
+<H2>The best way to learn the game play controls is to play <A HREF="#newgame">M0: Introduction</A>, which will introduce the game play elements to you as you play. Briefly, to move a unit, tap on the unit, then tap on the destination. To move multiple units, multi-select the units then tap on the destination. To multi-select, touch two fingers on the map to get a selection rectangle. Drag one or two corners to move and size the rectangle around the units you wish to select. To attack, select your desired units, then tap on the enemy unit you wish to attack.</H2>
+<HR>
+<A NAME="scrollmap"><H1>SCROLLING THE MAP </H1></A>
+<H2>To scroll the map, simply tap down on the map with your finger, and drag it in the direction you wish. If you wish, from <A HREF="#gameoptions">Options</A> you can adjust how fast the map scrolls when you move your finger.</H2>
+<HR>
+<A NAME="multiselect"><H1>SELECTING MULTIPLE UNITS </H1></A>
+<H2>You can select multiple units at once by using multi-touch. Touch any two fingers onto the map to get a selection rectangle. Any units inside of this rectangle will get selected, and any outside will be deselected. Drag any two corners to move, size, or rotate the selection rectangle. Drag any one corner to make it larger in one direction.</H2>
+<HR>
+<A NAME="powerselect"><H1>POWER SELECT </H1></A>
+<H2>Often in battle you will need to quickly select units. Double tap on a unit will multi-select all units of that same type that are on-screen!</H2>
+<HR>
+<A NAME="clearselection"><H1>CLEARING SELECTION </H1></A>
+<H2>To clear the unit selection, touch an empty part of the map with two fingers.</H2>
+<HR>
+<A NAME="menu"><H1>MENU </H1></A>
+<H2>While playing Hostile Takeover you can access the <A HREF="#gameMenu">In Game Menu</A> by tapping on the "Menu" button in the bottom-left corner of the display. The game will pause while you are looking at the In Game Menu. Selecting Back will return you to gameplay.</H2>
+<HR>
+<A NAME="indicators"><H1>INDICATORS </H1></A>
+<H2>To the right of the <A HREF="#menu">Menu</A> button is your Credit Indicator. It shows your current financial resources. The dollar symbol will flash if you are too low on credits to complete a task. Note that the building constructing units when you run out of credits will also flash a dollar sign. If you have no Bullpups you can sell a building to get more credits to continue unit production. Sell a Galaxite Warehouse only as a last resort, you will lose its contents when you sell.</H2>
+<BR>
+<H2>To the right of the Credit Indicator is your Power Indicator. It shows your current power supply in bars and your current demand with small triangles above and below the bars. The power symbol will flash when your power is too low. On color devices the bars will be green when you have plenty of power, yellow when you have just enough power and red when your power is too low.</H2>
+<HR>
+<A NAME="minimap"><H1>MINI MAP </H1></A>
+<H2>In the lower right-hand corner of your screen is a satellite overview of the nearby region. There is a square inside that shows which part of the region is currently displayed on your device. Use your finger to tap and drag that rectangle to scroll the map. The most convenient way to <A HREF="#scrollmap">scroll the map</A> however, is to place your finger directly on the map, and move it. The scroll speed can be changed from <A HREF="#gameoptions">Game Options</A>.</H2>
+<HR>
+<A NAME="gameicons"><H1>GAME ICONS </H1></A>
+<H2>POP UP MENU ICONS<BR>
+White Hammer: used to display build menu for selected resource<BR>
+Shaded Hammer: indicates that the selected resource is currently building something. If you tap the shaded hammer, the resource stops unit construction and your credits are returned.<BR>
+White Wrench: Indicates that the selected resource is damaged and needs repair. Note that repairing a building consumes credits. If you are low on credits you may wish to wait on repairing a non-critical building.<BR>
+Grey Wrench: Indicates that the selected resource is not damaged.<BR>
+White Dollar Sign: Can be used to sell a resource. Your entire investment will not be returned. However, sometimes it is necessary to sell one resource to create a more critical one. Be aware that selling a Galaxite Warehouse will lose any credits it contains.<BR>
+<BR>
+PLACE BUILDING ICONS<BR>
+When you tap the HQ and select build, the Order Building screen is displayed. Once you select something to build you then get a hashed square which represents the footprint of the building. There are two icons associated with the hashed square:<BR>
+White Check Mark: When you have no dark hash marks, you can select the white check mark to confirm building placement.<BR>
+White X: Select the white x to cancel construction of the building.<BR>
+<BR>
+</H2>
+<HR>
+<A NAME="gameMenu"><H1>IN GAME MENU </H1></A>
+<HR>
+<A NAME="stateobjectives"><H1>STATE OBJECTIVES </H1></A>
+<H2>You can review your mission objectives at any time by selecting State Objectives from the In Game <A HREF="#menu">Menu</A> The Statistics button will show you your current statistics and promotion level. The elapsed time shown is in game time, if you have altered the game speed this will differ from real time. You can more quickly access the objectives screen by tapping the <A HREF="#indicators">Credit Indicator</A> visible while playing the game.</H2>
+<HR>
+<A NAME="savegame"><H1>SAVING YOUR GAME </H1></A>
+<H2>While playing you can save your progress from the In Game <A HREF="#menu">Menu</A> by tapping on the "Save Game" button. Select the slot where you would like to save your game and then tap the "Save" button.</H2>
+<HR>
+<A NAME="loadsingleplayer"><H1>LOADING A SAVED GAME </H1></A>
+<H2>Once you have <A HREF="#savegame">saved</A> a game you can load it again by tapping the "Load Saved Game" button from the Main Menu. You will see a list of all the games that have been saved. Tap on the one you would like to load and then tap on the "Load" button. The saved games are named with the time saved (in 24-hour time) followed by the name of the mission.</H2>
+<HR>
+<A NAME="restartmission"><H1>RESTART MISSION </H1></A>
+<H2>At any time during the mission you can choose to restart that mission by choosing Restart Mission. It will put you back at the beginning of the mission with the promotion level you had when you began that mission.</H2>
+<HR>
+<A NAME="abortmission"><H1>ABORT MISSION </H1></A>
+<H2>Choosing Abort Mission will return you to the <A HREF="#gettingstarted">game main menu</A> without preserving your game. You may wish to <A HREF="#savegame">save your game</A> before choosing this option.</H2>
+<HR>
+<A NAME="personnel"><H1>PERSONNEL </H1></A>
+<HR>
+<A NAME="security"><H1>SECURITY GUARD </H1></A><BR>
+<BR>
+<IMG SRC="sri.anir">
+<BR>
+<H2>Security Guards are cheap and cheerful but with limited firepower and defensive capabilities. The Security Guard is useful as a scout and is very effective in large groups.
+<BR>
+<BR>
+Cost: 150<BR>
+Armor: Light<BR>
+Damage: Low<BR>
+Speed: Medium<BR>
+Range: Medium<BR>
+</H2><HR>
+<A NAME="rockettrooper"><H1>ROCKET TROOPER </H1></A> <BR>
+<BR>
+<IMG SRC="lri.anir">
+<BR>
+<H2>Rocket Troopers are particularly effective against armored vehicles. They pack a bit more punch and have a longer range than a security guard but can't travel as quickly.<BR>
+<BR>
+Cost: 300<BR>
+Armor: Light<BR>
+Damage: Low<BR>
+Speed: Slow<BR>
+Range: High<BR>
+</H2><HR>
+<A NAME="corporateraider"><H1>CORPORATE RAIDER </H1></A> <BR>
+<BR>
+<IMG SRC="spi.anir">
+<BR>
+<H2>Every organization's worst nightmare. Send a Raider into an enemy building and it becomes yours! Corporate raiders need to be carefully protected since they have very little armor and no conventional weapons. Each raider can be used once.<BR>
+Corporate Raiders are available from the Human Resources Center after completing the HRC upgrade from the Research & Development Center. Note that the R & D Center must be intact for you to build the Corporate Raiders. If you sell the center or it is destroyed by enemies you will no longer be able to create Raiders.<BR>
+<BR>
+Armor: Light<BR>
+Damage: None<BR>
+Speed: Slow<BR>
+Range: Low<BR>
+</H2><HR>
+<A NAME="vehicles"><H1>VEHICLES </H1></A>
+<HR>
+<A NAME="sr98eagle"><H1>SR-98 EAGLE </H1></A><BR>
+<BR>
+<IMG SRC="tmac.anir">
+<BR>
+<H2>The SR-98 is a light, speedy tank that comes equipped with a machine gun. They aren't particularly powerful on their own but are very effective in groups and make nice scouts.<BR>
+<BR>
+Cost: 300<BR>
+Armor: Light<BR>
+Damage: Medium<BR>
+Speed: Fast<BR>
+Range: High<BR>
+</H2><HR>
+<A NAME="t29broadsword"><H1>T-29 BROADSWORD </H1></A> <BR>
+<BR>
+<IMG SRC="ltank.anir">
+<BR>
+<H2>The T-29 comes equipped with a large mortar cannon that does a lot of damage. It is effective in combat with other units and particularly effective against buildings.<BR>
+<BR>
+Cost: 450<BR>
+Armor: Medium<BR>
+Damage: High<BR>
+Speed: Medium<BR>
+Range: High<BR>
+</H2><HR>
+<A NAME="m18hydra"><H1>M-18 HYDRA </H1></A><BR>
+<BR>
+<IMG SRC="troc.anir">
+<BR>
+<H2>The Hydra shoots high-explosive rockets that pack a large punch ideal for armored vehicles. It is very well rounded making it an excellent candidate for both offensive and defensive roles.<BR>
+<BR>
+Cost: 450<BR>
+Armor: Medium<BR>
+Damage: High<BR>
+Speed: Medium<BR>
+Range: High<BR>
+</H2><HR>
+<A NAME="t33liberator"><H1>T-33 LIBERATOR </H1></A><BR>
+<BR>
+<IMG SRC="mtank.anir">
+<BR>
+<H2>The Liberator comes equipped with dual-cannons which allow it to make short work of enemy infantry.<BR>
+<BR>
+Cost: 600<BR>
+Armor: Heavy<BR>
+Damage: High<BR>
+Speed: Medium<BR>
+Range: High<BR>
+</H2><HR>
+<A NAME="g4bullpup"><H1>G-4 BULLPUP </H1></A><BR>
+<BR>
+<IMG SRC="miner.anir">
+<BR>
+<H2>The G-4 Bullpup gathers Galaxite and returns it to your Processor. Order more to harvest faster or replace ones that have been destroyed. Their tough armor can get them through trouble spots but they often need to be guarded as they have no offensive capabilities. <BR>
+<BR>
+Cost: 600<BR>
+Armor: Heavy<BR>
+Damage: None<BR>
+Speed: Medium<BR>
+Range: None<BR>
+</H2><HR>
+<A NAME="h7dominion"><H1>H-7 DOMINION </H1></A>
+<BR>
+<IMG SRC="mobilehq.anir">
+<BR>
+<H2>The H-7 Dominion transforms into an <A HREF="#hq">HQ</A> allowing you to start a new base anywhere you want. It has strong armor but no weapons. Once transformed it cannot be remobilized by the player. The Dominion is available from the Vehicle Transport Station after completing the VTS upgrade from the Research & Development Center.<BR>
+<BR>
+Cost: 1200<BR>
+Armor: Heavy<BR>
+Damage: None<BR>
+Speed: Slow<BR>
+Range: None<BR>
+</H2><HR>
+<A NAME="a3cyclops"><H1>A-3 CYCLOPS </H1></A>
+<BR>
+<IMG SRC="artillery.anir">
+<BR>
+<H2>The A-3 Cyclops is a long range artillery unit particularly effective against buildings. Almost any other offensive unit can destroy it, so it should be escorted by other defensive units.<BR>
+<BR>
+Cost: 500<BR>
+Armor: Light<BR>
+Damage: High<BR>
+Speed: Slow<BR>
+Range: High<BR>
+</H2><HR>
+<A NAME="buildings"><H1>BUILDINGS </H1></A>
+<HR>
+<A NAME="hq"><H1>HEADQUARTERS </H1></A><BR>
+<BR>
+<IMG SRC="HQ.anir">
+<BR>
+<H2>Your entire base is built around your headquarters (HQ). Without it you are unable to create new buildings and as such it should be carefully protected from enemy attack.<BR>
+<BR>
+Armor: Heavy<BR>
+Damage: None<BR>
+Power Demand: 0<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="powergenerator"><H1>POWER GENERATOR </H1></A><BR>
+<BR>
+<IMG SRC="reactor.anir">
+<BR>
+<H2>Power Generators supply the rest of your buildings with power. Running low on power reduces the function of many structures making it imperative that you keep an eye on your power supply. A lightening bolt symbol will flash on underpowered units. Note that when the lightening bolt is flashing, these buildings will not function as expected. For example, Rocket Towers will no longer fire. When it is your own Rocket Tower that is disabled, this spells bad news for you. However, when enemy towers are underpowered you can take full advantage of their helplessness!<BR>
+<BR>
+Cost: 750<BR>
+Armor: Light<BR>
+Damage: None<BR>
+Power Demand: 0<BR>
+Power Supply: 40<BR>
+</H2><HR>
+<A NAME="processor"><H1>GALAXITE PROCESSOR </H1></A><BR>
+<BR>
+<IMG SRC="proc.anir">
+<BR>
+<H2>A Galaxite Processor is used to process mined Galaxite and provides funding for your operation. It should be well defended. If the Bullpup remains in the processor, it usually indicates that you need to build a <A HREF="#warehouse">Galaxite Storage Warehouse</A>. When Bullpups are destroyed you can build additional ones at the Vehicle Transport Station.
+<BR>
+Cost: 1500<BR>
+Armor: Heavy<BR>
+Damage: None<BR>
+Power Demand: 10<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="warehouse"><H1>GALAXITE STORAGE WAREHOUSE </H1></A><BR>
+<BR>
+<IMG SRC="warehouse.anir">
+<BR>
+<H2>Add warehouses to increase processed Galaxite capacity. If it is destroyed, sold, or taken over you will lose whatever Galaxite it contains. On the other hand using Corporate Raiders to take over an enemy's warehouse will garner the your enemy's stored credits. This is an excellent offensive maneuver.<BR>
+<BR>
+Cost: 750<BR>
+Armor: Light<BR>
+Damage: None<BR>
+Power Demand: 7<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="hrc"><H1>HUMAN RESOURCE CENTER (HRC)</H1></A><BR>
+<BR>
+<IMG SRC="hrc.anir">
+<BR>
+<H2>The HRC is used to recruit personnel. You can use the Research & Development Center to upgrade the HRC and enable production of more advanced units. You can build up to ten units at a time by selecting the unit type and repeatedly tapping on the order button.<BR>
+<BR>
+Cost: 1000<BR>
+Armor: Medium<BR>
+Damage: None<BR>
+Power Demand: 10<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="vts"><H1>VEHICLE TRANSPORT STATION (VTS) </H1></A><BR>
+<BR>
+<IMG SRC="vts.anir">
+<BR>
+<H2>Use the VTS to order vehicles. Upgrading the VTS gives you the ability to create more advanced vehicles. You can build up to ten units at a time by selecting the unit type and repeatedly tapping on the order button.<BR>
+<BR>
+Cost: 1250<BR>
+Armor: Heavy<BR>
+Damage: None<BR>
+Power Demand: 10<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="radar"><H1>SURVEILLANCE CENTER </H1></A><BR>
+<BR>
+<IMG SRC="radar.anir">
+<BR>
+<H2>The Surveillance Center controls targeting for both your <A HREF="#guntower">Gatling Tower</A> and your <A HREF="#rockettower">Rocket Tower</A>. It is required before you can build towers.<BR>
+<BR>
+Cost: 750<BR>
+Armor: Medium<BR>
+Damage: None<BR>
+Power Demand: 15<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="randd"><H1>RESEARCH & DEVELOPEMENT CENTER</H1></A><BR>
+<BR>
+<IMG SRC="research.anir">
+<BR>
+<H2>Investing in a R&D Center will allow you to upgrade your <A HREF="#hrc">HRC</A> and <A HREF="#vts">VTS</A>, giving you access to the newest technologies available. Note that once the VTS is upgraded you can sell your R&D center to return some of your credits. However, even after upgrading the HRC, if you lose your R&D Center you will be unable to create <A HREF="#corporateraider">Corporate Raiders</A>. The R&D center must be intact for these very special units to be available. <BR>
+<BR>
+Cost: 750<BR>
+Armor: Medium<BR>
+Damage: None<BR>
+Power Demand: 15<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="guntower"><H1>GATLING TOWER</H1></A>
+<BR><IMG SRC="mtower.anir">
+<H2>These guard towers are equipped with machine guns and are fairly effective at keeping the competition out. A fully powered <A HREF="#radar">Surveillance Center</A> is required for the targeting systems to function so that towers will fire automatically as enemies come into range. You can also direct their fire by tapping on the tower and then tapping on the enemy you wish to fire upon. Note that these towers take a great deal of power to remain operational. As you create towers, be sure to keep an eye on your power meter. A flashing lightening bolt symbol on your tower indicates that it is under powered and will not fire at the enemy.<BR>
+<BR>
+Cost: 750<BR>
+Armor: Light<BR>
+Damage: Medium<BR>
+Power Demand: 10<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="rockettower"><H1>ROCKET TOWER </H1></A>
+<BR>
+<IMG SRC="rtower.anir">
+<H2>A guard tower equipped with a rocket launcher. These towers are more effective than Gatling Towers but cost more. Like the Gatling Tower the Rocket Tower requires a <A HREF="#radar">Surveillance Center</A> and sufficient power to operate. Towers will fire automatically as enemies come into range. You can also direct the tower's fire by tapping on the tower and then tapping on the enemy you wish to fire upon. Note that these towers take a great deal of power to remain operational. As you create towers, be sure to keep an eye on your power meter. A flashing lightening bolt symbol on your tower indicates that it is under powered and will not fire at the enemy.<BR>
+<BR>
+Cost: 850<BR>
+Armor: Light<BR>
+Damage: High<BR>
+Power Demand: 10<BR>
+Power Supply: 0<BR>
+</H2><HR>
+<A NAME="upgrades"><H1>Research Upgrades </H1></A>
+<BR>
+<H2>Research upgrades allow you to improve the units available at your Human Resource Center (HRC) and Vehicle Transport Station (VTS). The Research & Development Center is available starting on Mission 3. Select this building and use the build icon to view available upgrades. Upgrading the HRC enables production of Rocket Troopers and later Corporate Raiders. Upgrading the VTS enables production of Dominions, Cyclops and other advanced tanks. Not all upgrades are available in all missions. It is worth noting that even after you have upgraded your HRC, the R&D Center must survive to enable production of <A HREF="#corporateraider">Corporate Raiders</A>. Therefore you cannot sell this building if you wish to produce these very special units.<BR>
+</H2><HR>
+<A NAME="Tips"><H1>TIPS</H1></A>
+<HR>
+<A NAME="buildingOpts"><H1>BUILDING OPTIONS </H1></A>
+<H2>To display the options associated with a particular building tap on the building and select the Build Icon (the white hammer). The units associated with that building are displayed. Note that not all units are available on all missions. As you advance through more difficult missions, additional options are added to the build menus. Some units are only available after upgrading via the <A HREF="#randd">Research & Development Center</A>.</H2>
+<HR>
+<A NAME="Transform"><H1>TRANSFORMING YOUR HEADQUARTERS </H1></A>
+<H2>To change your Dominion into a Headquarters you need to bring up the Transform Menu. Tap your finger on the Dominion and hold it until the Transform Menu appears.</H2>
+<HR>
+<A NAME="difficulty"><H1>CHANGING THE DIFFICULTY </H1></A>
+<H2>You can change the difficulty level of the game in the <A HREF="#gameoptions">Options</A>.</H2>
+<HR>
+<A NAME="unitlimit"><H1>UNIT LIMITS </H1></A>
+<H2>The number of units you can create is limited based on the available memory in your device. When the game reaches the unit limit for your device, a notice is displayed on the lower left-hand corner of your screen. If you notice that all your build buttons are disabled, you may have reached your unit limit.</H2>
+<HR>
+<A NAME="tapecom"><H1>SPEED ECOM DISPLAY </H1></A>
+<H2>By default, ECOM messages are displayed a few characters at a time. To display the entire message at once, tap the ECOM text area.</H2>
+<HR>
+<A NAME="appswitch"><H1>SWITCHING APPLICATIONS </H1></A>
+<H2>If you switch to another application while playing the game, Hostile Takeover will pause and be restored when you return.</H2>
+<HR>
+<A NAME="authoring"><H1>Authoring Add-On Mission Packs </H1></A>
+<H2>Players can create new Add-On Mission Packs using the mission authoring toolkit. Using this tool, you can design, test, and share the missions you have authored with the player community. To begin, visit the Mission Authoring section of the Hostile Takeover forums and read everything there. Once you have a mission pack that you want to test, you'll want to get it on to your device. To do this, upload your mission to any location on the internet. Start the game, tap on Add-On Mission Packs. Tap on the Title label to sort by name, and you'll see "Custom URL..." near the top. Tap on this and select DOWNLOAD, and enter the custom URL to your mission pack and tap OK, and it will be downloaded to your device. Now you can play and refine your mission pack until it is ready to share with the community. To share it, visit the Mission Sharing section of the website for instructions on how to post it there. Posting it there will add it to the Add-On Mission Pack list that all players see.</H2>
+<HR>
+
+<A NAME="credits"><H1>CREDITS </H1></A>
+<H2>Hostile Takeover(TM)<BR>
+<BR>
+Developed by:
+Spiffcode, Inc
+http://www.spiffcode.com
+<BR>
+Game Missions, Forum, and Information, and Support:<BR>
+REPLACE ME: MAIN SITE URL
+<BR>
+<BR>
+Hostile Takeover is a trademark of Spiffcode, Inc
+Copyright 2003-2014 Spiffcode, Inc. 
+All Rights Reserved.
+<BR>
+<BR>
+Credits:
+<BR>
+Primary Developers:
+Scott Ludwig
+Darrin Massena
+<BR>
+Additional Coding:
+Casey Margell
+Shaula Massena
+<BR>
+Mission Design:
+Zion A. Dutro
+Hans Olav Elseb~
+Rob Girling
+Brian Margell
+Brian Outhwaite
+<BR>
+Test:
+Andrew Massena
+Brian Outhwaite
+<BR>
+Story Editing and Dialog:
+Elizabeth Chapman
+<BR>
+Art/Animation:
+Rob Girling
+Mark Soderwall
+<BR>
+Marketing Consultant:
+Lisa Linnenkohl
+</H2>

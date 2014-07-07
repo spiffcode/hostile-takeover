@@ -1,0 +1,25 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>How to add a Level to a Game Database</title>
+<link rel="stylesheet" type="text/css" href="AuthorKit.css">
+</head>
+
+<body>
+
+<h4>How to add a Level to a Game Database</h4>
+<p>First create or edit the Level (.ld) file using the
+<a href="MapEditorRef.htm">Map Editor</a> (M.exe). Then use the helper batch file <a href="mkpdbRef.htm">mkpdb.bat</a> 
+to insert the Level into a Game Database (.pdb).</p>
+<p class="labelproc">To add a Level to a Game Database:</p>
+<p class="commandline">mkpdb -pdb &lt;database&gt; -ld &lt;level&gt; -size &lt;16 | 24&gt;</p>
+<p class="labelproc">Example:</p>
+<p class="commandline">mkpdb -pdb htdata816.pdb -ld grassy_test.ld -size 16</p>
+
+</body>
+
+</html>

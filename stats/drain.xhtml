@@ -1,0 +1,13 @@
+{% extends "command.xhtml" %}
+
+{% block html_title %}Drain / Undrain{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">DRAIN / UNDRAIN</h1>
+{{ block.super }}
+{% endblock %}
+
+{% block form_elements %}
+<input type="submit" name="drain" value="Drain" />
+<input type="submit" name="undrain" value="Undrain" />
+{% endblock %}

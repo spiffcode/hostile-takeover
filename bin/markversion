@@ -1,0 +1,2 @@
+[[ $# -eq 0 ]] && echo "Usage: $0 <version number>" && echo "NOTE: Must be run from the project root directory (e.g. wi)." && exit
+mono bin/MarkVersion.exe 1 game/htdata832.pdb +++VERSION+++ $1

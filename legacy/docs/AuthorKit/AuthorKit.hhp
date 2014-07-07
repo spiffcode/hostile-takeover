@@ -1,0 +1,25 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=AuthorKit.chm
+Contents file=Table of Contents.hhc
+Default topic=Overview.htm
+Display compile progress=No
+Index file=Index.hhk
+Language=0x409 English (United States)
+Title=Hostile Takeover Author Kit
+
+
+[FILES]
+Guidelines.htm
+HowTo.htm
+HowToAddATemplateCollectionToAGameDatabase.htm
+HowToCreateATemplateCollection.htm
+mkpdbRef.htm
+Reference.htm
+TemplateArtGuidelines.htm
+TemplateExtractorRef.htm
+TemplateNamingGuidelines.htm
+TemplateTerrainGuidelines.htm
+
+[INFOTYPES]
+

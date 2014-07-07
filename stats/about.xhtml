@@ -1,0 +1,68 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Hostile Takeover About{% endblock %}
+
+{% block head_css %}
+.box {margin:20px;}
+{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">ABOUT</h1>
+<div class="box">
+<h3>Leaderboard</h3>
+The Leaderboard tracks player rating, global rankings, game history, and player statistics for all registered players, for multiplayer missions played in Hostile Takeover. Any player can become a registered player by simply registering for a permanent player name. Players who don't register are called anonymous players. Anonymous players are not tracked on the leaderboard.
+<h3>Registered Players</h3>
+There are many benefits to being a registered player:
+<ul>
+<li>Get a permanent player name of your choice</li>
+<li>Get tracked by the leaderboard, including your rating, game history, and player statistics</li>
+<li>More opportunity to play against top players (top players want to to play registered players)</li>
+<li>Start with a ranking of 1500, and build from there (anonymous players are stuck at 1300)</li>
+</ul>
+If you are an anonymous player, here is how you register:
+<ul>
+<li>When you get to the Multiplayer Login screen in the game, press Register</li>
+<li>Fill out the page with your information. Be sure the email is correct! When ready, press Register</li>
+<li>An email will be sent to the email address you provided. This email contains your Activation link. Go to your email, and click this link to activate your account. You won't be able to login until you've activated your account.</li>
+<li>Now you are ready to login to Multiplayer!</li>
+</ul>
+Please choose a non-offensive player name. The administrator reserves the right to ban players if enough complaints are received about a given player's name.
+<h3>Ratings</h3>
+<p>Hostile Takeover's rating system is based on the ELO rating system, with modifications. ELO was originally used for rating players in the game of Chess, starting in the 1960's and 1970's, and has been adopted by many games of skill to rate players.</p>
+<p>ELO works by estimating the likelihood that a given player will win against an opponent, by comparing ratings (a higher score means more likely to win, a lower score means less likely to win). This is then used to calculate the new rating, in the following ways:</p>
+<ul>
+<li>The less likely a player will win against an opponent, the higher the ratings boost if the player wins.</li>
+<li>The less likely a player will win against an opponent, the lower the ratings decline if the player loses.</li>
+<li>The more likely a player will win against an opponent, the lower the ratings boost if the player wins.</li>
+<li>The more likely a player will win against an opponent, the higher the ratings decline if the player loses.</li>
+</ul>
+This has important implications for all players:
+<ul>
+<li>The best way to boost your rating is to win against players with ratings near yours (preferably higher than yours).</li>
+<li>If you have a high rating and play an anonymous player (rating 1300) and win, you will get a small ratings boost.</li>
+<li>If you have a high rating and lose to an anonymous player, you will get a large ratings decline.</li>
+</ul>
+Summary: play players with ratings near or higher than yours. Registered players start out at 1500, and build from there. Anonymous players are fixed at 1300.
+<h3>Rating Rules</h3>
+There are a few important rating rules to be aware of:
+<ul>
+<li>Games must be at least 3 minutes in duration to be scored (wall clock time, not game simulation time). This gives non-expert players a chance against expert players.</li>
+<li>Games must have a registered player winner, and a registered player loser to be scored. Anonymous or AI player wins and losses against registered players are not scored.</li>
+<li>Games need at least one recorded winner to be scored.</li>
+</ul>
+<h3>Rating Freshness</h3>
+Players must keep their games fresh, to maintain their rating. If a player has not played a scoring game in over a week, their score will decline by 20 points each week after. This reflects the fact that maintaining a skill requires practice, and it gives a chance for active players to move up the leaderboard.
+<h3>Network Disconnects</h3>
+Occasional network disconnects are part of all networked multiplayer games. Some of the causes of disconnect are:
+<ol>
+<li>The player indavertently loses a network connection. This can happen if the battery runs out, signal strength is low and / or spotty, or in the case of cellular data, if the player is moving between cell towers. Other players will see this player as lagging. The best thing to do is to find a location with good signal strength, and stay there for the duration of the game.</li>
+<li>The player is playing over WiFi and purposefully disconnects from the network. This can happen by unplugging the WiFi access point, or moving out of range of the access point.</li>
+</ol>
+<p>When a disconnect occurs, it is scored as a loss for that player, because the server can't tell the difference between case #1 and case #2. If disconnect were not scored as a loss, losing players could take advantage of case #2 by forcing a disconnect, in order to avoid a point deduction.</p>
+<p>Note that a lagging player does not mean that player has disconnected. It is best to give that player a chance to catch up. If after retrying several times the player has not caught up, it is likely that a disconnect has occured.</p> 
+<h3>Contact</h3>
+Please visit the Multiplayer section of the Hostile Takeover forums for help (found on REPLACE ME: MAIN SITE URL). If that doesn't answer your question, mail REPLACE ME: CONTACT EMAIL.
+<br />
+<br />
+Enjoy!
+</div>
+{% endblock %}

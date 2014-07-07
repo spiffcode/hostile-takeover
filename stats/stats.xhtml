@@ -1,0 +1,247 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Hostile Takeover Player Statistics{% endblock %}
+
+{% block head_css %}
+.player_table {margin:auto;padding:0;}
+.stats_table {margin:auto;padding:0;width:80%}
+.stat_name {width:70%;padding:8px;font-weight:bold;}
+.stat_value {padding:8px;font-weight:bold;}
+.round_left {-webkit-border-top-left-radius:10px;-moz-border-radius-topleft:10px}
+.round_right {-webkit-border-top-right-radius:10px;-moz-border-radius-topright:10px}
+.sechdr {background:url("data:image/gif;base64,R0lGODlhAgAdAMQAAPD2/+71/+30/uvz/ury/ujx/ufw/uTu/uXv/uLt/uHs/d/q/d7p/dzo/dvn/c3e+c7e+szd+cvc+Mrb+Mja+MfZ98bY98XX98TW9sLV9sDU9cHU9r/T9QAAAAAAAAAAACH5BAAHAP8ALAAAAAACAB0AAAUxIAAEgSAMA0EUhWEgyHEkiaIsC8M0jeNAkMcjEpFIJhMKpVKxWC4XDCaT2Ww0Gg4nBAA7");margin:20px 0 0 0;padding:5px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;text-align:center;font-size:16px;font-weight:bold;}
+.recent_games {text-align:center;padding:5px;margin:20px 0 0 0;font-weight:bold;}
+.avatar_td {border:none;width:64px;height:64px;}
+.avatar_img {border:none;vertical-align:bottom;}
+.text_td {padding:8px}
+.player_name {color:black;font-size:28px;font-weight:bold;}
+.bottom_border {background-color:#b5bbd5;width:100%;height:1px;margin:0;padding:0}
+{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">STATS</h1>
+<br />
+<table class="player_table" cellpadding="0" cellspacing="0">
+    <tr><th colspan="2"><div class="bottom_border"></div></th></tr>
+     <tr class="even-color">
+        <td valign="middle" align="center" class="avatar_td">
+            <img class="avatar_img" src="{{ player.avatar_url|escape }}"/>
+        </td>
+        <td valign="middle" class="text_td">
+            <span class="player_name">{{ player.name|escape }}</span><br/>
+        </td>
+    </tr>
+    <tr><th colspan="2"><div class="bottom_border"></div></th></tr>
+</table>
+
+<p class="recent_games">
+<a href="{{ player.games_url|escape }}">See {{ player.name }}'s games</a>
+{% if detail_url %}
+    | <a href="{{ detail_url|escape }}">See detail</a>
+{% endif %}
+</p>
+
+<!-- {% cycle even-color,odd-color as rowcolors %} -->
+<table class="stats_table" cellpadding="0" cellspacing="0">
+    <tr><th colspan="2"><div class="sechdr round_left round_right">Player Stats</div></th></tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Rating</td>
+        {% ifequal player.rating 0 %}
+            <td class="stat_value">{{ player_default_rating|escape }}</td>
+        {% else %}
+            <td class="stat_value">{{ player.rating|escape }}</td>
+        {% endifequal %}
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Games Scored</td>
+        <td class="stat_value">{{ player.game_count|escape }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Games Won</td>
+        <td class="stat_value">{{ player.games_won|escape }}</td>
+    </tr>
+    <tr><th colspan="2"><div class="bottom_border"></div></th></tr>
+</table>
+
+<!-- {% cycle even-color,odd-color as rowcolors %} -->
+<table class="stats_table" cellpadding="0" cellspacing="0">
+    <tr><th colspan="2"><div class="sechdr round_left round_right">Misc Stats, Average Per Game</div></th></tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Units Built</td>
+        <td class="stat_value">{{ player.units_built_sum_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Mobile Units Lost</td>
+        <td class="stat_value">{{ player.munts_lost_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Structures Lost</td>
+        <td class="stat_value">{{ player.structs_lost_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Mobile Units Killed</td>
+        <td class="stat_value">{{ player.munts_killed_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Structures Killed</td>
+        <td class="stat_value">{{ player.structs_killed_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Credits Acquired</td>
+        <td class="stat_value">{{ player.credits_acquired_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Credits Consumed</td>
+        <td class="stat_value">{{ player.credits_consumed_per_game }}</td>
+    </tr>
+    <tr class="{% cycle rowcolors %}">
+        <td class="stat_name">Duration</td>
+        <td class="stat_value">{{ player.minutes_per_game }} minutes</td>
+    </tr>
+    <tr><th colspan="2"><div class="bottom_border"></div></th></tr>
+</table>
+
+<!-- {% cycle even-color,odd-color as rowcolors %} -->
+<table class="stats_table" cellpadding="0" cellspacing="0">
+    <tr><th colspan="2"><div class="sechdr round_left round_right">Units Built, Average Per Game</div></th></tr>
+    {% ifnotequal player.units_built_per_game.0 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Security Guard</td>
+            <td class="stat_value">{{ player.units_built_per_game.0 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.1 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Rocket Trooper</td>
+            <td class="stat_value">{{ player.units_built_per_game.1 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.2 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Corporate Raider</td>
+            <td class="stat_value">{{ player.units_built_per_game.2 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.19 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Andy</td>
+            <td class="stat_value">{{ player.units_built_per_game.19 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.22 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Fox</td>
+            <td class="stat_value">{{ player.units_built_per_game.22 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.3 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">SR-98 Eagle</td>
+            <td class="stat_value">{{ player.units_built_per_game.3 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.4 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">T-29 Broadsword</td>
+                <td class="stat_value">{{ player.units_built_per_game.4 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.5 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">M-18 Hydra</td>
+            <td class="stat_value">{{ player.units_built_per_game.5 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.6 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">T-33 Liberator</td>
+            <td class="stat_value">{{ player.units_built_per_game.6 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.7 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">G-4 Bullpup</td>
+            <td class="stat_value">{{ player.units_built_per_game.7 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.8 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">H-7 Dominion</td>
+            <td class="stat_value">{{ player.units_built_per_game.8 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.20 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">A-3 Cyclops</td>
+            <td class="stat_value">{{ player.units_built_per_game.20 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.9 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Power Generator</td>
+            <td class="stat_value">{{ player.units_built_per_game.9 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.10 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Galaxite Processor</td>
+            <td class="stat_value">{{ player.units_built_per_game.10 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.11 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Galaxite Warehouse</td>
+            <td class="stat_value">{{ player.units_built_per_game.11 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.12 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Human Resource Center</td>
+            <td class="stat_value">{{ player.units_built_per_game.12 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.13 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Vehicle Transport Station</td>
+            <td class="stat_value">{{ player.units_built_per_game.13 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.14 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Surveillance Center</td>
+            <td class="stat_value">{{ player.units_built_per_game.14 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.15 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">R&amp;D Center</td>
+            <td class="stat_value">{{ player.units_built_per_game.15 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.16 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Headquarters</td>
+            <td class="stat_value">{{ player.units_built_per_game.16 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.17 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Gatling Tower</td>
+            <td class="stat_value">{{ player.units_built_per_game.17 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.18 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Rocket Tower</td>
+            <td class="stat_value">{{ player.units_built_per_game.18 }}</td>
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal player.units_built_per_game.21 '0' %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Replicator</td>
+            <td class="stat_value">{{ player.units_built_per_game.21 }}</td>
+        </tr>
+    {% endifnotequal %}
+    <tr><th colspan="2"><div class="bottom_border"></div></th></tr>
+</table>
+
+{% endblock %}

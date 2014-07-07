@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'Warfare Incorporated' target in the 'Warfare Incorporated' project
+//
+
+#ifdef __OBJC__
+  #import <Cocoa/Cocoa.h>
+#endif

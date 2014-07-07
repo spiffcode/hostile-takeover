@@ -1,0 +1,117 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Hostile Takeover Game List{% endblock %}
+
+{% block head_css %}
+.cllist {width:100%;border-collapse:collapse;border-spacing:0px;-webkit-border-vertical-spacing:0px;}
+.row_title {padding:0;color:black;font-size:20px;font-weight:bold;}
+.row_smallgray {padding:0;color:#666;font-size:12px;font-weight:bold;}
+.arrow {border:none;}
+.bottom_border {background-color:#b5bbd5;width:100%;height:1px;margin:0;padding:0}
+.linkblock {text-decoration:none;display:block;}
+.clshowrow {width:100%;height:40px;}
+.clshow {color:black;font-size:14px;font-weight:bold;}
+.nospace {letter-spacing:0.0cm;}
+.bottombar { -webkit-text-size-adjust: none; background:#EFF1FA url("data:image/gif;base64,R0lGODlhAQAjAMQAAPL0/evt+O/x+uns9+7w+ufq9OXp9PL0/Nnf7PDy++jr9tbc6ePn8+Hm8tTb6dng7NXb6e3v+N/k8PX2/uTo8+Hl8NXc6dvh7t3j7/Hz/Ozu+Nvg7d3i7vT1/vb3/9fd6yH5BAAAAAAALAAAAAABACMAAAUdoOdNXQccWSIQkRYMSmFQTFNJGHdtD/J9CwvEEQIAOw==") repeat-x; border-bottom:1px solid #B5BBD5; line-height:33px; height:35px; margin:0; padding:0; width:100%; overflow:hidden; }
+.bottombar a { text-decoration: none; }
+a.nav-left { display:inline; margin: 0 auto; line-height:33px; font-family:Arial, Helvetica, sans-serif; font-size:13.5px; padding:5px 8px; background-repeat:repeat-x; border:1px solid #B5BBD5; -webkit-border-top-left-radius:5px; -moz-border-radius-topleft:5px; -webkit-border-bottom-left-radius:5px; -moz-border-radius-bottomleft:5px; }
+a.nav-on { font-weight:bold; color:#fff; text-shadow:1px 2px 1px #666; background:#A6A8B3 url("data:image/gif;base64,R0lGODlhAQAaAMQAAI+RopyfrZGUpLCxu6qstoyPoI2Qopmbqq6xuYqOn6uuuK2wuairtbK0vJqdq6aos5OWppWYp5eaqJ+hrpCTo7GzvLO1vaCjsKKlsaWnswAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAABABoAAAUVoNVUA7IoBPNk2DUFziFFkEABRpGEADs=") repeat-x; }
+a.nav-off { color:#333; text-shadow:2px 2px 2px #C5C7D3; background:#E7EAF5 url("data:image/gif;base64,R0lGODlhAQAaAMQAANXa6ejr9efq9ODl8Nzi7tbc6dfe6+Xq9Nnf7NTa6Nfd6t3i7+Po8uLm8ufq9ens9tje69rg7ODl8dTc6tvg7ePn8+jr9t7k8OXo8////wAAAAAAAAAAAAAAAAAAAAAAACH5BAAAAAAALAAAAAABABoAAAUVYPZYgSMcGFM10nAtBBUhkKEUE5CEADs=") repeat-x; }
+a.nav-right { display:inline; margin: 0 auto; line-height:33px; font-family:Arial, Helvetica, sans-serif; font-size:13.5px; padding:5px 8px; background-repeat:repeat-x; border-top:1px solid #B5BBD5; border-right:1px solid #B5BBD5; border-bottom:1px solid #B5BBD5; -webkit-border-top-right-radius:5px; -moz-border-radius-topright:5px; -webkit-border-bottom-right-radius:5px; -moz-border-radius-bottomright:5px; }
+{% endblock %}
+
+{% block page_content %}
+
+<div class="bottombar"> <table width="100%" cellspacing="0" cellpadding="0">
+    <tr><th colspan="2"><div style="height:1px;"></div></th></tr>
+    <tr>
+        <td align="left" style="width:40%;"></td>
+        <td align="center" style="width:20%;white-space:nowrap;">
+            {% if user_name %}
+                {% if all %}
+                    <a href="{{ selector_url|escape }}" class="nav-left nav-off"> {{ user_name|escape }}'s games </a>
+                    <a href="javascript:void(0);" class="nav-right nav-on"> All games </a>
+                {% else %}
+                    <a href="javascript:void(0);" class="nav-left nav-on"> {{ user_name|escape }}'s games </a>
+                    <a href="{{ selector_url|escape }}" class="nav-right nav-off"> All games </a>
+                {% endif %}
+            {% else %}
+                <a href="javascript:void(0);" class="nav-left nav-right nav-on"> All games </a>
+            {% endif %}
+        </td>
+        <td align="right" style="width:40%;"></td>
+    </tr>
+</table></div>
+
+<table class="cllist" cellspacing="0" cellpadding="0" border="0">
+    {% for gamestats in rows %}
+        <tr style="max-width:480px;" class="{% cycle even-color,odd-color %}">
+            <a class="linkblock" href="{{ gamestats.detail_url|escape }}">
+                {% ifequal gamestats.game_result 0 %}
+                    <td valign="middle" style="padding:0;height:64px;width:25px"><div style="width:100%;height:100%;background-color:{{ gamestats.first_winner_color }};"></div></td>
+                {% else %}
+                    <td valign="middle" style="padding:0;height:64px;width:25px"></td>
+                {% endifequal %}
+                <td style="height:64px;width:8px"></td>
+                <td valign="middle" style="width:440px;">
+                    <span class="row_title">{{ gamestats.title|escape }}</span><br />
+                    <span class="row_smallgray">
+                        <span name="end_utc" id="{{ gamestats.end_utc }}"></span>
+                        {% for player_stat in gamestats.player_stats %}
+                            {% ifequal player_stat.win_result 2 %}
+                                <img style="border:none;" src="{{ winner_small_image_url }}" alt=""></img>
+                            {% endifequal %}
+                            {% ifequal forloop.last 0 %}
+                                {{ player_stat.name|escape }},
+                            {% else %}
+                                {{ player_stat.name|escape }}
+                            {% endifequal %}
+                        {% endfor %}
+                    </span>
+                </td>
+                <td valign="middle" style="padding:8px;font-size:20px;font-weight:bold;">
+                    <img class="arrow" src="{{ chevron_image_url|escape }}" alt=""/>
+                </td>
+            </a>
+        </tr>
+    {% endfor %}
+    <tr><th colspan="1"><div class="bottom_border"></div></th></tr>
+    {% ifnotequal show_url "" %}
+        <tr style="background-color:#BCC2CE;">
+            <a class="linkblock" href="{{ show_url|escape }}">
+                <td />
+                <td valign="middle" align="center" class="clshowrow">
+                    <span class="clshow">Show Last {{ show_count }} Games</span>
+                </td>
+            </a>
+        </tr>
+    {% endifnotequal %}
+</table>
+<script>
+ <![CDATA[
+var d = new Date();
+var spans = document.getElementsByName("end_utc");
+for (var i = 0; i < spans.length; i++) {
+    var end_utc = spans[i].getAttribute("id");
+    d.setTime(end_utc * 1000);
+    var mins = d.getMinutes();
+    if (mins < 10) {
+        mins = '0' + mins
+    }
+    var hours = d.getHours();
+    if (hours >= 12) {
+        if (hours == 12) {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + hours + ":" + mins + "pm");
+        } else {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + (hours - 12) + ":" + mins + "pm");
+        }
+    } else {
+        if (d.getHours() == 0) {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + (hours + 12) + ":" + mins + "am");
+        } else {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + hours + ":" + mins + "am");
+        }
+    }
+}
+]]>
+</script>
+{% endblock %}

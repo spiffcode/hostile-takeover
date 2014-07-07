@@ -1,0 +1,4 @@
+cron:
+- description: ratings adjust job
+  url: /api/ratingjob
+  schedule: every 15 minutes

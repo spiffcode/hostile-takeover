@@ -1,0 +1,142 @@
+* need "Connecting..." from Specify panel. And "not found" if not found! Plus timeout (from 4155) is too long
+- wifi game name not shown when hosting?
+- finish M_16 fixes
+- get someone to test Wc13Transport.dll
+- WI exited looking for devices. Bad name? Name too long? Stack problem?
+- if host crashes or otherwise doesn't ever respond while client is "Waiting for all players..." the client hangs forever
+- pause bringing up join screen
+- add (space) to input form
+
+------------------------------------------------------------------------------
+Bugs
+- Bullpups ignoring fog. Related?: players feel that Bullpup Gx search is broken
+- some clients see black screen while others see "Waiting for all players"
+- handle device/network turning off while system network UI forms are up
+- Treo 600 sometimes crashes immediately upon pressing "multiplayer"
+- crash after OK on TooManyTCPConnections (ux50)
+
+UI
+- need some sort of client timeout between connecting and receiving first game info in case the game info never arrives
+- remember specified addresses?
+- multiplayer-appropriate summary screens (win/lose/objectives)
+- show real game duration at summary
+
+Misc
+- updates to WI startup screen (hi/med/lo)
+  - copyright year
+- alliances
+- Handmark MP launch
+- rendezvous/packet forwarding server
+? buffer AsyncSends to send full packets at update time (combine BT MTU work above?)
+- replace gpbScratch accesses with Lock/UnlockScratchBuffer()
+
+Notes
+- anti-lingering code doesn't seem to do the job on the ux50. Works fine on TC
+- w/ latest changes allowing user to select amongst IP transports and passing
+  IP addr to SocTransport constructor is moot (uses INADDR_ANY instead)- why does OnStatusUpdate callback block during BtConnection destruction? [same r2 trashing problem?]
+- "batteries are low" popup on ux50, afterwards game is suspended. ux50 is host --
+  eventually TC client disconnected and then UX resumed!
+
+------------------------------------------------------------------------------
+FAQ
+- PalmOne Tungsten T devices require a patch from PalmOne
+- Sony Clie TG-50 devices require a patch from Sony
+- PalmOne Tungsten TT and T2 devices can crash if the device
+they're connected to disconnects uncleanly (moves out of range or
+crashes). Unfortunately PalmOne has not provided a patch for this OS bug
+- iPAQ h2210/2215 can spontaneously drop connections, especially if the game speed is set high
+- iPAQ h4155 when hosting will only allow a single client to join. It has no problems as a client
+x all iPAQs exhibit 'jumpiness' when joining high-speed games. As hosts they're fine
+
+
+Level Creator FAQ
+- Side 1-N must have their Intelligence set to "Human" if a human is going to be able to play that side
+- Level MinPlayers must be >1
+- MP games should have "[side 1, side 2, side 3, side 4] Enemy owns Exactly 0 Any Unit : End Mission: Win" trigger
+- MP games should have "[side 1, side 2, side 3, side 4] Allies owns Exactly 0 Any Unit : End Mission: Lose" trigger
+? win trigger must come before lose trigger
+
+
+---------------
+4-24-04
+UNEXPECTED GAME TERMINATION WHEN PPC (H2210) IS CLIENT OF A 4X GAME SERVED BY A PALM (TT)
+@ update 5826, 1791, 184(!!)
+
+TT reports
+BtConnection::SocketProc EventDisconnect L2DiscLincDisc
+GenericMEProc::EventACLDisconnect MeStatusPowerOff ("other end terminated (about to power off)")
+
+H2210 reports
+WcConnection::OnRemoteDisconnected(reason = 0) ("Zero (0) if the cause of disconnect was a “disconnect indicator callback” from the L2CAP stack layer.")
+<one of the BT stack thread exits!>
+WcTransport::OnStackStatusChange(DEVST_DOWN) ("Device is present, but down")
+"Connection to host has been severed"
+long timeout trying to perform inquiry
+! Can't game search thereafter, even after exiting/restarting WI
+!! Attempting to launch Bluetooth Manager after reports
+	"The Bluetooth Radio failed to turn ON due to insufficient driver memory available.
+	You must perform a normal reet befor you can turn ON the Bluetooth Radio."
+? How does it know this? No such error codes are exposed through the BTW-CE DK
+
+Sequence:
+- play game, end due to congestion-related failure (strange client halt, due to missed Update from server?)
+- exit game normally
+- restart game
+- quickly hit dropped connection
+- BT stack hosed, confirmed by Bluetooth Manager error
+- reset
+- host crashed
+	Assert(pnmCopy != NULL, "Out of memory allocating pnmCopy!");
+- "Your connection to the host has been severed."
+- exit game
+
+iPAQ h2210 (before update)
+BTW-CE v. 1.4.1 Build 04
+BtCeStack.dll	1.2.4.1
+BtCeProfiles.dll	1.2.4.1
+BtChooserLib.dll	1.4.1.04
+BtCeStack.dll	1.2.4.1 (! it's shown twice !)
+BtCeSendTo_Poom.dll	1.0.0.1
+BtCeIf.dll		1.2.4.1
+BtCeOsif4.dll	1.2.4.1
+BtRez.dll		1.0.0.1
+
+iPAQ h2210 (after update)
+BTW-CE v. 1.4.1 Build 58
+BtCeStack.dll	1.2.4.1
+BtCeProfiles.dll	1.2.4.1
+BtChooserLib.dll	1.4.1.58
+BtCeStack.dll	1.2.4.1 (! it's shown twice !)
+BtCeSendTo_Poom.dll	1.0.0.1
+BtCeIf.dll		1.2.4.1
+BtCeOsif4.dll	1.2.4.1
+BtRez.dll		1.0.0.1
+
+iPAQ 3875
+BT Browser 1.1
+BTM Firmware 114d
+bc01 Chip Version 1.65h
+HCI Version 1.72h
+LMP Version 1.72h
+
+
+- "Waiting for radio to initialize" flashes twice. BtTransport::FindAndOpenBluetoothLibrary being called more than once?
+
+TT (H), H2210 (C), 4x, w/ tracing
+09:52 - 09:59 dropped (10,100 updates)
+10:08 - 10:24 host choked (~17,000 updates)
+10:26 - 10:27 dropped (1,538 updates) -- following non-reset
+10:31 - 10:35 dropped (6,036 updates) -- following reset
+
+TT (H), H2210 (C), 1x, w/ tracing
+10:51 - 11:15 host choked (~18,000 updates) -- following a reset
+11:19 - 11:44 host choked (~18,300 updates) -- following a non-reset
+
+TT (H), H2210 (C), 1x, w/o tracing
+11:50 - ??:?? dropped (992,703 updates [22 hrs]) -- following a non-reset
+
+TT (H), H2210 (C), 4x, w/o tracing
+02:38 - 02:40 dropped (? updates)
+
+TT (H), H2210 (C), 4x, w/o tracing
+11:17 - 11:18 dropped (? updates)

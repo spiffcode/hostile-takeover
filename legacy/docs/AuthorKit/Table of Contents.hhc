@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<OBJECT type="text/site properties">
+	<param name="ImageType" value="Folder">
+</OBJECT>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Overview">
+		<param name="Local" value="Overview.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="How to...">
+		<param name="Local" value="HowTo.htm">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="create a Level">
+			<param name="Local" value="HowToCreateALevel.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="create a Template Collection">
+			<param name="Local" value="HowToCreateATemplateCollection.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="add a Template Collection to a Game Database">
+			<param name="Local" value="HowToAddATemplateCollectionToAGameDatabase.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="add a Level to a Game Database">
+			<param name="Local" value="HowToAddALevelToAGameDatabase.htm">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Guidelines">
+		<param name="Local" value="Guidelines.htm">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Template Art">
+			<param name="Local" value="TemplateArtGuidelines.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Template Terrain">
+			<param name="Local" value="TemplateTerrainGuidelines.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Template Naming">
+			<param name="Local" value="TemplateNamingGuidelines.htm">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Reference">
+		<param name="Local" value="Reference.htm">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Hostile Takeover (HT.exe)">
+			<param name="Local" value="HostileTakeoverRef.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="mkpdb.bat">
+			<param name="Local" value="mkpdbRef.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="packpdb2">
+			<param name="Local" value="packpdb2Ref.htm">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="TemplateExtractor">
+			<param name="Local" value="TemplateExtractorRef.htm">
+			</OBJECT>
+	</UL>
+</UL>
+</BODY></HTML>

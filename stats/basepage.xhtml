@@ -1,0 +1,44 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1; minimum-scale=1; user-scalable=0;" />
+<title>{% block html_title %}Hostile Takeover{% endblock %}</title>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<meta name="HandheldFriendly" content="true" />
+<link rel="alternate" media="handheld" href="" />
+<style type="text/css">
+#og_head{height:30px;border-bottom:1px solid #c9d7f1;white-space:nowrap}
+#og_head,#og_head div{font-size:15px!important}
+#og_head a{color:#00c}
+#og_head .og_tab{display:inline-block;padding:7px 6px}
+html, body {margin:0; padding:0;}
+body {font-size:15px;font-family:Arial, Helvetica, sans-serif;font-color:#000000;-webkit-text-size-adjust:none;}
+p {margin-top:0.4em;margin-bottom:0.4em}
+h1.pageTitle {font-size:16px;height:2em;line-height:2em;letter-spacing:0.5cm;padding:0;margin:0;text-align:center;
+-webkit-text-size-adjust: none;
+background-image: url(data:image/gif;base64,R0lGODlhAQAjAMQAAPL0/evt+O/x+uns9+7w+ufq9OXp9PL0/Nnf7PDy++jr9tbc6ePn8+Hm8tTb6dng7NXb6e3v+N/k8PX2/uTo8+Hl8NXc6dvh7t3j7/Hz/Ozu+Nvg7d3i7vT1/vb3/9fd6yH5BAAAAAAALAAAAAABACMAAAUdoOdNXQccWSIQkRYMSmFQTFNJGHdtD/J9CwvEEQIAOw==);
+background-repeat: repeat-x;
+border-bottom: 1px solid #B5BBD5;}
+.odd-color {background-color:#D4DBE9;}
+.even-color {background-color:#F6F7FF;}
+{% block head_css %}{% endblock %}
+</style>
+</head>
+<body>
+<div id="og_head">
+	<span id="og_quick">
+        {% for tab in tabs %}
+            {% ifequal tab.id selected_tab %}
+                <b class="og_tab">{{ tab.title|escape }}</b>
+            {% endifequal %}
+            {% ifnotequal tab.id selected_tab %}
+                <a href="{{ tab.url|escape }}" class="og_tab">{{ tab.title|escape }}</a>
+            {% endifnotequal %}
+        {% endfor %}
+	</span>
+</div>
+{% block page_content %}{% endblock %}
+</body>
+</html>

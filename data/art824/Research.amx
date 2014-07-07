@@ -1,0 +1,272 @@
+<SOAP-ENV:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<SOAP-ENV:Body>
+<a1:AnimDoc id="ref-1" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Bitmaps href="#ref-3"/>
+<Strips href="#ref-4"/>
+<FrameRate>80</FrameRate>
+<Hires>true</Hires>
+</a1:AnimDoc>
+<a1:XBitmapSet id="ref-3" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-5"/>
+<_x0031_ href="#ref-6"/>
+<_x0032_ href="#ref-7"/>
+<_x0033_ href="#ref-8"/>
+<_x0034_ href="#ref-9"/>
+<_x0035_ href="#ref-10"/>
+<_x0036_ href="#ref-11"/>
+</a1:XBitmapSet>
+<a1:StripSet id="ref-4" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-12"/>
+<_x0031_ href="#ref-13"/>
+<_x0032_ href="#ref-14"/>
+<_x0033_ href="#ref-15"/>
+<_x0034_ href="#ref-16"/>
+</a1:StripSet>
+<a1:XBitmap id="ref-5" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-17">Research\research_a_0_0.png</FileName>
+</a1:XBitmap>
+<a1:XBitmap id="ref-6" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-18">Research\research_dish_0_2.png</FileName>
+</a1:XBitmap>
+<a1:XBitmap id="ref-7" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-19">Research\research_dish_0_1.png</FileName>
+</a1:XBitmap>
+<a1:XBitmap id="ref-8" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-20">Research\research_dish_0_0.png</FileName>
+</a1:XBitmap>
+<a1:XBitmap id="ref-9" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-21">Research\research_a_2_0.png</FileName>
+</a1:XBitmap>
+<a1:XBitmap id="ref-10" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-22">Research\research_a_1_0.png</FileName>
+</a1:XBitmap>
+<a1:XBitmap id="ref-11" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<FileName id="ref-23">Research\icon.png</FileName>
+</a1:XBitmap>
+<a1:Strip id="ref-12" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Name id="ref-24">a 0</Name>
+<DefHoldCount>0</DefHoldCount>
+<FrameCount>4</FrameCount>
+<_x0030_ href="#ref-25"/>
+<_x0031_ href="#ref-26"/>
+<_x0032_ href="#ref-27"/>
+<_x0033_ href="#ref-28"/>
+</a1:Strip>
+<a1:Strip id="ref-13" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Name id="ref-29">a 1</Name>
+<DefHoldCount>0</DefHoldCount>
+<FrameCount>1</FrameCount>
+<_x0030_ href="#ref-30"/>
+</a1:Strip>
+<a1:Strip id="ref-14" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Name id="ref-31">a 2</Name>
+<DefHoldCount>0</DefHoldCount>
+<FrameCount>1</FrameCount>
+<_x0030_ href="#ref-32"/>
+</a1:Strip>
+<a1:Strip id="ref-15" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Name id="ref-33">icon</Name>
+<DefHoldCount>0</DefHoldCount>
+<FrameCount>1</FrameCount>
+<_x0030_ href="#ref-34"/>
+</a1:Strip>
+<a1:Strip id="ref-16" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Name id="ref-35">help</Name>
+<DefHoldCount>0</DefHoldCount>
+<FrameCount>1</FrameCount>
+<_x0030_ href="#ref-36"/>
+</a1:Strip>
+<a1:Frame id="ref-25" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-38"/>
+<HoldCount>6</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-26" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-39"/>
+<HoldCount>5</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-27" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-40"/>
+<HoldCount>6</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-28" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-41"/>
+<HoldCount>5</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-30" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-42"/>
+<HoldCount>0</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-32" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-43"/>
+<HoldCount>0</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-34" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-44"/>
+<HoldCount>0</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:Frame id="ref-36" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<BitmapPlacers href="#ref-45"/>
+<HoldCount>0</HoldCount>
+<SpecialPoint xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>0</x>
+<y>0</y>
+</SpecialPoint>
+</a1:Frame>
+<a1:BitmapPlacerList id="ref-38" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-46"/>
+<_x0031_ href="#ref-47"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-39" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-48"/>
+<_x0031_ href="#ref-49"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-40" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-50"/>
+<_x0031_ href="#ref-51"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-41" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-52"/>
+<_x0031_ href="#ref-53"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-42" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-54"/>
+<_x0031_ href="#ref-55"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-43" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-56"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-44" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-57"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacerList id="ref-45" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<_x0030_ href="#ref-58"/>
+<_x0031_ href="#ref-59"/>
+</a1:BitmapPlacerList>
+<a1:BitmapPlacer id="ref-46" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>-12</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-8"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-47" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>3</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-5"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-48" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>-13</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-7"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-49" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>3</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-5"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-50" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>-14</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-6"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-51" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>3</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-5"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-52" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>-13</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-7"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-53" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>3</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-5"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-54" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>-12</x>
+<y>-6</y>
+</Point>
+<XBitmap href="#ref-8"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-55" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>3</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-10"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-56" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>3</x>
+<y>-3</y>
+</Point>
+<XBitmap href="#ref-9"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-57" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>1</x>
+<y>-2</y>
+</Point>
+<XBitmap href="#ref-11"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-58" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>14</x>
+<y>23</y>
+</Point>
+<XBitmap href="#ref-8"/>
+</a1:BitmapPlacer>
+<a1:BitmapPlacer id="ref-59" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
+<Point xsi:type="a2:Point" xmlns:a2="http://schemas.microsoft.com/clr/nsassem/System.Drawing/System.Drawing">
+<x>26</x>
+<y>21</y>
+</Point>
+<XBitmap href="#ref-5"/>
+</a1:BitmapPlacer>
+</SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

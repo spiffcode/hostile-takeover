@@ -1,0 +1,53 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Adjust Score{% endblock %}
+
+{% block head_css %}
+.sbar { padding:20px 0 20px 0; margin:0; text-align:center;}
+.searchquery { font-size:13px; margin-right:10px; padding: 4px 3px; vertical-align:middle; width:190px;}
+a.gpbutton { display:inline; margin: 0 auto; line-height:33px; font-size:13.5px; font-weight:bold; color:#fff; text-shadow:0px -1px 1px #666; padding:5px 8px; background:#818189; text-decoration: none; -webkit-border-radius:5px; -moz-border-radius:5px; white-space:nowrap; }
+.vmiddle { vertical-align:middle;}
+.message_p {text-align:center;font-size:14px;font-weight:bold;}
+{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">ADJUST SCORE</h1>
+<div style="height:20px;"></div>
+
+{% if message %}
+    <p class="message_p">{{ message }}</p>
+    <div style="height:10px;"></div>
+{% endif %}
+
+{% if not type %}
+    <p class="message_p">Adjust the score of a player. Enter player name:</p>
+    <form action="{{ form_url|escape }}" method="GET" id="myform" class="sbar">
+        <div><input id="myinput" class="searchquery" name="u" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="" />
+        <div style="height:10px;"></div>
+        <input type="submit">Submit</input></div>
+        <input type="hidden" name="t" value="{{ next_type|escape }}" />
+        {% if player_name %}
+            <input type="hidden" name="p" value="{{ player_name|escape }}" />
+        {% endif %}
+    </form>
+{% endif %}
+
+{% ifequal type "q" %}
+    <p class="message_p">The current score of player {{ u|escape }} is {{ rating|escape }}. Enter new score:</p>
+    <form action="{{ form_url|escape }}" method="GET" id="myform" class="sbar">
+        <div><input id="myinput" class="searchquery" name="s" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="{{ rating|escape }}" />
+        <p class="message_p">Reason:</p>
+        <input id="myinput2" class="searchquery" name="r" maxlength="2048" autocapitalize="off" type="text" value="{{ reason|escape }}" />
+        <div style="height:10px;"></div>
+        <input type="submit">Submit</input></div>
+        <input type="hidden" name="u" value="{{ u|escape }}" />
+        <input type="hidden" name="t" value="{{ next_type|escape }}" />
+        {% if player_name %}
+            <input type="hidden" name="p" value="{{ player_name|escape }}" />
+        {% endif %}
+    </form>
+{% endifequal %}
+
+<script>
+document.getElementById('myinput').focus();
+</script>
+{% endblock %}

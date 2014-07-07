@@ -1,0 +1,7 @@
+*.pidb
+*.userprefs
+*/bin/
+*/*/bin/
+/game/wi.xcodeproj/project.xcworkspace/
+/game/wi.xcodeproj/xcuserdata/
+/DerivedData/

@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Schemer", "Schemer.csproj", "{620839F8-630B-434D-8DFF-A8FF2C8D21B3}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{620839F8-630B-434D-8DFF-A8FF2C8D21B3}.Debug.ActiveCfg = Debug|.NET
+		{620839F8-630B-434D-8DFF-A8FF2C8D21B3}.Debug.Build.0 = Debug|.NET
+		{620839F8-630B-434D-8DFF-A8FF2C8D21B3}.Release.ActiveCfg = Release|.NET
+		{620839F8-630B-434D-8DFF-A8FF2C8D21B3}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

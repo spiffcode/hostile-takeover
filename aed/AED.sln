@@ -1,0 +1,21 @@
+Microsoft Visual Studio Solution File, Format Version 7.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AED", "AED.csproj", "{2EA04455-EA2C-40C7-AD73-0A834353467A}"
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		ConfigName.0 = Debug
+		ConfigName.1 = Release
+	EndGlobalSection
+	GlobalSection(ProjectDependencies) = postSolution
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{2EA04455-EA2C-40C7-AD73-0A834353467A}.Debug.ActiveCfg = Debug|.NET
+		{2EA04455-EA2C-40C7-AD73-0A834353467A}.Debug.Build.0 = Debug|.NET
+		{2EA04455-EA2C-40C7-AD73-0A834353467A}.Release.ActiveCfg = Release|.NET
+		{2EA04455-EA2C-40C7-AD73-0A834353467A}.Release.Build.0 = Release|.NET
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

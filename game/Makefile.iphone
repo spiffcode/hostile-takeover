@@ -1,0 +1,114 @@
+OUTDIR=
+CC = arm-apple-darwin-gcc
+CPP_DEFINES_GLOBAL=
+CPP_INCS=-I../inc -Iiphone
+TARGETDEFINED=0
+LD=$(CC)
+LDFLAGS=-lobjc -framework CoreGraphics -framework GraphicsServices -framework CoreSurface -framework CoreFoundation -framework Foundation -framework UIKit -framework LayerKit -framework AudioToolbox
+
+ifdef MAP
+MAPFLAGS=-Xlinker -Map -Xlinker ht.map
+endif
+
+# Debug is default
+
+ifdef REL
+CPP_DEBUG=
+else
+CPP_DEBUG=-DDEBUG -g
+endif
+
+ifdef ESD_BUILD
+CPP_DEFINES=$(CPP_DEFINES_GLOBAL) -DESD_BUILD
+ifdef REL
+OUTDIR=iPhone_ESD_Release
+else
+OUTDIR=iPhone_ESD_Debug
+endif
+TARGETDEFINED=1
+endif
+
+ifdef RETAIL_BUILD
+CPP_DEFINES=$(CPP_DEFINES_GLOBAL) -DRETAIL_BUILD
+ifdef REL
+OUTDIR=iPhone_Retail_Release
+else
+OUTDIR=iPhone_Retail_Debug
+endif
+TARGETDEFINED=1
+endif
+
+ifdef PROFILE
+CPP_DEFINES=$(CPP_DEFINES_GLOBAL) -DDEV_BUILD
+CPP_DEBUG=-mdebug-labels
+OUTDIR=iPhone_Profile
+TARGETDEFINED=1
+endif
+
+# DEV_BUILD is default
+
+ifeq ($(TARGETDEFINED),0)
+DEV_BUILD=1
+endif
+
+ifdef DEV_BUILD
+CPP_DEFINES=$(CPP_DEFINES_GLOBAL) -DDEV_BUILD
+ifdef REL
+OUTDIR=iPhone_Release
+else
+OUTDIR=iPhone_Debug
+endif
+TARGETDEFINED=1
+endif
+
+# Composite the flags together
+
+CFLAGS=-Os -DIPHONE $(CPP_DEFINES) $(CPP_DEBUG) $(CPP_INCS) -fno-rtti -fno-exceptions -fcheck-new -fsigned-char
+MFLAGS=-Os -DIPHONE -fsigned-char $(CPP_DEFINES) $(CPP_DEBUG) $(CPP_INCS)
+
+OBJS=game.o misc.o bitmap.o packfile.o rip.o form.o ini.o \
+misccontrols.o tests.o timer.o event.o font.o \
+GameObjects.o Level.o Simulation.o tilemap.o StateMachine.o Animation.o \
+fogmap.o SRInfantry.o LRInfantry.o terrainmap.o HRC.o \
+Reactor.o Processor.o Miner.o Headquarters.o Research.o Radar.o VTS.o \
+MobileBuilder.o Tank.o SpInfantry.o Overmind.o Builder.o MobileUnit.o \
+memmgr.o tbitmap.o compression.o savegame.o main.o \
+cachemgr.o Multiplayer.o comm.o Player.o \
+Warehouse.o Tower.o MobileHQ.o Unit.o Struct.o SimUI.o \
+soundmgr.o host.o iphone.o iphoneview.o mp_test.o \
+updatemap.o thunks.o display.o TransportMgr.o \
+GameOptions.o InputUI.o formmgr.o loadsave.o \
+triggermgr.o TriggerConditions.o TriggerActions.o UnitGroupMgr.o BuildMgr.o \
+RawBitmap.o Shell.o Ecom.o alertcontrol.o stringtable.o Andy.o \
+Artillery.o Replicator.o Help.o CutScene.o drm.o \
+messagequeue.o socketserver.o eventdispatcher.o \
+mixer.o iphonesounddev.o
+
+all: $(OUTDIR)/wi
+
+clean:
+	rm -f $(OUTDIR)/*
+
+$(OUTDIR)/wi: $(OBJS:%=$(OUTDIR)/%)
+	$(LD) $(LDFLAGS) -o $@ $^ $(MAPFLAGS)
+
+$(OUTDIR)/packfile.o: packfile.cpp packfile.h
+	$(CC) $(CFLAGS) -c packfile.cpp -o $(OUTDIR)/packfile.o
+
+$(OUTDIR)/misc.o: misc.cpp ht.h res.h iphone/htplatform.h license.h
+	$(CC) $(CFLAGS) -c misc.cpp -o $(OUTDIR)/misc.o
+
+$(OUTDIR)/%.o: %.cpp ht.h res.h iphone/htplatform.h
+	$(CC) $(CFLAGS) -c $(*F).cpp -o $@
+
+$(OUTDIR)/%.o: iphone/%.cpp ht.h res.h iphone/htplatform.h iphone/iphone.h
+	$(CC) $(CFLAGS) -c iphone/$(*F).cpp -o $@
+
+$(OUTDIR)/%.o: iphone/%.mm ht.h res.h iphone/htplatform.h iphone/iphone.h iphone/iphoneview.h
+	$(CC) $(MFLAGS) -c iphone/$(*F).mm -o $@
+
+$(OUTDIR)/%.o: iphone/%.m ht.h res.h iphone/htplatform.h iphone/iphone.h iphone/iphoneview.h
+	$(CC) $(MFLAGS) -c iphone/$(*F).m -o $@
+
+$(OUTDIR)/rip.o: ../inc/rip.cpp
+	$(CC) $(CFLAGS) -c ../inc/rip.cpp -o $(OUTDIR)/rip.o

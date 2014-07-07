@@ -1,0 +1,52 @@
+{% extends "basepage.xhtml" %}
+
+{% block head_css %}
+.messagebox {font-weight:bold;font-size:16px;padding:0;margin:15px 15px 15px 15px;}
+{% endblock %}
+
+{% block html_title %}Hostile Takeover Administration{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">ADMINISTRATION</h1>
+<br />
+
+{% if account.ADMIN_LOG_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ adminlog_url|escape }}">Admin Log</a></div>
+{% endif %}
+
+{% if account.ADJUST_SCORE_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ adjust_score_url|escape }}">Adjust Score</a></div>
+{% endif %}
+
+{% if account.SEE_PLAYER_INFO_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ playerdetail_url|escape }}">Player Detail</a></div>
+{% endif %}
+
+{% if account.HIDE_PLAYER_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ hideplayer_url|escape }}">Hide / Show Player</a></div>
+{% endif %}
+
+{% if account.BLOCK_PLAYER_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ blockplayer_url|escape }}">Block / Unblock Player</a></div>
+{% endif %}
+
+{% if account.RESET_PLAYER_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ resetplayer_url|escape }}">Reset Player Stats</a></div>
+{% endif %}
+
+{% if account.SEND_CHAT_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ sendchat_url|escape }}">Send Chat to Server</a></div>
+{% endif %}
+
+{% if account.DRAIN_ACCESS_RIGHT %}
+    <div class="messagebox"><a href="{{ drain_url|escape }}">Drain / Undrain Server</a></div>
+{% endif %}
+
+{% if account.ADD_ACCOUNT_ACCESS_RIGHT %}
+{% endif %}
+
+{% if account.REMOVE_ACCOUNT_ACCESS_RIGHT %}
+{% endif %}
+
+<div class="messagebox"><a href="{{ logout_url|escape }}">Logout</a></div>
+{% endblock %}

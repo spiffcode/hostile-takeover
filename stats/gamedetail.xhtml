@@ -1,0 +1,469 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Hostile Takeover Game Detail{% endblock %}
+
+{% block head_css %}
+.stats_table {margin:0 auto;padding:0;}
+.stats_table_wide {margin:auto;padding:0;width:90%}
+.bottom_border {background-color:#b5bbd5;width:100%;height:1px;margin:0;padding:0}
+.stat_name {width:50%;padding:8px;font-weight:bold;}
+.stat_value {text-align:center;padding:8px;font-weight:bold;}
+.round_left {-webkit-border-top-left-radius:10px;-moz-border-radius-topleft:10px}
+.round_right {-webkit-border-top-right-radius:10px;-moz-border-radius-topright:10px}
+.sechdr {background:url("data:image/gif;base64,R0lGODlhAgAdAMQAAPD2/+71/+30/uvz/ury/ujx/ufw/uTu/uXv/uLt/uHs/d/q/d7p/dzo/dvn/c3e+c7e+szd+cvc+Mrb+Mja+MfZ98bY98XX98TW9sLV9sDU9cHU9r/T9QAAAAAAAAAAACH5BAAHAP8ALAAAAAACAB0AAAUxIAAEgSAMA0EUhWEgyHEkiaIsC8M0jeNAkMcjEpFIJhMKpVKxWC4XDCaT2Ww0Gg4nBAA7");margin:20px 0 0 0;padding:5px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;text-align:center;font-size:16px;font-weight:bold;}
+.avatar_td {border:none;width:64px;height:64px;}
+.winner_td {border:none;width:48px;height:64px;}
+.player_td {padding:8px;width:270px;max-width:270px;overflow:hidden;white-space:nowrap;}
+.player_span {color:black;font-size:28px;font-weight:bold;}
+.player_msg_span {color:#666;font-size:12px;font-weight:bold;line-height:100%;vertical-align:top;}
+.avatar_img {border:none;vertical-align:bottom;}
+.chevron_td {padding:8px;font-size:20px;font-weight:bold;}
+.linkblock {text-decoration:none;display:block;}
+.arrow {border:none;}
+.player_stat_name_value {padding:8px;text-align:left;font-size:16px;font-weight:bold;}
+.message {text-align:center;width:80%;margin:0 auto;font-size:12px;font-weight:bold;}
+{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">GAME DETAIL</h1>
+<table class="stats_table" cellpadding="0" cellspacing="0">
+    <tr><th colspan="2"><div class="sechdr round_left round_right">Mission</div></th></tr>
+     <tr class="even-color">
+        <td valign="middle" align="center" class="player_stat_name_value">
+            Title:
+        </td>
+        <td valign="middle" class="player_stat_name_value">
+            {{ gamestats.title|escape }}
+        </td>
+    </tr>
+    <tr class="odd-color">
+        <td valign="middle" align="center" class="player_stat_name_value">
+            Speed:
+        </td>
+        <td valign="middle" class="player_stat_name_value">
+            {{ gamestats.game_speed_multiplier|escape }}
+        </td>
+    </tr>
+    <tr class="even-color">
+        <td valign="middle" align="center" class="player_stat_name_value">
+            Duration:
+        </td>
+        <td valign="middle" class="player_stat_name_value">
+            {{ gamestats.duration_minutes|escape }} minutes
+        </td>
+    </tr>
+    <tr class="odd-color">
+        <td valign="middle" align="center" class="player_stat_name_value">
+            Played:
+        </td>
+        <td valign="middle" class="player_stat_name_value">
+            <span name="end_utc" id="{{ gamestats.end_utc }}"></span>
+        </td>
+    </tr>
+    <tr><th colspan="2"><div class="bottom_border"></div></th></tr>
+</table>
+
+<script>
+<![CDATA[
+var span = document.getElementsByName("end_utc")[0];
+var end_utc = span.getAttribute("id");
+var d = new Date();
+d.setTime(end_utc * 1000);
+var mins = d.getMinutes();
+if (mins < 10) {
+    mins = '0' + mins
+}
+var hours = d.getHours();
+if (hours >= 12) {
+    if (hours == 12) {
+        span.innerHTML = (d.toLocaleDateString() + " " + hours + ":" + mins + "pm");
+    } else {
+        span.innerHTML = (d.toLocaleDateString() + " " + (hours - 12) + ":" + mins + "pm");
+    }
+} else {
+    if (d.getHours() == 0) {
+        span.innerHTML = (d.toLocaleDateString() + " " + (hours + 12) + ":" + mins + "am");
+    } else {
+        span.innerHTML = (d.toLocaleDateString() + " " + hours + ":" + mins + "am");
+    }
+}
+]]>
+</script>
+
+{% ifequal gamestats.game_result 1 %}
+<div class="message">
+<br />
+NOTE: This game did not affect ratings because it was less than 3 minutes long.
+</div>
+{% endifequal %}
+
+{% ifequal gamestats.game_result 2 %}
+<div class="message">
+<br />
+NOTE: This game did not affect ratings because there must be a registered player winner, and a registered player loser.
+</div>
+{% endifequal %}
+
+{% ifequal gamestats.game_result 3 %}
+<div class="message">
+<br />
+NOTE: This game did not affect ratings because no winners were recorded.
+</div>
+{% endifequal %}
+
+<table class="stats_table" cellpadding="0" cellspacing="0">
+    <tr><th colspan="4"><div class="sechdr round_left round_right">Players</div></th></tr>
+    {% for player_stat in gamestats.player_stats %}
+        <tr class="{% cycle even-color,odd-color %}">
+            <td valign="middle" align="left" class="winner_td">
+                {% ifequal player_stat.win_result 2 %}
+                    <img class="avatar_img" src="{{ winner_image_url|escape }}"/>
+                {% endifequal %}
+            </td>
+            {% ifnotequal player_stat.is_computer 0 %}
+                <a style="padding:0;" class="linkblock" href="javascript:void();">
+                    <td valign="middle"><div style="width:25px;height:64px;background-color:{{ player_stat.side_color }};"></div></td>
+                    <td valign="middle" align="center" class="avatar_td">
+                        <img class="avatar_img" src="{{ computer_avatar_url|escape }}"/>
+                    </td>
+                    <td valign="middle" class="player_td">
+                        <div style="height:48px;">
+                            <span class="player_span">AI</span>
+                            <span class="player_msg_span"><br />rating: {{ computer_default_rating }}, computer player</span>
+                        </div>
+                    </td>
+                </a>
+            {% endifnotequal %}
+            {% ifnotequal player_stat.is_anonymous 0 %}
+                <a style="padding:0;" class="linkblock" href="javascript:void();">
+                    <td valign="middle" style="padding:0;width:25px"><div style="width:25px;height:64px;background-color:{{ player_stat.side_color }};"></div></td>
+                    <td valign="middle" align="center" class="avatar_td">
+                        <img class="avatar_img" src="{{ anonymous_avatar_url|escape }}"/>
+                    </td>
+                    <td valign="middle" class="player_td">
+                        <div style="height:48px;">
+                            <span class="player_span">{{ player_stat.name|escape }}</span>
+                            <span class="player_msg_span"><br />rating: {{ anonymous_default_rating }}, anonymous player</span>
+                        </div>
+                    </td>
+                </a>
+            {% endifnotequal %}
+            {% ifnotequal player_stat.is_user 0 %}
+                <a style="padding:0;" class="linkblock" href="{{ player_stat.player.player_stats_url|escape }}">
+                    <td valign="middle" style="padding:0;width:25px"><div style="width:25px;height:64px;background-color:{{ player_stat.side_color }};"></div></td>
+                    <td valign="middle" align="center" class="avatar_td">
+                        <img class="avatar_img" src="{{ player_stat.player.avatar_url|escape }}"/>
+                    </td>
+                    <td valign="middle" class="player_td">
+                        <div style="height:48px;">
+                            <span class="player_span">{{ player_stat.player.name|escape }}</span>
+                            <span class="player_msg_span"><br />
+                                {% ifequal player_stat.player.rating 0 %}
+                                    rating: {{ player_default_rating }}, games: {{ player_stat.player.game_count }}, won: {{ player_stat.player.games_won }}
+                                {% else %}
+                                    rating: {{ player_stat.player.rating }}, games: {{ player_stat.player.game_count }}, won: {{ player_stat.player.games_won }}
+                                {% endifequal %}
+                            </span>
+                        </div>
+                    </td>
+                    <td valign="middle" class="chevron_td">
+                        <img class="arrow" src="{{ chevron_image_url|escape }}" alt=""/>
+                    </td>
+                </a>
+            {% endifnotequal %}
+        </tr>
+    {% endfor %}
+    <tr><th colspan="4"><div class="bottom_border"></div></th></tr>
+</table>
+
+{% ifnotequal gamestats.has_multiplayer_teams 0 %}
+    <table class="stats_table" cellpadding="0" cellspacing="0">
+        <tr><th colspan="2"><div class="sechdr round_left round_right">Teams</div></th></tr>
+        {% for team in gamestats.teams %}
+            <tr class="{% cycle even-color,odd-color %}">
+                <td class="stat_name">
+                    {% for player_stat in team %}
+                        {% if forloop.last %}
+                            {{ player_stat.name }}
+                        {% else %}
+                            {{ player_stat.name }},
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td class="stat_value">
+                    {% for player_stat in team %}
+                        <div style="display:inline-block;margin:0 8px 0 8px;width:29px;height:18px;background-color:{{ player_stat.side_color }};"></div>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endifnotequal %}
+
+<table class="stats_table_wide" cellpadding="0" cellspacing="0">
+    <tr>
+        <td><div style="height:17px;" class="sechdr round_left">Mission Stats</div></td>
+        {% for player_stat in gamestats.player_stats %}
+            {% if forloop.last %}
+                <td><div class="sechdr round_right"><div style="margin:0 auto;width:29px;height:17px;background-color:{{ player_stat.side_color }};"></div></div></td>
+            {% else %}
+                <td><div class="sechdr"><div style="margin:0 auto;width:29px;height:17px;background-color:{{ player_stat.side_color }};"></div></div></td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    <tr class="even-color">
+        <td class="stat_name">Mobile Units Built</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.munts_built }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="odd-color">
+        <td class="stat_name">Structures Built</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.structs_built }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="even-color">
+        <td class="stat_name">Mobile Units Lost</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.winstats.munts_lost }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="odd-color">
+        <td class="stat_name">Structures Lost</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.winstats.structs_lost }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="even-color">
+        <td class="stat_name">Mobile Units Killed</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.winstats.enemy_munts_killed }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="odd-color">
+        <td class="stat_name">Structures Killed</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.winstats.enemy_structs_killed }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="even-color">
+        <td class="stat_name">Units Remaining</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.units_remaining }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="odd-color">
+        <td class="stat_name">Credits Acquired</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.winstats.credits_acquired }}</td>
+        {% endfor %}
+    </tr>
+    <tr class="even-color">
+        <td class="stat_name">Credits Consumed</td>
+        {% for player_stat in gamestats.player_stats %}
+            <td class="stat_value">{{ player_stat.winstats.credits_consumed }}</td>
+        {% endfor %}
+    </tr>
+    <tr><th colspan="5"><div class="bottom_border"></div></th></tr>
+</table>
+
+<table class="stats_table_wide" cellpadding="0" cellspacing="0">
+    <tr>
+        <td><div style="height:17px;" class="sechdr round_left">Unit Built Stats</div></td>
+        {% for player_stat in gamestats.player_stats %}
+            {% if forloop.last %}
+                <td ><div class="sechdr round_right"><div style="margin:0 auto;width:29px;height:17px;background-color:{{ player_stat.side_color }};"></div></div></td>
+            {% else %}
+                <td ><div class="sechdr"><div style="margin:0 auto;width:29px;height:17px;background-color:{{ player_stat.side_color }};"></div></div></td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    <!-- {% cycle even-color,odd-color as rowcolors %} -->
+    {% ifnotequal units_built_sums.0 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Security Guard</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.0 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.1 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Rocket Trooper</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.1 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.2 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Corporate Raider</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.2 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.19 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Andy</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.19 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.22 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Fox</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.22 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.3 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">SR-98 Eagle</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.3 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.4 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">T-29 Broadsword</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.4 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.5 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">M-18 Hydra</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.5 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.6 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">T-33 Liberator</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.6 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.7 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">G-4 Bullpup</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.7 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.8 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">H-7 Dominion</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.8 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.20 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">A-3 Cyclops</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.20 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.9 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Power Generator</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.9 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.10 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Galaxite Processor</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.10 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.11 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Galaxite Warehouse</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.11 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.12 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Human Resource Center</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.12 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.13 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Vehicle Transport Station</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.13 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.14 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Surveillance Center</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.14 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.15 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">R&amp;D Center</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.15 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.16 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Headquarters</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.16 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.17 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Gatling Tower</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.17 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.18 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Rocket Tower</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.18 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    {% ifnotequal units_built_sums.21 0 %}
+        <tr class="{% cycle rowcolors %}">
+            <td class="stat_name">Replicator</td>
+            {% for player_stat in gamestats.player_stats %}
+                <td class="stat_value">{{ player_stat.winstats.built_counts.21 }}</td>
+            {% endfor %}
+        </tr>
+    {% endifnotequal %}
+    <tr><th colspan="5"><div class="bottom_border"></div></th></tr>
+</table>
+{% endblock %}
+

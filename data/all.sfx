@@ -1,0 +1,1104 @@
+checked
+ksfxNothing
+
+0
+Unknown
+
+checked
+ksfxGalaxiteProcessorAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxGalaxiteProcessorDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxGalaxiteProcessorDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxGalaxiteProcessorDoorOpening
+dooropen560_v3.wav
+0
+Background
+
+checked
+ksfxGalaxiteProcessorDoorClosing
+doorclose560_v3.wav
+
+Background
+
+checked
+ksfxGalaxiteProcessorRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxGalaxiteProcessorSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxGalaxiteWarehouseAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxGalaxiteWarehouseDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxGalaxiteWarehouseDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxGalaxiteWarehouseRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxGalaxiteWarehouseSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxGalaxiteWarehouseTooFull
+C10d.wav
+0
+Voice Status
+
+checked
+ksfxGalaxMinerMine
+major01_15.wav
+0
+Voice Reponse
+
+checked
+ksfxGalaxMinerUnderAttack
+C08b.wav
+0
+Voice Status
+
+checked
+ksfxGalaxMinerDeliver
+major01_09.wav
+0
+Voice Reponse
+
+checked
+ksfxGameBaseUnderAttack
+C09b.wav
+0
+Voice Status
+
+checked
+ksfxGameCreditsDecreasing
+moneya3.wav
+0
+Background
+
+checked
+ksfxGameCreditsIncreasing
+moneya.wav
+0
+Background
+
+checked
+ksfxGameLevelResults
+
+0
+Unknown
+
+checked
+ksfxGameLoseLevel
+C17b.wav
+0
+Voice Status
+
+checked
+ksfxGameNewVehicleOptions
+C14b.wav
+0
+Voice Status
+
+checked
+ksfxGameNewRecruitOptions
+C13b.wav
+0
+Voice Status
+
+checked
+ksfxGameNewStructureOptions
+C12b.wav
+0
+Voice Status
+
+checked
+ksfxGameWinLevel
+C16d.wav
+0
+Voice Status
+
+checked
+ksfxGuiBuildMenuHide
+
+0
+Unknown
+
+checked
+ksfxGuiBuildMenuSelectItem
+
+0
+Unknown
+
+checked
+ksfxGuiBuildMenuShow
+
+0
+Unknown
+
+checked
+ksfxGuiButtonTap
+softclick.wav
+0
+UI Response
+
+checked
+ksfxGuiCheckBoxTap
+checkbox_down.wav
+0
+UI Response
+
+checked
+ksfxGuiEditBoxCharacterEntered
+
+0
+Unknown
+
+checked
+ksfxGuiFormHide
+
+0
+UI Response
+
+checked
+ksfxGuiFormShow
+BRIEFING.WAV
+0
+UI Response
+
+checked
+ksfxGuiMissionTextCharOutput
+
+0
+Unknown
+
+checked
+ksfxGuiScrollingListSelectItem
+listselect.wav
+0
+UI Response
+
+checked
+ksfxHeadquartersAbortConstruction
+C01o.wav
+0
+Voice Reponse
+
+checked
+ksfxHeadquartersAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxHeadquartersConstruct
+C06b.wav
+0
+Voice Status
+
+checked
+ksfxHeadquartersDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxHeadquartersDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxHeadquartersRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxHeadquartersSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxHeadquartersStructureReady
+C07a.wav
+0
+Voice Status
+
+checked
+ksfxHumanResourceCenterAbortRecruiting
+C01o.wav
+0
+Voice Status
+
+checked
+ksfxHumanResourceCenterAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxHumanResourceCenterDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxHumanResourceCenterDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxHumanResourceCenterRecruit
+C02g.wav
+0
+Voice Status
+
+checked
+ksfxHumanResourceCenterRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxHumanResourceCenterSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxHumanResourceCenterUnitReady
+C03q.wav
+0
+Voice Status
+
+checked
+ksfxLightTankFire
+TankGun_v2.wav
+0
+Tank Shot
+
+checked
+ksfxLightTankImpact
+Grenade1.wav
+0
+Tank Impact
+
+checked
+ksfxMachineGunInfantryFire
+sri_machgun_fire4.wav
+0
+Machine Gun
+
+checked
+ksfxMachineGunTowerAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxMachineGunTowerAttack
+
+0
+Unknown
+
+checked
+ksfxMachineGunTowerDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxMachineGunTowerDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxMachineGunTowerFire
+tower_machgun_fire.wav
+0
+Machine Gun
+
+checked
+ksfxMachineGunTowerRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxMachineGunTowerSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxMachineGunVehicleFire
+vehicle_machgun_fire2.wav
+0
+Machine Gun
+
+checked
+ksfxMediumTankFire
+TankGun1v5.wav
+0
+Tank Shot
+
+checked
+ksfxMediumTankImpact
+xplo5med_v3.wav
+0
+Tank Impact
+
+checked
+ksfxMobileHeadquartersDeploy
+HQDeploy1_1P3.wav
+0
+UI Response
+
+checked
+ksfxRadarAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxRadarDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxRadarDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxRadarRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxRadarSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxReactorAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxReactorDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxReactorDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxReactorPowerTooLow
+C11f.wav
+0
+Voice Status
+
+checked
+ksfxReactorRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxReactorSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxResearchCenterAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxResearchCenterDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxResearchCenterDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxResearchCenterRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxResearchCenterSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxRocketInfantryFire
+rocket_fire.wav
+0
+Missle Shot
+
+checked
+ksfxRocketInfantryImpact
+rocket_impact.wav
+0
+Missle Impact
+
+checked
+ksfxRocketTowerAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxRocketTowerAttack
+
+0
+Unknown
+
+checked
+ksfxRocketTowerDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxRocketTowerDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxRocketTowerFire
+rocket_fire.wav
+0
+Missle Shot
+
+checked
+ksfxRocketTowerImpact
+rocket_impact.wav
+0
+Missle Impact
+
+checked
+ksfxRocketTowerRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxRocketTowerSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxRocketVehicleFire
+rocket_fire.wav
+0
+Missle Shot
+
+checked
+ksfxRocketVehicleImpact
+rocket_impact.wav
+0
+Missle Impact
+
+checked
+ksfxTakeoverSpecialistStructureCaptured
+C15d.wav
+0
+Voice Status
+
+checked
+ksfxVehicleTransportStationAbortManufacture
+C01o.wav
+0
+Voice Status
+
+checked
+ksfxVehicleTransportStationAbortRepair
+AbortRepair.wav
+0
+UI Response
+
+checked
+ksfxVehicleTransportStationDamaged
+crashmix1_2.wav
+0
+High Priority
+
+checked
+ksfxVehicleTransportStationDestroyed
+StrutureDestroyed2.wav
+0
+Explosion
+
+checked
+ksfxVehicleTransportStationManufacture
+C04b.wav
+0
+Voice Status
+
+checked
+ksfxVehicleTransportStationRepair
+Repair.wav
+0
+UI Response
+
+checked
+ksfxVehicleTransportStationSelect
+splitent.wav
+0
+UI Response
+
+checked
+ksfxVehicleTransportStationVehicleReady
+C05j.wav
+0
+Voice Status
+
+checked
+ksfxVehicleDestroyed
+xplo12med.wav
+0
+Explosion
+
+checked
+ksfxInfantryDestroyed0
+DeathScream_03.wav
+0
+Voice Reponse
+
+checked
+ksfxInfantryDestroyed1
+DeathScream_09.wav
+0
+Voice Reponse
+
+checked
+ksfxInfantryDestroyed2
+DeathScream_13.wav
+0
+Voice Reponse
+
+checked
+ksfxInfantryDestroyed3
+DeathScream_15.wav
+0
+Voice Reponse
+
+checked
+ksfxInfantryDestroyed4
+DeathScream_27.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Select0
+01_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Select1
+01_02.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Select2
+01_03.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Select3
+01_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Move0
+01_01.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Move1
+01_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Move2
+01_08.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Move3
+01_10.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Attack0
+01_12.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Attack1
+01_14.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Attack2
+01_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMale01Attack3
+01_10.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Select0
+03_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Select1
+03_02.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Select2
+03_03.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Select3
+03_09.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Move0
+03_01.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Move1
+03_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Move2
+03_10.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Move3
+03_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Attack0
+03_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Attack1
+03_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Attack2
+03_12.wav
+0
+Voice Reponse
+
+checked
+ksfxMale03Attack3
+03_14.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Select0
+06_02.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Select1
+06_03.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Select2
+06_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Select3
+06_03.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Move0
+06_01.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Move1
+06_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Move2
+06_08.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Move3
+06_10.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Attack0
+06_10.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Attack1
+06_08.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Attack2
+06_12.wav
+0
+Voice Reponse
+
+checked
+ksfxMale06Attack3
+06_13.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Select0
+major01_05.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Select1
+major01_02.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Select2
+major01_07.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Select3
+major01_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Move0
+major01_01.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Move1
+major01_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Move2
+major01_15.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Move3
+major01_09.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Attack0
+major01_17.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Attack1
+major01_15.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Attack2
+major01_18.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor01Attack3
+major01_12.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Select0
+Major02_02.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Select1
+Major02_05.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Select2
+Major02_06.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Select3
+Major02_03.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Move0
+Major02_01.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Move1
+Major02_04.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Move2
+Major02_07.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Move3
+Major02_09.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Attack0
+Major02_15.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Attack1
+Major02_16.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Attack2
+Major02_07.wav
+0
+Voice Reponse
+
+checked
+ksfxMajor02Attack3
+Major02_01.wav
+0
+Voice Reponse
+
+checked
+ksfxAndySelect
+Andy_Select.wav
+0
+Voice Reponse
+
+checked
+ksfxAndyMove
+Andy_Move.wav
+0
+Voice Reponse
+
+checked
+ksfxAndyAttack
+Andy_Attack.wav
+0
+Voice Reponse
+
+checked
+ksfxAndyFire
+Andy_Fire.wav
+0
+Missle Impact
+
+checked
+ksfxAndyDestroyed
+Andy_Destroyed.wav
+0
+Voice Reponse
+
+checked
+ksfxReplicatorOn
+ReplicatorOn.wav
+0
+High Priority
+
+checked
+ksfxReplicatorOff
+ReplicatorOff.wav
+0
+High Priority
+
+checked
+ksfxReplicatorBuild
+ReplicatorBuild.wav
+0
+High Priority
+
+checked
+ksfxActivatorOn
+ActivatorOn.wav
+0
+High Priority
+
+checked
+ksfxActivatorOff
+ActivatorOff.wav
+0
+High Priority
+
+checked
+ksfxArtilleryFire
+BigTank.wav
+0
+Explosion
+
+checked
+ksfxArtilleryImpact
+BigTankImpact.wav
+0
+Explosion
+
+checked
+ksfxHappyEnding
+HappyEndinglng.wav
+0
+High Priority
+
+checked
+ksfxReplicatorDestroyed
+BigExplosion4lng.wav
+0
+High Priority
+
+checked
+ksfxFoxDestroyed
+DeathScream99b.wav
+0
+Voice Reponse
+

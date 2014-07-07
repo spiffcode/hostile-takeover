@@ -1,0 +1,14 @@
+{% extends "command.xhtml" %}
+
+{% block html_title %}Send Chat{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">SEND CHAT</h1>
+{{ block.super }}
+{% endblock %}
+
+{% block form_elements %}
+<p>Name: <input name="name" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="{{ name }}"/></p>
+<p>Message: <input name="message" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="{{ message }}" style="width:80%;"/></p>
+<input type="submit" value="Submit" />
+{% endblock %}

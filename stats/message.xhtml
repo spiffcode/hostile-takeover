@@ -1,0 +1,17 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Hostile Takeover Message{% endblock %}
+{% block page_content %}
+<h1 class="pageTitle">MESSAGE</h1>
+<div style="text-align:center;width:80%;margin:0 auto;font-size:20px;font-weight:bold;">
+<br />
+{% ifequal id 0 %}
+Game not found.
+{% endifequal %}
+{% ifequal id 1 %}
+Player not found.
+{% endifequal %}
+{% ifequal id 2 %}
+Player hasn't played a game yet.
+{% endifequal %}
+</div>
+{% endblock %}

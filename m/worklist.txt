@@ -1,0 +1,24 @@
+- shouldn't be able to delete a referenced area, switch, or group without being shown the consequences
+- areas, switches, groups should all be renameable w/o worries [switches are, and so are groups, I think]
+- undo/redo
+- change history [infinite undo?]
+- VS.NET forms designer-like model (gui generates code and vice-versa)
+- only need one resolution template collection
+- show orphaned areas, switches, groups
+- property editor should be cleared when
+  - level closed
+  - level switch (or updated)
+  -
+- less clicks trigger editing
+- illustrate area/group/trigger condition/action relationships
+- turbo, robust F5
+- M as level debugger?
+- validation
+- hires units/scenery
+- bug: can't click on units under areas even when areas are toggled off
+- show unit counts and limits
+- show power supply and demand
+- show value of Galaxite (and selected Galaxite)
+- show unit groups and their actions on-map (paths)
+- show build distance limit
+- diffable

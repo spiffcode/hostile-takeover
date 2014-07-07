@@ -1,0 +1,41 @@
+application: htleaderboard
+version: 11
+runtime: python27
+threadsafe: no
+api_version: 1
+
+handlers:
+- url: /api/ratingjob
+  script: main.py
+  login: admin
+
+- url: /api/adduser
+  script: main.py
+  secure: always
+
+- url: /api/auth
+  script: main.py
+  secure: always
+
+- url: /api/.*
+  script: main.py
+
+- url: /stats/.*
+  script: main.py
+
+- url: /images
+  static_dir: images
+  expiration: "90d"
+
+- url: /favicon.ico
+  static_files: favicon.ico
+  upload: favicon.ico
+  expiration: "90d"
+
+- url: /accounts/.*
+  script: main.py
+  secure: always
+
+- url: /icarus/.*
+  script: main.py
+  secure: always

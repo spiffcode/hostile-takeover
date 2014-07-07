@@ -1,0 +1,96 @@
+Windows 8bit RLE
++++
+
+When the biCompression member of the BITMAPINFOHEADER structure is set to
+BI_RLE8, the DIB is compressed using a run-length encoded format for a
+256-color bitmap. This format uses two modes: encoded mode and absolute mode.
+Both modes can occur anywhere throughout a single bitmap.
+
+Encoded Mode
+
+A unit of information in encoded mode consists of two bytes. The first byte
+specifies the number of consecutive pixels to be drawn using the color index
+contained in the second byte.  The first byte of the pair can be set to zero
+to indicate an escape that denotes the end of a line, the end of the bitmap,
+or a delta. The interpretation of the escape depends on the value of the
+second byte of the pair, which must be in the range 0x00 through 0x02.
+Following are the meanings of the escape values that can be used in the
+second byte:
+
+Second byte	Meaning
+
+0	End of line. 
+1	End of bitmap. 
+2	Delta. The two bytes following the escape contain unsigned values
+indicating the horizontal and vertical offsets of the next pixel from the
+current position.
+
+Absolute Mode
+
+Absolute mode is signaled by the first byte in the pair being set to zero and
+the second byte to a value between 0x03 and 0xFF. The second byte represents
+the number of bytes that follow, each of which contains the color index of a
+single pixel. Each run must be aligned on a word boundary.  Following is an
+example of an 8-bit RLE bitmap (the two-digit hexadecimal values in the
+second column represent a color index for a single pixel):
+
+Compressed data		Expanded data
+
+03 04			04 04 04 
+05 06			06 06 06 06 06 
+00 03 45 56 67 00	45 56 67 
+02 78			78 78 
+00 02 05 01		Move 5 right and 1 down 
+02 78			78 78 
+00 00			End of line 
+09 1E			1E 1E 1E 1E 1E 1E 1E 1E 1E 
+00 01			End of RLE bitmap 
+
+Compression of 4-Bits-per-Pixel Bitmaps
+
+When the biCompression member of the BITMAPINFOHEADER structure is set to
+BI_RLE4, the DIB is compressed using a run-length encoded format for a
+16-color bitmap. This format uses two modes: encoded mode and absolute mode.
+
+Encoded Mode
+
+A unit of information in encoded mode consists of two bytes. The first byte
+of the pair contains the number of pixels to be drawn using the color indexes
+in the second byte.
+
+The second byte contains two color indexes, one in its high-order nibble
+(that is, its low-order 4 bits) and one in its low-order nibble.
+
+The first pixel is drawn using the color specified by the high-order nibble,
+the second is drawn using the color in the low-order nibble, the third is
+drawn with the color in the high-order nibble, and so on, until all the
+pixels specified by the first byte have been drawn.
+
+The first byte of the pair can be set to zero to indicate an escape that
+denotes the end of a line, the end of the bitmap, or a delta. The
+interpretation of the escape depends on the value of the second byte of the
+pair. In encoded mode, the second byte has a value in the range 0x00 through
+0x02. The meaning of these values is the same as for a DIB with 8 bits per
+pixel.
+
+Absolute Mode
+
+In absolute mode, the first byte contains zero, the second byte contains the
+number of color indexes that follow, and subsequent bytes contain color
+indexes in their high- and low-order nibbles, one color index for each pixel.
+Each run must be aligned on a word boundary.
+
+Following is an example of a 4-bit RLE bitmap (the one-digit hexadecimal
+values in the second column represent a color index for a single pixel):
+
+Compressed data		Expanded data
+
+03 04			0 4 0 
+05 06			0 6 0 6 0 
+00 06 45 56 67 00	4 5 5 6 6 7 
+04 78			7 8 7 8 
+00 02 05 01		Move 5 right and 1 down 
+04 78			7 8 7 8 
+00 00			End of line 
+09 1E			1 E 1 E 1 E 1 E 1 
+00 01			End of RLE bitmap 

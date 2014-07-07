@@ -1,0 +1,5 @@
+#include "htplatform.h"
+
+kidiMain                  ICON    DISCARDABLE     "app.ico"
+
+

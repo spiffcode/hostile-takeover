@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.21022</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D60E8B53-2A68-40DE-8182-C730A49E9371}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>m</RootNamespace>
+    <AssemblyName>m</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AboutForm.cs" />
+    <Compile Include="Area.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CaBase.cs" />
+    <Compile Include="CaNew.cs" />
+    <Compile Include="CaPropForm.cs" />
+    <Compile Include="CaTypes.cs" />
+    <Compile Include="CaTypeUnitTypesForm.cs" />
+    <Compile Include="CaTypeUpgradeTypesForm.cs" />
+    <Compile Include="Counter.cs" />
+    <Compile Include="CountersForm.cs" />
+    <Compile Include="Doc.cs" />
+    <Compile Include="EditCommentsForm.cs" />
+    <Compile Include="EditLevelTextForm.cs" />
+    <Compile Include="EditRichTextForm.cs" />
+    <Compile Include="EditStringForm.cs" />
+    <Compile Include="EditTerrainForm.cs" />
+    <Compile Include="FindLevelTextForm.cs" />
+    <Compile Include="FlowPanel.cs" />
+    <Compile Include="Form1.cs" />
+    <Compile Include="Galaxite.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="GobPanel.cs" />
+    <Compile Include="LevelDoc.cs" />
+    <Compile Include="LevelFrame.cs" />
+    <Compile Include="LevelView.cs" />
+    <Compile Include="LevelViewParent.cs" />
+    <Compile Include="MapItem.cs" />
+    <Compile Include="mediancut.cs" />
+    <Compile Include="mixsuck.cs" />
+    <Compile Include="OutputForm.cs" />
+    <Compile Include="OutputTools.cs" />
+    <Compile Include="PickListForm.cs" />
+    <Compile Include="Scenery.cs" />
+    <Compile Include="Structure.cs" />
+    <Compile Include="Switch.cs" />
+    <Compile Include="SwitchesForm.cs" />
+    <Compile Include="TemplateDoc.cs" />
+    <Compile Include="TemplatePanel.cs" />
+    <Compile Include="TemplateTools.cs" />
+    <Compile Include="Tile.cs" />
+    <Compile Include="TileSizeForm.cs" />
+    <Compile Include="Trigger.cs" />
+    <Compile Include="TriggerManager.cs" />
+    <Compile Include="TriggerPropForm.cs" />
+    <Compile Include="TriggersForm.cs" />
+    <Compile Include="Unit.cs" />
+    <Compile Include="UnitGroup.cs" />
+    <Compile Include="UnitGroupManager.cs" />
+    <Compile Include="UnitGroupsForm.cs" />
+    <Compile Include="UnitTypeAndCountForm.cs" />
+    <Compile Include="Wall.cs" />
+    <Compile Include="..\SpiffLib\compressor.cs">
+      <Link>compressor.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\AudioFormats.cs">
+      <Link>AudioFormats.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\bitmapraw.cs">
+      <Link>bitmapraw.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\doublerect.cs">
+      <Link>doublerect.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\ini.cs">
+      <Link>ini.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\misc.cs">
+      <Link>misc.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\palette.cs">
+      <Link>palette.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\palmdatabase.cs">
+      <Link>palmdatabase.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\PdbPacker.cs">
+      <Link>PdbPacker.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\tbitmap.cs">
+      <Link>tbitmap.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\tbitmaptools.cs">
+      <Link>tbitmaptools.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CaNew.resx">
+      <DependentUpon>CaNew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CaPropForm.resx">
+      <DependentUpon>CaPropForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CaTypeUnitTypesForm.resx">
+      <DependentUpon>CaTypeUnitTypesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CaTypeUpgradeTypesForm.resx">
+      <DependentUpon>CaTypeUpgradeTypesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditCommentsForm.resx">
+      <DependentUpon>EditCommentsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditLevelTextForm.resx">
+      <DependentUpon>EditLevelTextForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditRichTextForm.resx">
+      <DependentUpon>EditRichTextForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditStringForm.resx">
+      <DependentUpon>EditStringForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditTerrainForm.resx">
+      <DependentUpon>EditTerrainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FindLevelTextForm.resx">
+      <DependentUpon>FindLevelTextForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FlowPanel.resx">
+      <DependentUpon>FlowPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GobPanel.resx">
+      <DependentUpon>GobPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelFrame.resx">
+      <DependentUpon>LevelFrame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelView.resx">
+      <DependentUpon>LevelView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LevelViewParent.resx">
+      <DependentUpon>LevelViewParent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OutputForm.resx">
+      <DependentUpon>OutputForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PickListForm.resx">
+      <DependentUpon>PickListForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SwitchesForm.resx">
+      <DependentUpon>SwitchesForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TemplatePanel.resx">
+      <DependentUpon>TemplatePanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TileSizeForm.resx">
+      <DependentUpon>TileSizeForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="toolstrip.bmp" />
+    <EmbeddedResource Include="TriggerPropForm.resx">
+      <DependentUpon>TriggerPropForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TriggersForm.resx">
+      <DependentUpon>TriggersForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnitGroupsForm.resx">
+      <DependentUpon>UnitGroupsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UnitTypeAndCountForm.resx">
+      <DependentUpon>UnitTypeAndCountForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EmbeddedResources\about.jpg" />
+    <EmbeddedResource Include="EmbeddedResources\res.h" />
+    <EmbeddedResource Include="GobImages\Activator.png" />
+    <EmbeddedResource Include="GobImages\Andy.png" />
+    <EmbeddedResource Include="GobImages\Artillery.png" />
+    <EmbeddedResource Include="GobImages\Fox.png" />
+    <EmbeddedResource Include="GobImages\Galaxite1a.png" />
+    <EmbeddedResource Include="GobImages\Galaxite1b.png" />
+    <EmbeddedResource Include="GobImages\Galaxite1c.png" />
+    <EmbeddedResource Include="GobImages\Galaxite2a.png" />
+    <EmbeddedResource Include="GobImages\Galaxite2b.png" />
+    <EmbeddedResource Include="GobImages\Galaxite2c.png" />
+    <EmbeddedResource Include="GobImages\Galaxite3a.png" />
+    <EmbeddedResource Include="GobImages\Galaxite3b.png" />
+    <EmbeddedResource Include="GobImages\Galaxite3c.png" />
+    <EmbeddedResource Include="GobImages\GalaxMiner.png" />
+    <EmbeddedResource Include="GobImages\Headquarters.png" />
+    <EmbeddedResource Include="GobImages\HumanResourceCenter.png" />
+    <EmbeddedResource Include="GobImages\LightTank.png" />
+    <EmbeddedResource Include="GobImages\LongRangeInfantry.png" />
+    <EmbeddedResource Include="GobImages\MachineGunTower.png" />
+    <EmbeddedResource Include="GobImages\MachineGunVehicle.png" />
+    <EmbeddedResource Include="GobImages\MediumTank.png" />
+    <EmbeddedResource Include="GobImages\MobileHeadquarters.png" />
+    <EmbeddedResource Include="GobImages\Plant.bmp" />
+    <EmbeddedResource Include="GobImages\Plant1.bmp" />
+    <EmbeddedResource Include="GobImages\Plant2.bmp" />
+    <EmbeddedResource Include="GobImages\Plant3.bmp" />
+    <EmbeddedResource Include="GobImages\Plant4.bmp" />
+    <EmbeddedResource Include="GobImages\Plant5.bmp" />
+    <EmbeddedResource Include="GobImages\Processor.png" />
+    <EmbeddedResource Include="GobImages\Radar.png" />
+    <EmbeddedResource Include="GobImages\Reactor.png" />
+    <EmbeddedResource Include="GobImages\Replicator.png" />
+    <EmbeddedResource Include="GobImages\ResearchCenter.png" />
+    <EmbeddedResource Include="GobImages\RocketArtifact.png" />
+    <EmbeddedResource Include="GobImages\RocketTower.png" />
+    <EmbeddedResource Include="GobImages\RocketVehicle.png" />
+    <EmbeddedResource Include="GobImages\Rocks.bmp" />
+    <EmbeddedResource Include="GobImages\ShortRangeInfantry.png" />
+    <EmbeddedResource Include="GobImages\SideWinder.png" />
+    <EmbeddedResource Include="GobImages\TakeoverSpecialist.png" />
+    <EmbeddedResource Include="GobImages\Tree.bmp" />
+    <EmbeddedResource Include="GobImages\Tree1.bmp" />
+    <EmbeddedResource Include="GobImages\Tree2.bmp" />
+    <EmbeddedResource Include="GobImages\Tree3.bmp" />
+    <EmbeddedResource Include="GobImages\Tree4.bmp" />
+    <EmbeddedResource Include="GobImages\Tree5.bmp" />
+    <EmbeddedResource Include="GobImages\Tree6.bmp" />
+    <EmbeddedResource Include="GobImages\Tree7.bmp" />
+    <EmbeddedResource Include="GobImages\VehicleTransportStation.png" />
+    <EmbeddedResource Include="GobImages\Wall00.png" />
+    <EmbeddedResource Include="GobImages\Wall01.png" />
+    <EmbeddedResource Include="GobImages\Wall02.png" />
+    <EmbeddedResource Include="GobImages\Wall03.png" />
+    <EmbeddedResource Include="GobImages\Wall04.png" />
+    <EmbeddedResource Include="GobImages\Wall05.png" />
+    <EmbeddedResource Include="GobImages\Wall06.png" />
+    <EmbeddedResource Include="GobImages\Wall07.png" />
+    <EmbeddedResource Include="GobImages\Wall08.png" />
+    <EmbeddedResource Include="GobImages\Wall09.png" />
+    <EmbeddedResource Include="GobImages\Wall10.png" />
+    <EmbeddedResource Include="GobImages\Wall11.png" />
+    <EmbeddedResource Include="GobImages\Wall12.png" />
+    <EmbeddedResource Include="GobImages\Wall13.png" />
+    <EmbeddedResource Include="GobImages\Wall14.png" />
+    <EmbeddedResource Include="GobImages\Wall15.png" />
+    <EmbeddedResource Include="GobImages\Warehouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>

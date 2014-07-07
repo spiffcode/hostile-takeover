@@ -1,0 +1,117 @@
+# TODO(darrinm):
+# - make output dir
+# - produce OUTDIR from platform (mac, win, linux, nacl), release type (debug, rel)
+# - build on Windows
+# - static/dynamic link switch
+
+PLATFORM=mac
+
+# Debug is default
+
+ifdef REL
+CPP_DEBUG =
+OUTDIR = $(PLATFORM)_rel
+else
+CPP_DEBUG = -DDEV_BUILD -DDEBUG -DDEBUG_LOGGING -g
+OUTDIR = $(PLATFORM)_debug
+endif
+
+EXE_NAME = $(OUTDIR)/WarfareIncorporated$(EXE)
+
+ifeq ($(PLATFORM), 'mac')
+APP_NAME=WarfareIncorporated
+
+BUNDLE_CONTENTS = $(OUTDIR)/$(APP_NAME).app/Contents
+$(APP_NAME)_bundle: $(EXE_NAME)
+	mkdir -p $(BUNDLE_CONTENTS)/MacOS
+	mkdir -p $(BUNDLE_CONTENTS)/Resources
+	echo "APPL????" > $(BUNDLE_CONTENTS)/PkgInfo
+#	$(INSTALL_PROGRAM) $< $(BUNDLE_CONTENTS)/MacOS/
+endif
+
+
+CC = g++
+EXE = 
+CPP_INCS = -I .. -I ../inc -I sdl -I ../SDL
+CFLAGS = -m32 -O2 -Wno-write-strings -DSDL -DMULTIPLAYER -DTRACKSTATE -D_THREAD_SAFE -DHAVE_OPENGL $(CPP_DEBUG) $(CPP_INCS)
+LIBS = -L/usr/local/lib -lSDL
+#LIBS	= -L/usr/local/lib /usr/local/lib/libSDL.a -lm -liconv -Wl,-framework,OpenGL -Wl,-framework,ForceFeedback -lobjc -Wl,-framework,Cocoa -Wl,-framework,Carbon -Wl,-framework,IOKit -Wl,-framework,CoreAudio -Wl,-framework,AudioToolbox -Wl,-framework,AudioUnit
+
+OBJS=game.o main.o host.o misc.o bitmap.o rip.o form.o packfile.o ini.o \
+	misccontrols.o tests.o timer.o event.o font.o display.o \
+	GameObjects.o Level.o Simulation.o tilemap.o StateMachine.o Animation.o \
+	fogmap.o SRInfantry.o LRInfantry.o terrainmap.o HRC.o \
+	Reactor.o Processor.o Miner.o Headquarters.o Research.o Radar.o VTS.o \
+	MobileBuilder.o Tank.o SpInfantry.o Overmind.o Builder.o MobileUnit.o \
+	memmgr.o tbitmap.o compression.o decompress.o \
+	cachemgr.o Multiplayer.o comm.o Player.o \
+	Warehouse.o Tower.o MobileHQ.o Unit.o Struct.o SimUI.o \
+	soundmgr.o \
+	updatemap.o \
+	GameOptions.o InputUI.o formmgr.o thunks.o loadsave.o savegame.o \
+	triggermgr.o TriggerConditions.o TriggerActions.o UnitGroupMgr.o BuildMgr.o \
+	RawBitmap.o Shell.o Ecom.o alertcontrol.o stringtable.o Andy.o \
+	Artillery.o Replicator.o Help.o CutScene.o drm.o \
+	sdlpackfile.o tick.o mempdbreader.o loginhandler.o simplerequest.o \
+	bytebuffer.o base64.o httprequest.o basemisc.o selectmission.o \
+	missionlist.o chooseserverform.o creategameform.o serviceurls.o \
+	dlmissionpack.o downloadbox.o httppackinfomanager.o packinfomanager.o \
+	format.o httppackmanager.o httpindexloader.o indexloader.o packmanager.o \
+	thread.o messagequeue.o messagehandler.o jsonbuilder.o jsontypes.o \
+	yajl_parser.o yajl.o yajl_buf.o yajl_lex.o yajl_encode.o \
+	socketserver.o socketaddress.o socket.o deletetracker.o selectserver.o \
+	lobby.o chatter.o gameform.o lobbyform.o eventer.o completemanager.o \
+	statetracker.o stateframe.o roomform.o createroomform.o loginform.o \
+	map.o fingerhandler.o dragrect.o flickscroller.o mpsharedmisc.o md5c.o \
+	uploader.o stylushandler.o drawscan.o netmessage.o hosthelpers.o \
+	sdlhttpservice.o sdlhttprequest.o
+
+# TODO(darrinm): sdl/transportmgr.cpp [from iphone? from win?]
+
+
+all: $(EXE_NAME)
+
+clean:
+	rm -f $(OUTDIR)/*
+
+$(EXE_NAME): $(OUTDIR)/ht
+	cp $(OUTDIR)/ht $(EXE_NAME)
+
+#$(EXE_NAME): sdl/main.cpp game.cpp misccontrols.cpp form.cpp GameObjects.cpp 
+#	$(CC) -o $@ $? $(CFLAGS) $(LIBS)
+
+$(OUTDIR)/ht: $(OBJS:%=$(OUTDIR)/%)
+	$(CC) $(CFLAGS) -o $(OUTDIR)/ht $(OBJS:%=$(OUTDIR)/%)
+
+#$(OUTDIR)/packfile.o: mpshared/packfile.cpp mpshared/packfile.h
+#	$(CC) $(CFLAGS) -c mpshared/packfile.cpp -o $(OUTDIR)/packfile.o
+
+$(OUTDIR)/misc.o: misc.cpp ht.h res.h sdl/htplatform.h license.h
+	$(CC) $(CFLAGS) -c misc.cpp -o $(OUTDIR)/misc.o
+
+$(OUTDIR)/%.o: %.cpp ht.h res.h sdl/htplatform.h
+	$(CC) $(CFLAGS) -c $(*F).cpp -o $@
+
+$(OUTDIR)/%.o: sdl/%.cpp ht.h res.h sdl/htplatform.h
+	$(CC) $(CFLAGS) -c sdl/$(*F).cpp -o $@
+
+$(OUTDIR)/%.o: ../mpshared/%.cpp ht.h res.h sdl/htplatform.h
+	$(CC) $(CFLAGS) -c ../mpshared/$(*F).cpp -o $@
+
+$(OUTDIR)/%.o: ../yajl/wrapper/%.cpp
+	$(CC) $(CFLAGS) -c ../yajl/wrapper/$(*F).cpp -o $@
+
+$(OUTDIR)/%.o: ../yajl/src/%.c
+	$(CC) $(CFLAGS) -c ../yajl/src/$(*F).c -o $@
+
+$(OUTDIR)/%.o: ../base/%.cpp
+	$(CC) $(CFLAGS) -c ../base/$(*F).cpp -o $@
+
+$(OUTDIR)/basemisc.o: ../base/misc.cpp ../base/misc.h
+	$(CC) $(CFLAGS) -c ../base/misc.cpp -o $@
+
+$(OUTDIR)/mpsharedmisc.o: ../mpshared/misc.cpp ../mpshared/misc.h
+	$(CC) $(CFLAGS) -c ../mpshared/misc.cpp -o $@
+
+$(OUTDIR)/rip.o: ../inc/rip.cpp ../inc/rip.h
+	$(CC) $(CFLAGS) -c ../inc/rip.cpp -o $(OUTDIR)/rip.o

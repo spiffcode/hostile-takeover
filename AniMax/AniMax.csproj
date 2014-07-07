@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{FBB48F3B-5FB4-4D87-AD16-E17C2FB9FEFA}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>SpiffCode</RootNamespace>
+    <AssemblyName>AniMax</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AboutForm.cs" />
+    <Compile Include="AniMax.cs" />
+    <Compile Include="AnimDoc.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="BitmapsForm.cs" />
+    <Compile Include="CombinerForm.cs" />
+    <Compile Include="Frame.cs" />
+    <Compile Include="FrameControl.cs" />
+    <Compile Include="Globals.cs" />
+    <Compile Include="MainForm.cs" />
+    <Compile Include="MiscControls.cs" />
+    <Compile Include="OptionsForm.cs" />
+    <Compile Include="PerPixelAlphaForm.cs" />
+    <Compile Include="PreviewControl.cs" />
+    <Compile Include="PreviewPanel.cs" />
+    <Compile Include="ReplaceColorsForm.cs" />
+    <Compile Include="Strip.cs" />
+    <Compile Include="StripControl.cs" />
+    <Compile Include="StripForm.cs" />
+    <Compile Include="StripProperties.cs" />
+    <Compile Include="StripSet.cs" />
+    <Compile Include="StripsForm.cs" />
+    <Compile Include="UndoManager.cs" />
+    <Compile Include="WallPreviewForm.cs" />
+    <Compile Include="XBitmap.cs" />
+    <Compile Include="XBitmapSet.cs" />
+    <Compile Include="..\SpiffLib\misc.cs">
+      <Link>misc.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\palette.cs">
+      <Link>palette.cs</Link>
+    </Compile>
+    <Compile Include="..\SpiffLib\tbitmap.cs">
+      <Link>tbitmap.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="BitmapsForm.resx">
+      <DependentUpon>BitmapsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CombinerForm.resx">
+      <DependentUpon>CombinerForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrameControl.resx">
+      <DependentUpon>FrameControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MainForm.resx">
+      <DependentUpon>MainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MiscControls.resx">
+      <DependentUpon>MiscControls.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OptionsForm.resx">
+      <DependentUpon>OptionsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PerPixelAlphaForm.resx">
+      <DependentUpon>PerPixelAlphaForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewControl.resx">
+      <DependentUpon>PreviewControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PreviewPanel.resx">
+      <DependentUpon>PreviewPanel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReplaceColorsForm.resx">
+      <DependentUpon>ReplaceColorsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StripControl.resx">
+      <DependentUpon>StripControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StripForm.resx">
+      <DependentUpon>StripForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StripProperties.resx">
+      <DependentUpon>StripProperties.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StripsForm.resx">
+      <DependentUpon>StripsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WallPreviewForm.resx">
+      <DependentUpon>WallPreviewForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\about graphic.png" />
+    <EmbeddedResource Include="Resources\grab.cur" />
+    <EmbeddedResource Include="Resources\grid icon.png" />
+    <EmbeddedResource Include="Resources\hand.cur" />
+    <EmbeddedResource Include="Resources\hires toggle icon.png" />
+    <EmbeddedResource Include="Resources\loop forward icon.png" />
+    <EmbeddedResource Include="Resources\origin point toggle icon.png" />
+    <EmbeddedResource Include="Resources\play icon.png" />
+    <EmbeddedResource Include="Resources\play toggle icon.png" />
+    <EmbeddedResource Include="Resources\properties icon.png" />
+    <EmbeddedResource Include="Resources\set special point icon.png" />
+    <EmbeddedResource Include="Resources\side color toggle icon.png" />
+    <EmbeddedResource Include="Resources\stop icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AniMax.exe.manifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App.ico" />
+    <Content Include="licenses.licx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Runtime.Serialization.Formatters.Soap" />
+    <Reference Include="MagicLibrary, Version=1.5.0.0, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>MagicLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpZipLib, Version=0.31.0.0, Culture=neutral, PublicKeyToken=1b03e6acf1164f73">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>SharpZipLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties InternalTargetFrameworkVersion="3.5" />
+    </MonoDevelop>
+  </ProjectExtensions>
+</Project>

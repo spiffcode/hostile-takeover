@@ -1,0 +1,54 @@
+{% extends "basepage.xhtml" %}
+
+{% block head_css %}
+.cllist {width:100%;border-collapse:collapse;border-spacing:0px;-webkit-border-vertical-spacing:0px;}
+.cltitle {color:black;font-size:20px;font-weight:bold;}
+.linkblock {text-decoration:none;display:block;}
+.smallgray {color:#666;font-size:12px;font-weight:bold;}
+.td_avatar {width:64px;height:64px;}
+.img_avatar {border:none;vertical-align:bottom;}
+.clplayer {padding:12px;width:283px;}
+.clrating_label {color:#666;font-size:12px;font-weight:bold;width:35px;}
+.clrating {color:black;font-size:20px;font-weight:bold;width:55px;}
+.clchevron {font-size:20px;font-weight:bold;width:15px;}
+.clshowrow {width:100%;height:40px;}
+.clshow {color:black;font-size:14px;font-weight:bold;}
+.arrow {border:none;}
+{% endblock %}
+
+{% block html_title %}Hostile Takeover Leaderboard{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">LEADERBOARD</h1>
+
+<table class="cllist" id="cllist" cellspacing="0" cellpadding="0" border="0">
+    {% for row in rows %}
+        <tr class="{% cycle even-color,odd-color %}">
+            <a class="linkblock" href="{{ row.profile_url|escape }}">
+                <td valign="middle" align="middle" class="td_avatar">
+                    <img class="img_avatar" src="{{ row.avatar_url|escape }}" />
+                </td>
+                <td valign="middle" class="clplayer">
+                    <span class="cltitle">{{ row.rank }}. {{ row.name|escape }}</span><br/>
+                    <span class="smallgray">games: {{ row.game_count }}, last: {{ row.last_mission_name|escape }}</span>
+                </td>
+                <td align="left" valign="middle" class="clrating_label">rating</td>
+                <td valign="middle" align="center" class="clrating">{{ row.player_rating }}</td>
+                <td valign="middle" class="clchevron">
+                    <img class="arrow" src="{{ chevron_image_url|escape }}" alt=""/>
+                </td>
+            </a>
+        </tr>
+    {% endfor %}
+    {% ifnotequal show_url "" %}
+         <tr style="background-color:#BCC2CE;">
+            <a class="linkblock" href="{{ show_url|escape }}">
+                <td />
+                <td valign="middle" align="middle" class="clshowrow">
+                    <span class="clshow">Show Top {{ show_count }} Players</span>
+                </td>
+            </a>
+        </tr>
+    {% endifnotequal %}
+</table>
+{% endblock %}

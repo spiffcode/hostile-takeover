@@ -1,0 +1,78 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Language" content="en-us">
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+<title>Overview</title>
+<link rel="stylesheet" type="text/css" href="AuthorKit.css">
+</head>
+
+<body>
+
+<h4>Hostile Takeover Author Kit Overview</h4>
+<p>The Hostile Takeover Author Kit contains the tools needed to create content 
+like new levels and graphics for Hostile Takeover.</p>
+<p class="labelproc">Game Databases</p>
+<p>Hostile Takeover makes use of &quot;Game Database&quot; (.pdb) files to store its 
+content. There is a custom game database for each major graphics format Hostile 
+Takeover supports. For example htdata816.pdb contains graphics tuned for 8-bit, 
+lores (16-pixel tile) devices whereas htdata424.pdb contains graphics tuned for 
+4-bit hires (24-pixel tile) devices. There is a separate database (htsfx.pdb) 
+which stores sound effects. The tool <a href="packpdb2Ref.htm">packpdb2.exe</a> 
+is able to create Game Databases and extract or view their contents.</p>
+<p class="labelproc">Levels</p>
+<p>Single and multiplayer levels are created with the <a href="MapEditorRef.htm">
+Map Editor</a> (M.exe) then <a href="HowToAddALevelToAGameDatabase.htm">added to 
+a Game Database</a> with the utility <a href="mkpdbRef.htm">mkpdb.bat</a>. Level 
+files, also known as Level Description files, have the extension .ld. See
+<a href="HowToCreateALevel.htm">how to create a Level</a> for details.</p>
+<p class="labelproc">Templates, Template Collections</p>
+<p>Maps are created in the Map Editor by assembling puzzle piece-like Templates 
+which have been designed to fit together to form roads, cliff ranges, rivers, 
+etc. The <a href="TemplateExtractorRef.htm">TemplateExtractor</a> utility is 
+used to extract Template art, terrain information and name from artist-friendly 
+source files and convert them into Map Editor and game-friendly Template 
+Collection (.tc) files.</p>
+<p>A single Template Collection contains all the Templates for maps of a region, 
+e.g., grassy or sandy. Template art is authored as 24-bit color images that 
+break down into 24x24 tiles. Automated tools perform the job of reducing the 
+Template art to Hostile Takeover-compatible 8-bit color art including scaling 
+down the art to accommodate lores devices. A Template Terrain info image is 
+scanned to determine which areas of the templates block the movement and 
+placement of units/structures in the game. For details on all of this see
+<a href="HowToCreateATemplateCollection.htm">how to create a Template Collection</a>.</p>
+<p class="labelproc">Testing new Levels and Templates</p>
+<p>Once a Template Collection has been assembled and a Level(s) created add them 
+to a Game Database (see <a href="HowToAddATemplateCollectionToAGameDatabase.htm">
+adding Template Collections to a Game Database</a> and
+<a href="HowToAddALevelToAGameDatabase.htm">adding Levels to a Game Database</a>) 
+and launch <a href="HostileTakeoverRef.htm">Hostile Takeover</a> to give them a 
+play test.</p>
+<p class="labelproc">Helper utilities</p>
+<p>Several shortcut utilities have been included in this kit to reduce the 
+number of steps needed for common authoring operations. They are:</p>
+<table border="0" style="border-collapse: collapse; font-size: 10pt" bordercolor="#111111" width="100%" id="AutoNumber1" bgcolor="#DEEAEF" cellpadding="3" cellspacing="0">
+  <tr>
+    <td width="21%"><b>makeall.bat</b></td>
+    <td width="79%">Extracts grassy Templates to create grassy.tc, then adds it 
+    and the grassy_test.ld Level to the htdata816.pdb and htdata824.pdb Game 
+    Databases </td>
+  </tr>
+  <tr>
+    <td width="21%"><b>updGrassy16.bat&nbsp;&nbsp; </b></td>
+    <td width="79%">Adds grassy.tc and grassy_test.ld to htdata816.pdb</td>
+  </tr>
+  <tr>
+    <td width="21%"><b>updGrassy24.bat</b></td>
+    <td width="79%">Adds grassy.tc and grassy_test.ld to htdata824.pdb</td>
+  </tr>
+</table>
+<p>Use these batch files as a starting point to create your own helpers. It may 
+be as simple as searching for each &quot;grassy&quot; and replacing with the name of your 
+environment, e.g., &quot;sandy&quot;.</p>
+
+</body>
+
+</html>

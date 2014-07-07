@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{81F2F902-EBE3-40C7-9E56-F9A688D820C0}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>mcl</RootNamespace>
+    <AssemblyName>mcl</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <Commandlineparameters>-levels 32 8 -1.0 1.0 1.0 1.0 1.0 art824 832 S_07.ld S_08.ld S_09.ld S_10.ld S_11.ld S_12.ld S_13.ld S_14.ld C_01.ld C_04.ld C_05.ld D_03.ld M_02.ld M_03.ld M_04.ld M_06.ld M_07.ld M_08.ld M_09.ld M_10.ld M_12.ld M_15.ld M_18.ld M_20.ld M_21.ld</Commandlineparameters>
+    <additionalargs>-unsafe</additionalargs>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <RunWithWarnings>false</RunWithWarnings>
+    <additionalargs>-unsafe</additionalargs>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="..\..\..\..\..\..\mgui\App.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="CommandLine.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Drawing" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\m.csproj">
+      <Project>{D60E8B53-2A68-40DE-8182-C730A49E9371}</Project>
+      <Name>m</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>

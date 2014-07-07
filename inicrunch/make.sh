@@ -1,0 +1,1 @@
+gcc -lstdc++ main.cpp ini.cpp -o ../bin/inicrunch

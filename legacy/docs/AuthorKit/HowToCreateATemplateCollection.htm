@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft FrontPage 5.0">
+<Title>How to create a Template Collection (.tc)</Title>
+<style>
+<!--
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="AuthorKit.css">
+</HEAD>
+<BODY>
+
+
+<h4>How to create a Template Collection</h4>
+<p>A Template Collection (.tc) is a file that 
+contains, surprise, a collection of Templates. Templates are the puzzle pieces 
+of terrain that are placed on a map in the Map Editor (M) when creating a 
+Level.</p>
+<p class="labelproc">To create a Template 
+Collection:</p>
+<ol>
+  <li>Create a .png file containing all the templates constrained and arranged 
+  as defined by the <a href="TemplateArtGuidelines.htm">Template Art Guidelines</a>. 
+  Follow the naming convention: &lt;style&gt;Templates.png, e.g., grassyTemplates.png</li>
+  <li>Create a .png file containing template 
+  terrain information (i.e., which parts of the template block unit movement in 
+  the game). See the <a href="TemplateTerrainGuidelines.htm">Template Terrain 
+  Guidelines</a> for details. Follow the naming convention: &lt;style&gt;Terrain.png, 
+  e.g., grassyTerrain.png</li>
+  <li>Create a .txt file containing a name for 
+  each template. See the <a href="TemplateNamingGuidelines.htm">Template Naming 
+  Guidelines</a> for details. Follow the naming convention: &lt;style&gt;Names.txt, 
+  e.g., grassyNames.txt</li>
+  <li>Use the <a href="TemplateExtractorRef.htm">TemplateExtractor</a> tool to extract 
+  the templates, terrain info, and names from the .png and .txt files and 
+  compile them into a Map Editor friendly Template Collection (.tc) file.</li>
+</ol>
+<p>Once the source files are ready invoke the
+<a href="TemplateExtractorRef.htm">TemplateExtractor</a> from the command-line 
+to create the .tc file:</p>
+<p class="commandline">TemplateExtractor -tc &lt;style&gt;.tc -n &lt;style&gt;Names.txt -art 
+&lt;style&gt;Templates.png -ter &lt;style&gt;Terrain.png</p>
+
+
+<p>The result will be a Template Collection you can load into the Map Editor or
+<a href="HowToAddATemplateCollectionToAGameDatabase.htm">add to a Game Database</a> 
+for previewing in-game.</p>
+
+
+</BODY>
+</HTML>

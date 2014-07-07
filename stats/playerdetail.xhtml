@@ -1,0 +1,154 @@
+{% extends "basepage.xhtml" %}
+{% block html_title %}Hostile Takeover Player Detail{% endblock %}
+
+{% block head_css %}
+.sbar { padding:15px 0 15px 0; margin:0; text-align:center;}
+.searchquery { font-size:13px; margin-right:10px; padding: 4px 3px; vertical-align:middle; width:190px;}
+a.gpbutton { display:inline; margin: 0 auto; line-height:33px; font-size:13.5px; font-weight:bold; color:#fff; text-shadow:0px -1px 1px #666; padding:5px 8px; background:#818189; text-decoration: none; -webkit-border-radius:5px; -moz-border-radius:5px; white-space:nowrap; }
+.vmiddle { vertical-align:middle;}
+.message_p {text-align:center;font-size:14px;font-weight:bold;}
+.stats_table {margin:0 auto;padding:0;}
+.stats_table_wide {margin:auto;padding:0;width:90%}
+.bottom_border {background-color:#b5bbd5;width:100%;height:1px;margin:0;padding:0}
+.stat_name {width:50%;padding:8px;font-weight:bold;}
+.stat_value {text-align:center;padding:8px;font-size:11px;}
+.round_left {-webkit-border-top-left-radius:10px;-moz-border-radius-topleft:10px}
+.round_right {-webkit-border-top-right-radius:10px;-moz-border-radius-topright:10px}
+.sechdr {background:url("data:image/gif;base64,R0lGODlhAgAdAMQAAPD2/+71/+30/uvz/ury/ujx/ufw/uTu/uXv/uLt/uHs/d/q/d7p/dzo/dvn/c3e+c7e+szd+cvc+Mrb+Mja+MfZ98bY98XX98TW9sLV9sDU9cHU9r/T9QAAAAAAAAAAACH5BAAHAP8ALAAAAAACAB0AAAUxIAAEgSAMA0EUhWEgyHEkiaIsC8M0jeNAkMcjEpFIJhMKpVKxWC4XDCaT2Ww0Gg4nBAA7");margin:20px 0 0 0;padding:5px;border-top:1px solid #ccc;border-bottom:1px solid #ccc;text-align:center;font-size:16px;font-weight:bold;}
+.player_span {color:black;font-size:28px;font-weight:bold;}
+.player_msg_span {color:#666;font-size:12px;font-weight:bold;line-height:100%;vertical-align:top;}
+.linkblock {text-decoration:none;display:block;}
+.arrow {border:none;}
+.player_stat_name_value {padding:8px;text-align:left;font-size:16px;font-weight:bold;}
+.message {text-align:center;width:80%;margin:0 auto;font-size:14px;font-weight:bold;}
+a:link {text-decoration:none;}
+{% endblock %}
+
+{% block page_content %}
+<h1 class="pageTitle">PLAYER DETAIL</h1>
+
+<div style="height:0px;"></div>
+<form id="myform" class="sbar" action="{{ all_url|escape }}" method="get"> <div> <input id="myinput" class="searchquery" name="q" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="" /> <a href="javascript:submit('myform');void(0);" class="gpbutton vmiddle">Search</a>
+{% if player_name %}
+    <input type="hidden" name="p" value="{{ player_name|escape }}" />
+{% endif %}
+{% if count %}
+    <input type="hidden" name="c" value="{{ count|escape }}" />
+{% endif %}
+</div>
+</form>
+<script>
+function submit(a) {
+    document.getElementById(a).submit();
+}
+document.getElementById('myinput').focus();
+</script>
+
+<div class="message">
+Showing {{ query_string|escape }}
+{% if show_all %}
+<br />
+[ <a style="font-weight:bold;" href="{{ all_url }}">Show All</a> ]
+{% endif %}
+</div>
+
+<div class="message">
+<br />
+Count:
+{% for c in show_counts %}
+    {% ifequal c count %}
+        [ {{ c }} ]
+    {% endifequal %}
+    {% ifnotequal c count %}
+        [ <a style="font-weight:bold;text-decoration:underline;" href="{{ count_url|escape }}&amp;c={{ c }}">{{ c }}</a> ]
+    {% endifnotequal %}
+{% endfor %}
+</div>
+
+{% for t in tables %}
+    <div class="message">
+    <br />
+    {{ t.title|escape }}
+    </div>
+
+    <table class="stats_table_wide" cellpadding="0" cellspacing="0">
+        <tr>
+            {% for name in t.columns %}
+                {% if forloop.first %}
+                    <td><div style="height:17px;" class="sechdr round_left">{{ name|escape }}</div></td>
+                {% else %}{% if forloop.last %}
+                    <td><div style="height:17px;" class="sechdr round_right">{{ name|escape }}</div></td>
+                {% else %}
+                    <td><div style="height:17px;" class="sechdr">{{ name|escape }}</div></td>
+                {% endif %}{% endif %}
+            {% endfor %}
+        </tr>
+
+        {% for row in t.rows %}
+            <tr class="{% cycle even-color,odd-color %}">
+                {% for field in row %}
+                    <td class="stat_value">
+                    {% for subfield in field %}
+                        {% if forloop.last %}
+                            {% ifequal subfield.1 "time_utc" %}
+                                <span name="time_utc" id="{{ subfield.0|escape }}"></span>
+                            {% endifequal %}
+                            {% ifnotequal subfield.1 "time_utc" %}
+                                {% if not subfield.1 %}
+                                    {{ subfield.0|escape }}
+                                {% else %}
+                                    <a href="{{ subfield.1|escape }}">{{ subfield.0|escape }}</a>
+                                {% endif %}
+                            {% endifnotequal %}
+                        {% else %}
+                            {% ifequal subfield.1 "time_utc" %}
+                                <span name="time_utc" id="{{ subfield.0|escape }}"></span>,
+                            {% endifequal %}
+                            {% ifnotequal subfield.1 "time_utc" %}
+                                {% if not subfield.1 %}
+                                    {{ subfield.0|escape }},
+                                {% else %}
+                                    <a href="{{ subfield.1|escape }}">{{ subfield.0|escape }}</a>,
+                                {% endif %}
+                            {% endifnotequal %}
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        <tr><th colspan="5"><div class="bottom_border"></div></th></tr>
+    </table>
+{% endfor %}
+
+<script>
+ <![CDATA[
+var d = new Date();
+var spans = document.getElementsByName("time_utc");
+for (var i = 0; i < spans.length; i++) {
+    var time_utc = spans[i].getAttribute("id");
+    d.setTime(time_utc * 1000);
+    var mins = d.getMinutes();
+    if (mins < 10) {
+        mins = '0' + mins
+    }
+    var hours = d.getHours();
+    if (hours >= 12) {
+        if (hours == 12) {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + hours + ":" + mins + "pm");
+        } else {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + (hours - 12) + ":" + mins + "pm");
+        }
+    } else {
+        if (d.getHours() == 0) {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + (hours + 12) + ":" + mins + "am");
+        } else {
+            spans[i].innerHTML = (d.toLocaleDateString() + " " + hours + ":" + mins + "am");
+        }
+    }
+}
+]]>
+</script>
+
+{% endblock %}
+

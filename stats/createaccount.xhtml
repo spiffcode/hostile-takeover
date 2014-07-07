@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+{% if is_update %}
+    <title>Hostile Takeover Update Account</title>
+{% else %}
+    <title>Hostile Takeover Create Account</title>
+{% endif %}
+<meta name="viewport" content="width=480" />
+<meta name="HandheldFriendly" content="true" />
+<link rel="alternate" media="handheld" href="" />
+</head>
+
+<style type="text/css">
+body {font-size:15px;font-family:Arial, Helvetica, sans-serif;font-color:#000000;-webkit-text-size-adjust:none;}
+h1.pageTitle {color:white;background-color:#000033;font-size:16px;height:2em;line-height:2em;padding:0;margin:0;text-align:center;}
+.sectionTitle {font-weight:bold;font-size:16px;padding:0;margin:0;text-align:center;}
+.sbar { padding:10px 0 10px 0; margin:0; text-align:center;}
+.inputbox { font-size:14px; margin-left:5px;margin-right:10px; padding: 4px 3px; vertical-align:middle; width:190px;}
+.cllist {width:100%;border-collapse:collapse;border-spacing:0px;-webkit-border-vertical-spacing:0px;}
+.clplayer {padding:10px 0 10px 0;width:40%;}
+.cltitle {color:black;font-size:18px;font-weight:bold;}
+.forumline {background-color:#FFFFFF; border: 2px #006699 solid;}
+</style>
+<body>
+
+{% if is_update %}
+    <h1 class="pageTitle">Update Account</h1>
+{% else %}
+    <h1 class="pageTitle">Create Account</h1>
+{% endif %}
+
+{% if error_msg %}
+    <br />
+    <center><table class="forumline" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td valign="center" align="center"><div style="margin:15px 15px 15px 15px;">
+            {{ error_msg|escape }}
+            </div></td>
+        </tr>
+    </table></center>
+{% endif %}
+
+<form class="sbar" action="" method="post" enctype="multipart/form-data">
+    <table class="cllist" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td valign="middle" align="right" class="clplayer">
+            <span class="cltitle">Player name:</span>
+        </td>
+        <td style="width:60%">
+            <input class="inputbox" name="player_name" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="{{ player_name|escape }}" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="right" class="clplayer">
+            <span class="cltitle">Password:</span>
+        </td>
+        <td style="width:60%">
+            <input class="inputbox" name="password" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="{{ password|escape }}" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="right" class="clplayer">
+            {% if is_update %}
+                <span class="cltitle">New Password:</span>
+            {% else %}
+                <span class="cltitle">Confirm Password:</span>
+            {% endif %}
+        </td>
+        <td style="width:60%">
+            <input class="inputbox" name="password2" maxlength="2048" autocorrect="off" autocapitalize="off" type="text" value="{{ password2|escape }}" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="right" class="clplayer">
+            <span class="cltitle">Optional Avatar:</span>
+        </td>
+        <td style="width:60%">
+            <input class="inputbox" name="avatar_data" type="file" accept="image/*" capture="camera" />
+        </td>
+    </tr>
+    </table>
+
+    <br />
+    <center>
+
+    {%if is_update %}
+        <input type="submit" value="Update Account!" />
+    {% else %}
+        <input type="submit" value="Create Account!" />
+    {% endif %}
+    </center>
+</form>
+
+</body>
+</html>

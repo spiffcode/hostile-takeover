@@ -1,0 +1,62 @@
+# Makefile for the wi project.
+
+OUTDIR = nacl_debug
+VPATH = sdl/nacl
+
+.PHONY: all clean
+
+# The files the project starts with.  Add your code files here!
+CCFILES = wi.cpp
+
+#Add your includes here.
+INCLUDES =
+# These libraries are necessary for PPAPI (Pepper 2) and NaCl.
+LDFLAGS = -lppruntime \
+          -lppapi_cpp \
+          -lplatform \
+          -lgio \
+          -lpthread \
+          -lsrpc \
+          $(ARCH_FLAGS)
+
+# Add your .nmf files for each nexe you build here.
+all: check_variables $(OUTDIR)/wi.nmf $(OUTDIR)/wi_dbg.nmf $(OUTDIR)/wi.html
+
+# common.mk has rules to build .o files from .cc/.c/.cpp files.
+-include sdl/nacl/common.mk
+
+$(OUTDIR)/wi.html: sdl/nacl/wi.html
+	cp $< $@
+
+# Targets to create the manifests.
+$(OUTDIR)/wi.nmf: $(OUTDIR)/wi_x86_32.nexe $(OUTDIR)/wi_x86_64.nexe
+	@echo "Creating wi.nmf..."
+	$(PYTHON) sdl/nacl/generate_nmf.py --nmf $@ \
+	 --x86-64 $(OUTDIR)/wi_x86_64.nexe \
+         --x86-32 $(OUTDIR)/wi_x86_32.nexe
+
+$(OUTDIR)/wi_dbg.nmf: $(OUTDIR)/wi_x86_32_dbg.nexe \
+        $(OUTDIR)/wi_x86_64_dbg.nexe
+	@echo "Creating wi_dbg.nmf..."
+	$(PYTHON) sdl/nacl/generate_nmf.py --nmf $@ \
+	--x86-64 $(OUTDIR)/wi_x86_64_dbg.nexe \
+        --x86-32 $(OUTDIR)/wi_x86_32_dbg.nexe
+
+# Targets to create the nexes.
+$(OUTDIR)/wi_x86_32.nexe: $(OBJECTS_X86_32:%.o=$(OUTDIR)/%.o)
+	$(CPP) $^ $(LDFLAGS) -m32 -o $@
+	$(NACL_STRIP) $@ -o $@
+
+$(OUTDIR)/wi_x86_64.nexe: $(OBJECTS_X86_64:%.o=$(OUTDIR)/%.o)
+	$(CPP) $^ $(LDFLAGS) -m64 -o $@
+	$(NACL_STRIP) $@ -o $@
+
+$(OUTDIR)/wi_x86_32_dbg.nexe: $(OBJECTS_X86_32_DBG:%.o=$(OUTDIR)/%.o)
+	$(CPP) $^ $(LDFLAGS) -m32 -o $@
+
+$(OUTDIR)/wi_x86_64_dbg.nexe: $(OBJECTS_X86_64_DBG:%.o=$(OUTDIR)/%.o)
+	$(CPP) $^ $(LDFLAGS) -m64 -o $@
+
+# Target to clean up
+clean:
+	-$(RM) -f $(OUTDIR)/*

@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+{% if is_update %}
+    <title>Hostile Takeover Update Account</title>
+{% else %}
+    <title>Hostile Takeover Create Account</title>
+{% endif %}
+<meta name="viewport" content="width=480" />
+<meta name="HandheldFriendly" content="true" />
+<link rel="alternate" media="handheld" href="" />
+</head>
+
+<style type="text/css">
+body {font-size:15px;font-family:Arial, Helvetica, sans-serif;font-color:#000000;-webkit-text-size-adjust:none;}
+h1.pageTitle {color:white;background-color:#000033;font-size:16px;height:2em;line-height:2em;padding:0;margin:0;text-align:center;}
+.cllist {width:100%;border-collapse:collapse;border-spacing:0px;-webkit-border-vertical-spacing:0px;}
+.clplayer {padding-top:10px;width:40%;}
+.cltitle {color:black;font-size:18px;font-weight:bold;}
+.clavatar {padding-top:5px;}
+.forumline {background-color:#FFFFFF; border: 2px #006699 solid;}
+</style>
+<body>
+
+<h1 class="pageTitle">Success!</h1>
+
+    <br />
+    <center><table class="forumline" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            <td valign="center" align="center">
+                <div style="margin:15px 15px 15px 15px;">Carefully remember your new account information.</div>
+            </td>
+        </tr>
+    </table></center>
+    <br />
+
+    <table class="cllist" cellspacing="0" cellpadding="0" border="0">
+    <tr>
+        <td valign="middle" align="center" class="clavatar">
+            <img src="{{ player.avatar_url }}" />
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="center" class="clplayer">
+            <span class="cltitle">Player name: {{ player_name|escape }}</span>
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="center" class="clplayer">
+            <span class="cltitle">Password: {{ password|escape }}</span>
+        </td>
+    </tr>
+    </table>
+
+</body>
+</html>

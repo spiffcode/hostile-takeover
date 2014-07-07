@@ -1,0 +1,41 @@
+5/15/02
+- icon
+- right click properties on Frame
+- zoom control (Frames)
+- info (x, y, w, h, # frames, color under pointer, ...)
+- spacebar & grab hand ala Photoshop
+- multiple bitmaps/Frame
+- paint tools & color palette (get minimal list from Mark)
+- save/load settings (layout, toggles, ...)
+
+* version .23
+* add help (invoke browser pointing to http://www.tinybit.org/AniMax)
+* fix 'easy to blank out strip name' problem [fixed one way, can't reproduce other]
+* new MagicLibrary
+* Preview zoom control
+* tank + turret preview ("Combiner")
+
+5/18/02
+- normalize bitmaps
+- MRU file list
+
+* version .24
+* About dialog w/ version #
+* expanded Strips and Bitmaps selections to cover whole row
+* drag/drop .amx from Explorer [must be dropped in Strips window]
+* Save .amx now always builds a bitmap subdir and writes all bitmaps to it
+  [NOTE: subdir contents are not deleted so it is possible for unused bitmaps
+  to accumulate. I've left it this way so we can add the bitmap dirs to CVS
+  and for other minor coveniences. To clean out cruft, save as .zip. Only
+  referenced bitmaps will be included in the .zip]
+* load/save packaged animations (.zips)
+
+6/6/02
+- drag into but don't drop on Frames StripControl leaves insertion point,
+  scroll timer state broken
+- no way to delete individual bitmaps in a frame
+- reimporting altered-sized bitmaps almost certainly hoses the positioning of
+  the bitmap in existing frames
+- need keyboard shortcut for moving forward and backward through strips
+
+* WriteAnir multiple bitmaps/frame [limited to 2 for now]

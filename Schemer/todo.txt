@@ -1,0 +1,7 @@
++ clear entry
++ copy / paste
++ click to hear in sfx list
+- usage count? would be nice.
++ pdb size calc
++ unused entries (not being used yet)
++ disable entries (for testing purposes)
