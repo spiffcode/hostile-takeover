@@ -6,6 +6,7 @@
 #include "base/format.h"
 #include "base/md5.h"
 #include <string>
+#include <string.h>
 
 namespace wi {
 

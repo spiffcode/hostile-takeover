@@ -68,6 +68,7 @@
 
 #include <string>
 #include <stdarg.h>
+#include <stdio.h>
 
 namespace base {
 class Log {

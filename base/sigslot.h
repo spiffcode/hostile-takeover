@@ -217,7 +217,7 @@ namespace base {
 	public:
 		multi_threaded_global()
 		{
-			pthread_mutex_init(get_mutex(), NULL);
+			pthread_mutex_init(get_mutex(), 0);
 		}
 
 		multi_threaded_global(const multi_threaded_global&)
@@ -253,12 +253,12 @@ namespace base {
 	public:
 		multi_threaded_local()
 		{
-			pthread_mutex_init(&m_mutex, NULL);
+			pthread_mutex_init(&m_mutex, 0);
 		}
 
 		multi_threaded_local(const multi_threaded_local&)
 		{
-			pthread_mutex_init(&m_mutex, NULL);
+			pthread_mutex_init(&m_mutex, 0);
 		}
 
 		virtual ~multi_threaded_local()
@@ -1665,8 +1665,8 @@ namespace base {
 	public:
 		_connection0()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection0(dest_type* pobject, void (dest_type::*pmemfun)())
@@ -1706,8 +1706,8 @@ namespace base {
 	public:
 		_connection1()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection1(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type))
@@ -1747,8 +1747,8 @@ namespace base {
 	public:
 		_connection2()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection2(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,
@@ -1789,8 +1789,8 @@ namespace base {
 	public:
 		_connection3()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection3(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,
@@ -1833,8 +1833,8 @@ namespace base {
 	public:
 		_connection4()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection4(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,
@@ -1879,8 +1879,8 @@ namespace base {
 	public:
 		_connection5()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection5(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,
@@ -1929,8 +1929,8 @@ namespace base {
 	public:
 		_connection6()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection6(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,
@@ -1979,8 +1979,8 @@ namespace base {
 	public:
 		_connection7()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection7(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,
@@ -2030,8 +2030,8 @@ namespace base {
 	public:
 		_connection8()
 		{
-			m_pobject = NULL;
-			m_pmemfun = NULL;
+			m_pobject = 0;
+			m_pmemfun = 0;
 		}
 
 		_connection8(dest_type* pobject, void (dest_type::*pmemfun)(arg1_type,

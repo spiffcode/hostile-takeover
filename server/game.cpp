@@ -7,6 +7,7 @@
 #include "base/md5.h"
 #include <stdlib.h>
 #include <math.h>
+#include <algorithm>
 
 namespace wi {
 

@@ -24,6 +24,13 @@ This is a simple, short instructions
 for how to run the game server and leaderboard server locally, for testing
 purposes:
 
+0. If you're compiling from Ubuntu 14.04 64 bit with gcc 4.8, you'll need
+   to install a few 32 bit libraries. This list might not be inclusive:
+
+   sudo apt-get install libc6-dev:i386
+   sudo apt-get install libstdc++-4.8-dev:i386
+   sudo apt-get install gcc-multilib g++-multilib
+
 1. From the server directory:
 
    # For release

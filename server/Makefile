@@ -7,7 +7,7 @@ ifeq ($(UNAME), Darwin)
 CC=$(PRE_CC) -Wshorten-64-to-32
 endif
 ifeq ($(UNAME), Linux)
-CC=$(PRE_CC) -Wconversion
+CC=$(PRE_CC)
 endif
 
 LD=$(CC)
@@ -65,7 +65,7 @@ clean:
 	rm -f $(OUTDIR)/*
 
 $(OUTDIR)/$(BINARY): $(ALLFILES:%=$(OUTDIR)/%.o)
-	$(LD) $(LDFLAGS) -o $@ $^ $(MAPFLAGS)
+	$(LD) -o $@ $^ $(LDFLAGS)
 
 $(MAINFILES:%=$(OUTDIR)/%.o): $(MAINFILES:%=%.cpp)
 	$(CC) $(CPPFLAGS) -c $(<D)/$(*F).cpp -o $@

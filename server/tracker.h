@@ -4,6 +4,7 @@
 #include "base/messagehandler.h"
 #include "base/socketaddress.h"
 #include <map>
+#include <string>
 
 namespace wi {
 

@@ -1,3 +1,4 @@
+#include <string.h>
 #include "yajl/wrapper/jsonbuilder.h"
 
 namespace json {

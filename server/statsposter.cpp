@@ -2,6 +2,7 @@
 #include "base/base64.h"
 #include "base/md5.h"
 #include "server/secrets.h"
+#include <algorithm>
 
 // Stats get posted to a remote server via http post. The http
 // posts are asynchronous, but the dns lookups are not, so it is handled
