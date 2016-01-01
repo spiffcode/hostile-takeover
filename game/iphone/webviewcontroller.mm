@@ -31,8 +31,8 @@
 
 - (void)loadView {
     // Create parent view for web view and toolbar
-    CGRect frame = CGRectMake(0, 0, parent_.frame.size.height,
-            parent_.frame.size.width);
+    CGRect frame = CGRectMake(0, 0, parent_.frame.size.width,
+            parent_.frame.size.height);
     UIView *parentView = [[[UIView alloc] initWithFrame:frame] autorelease];
     parentView.autoresizesSubviews = YES;
     parentView.autoresizingMask = UIViewAutoresizingFlexibleHeight |
