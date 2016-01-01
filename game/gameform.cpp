@@ -339,33 +339,34 @@ void GameForm::OnBeginGameFail() {
     pbtn->Show(true);
 }
 
-std::vector<std::pair<Player *, bool> > GameForm::GetPlayerReadies() {
-    std::vector<std::pair<Player *, bool> > readies;
+std::vector<GameForm::PlayerReady> GameForm::GetPlayerReadies() {
+    std::vector<PlayerReady> readies;
     Player *pplr = NULL;
     while ((pplr = gplrm.GetNextHumanPlayer(pplr)) != NULL) {
         if (pplr->GetFlags() & (kfPlrUnfulfilled | kfPlrComputer)) {
             continue;
         }
-        readies.push_back(std::make_pair(pplr,
-                (pplr->GetFlags() & kfPlrReady) != 0));
+        PlayerReady rdy;
+        strcpy(rdy.szName, pplr->GetName());
+        rdy.side = pplr->GetSide();
+        rdy.fReady = (pplr->GetFlags() & kfPlrReady) != 0;
+        rdy.fLocal = (pplr == gpplrLocal);
+        readies.push_back(rdy);
     }
     return readies;
 }
 
 void GameForm::OnPlayersUpdate(PlayersUpdateNetMessage *pnm) {
-    std::vector<std::pair<Player *, bool> > oldreadies =
-            GetPlayerReadies();
+    std::vector<PlayerReady> oldreadies = GetPlayerReadies();
     gplrm.Init((PlayersUpdateNetMessage *)pnm);
-    std::vector<std::pair<Player *, bool> > newreadies =
-            GetPlayerReadies();
+    std::vector<PlayerReady> newreadies = GetPlayerReadies();
 
     // Announce joins and leaves
     bool sfx = false;
     for (int i = 0; i < newreadies.size(); i++) {
         bool found = false;
         for (int j = 0; j < oldreadies.size(); j++) {
-            if (strcmp(newreadies[i].first->GetName(),
-                        oldreadies[j].first->GetName()) == 0) {
+            if (strcmp(newreadies[i].szName, oldreadies[j].szName) == 0) {
                 found = true;
                 break;
             }
@@ -373,12 +374,12 @@ void GameForm::OnPlayersUpdate(PlayersUpdateNetMessage *pnm) {
         if (!found) {
             chatter_.AddChat("", base::Format::ToString(
                     "%s (%s) joined this game.",
-                    newreadies[i].first->GetName(),
-                    GetColorName(newreadies[i].first->GetSide())),
+                    newreadies[i].szName,
+                    GetColorName(newreadies[i].side)),
                     true);
 
             // sfx on add if it isn't this player
-            if (newreadies[i].first != gpplrLocal) {
+            if (!newreadies[i].fLocal) {
                 sfx = true;
             }
         }
@@ -386,8 +387,7 @@ void GameForm::OnPlayersUpdate(PlayersUpdateNetMessage *pnm) {
     for (int j = 0; j < oldreadies.size(); j++) {
         bool found = false;
         for (int i = 0; i < newreadies.size(); i++) {
-            if (strcmp(newreadies[i].first->GetName(),
-                    oldreadies[j].first->GetName()) == 0) {
+            if (strcmp(newreadies[i].szName, oldreadies[j].szName) == 0) {
                 found = true;
                 break;
             }
@@ -395,8 +395,8 @@ void GameForm::OnPlayersUpdate(PlayersUpdateNetMessage *pnm) {
         if (!found) {
             chatter_.AddChat("", base::Format::ToString(
                     "%s (%s) left this game.",
-                    oldreadies[j].first->GetName(),
-                    GetColorName(oldreadies[j].first->GetSide())),
+                    oldreadies[j].szName,
+                    GetColorName(oldreadies[j].side)),
                     true);
             sfx = true;
         }
@@ -410,22 +410,21 @@ void GameForm::OnPlayersUpdate(PlayersUpdateNetMessage *pnm) {
         bool found = false;
         bool ready = false;
         for (int j = 0; j < oldreadies.size(); j++) {
-            if (strcmp(newreadies[i].first->GetName(),
-                    oldreadies[j].first->GetName()) == 0) {
-                if (!oldreadies[j].second && newreadies[i].second) {
+            if (strcmp(newreadies[i].szName, oldreadies[j].szName) == 0) {
+                if (!oldreadies[j].fReady && newreadies[i].fReady) {
                     ready = true;
                     break;
                 }
                 found = true;
             }
         }
-        if (!found && newreadies[i].second) {
+        if (!found && newreadies[i].fReady) {
             ready = true;
         }
         if (ready) {
             chatter_.AddChat("", base::Format::ToString("%s (%s) is READY.",
-                    newreadies[i].first->GetName(),
-                    GetColorName(newreadies[i].first->GetSide())), true);
+                    newreadies[i].szName,
+                    GetColorName(newreadies[i].side)), true);
         }
     }
 

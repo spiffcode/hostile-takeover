@@ -65,7 +65,14 @@ private:
     int GetPlayerCountNeeded(bool fReady);
     void ShowOrHideBeginGameButton();
     void RefreshPlayerList();
-    std::vector<std::pair<Player *, bool> > GetPlayerReadies();
+
+    struct PlayerReady {
+        char szName[kcbPlayerName];
+        Side side;
+        bool fLocal;
+        bool fReady;
+    };
+    std::vector<PlayerReady> GetPlayerReadies();
   
     Chatter& chatter_;
     LoginHandler& handler_; 
