@@ -18,10 +18,12 @@
 	<string>Hostile Takeover</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.6</string>
 	<key>CFBundleSignature</key>
 	<string>HTAK</string>
 	<key>CFBundleVersion</key>
-	<string>1.2</string>
+	<string>1.6.7</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>

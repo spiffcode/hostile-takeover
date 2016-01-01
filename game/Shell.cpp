@@ -839,6 +839,9 @@ bool ShellForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 				szT[0] = 'v';
 				strncpyz(&szT[1], gszVersion, sizeof(szT));
 			}
+#if __LP64__
+			strcat(szT, " (64 bit)");
+#endif
 			pctl->SetText(szT);
 		}
 	}
