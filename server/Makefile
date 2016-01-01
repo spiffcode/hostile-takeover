@@ -4,11 +4,11 @@
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
 PRE_CC=g++ -m32
-CC=$(PRE_CC) -Wshorten-64-to-32
+CC=$(PRE_CC) -Wshorten-64-to-32 -DOSX
 endif
 ifeq ($(UNAME), Linux)
-PRE_CC=g++-4.2 -m32
-CC=$(PRE_CC) -Wconversion
+PRE_CC=g++
+CC=$(PRE_CC) -DLINUX
 endif
 
 LD=$(CC)

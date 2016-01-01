@@ -1,5 +1,6 @@
 #include <string.h>
 #include "yajl/wrapper/jsonbuilder.h"
+#include <string.h>
 
 namespace json {
 

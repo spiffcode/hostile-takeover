@@ -107,6 +107,10 @@
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdelete-non-virtual-dtor"
 
+#ifndef NULL
+#define NULL 0
+#endif
+
 namespace base {
 
 	class single_threaded

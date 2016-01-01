@@ -5,6 +5,7 @@
 #include "base/base64.h"
 #include "base/format.h"
 #include "base/md5.h"
+#include <string.h>
 #include <string>
 #include <string.h>
 

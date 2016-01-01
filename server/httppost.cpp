@@ -277,7 +277,7 @@ void HttpPost::OnMessage(base::Message *pmsg) {
             SetState(HS_CLOSED);
             CompleteParams *params = (CompleteParams *)pmsg->data;
             if (params->status_code != 200) {
-                RLOG() << "post: " << (dword)this << " status_code: "
+                RLOG() << "post: " << (pword)this << " status_code: "
                         << params->status_code << " error: " << params->error;
             }
             SignalOnComplete(this, params->status_code, params->error, result_);

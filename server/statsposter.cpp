@@ -101,7 +101,7 @@ void StatsPoster::OnPostComplete(HttpPost *post, int status_code, int error,
             }
         }
     } else {
-        RLOG() << "ERROR: Post " << (dword)post << " not found in posting_!";
+        RLOG() << "ERROR: Post " << (pword)post << " not found in posting_!";
     }
 
     // Schedule more posts 

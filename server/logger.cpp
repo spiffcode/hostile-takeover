@@ -3,7 +3,7 @@
 #include "server/server.h"
 #include <sys/stat.h>
 #include <errno.h>
-#include <linux/limits.h>
+#include <limits.h>
 
 namespace wi {
 
