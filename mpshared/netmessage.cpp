@@ -7,7 +7,7 @@
 
 namespace wi {
 
-long gatGameSpeeds[15] = {
+int gatGameSpeeds[15] = {
     64, 48, 32, 24, 16, 12, 10, 8, 7, 6, 5, 4, 3, 2, 1
 };
 

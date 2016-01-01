@@ -7,7 +7,9 @@
 
 namespace wi {
 
-const long kcUpdatesBlockInitial = 1;
+#pragma pack(push, 2)
+
+const int kcUpdatesBlockInitial = 1;
 
 const dword kdwClientID = 0x47414d45;
 
@@ -22,7 +24,7 @@ typedef word Gid;	// gid
 typedef word StateMachineId; // smid
 typedef word Side; // side
 typedef short UnitType;	// ut
-typedef unsigned long UnitMask;	// um
+typedef unsigned int UnitMask;	// um
 typedef signed short TCoord;
 typedef signed short WCoord;	
 typedef word Pid; // pid
@@ -114,7 +116,7 @@ struct GameParams // rams
 {
     PackId packid; // 20
     dword dwVersionSimulation; // 4
-    long tGameSpeed; // 4
+    int tGameSpeed; // 4
     char szLvlFilename[kcbFilename]; // 29
     byte filler[3]; // 3
 }; // 60
@@ -137,8 +139,8 @@ struct Message // msg
 	// UNDONE: smidSender isn't used except by DEBUG_HELPERS
 	StateMachineId smidSender;
 	StateMachineId smidReceiver;
-	word wDummy; // for long alignment
-	long tDelivery;
+	word wDummy; // for alignment
+	int tDelivery;
 
 	// MessageId-specific arguments
 
@@ -311,10 +313,12 @@ ENDLABEL(MessageNames)
 
 struct UpdateResult // ur
 {
-	long cUpdatesBlock;
+	int cUpdatesBlock;
     dword hash;
-    long cmsLatency;
+    int cmsLatency;
 };
+
+#pragma pack(pop)
 
 } // namespace wi
 

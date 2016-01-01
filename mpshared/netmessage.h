@@ -58,6 +58,8 @@ const NetMessageId knmidScCheckWin = 22;
 const NetMessageId knmidCsChallengeWin = 23;
 const NetMessageId knmidMax = 24;
 
+#pragma pack(push, 2)
+
 class NetMessage // nm
 {
 public:
@@ -67,14 +69,6 @@ public:
 	word cb;	// size of whole message, including these fields
 	NetMessageId nmid;
 
-	// This (and the pad below) are DEBUG only information.
-	// We want to play DEBUG vs. Release so it's not conditional
-	// OPT: ditch it to shorten each message by 4 bytes
-	byte nSeq;
-	byte abPad[3];
-	
-	// OPT: Could move this out of the message to shorten each by 4 bytes
-	NetMessage *pnmNext;
 	// After this is dword aligned
 };
 
@@ -82,7 +76,7 @@ inline NetMessage::NetMessage(NetMessageId nmid)
 {
 	this->nmid = nmid;
 	this->cb = sizeof(NetMessage);
-	this->pnmNext = NULL;
+	//this->pnmNext = NULL;
 	CompileAssert((sizeof(this) % 4) == 0);
 }
 
@@ -135,11 +129,11 @@ inline ConnectNetMessage::ConnectNetMessage()
 class BeginGameNetMessage : public NetMessage {
 public:
 	BeginGameNetMessage();
-	unsigned long ulRandomSeed;
+	unsigned int ulRandomSeed;
 
 #ifdef LOGGING
 	void ToString(char *psz, int cb) {
-		snprintf(psz, cb, "ScBeginGame(seed: %ld)", ulRandomSeed);
+		snprintf(psz, cb, "ScBeginGame(seed: %u)", ulRandomSeed);
 	}
 #endif
 };
@@ -155,7 +149,7 @@ class ClientCommandsNetMessage : public NetMessage {
 public:
 	ClientCommandsNetMessage();
 	word cmsgCommands;
-	word wDummy; // for long aligning the Messages on 68K
+	word wDummy; // for aligning the Messages on 68K
 	Message amsgCommands[1];
 
 #ifdef LOGGING
@@ -179,15 +173,15 @@ inline ClientCommandsNetMessage::ClientCommandsNetMessage()
 class UpdateNetMessage : public NetMessage {
 public:
 	UpdateNetMessage();
-	long cUpdatesBlock;
-    long cUpdatesSync;
+	int cUpdatesBlock;
+    int cUpdatesSync;
 	word cmsgCommands;
-	word wDummy; // for long aligning the Messages on 68K
+	word wDummy; // for aligning the Messages on 68K
 	Message amsgCommands[1];
 
 #ifdef LOGGING
 	void ToString(char *psz, int cb) {
-		snprintf(psz, cb, "ScUpdate(cmsg: %d, cUpdatesBlock: %ld, cUpdatesSync: %ld)",
+		snprintf(psz, cb, "ScUpdate(cmsg: %d, cUpdatesBlock: %d, cUpdatesSync: %d)",
                 cmsgCommands, cUpdatesBlock, cUpdatesSync);
 	}
 #endif
@@ -253,9 +247,9 @@ struct PlayerRecord // plrr
 
 class PlayersUpdateNetMessage : public NetMessage {
 public:
-	PlayersUpdateNetMessage();
+PlayersUpdateNetMessage();
 	word cplrr;
-	word wDummy; // for long alignment
+	word wDummy; // for alignment
 	PlayerRecord aplrr[1];
 
 #ifdef LOGGING
@@ -284,7 +278,7 @@ public:
 #ifdef LOGGING
 	void ToString(char *psz, int cb) {
 		snprintf(psz, cb,
-            "CsUpdateResult(cUpdatesBlock: %ld, hash %08x, cmsLatency: %ld)",
+            "CsUpdateResult(cUpdatesBlock: %d, hash %08x, cmsLatency: %d)",
                 ur.cUpdatesBlock, ur.hash, ur.cmsLatency);
 	}
 #endif
@@ -300,8 +294,8 @@ inline UpdateResultNetMessage::UpdateResultNetMessage()
 struct GameHost { // gh
 	GameHost *pghNext;
 	NetAddress nad;
-	unsigned long msLastContact;
-	unsigned long id;
+	unsigned int msLastContact;
+	unsigned int id;
 	char szGameName[kcbGameName];
 };
 
@@ -549,6 +543,8 @@ inline PlayerResignNetMessage::PlayerResignNetMessage()
 	CompileAssert((sizeof(this) % 4) == 0);
 }
 
+#pragma pack(pop)
+
 #ifdef __CPU_68K // 68K byte order == our chosen network byte order
 #define NetMessageByteOrderSwap(a, b)
 #define MessageByteOrderSwap(a, b, c)
@@ -561,7 +557,7 @@ void SwapGameParams(GameParams *prams);
 
 bool ValidateGameParams(const GameParams& params);
 
-extern long gatGameSpeeds[15];
+extern int gatGameSpeeds[15];
 
 } // namespace wi
 

@@ -791,8 +791,7 @@ void Game::OnClientCommands(Endpoint *endpoint, ClientCommandsNetMessage *pnm) {
         cmds_.push_back(pnm->amsgCommands[i]);
     }
 
-    LOG() << base::Log::Format("0x%08lx seq: %d ccmds:%d",
-            endpoint, pnm->nSeq, pnm->cmsgCommands);
+    LOG() << base::Log::Format("0x%08lx ccmds:%d", endpoint, pnm->cmsgCommands);
 
     // TODO: Validation
 }

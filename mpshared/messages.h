@@ -138,6 +138,8 @@ STARTLABEL(LobbyLeaveResults)
     LABEL(knLobbyLeaveResultFail)
 ENDLABEL(LobbyLeaveResults)
 
+#pragma pack(push, 2)
+
 typedef XMsg2<XMSG_HANDSHAKE> XMsgHandshake;
 typedef XMsg2<XMSG_HANDSHAKERESULT> XMsgHandshakeResult;
 typedef XMsg0<XMSG_ECHO> XMsgEcho;
@@ -320,8 +322,8 @@ struct XMsgGameNetMessage : public XMsg
 const dword XMSGSIZE_GAMENETMESSAGE_FIXED = XMSGSIZE_FIXED;
 
 struct XMsgGameUpdateEmpty : public XMsg {
-    //long cUpdatesBlock;
-    //long cUpdatesSync;
+    //int cUpdatesBlock;
+    //int cUpdatesSync;
 
     static base::ByteBuffer *ToBuffer(UpdateNetMessage *punm);
     static XMsgGameNetMessage *FromBuffer(base::ByteBuffer& bb, dword cb);
@@ -329,7 +331,7 @@ struct XMsgGameUpdateEmpty : public XMsg {
 const dword XMSGSIZE_GAMEUPDATEEMPTY = XMSGSIZE_FIXED + sizeof(dword) * 2;
 
 struct XMsgGameUpdateResult : public XMsg {
-    //long cUpdatesBlock;
+    //int cUpdatesBlock;
     //dword hash;
     //short cmsLatency;
 
@@ -338,6 +340,8 @@ struct XMsgGameUpdateResult : public XMsg {
 };
 const dword XMSGSIZE_GAMEUPDATERESULT = XMSGSIZE_FIXED + sizeof(dword) +
         sizeof(dword) + sizeof(short);
+
+#pragma pack(pop)
 
 } // namespace wi
 
