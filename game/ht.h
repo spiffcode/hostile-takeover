@@ -104,10 +104,6 @@ class DelayedMessageViewer;
 class CommandQueueViewer;
 #endif
 
-#ifdef IPHONE
-#pragma pack(2)
-#endif
-
 } // namespace wi
     
 #include "inc/basictypes.h"
