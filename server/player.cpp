@@ -16,7 +16,7 @@ Player::Player() {
     Init(0);
 }
 
-bool Player::Init(Pid pid) {
+void Player::Init(Pid pid) {
     anonymous_ = false;
     havestats_ = false;
     cur_ = 0;

@@ -157,7 +157,7 @@ bool NoCachePdbReader::ReadRecord(word nRec, word n, word cb, void *pv)
     return true;
 }
 
-byte *NoCachePdbReader::MapRecord(word nRec, dword *pdwCookie, word *pcb)
+byte *NoCachePdbReader::MapRecord(word nRec, void **ppvCookie, word *pcb)
 {
 	// First see if the record is cached
 
@@ -182,18 +182,18 @@ byte *NoCachePdbReader::MapRecord(word nRec, dword *pdwCookie, word *pcb)
     }
 
     m_cMapped++;
-    *pdwCookie = (dword)pbT;
+    *ppvCookie = pbT;
     *pcb = cbT;
     return pbT;
 }
 
-void NoCachePdbReader::UnmapRecord(word nRec, dword dwCookie)
+void NoCachePdbReader::UnmapRecord(word nRec, void *pvCookie)
 {
 	Assert(m_pb != NULL);
 	Assert(nRec < m_cRecs);
 	Assert(m_cMapped > 0);
 	m_cMapped--;
-    byte *pb = (byte *)dwCookie;
+    byte *pb = (byte *)pvCookie;
     delete[] pb;
 }
 

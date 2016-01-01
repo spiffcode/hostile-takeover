@@ -284,7 +284,7 @@ public:
 #ifdef LOGGING
 	void ToString(char *psz, int cb) {
 		snprintf(psz, cb,
-            "CsUpdateResult(cUpdatesBlock: %ld, hash %08lx, cmsLatency: %ld)",
+            "CsUpdateResult(cUpdatesBlock: %ld, hash %08x, cmsLatency: %ld)",
                 ur.cUpdatesBlock, ur.hash, ur.cmsLatency);
 	}
 #endif
@@ -384,7 +384,7 @@ public:
 	void ToString(char *psz, int cb) {
 		snprintf(psz, cb, "WinStatsNetMessage("
                 "sidm: %08x, sidmAllies: %08x, "
-                "cCreditsAcquired: %ld, cCreditsConsumed: %ld, "
+                "cCreditsAcquired: %u, cCreditsConsumed: %u, "
                 "cEnemyMobileUnitsKilled: %d, cEnemyStructuresKilled: %d, "
                 "cMobileUnitsLost: %d, cStructuresLost: %d, ff: %08x)",
                 ws.sidm, ws.sidmAllies,

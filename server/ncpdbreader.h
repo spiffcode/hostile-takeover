@@ -22,8 +22,8 @@ public:
 	virtual void Close();
 	virtual bool GetRecordSize(word nRec, word *pcb);
 	virtual bool ReadRecord(word nRec, word n, word cb, void *pv);
-	virtual byte *MapRecord(word nRec, dword *pdwCookie, word *pcb = NULL);
-	virtual void UnmapRecord(word nRec, dword dwCookie);
+	virtual byte *MapRecord(word nRec, void **ppvCookie, word *pcb = NULL);
+	virtual void UnmapRecord(word nRec, void *pvCookie);
 
 private:
 	bool GetRecordEntry(word nRec, int cRec, RecordEntryType *prece,

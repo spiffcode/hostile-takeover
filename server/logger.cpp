@@ -14,7 +14,7 @@ Logger::Logger(const char  *pszDir, dword server_id) :
         rotating_(false) {
 
     char szPrefix[64];
-    sprintf(szPrefix, "server-%lu-%lu", base::GetSecondsUnixEpocUTC(), server_id);
+    sprintf(szPrefix, "server-%u-%u", base::GetSecondsUnixEpocUTC(), server_id);
     prefix_ = szPrefix;
     worker_.Start(this, &Logger::ThreadStart);
 }

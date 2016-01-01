@@ -1,13 +1,14 @@
 # Compiler command line
 # Add warning check for implicit data type resolution loss, otherwise
 # gcc is silent.
-PRE_CC=g++ -m32
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
+PRE_CC=g++ -m32
 CC=$(PRE_CC) -Wshorten-64-to-32
 endif
 ifeq ($(UNAME), Linux)
-CC=$(PRE_CC)
+PRE_CC=g++-4.2 -m32
+CC=$(PRE_CC) -Wconversion
 endif
 
 LD=$(CC)

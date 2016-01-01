@@ -31,7 +31,7 @@ class Player {
 public:
     Player();
 
-    bool Init(Pid pid);
+    void Init(Pid pid);
     Pid pid() const { return pid_; }
     void SetEndpoint(Endpoint *endpoint);
     Endpoint *endpoint() const { return endpoint_; }
