@@ -11,6 +11,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		5500324318B9936800466FDF /* xtransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5500324118B9936800466FDF /* xtransport.cpp */; };
+		5569EAD31C11252300B0622D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5569EAD11C11252300B0622D /* Default-568h@2x.png */; };
+		5569EAD41C11252300B0622D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5569EAD21C11252300B0622D /* Entitlements.plist */; };
 		C10777AD0E1D9FE5003DA7D6 /* messages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C10777AB0E1D9FE5003DA7D6 /* messages.cpp */; };
 		C1077A1C0E31C4B5003DA7D6 /* decompress.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1077A130E31C4B5003DA7D6 /* decompress.cpp */; };
 		C1077A1D0E31C4B5003DA7D6 /* ini.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1077A160E31C4B5003DA7D6 /* ini.cpp */; };
@@ -192,6 +194,8 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5500324118B9936800466FDF /* xtransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xtransport.cpp; sourceTree = SOURCE_ROOT; };
 		5500324218B9936800466FDF /* xtransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xtransport.h; sourceTree = SOURCE_ROOT; };
+		5569EAD11C11252300B0622D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "iphone/Default-568h@2x.png"; sourceTree = "<group>"; };
+		5569EAD21C11252300B0622D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = iphone/Entitlements.plist; sourceTree = "<group>"; };
 		636035590F19AA7C00ABF8EB /* multiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multiplayer.h; sourceTree = SOURCE_ROOT; };
 		C10777AB0E1D9FE5003DA7D6 /* messages.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = messages.cpp; path = ../mpshared/messages.cpp; sourceTree = SOURCE_ROOT; };
 		C10777AC0E1D9FE5003DA7D6 /* messages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = messages.h; path = ../mpshared/messages.h; sourceTree = SOURCE_ROOT; };
@@ -417,7 +421,6 @@
 		C17D66BF0D9E160100CB9F01 /* transportmgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transportmgr.cpp; path = iphone/transportmgr.cpp; sourceTree = "<group>"; };
 		C17D66CC0D9E162500CB9F01 /* htsfx.pdb */ = {isa = PBXFileReference; lastKnownFileType = text; path = htsfx.pdb; sourceTree = "<group>"; };
 		C17D66E40D9E163900CB9F01 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
-		C184248611EE4EFA007BDB3D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		C18E0E020DBAC70700096237 /* oglview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oglview.h; path = iphone/oglview.h; sourceTree = "<group>"; };
 		C18E0E030DBAC70700096237 /* oglview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = oglview.mm; path = iphone/oglview.mm; sourceTree = "<group>"; };
 		C1949CF70E7874C200A654A1 /* downloadbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = downloadbox.cpp; sourceTree = SOURCE_ROOT; };
@@ -703,7 +706,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				C184248611EE4EFA007BDB3D /* Entitlements.plist */,
 				080E96DDFE201D6D7F000001 /* game */,
 				C17D66A80D9E15CA00CB9F01 /* iphone */,
 				C176855B0E0C35560058E49D /* base */,
@@ -895,6 +897,8 @@
 		C17D66A80D9E15CA00CB9F01 /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				5569EAD11C11252300B0622D /* Default-568h@2x.png */,
+				5569EAD21C11252300B0622D /* Entitlements.plist */,
 				C1456692101A9EF0006DCF81 /* inputcontroller.mm */,
 				C1456693101A9EF0006DCF81 /* inputcontroller.h */,
 				C1DF859D10026655007A26BA /* NavBackSmall.png */,
@@ -1005,11 +1009,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5569EAD41C11252300B0622D /* Entitlements.plist in Resources */,
 				C17D66D00D9E162500CB9F01 /* htsfx.pdb in Resources */,
 				C1EC87C30DDE4A7E00B595FD /* htdata832.pdb in Resources */,
 				C1D143980E45881F0025FA74 /* dist.plist in Resources */,
 				C178D3F90EABD5AF0015E32D /* icon.png in Resources */,
 				C1DF859F10026655007A26BA /* NavBackSmall.png in Resources */,
+				5569EAD31C11252300B0622D /* Default-568h@2x.png in Resources */,
 				C1DF85A010026655007A26BA /* NavForwardSmall.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1194,7 +1200,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = iphone/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
@@ -1233,7 +1239,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = iphone/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
@@ -1334,7 +1340,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = iphone/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
@@ -1390,7 +1396,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = iphone/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
@@ -1444,7 +1450,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
-				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
+				CODE_SIGN_ENTITLEMENTS = iphone/Entitlements.plist;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;

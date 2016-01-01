@@ -22,6 +22,10 @@
 	<string>HTAK</string>
 	<key>CFBundleVersion</key>
 	<string>1.2</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
