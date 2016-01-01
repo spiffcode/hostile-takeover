@@ -2374,8 +2374,8 @@ private:
 	void Suspend() secGame;
 	void LoadPreferences() secGame;
 	bool LoadPreferences2() secGame;
-    bool LoadPreferencesV100(PreferencesV100 *pprefsV100);
-    bool LoadPreferencesV101(PreferencesV101 *pprefsV101);
+	bool LoadPreferencesV100(PreferencesV100 *pprefsV100);
+	bool LoadPreferencesV101(PreferencesV101 *pprefsV101);
 	bool InitDisplay(int imm) secGame;
 	int FindBestModeMatch2(int nDepthData, int nSizeData, int nDepthMode, int cxWidthModeMin, int cxWidthModeMax, byte bfMatch) secGame;
 	int FindBestModeMatch(int nSizeDataAbove) secGame;
@@ -8348,6 +8348,9 @@ bool DrmValidate() secDrm;
 #define kfPrefSoundMuted 1 // must be 1 for compatibility with fMute
 #define kfPrefIgnoreBluetoothWarning 2
 
+// Preferences is stored in pack 2 alignment
+#pragma pack(push, 2)
+
 // The header necessary on all preferences structures
 
 struct PreferencesVersion
@@ -8359,7 +8362,6 @@ struct PreferencesVersion
 // The versions of preferences structures HT can successfully read
 // Use fixed size datatypes
 
-#define knVersionPreferencesV100 0x100
 struct PreferencesV100 // prefs
 {
 	PreferencesVersion prefv;
@@ -8374,7 +8376,7 @@ struct PreferencesV100 // prefs
 	word wfPrefs;
 	word wfPerfOptions;
 	word wfHandicap;				// Difficulty-affecting flags
-	long ctGameSpeed;				// game speed
+	int ctGameSpeed;				// game speed
 	word fLassoSelection;
 	short nHueOffset;				// HSL settings
 	short nSatMultiplier;
@@ -8400,17 +8402,20 @@ struct PreferencesV100 // prefs
     char szAskURL[512];
 };
 
-#define knVersionPreferencesV101 0x101
 struct PreferencesV101 : public PreferencesV100
 {
     // md5 hash (16 bytes) to hex chars (32 bytes) plus zero terminator, rounded up to even number
     char szDeviceId[34];
 };
+typedef PreferencesV101 Preferences;
+
+#pragma pack(pop)
 
 // The current version
 
+#define knVersionPreferencesV100 0x100
+#define knVersionPreferencesV101 0x101
 #define knVersionPreferences knVersionPreferencesV101
-typedef PreferencesV101 Preferences;
 extern Preferences gprefsInit;
 bool HostSavePreferences(void *pv, int cb) secHost;
 int HostLoadPreferences(void *pv, int cb) secHost;
@@ -8960,10 +8965,6 @@ inline void operator delete(void* ptr)
 		gptrah->Delete(ptr);
 }
 #endif
-#endif
-
-#ifdef IPHONE
-#pragma options align=reset
 #endif
 
 } // namespace wi
