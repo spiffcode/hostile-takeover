@@ -1225,7 +1225,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -1260,7 +1260,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -1284,7 +1284,7 @@
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -1304,7 +1304,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Release;
 		};
@@ -1326,7 +1326,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Distribution;
 		};
@@ -1362,7 +1362,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = Distribution;
 		};
@@ -1382,7 +1382,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = "Distribution-store";
 		};
@@ -1416,7 +1416,7 @@
 				PRODUCT_NAME = wi;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = "Distribution-store";
 		};
@@ -1436,7 +1436,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;
 		};
@@ -1468,7 +1468,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = "armv7, arm64";
+				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
 			name = AdHoc;
 		};
