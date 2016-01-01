@@ -63,11 +63,14 @@ IPhoneAppDelegate *g_appDelegate;
     // Library/MissionPacks/ -> downloaded mission packs
     // Library/SaveGames/ -> saved games
     // Library/prefs.bin -> game prefs
-    // tmp -> tmp directory
+    // NSTemporaryDirectory() -> temp dir
 
     // This returns the home directory; .app, Library, and Documents are in it
     NSString *homeDir = NSHomeDirectory();
     const char *pszHomeDir = [homeDir cStringUsingEncoding:
+            [NSString defaultCStringEncoding]];
+    NSString *tempDir = NSTemporaryDirectory();
+    const char *pszTempDir = [tempDir cStringUsingEncoding:
             [NSString defaultCStringEncoding]];
 
     [self allocPath:&m_pszMissionPacksDir baseDir:pszHomeDir
@@ -78,7 +81,7 @@ IPhoneAppDelegate *g_appDelegate;
             subDir:"/Library/SaveGames"];
     [self allocPath:&m_pszPrefsFilename baseDir:pszHomeDir
             subDir:"/Library/prefs.bin"];
-    [self allocPath:&m_pszTempDir baseDir:pszHomeDir subDir:"/tmp"];
+    [self allocPath:&m_pszTempDir baseDir:pszTempDir subDir:""];
     [self allocPath:&m_pszCompletesDir baseDir:pszHomeDir
             subDir:"/Library/Completes"];
 
