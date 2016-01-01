@@ -23,7 +23,12 @@
         return nil;
     }
 
+#if 0 // iOS <= 7
     rect_ = CGRectMake(0, 0, rect.size.height, rect.size.width);
+#else
+    // As of iOS 8 screen coordinates are interface oriented not device oriented.
+    rect_ = CGRectMake(0, 0, rect.size.width, rect.size.height);
+#endif
 
     [self setMultipleTouchEnabled: YES];
     atouch_[0] = NULL;

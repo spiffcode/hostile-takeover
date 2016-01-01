@@ -129,7 +129,7 @@ bool ProcessMessage(base::Message *pmsg, Event *pevt)
     case kidmMouseMove2:
         pevt->eType = penMoveEvent2;
         pevt->ff = kfEvtFinger;
-        break;
+        break;            
 
     case kidmAppTerminate:
         pevt->eType = appStopEvent;
@@ -181,9 +181,15 @@ bool ProcessMessage(base::Message *pmsg, Event *pevt)
         gpdisp->GetMode(&mode);
         switch (mode.nDegreeOrientation) {
         case 0:
+#if 0 // iOS <= 7
             // Screen rotated 90 degrees but coordinates unrotated
             pevt->x = pmsg->y;
             pevt->y = (cy - 1) - pmsg->x;
+#else
+            // As of iOS 8 screen coordinates are interface oriented not device oriented.
+            pevt->x = pmsg->x;
+            pevt->y = pmsg->y;
+#endif
             break;
 
         case 90:
