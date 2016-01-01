@@ -1,5 +1,6 @@
-/testdata/
-/release/
-/debug/
-/log/
+debug/*
+!debug/.keep
+release/*
+!release/.keep
+log/
 log.txt
