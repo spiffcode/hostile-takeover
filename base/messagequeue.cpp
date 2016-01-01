@@ -135,9 +135,9 @@ bool MessageQueue::Get(Message *pmsg, long64 ctWait)
     return false;
 }
 
-void MessageQueue::Post(Message *pmsg, int idCoalesce)
+void MessageQueue::Post(Message *pmsg, int idCoalesce, bool fEvenIfStopping)
 {
-    if (stop_)
+    if (stop_ && !fEvenIfStopping)
         return;
 
     // Copy message before putting in queue

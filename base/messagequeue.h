@@ -60,7 +60,7 @@ public:
     virtual void Stop();
     virtual bool IsStopping();
     virtual bool Get(Message *pmsg, long64 ctWait = kctForever);
-    virtual void Post(Message *pmsg, int idCoalesce = -1);
+    virtual void Post(Message *pmsg, int idCoalesce = -1, bool fEvenIfStopping = false);
     virtual void Post(int id, MessageHandler *handler,
             MessageData *data = NULL) {
         Message msg;

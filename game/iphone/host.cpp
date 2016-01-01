@@ -89,7 +89,7 @@ void HostSuspendModalLoop(DibBitmap *pbm)
             break;
         }
         if (msg.id == kidmAppTerminate) {
-            thread.Post(&msg);
+            thread.Post(&msg, -1, true);
             break;
         }
         thread.Dispatch(&msg);
@@ -129,8 +129,8 @@ bool ProcessMessage(base::Message *pmsg, Event *pevt)
     case kidmMouseMove2:
         pevt->eType = penMoveEvent2;
         pevt->ff = kfEvtFinger;
-        break;            
-            
+        break;
+
     case kidmAppTerminate:
         pevt->eType = appStopEvent;
         pevt->ff = 0;
