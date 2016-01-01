@@ -1,5 +1,5 @@
 application: htleaderboard
-version: 11
+version: 12
 runtime: python27
 threadsafe: no
 api_version: 1

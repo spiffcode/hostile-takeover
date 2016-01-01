@@ -102,9 +102,9 @@ PLAYER_DEFAULT_RATING = 1500
 DURATION_SECS_MINIMUM = 60 * 3
 
 class GameStats(wrap.DictWrap):
-    def __init__(self, json, viewing_player_name='', load_players=False):
-        super(GameStats, self).__init__(json.loads(json))
-        self.json = json
+    def __init__(self, j, viewing_player_name='', load_players=False):
+        super(GameStats, self).__init__(json.loads(j))
+        self.json = j
         self.viewing_player_name = viewing_player_name
 
         # Prune out non-contributing players
