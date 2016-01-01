@@ -73,7 +73,7 @@ bool XPump::Send(base::ByteBuffer *pbb) {
 #endif
 
     if (log_ != NULL) {
-        log_->Log(*pbb, -1, logid_, (dword)notify_);
+        log_->Log(*pbb, -1, logid_, (dword)(long64)notify_);
     }
 
     base::ByteBuffer **ppbbSend = &pbbSendFirst_;
@@ -144,7 +144,7 @@ bool XPump::Dispatch() {
     }
 
     if (log_ != NULL) {
-        log_->Log(bbRead_, (int)cbMsg, (dword)notify_, logid_);
+        log_->Log(bbRead_, (int)cbMsg, (dword)(long64)notify_, logid_);
     }
 
     // Instantiate and dispatch this message.

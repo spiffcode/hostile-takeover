@@ -17,8 +17,8 @@ public:
 	virtual void Close() = 0;
 	virtual bool GetRecordSize(word nRec, word *pcb) = 0;
 	virtual bool ReadRecord(word nRec, word n, word cb, void *pv) = 0;
-	virtual byte *MapRecord(word nRec, dword *pdwCookie, word *pcb = NULL) = 0;
-	virtual void UnmapRecord(word nRec, dword dwCookie) = 0;
+	virtual byte *MapRecord(word nRec, void **ppvCookie, word *pcb = NULL) = 0;
+	virtual void UnmapRecord(word nRec, void *pvCookie) = 0;
 };
 
 } // namespace wi

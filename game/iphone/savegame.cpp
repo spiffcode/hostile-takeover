@@ -196,7 +196,8 @@ bool HostGetSaveGameName(int nGame, char *psz, int cb, Date *pdate, int *pnHours
     if (stat(szPath, &st) > 0) {
         return false;
     }
-    struct tm *ptm = localtime(&st.st_mtime);
+    time_t tim = 0;
+    struct tm *ptm = localtime(&tim);
 	*pnHours24 = ptm->tm_hour;
 	*pnMinutes = ptm->tm_min;
 	*pnSeconds = ptm->tm_sec;

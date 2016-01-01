@@ -15,8 +15,8 @@ namespace wi {
 
 typedef unsigned char UInt8;
 typedef unsigned short UInt16;
-typedef unsigned long UInt32;
-typedef unsigned long LocalID;
+typedef unsigned int UInt32;
+typedef unsigned int LocalID;
 typedef char Char;
 
 struct RecordEntryType {
@@ -82,7 +82,7 @@ struct ReaderInfo // rnfo
 	DirEntry *pdir;
 	char *pszDir;
 	char *pszFn;
-	dword dwCookie;
+	void *pvCookie;
 	int cEntries;
 	int cOpen;
 };
@@ -106,8 +106,9 @@ struct File
 struct FileMap // fmap
 {
 	ReaderInfo *prnfo;
-	dword dwCookie;
+	void *pvCookie;
 	dword nRec;
+    dword dwPad;
     byte *pbAlloced;
 };
 

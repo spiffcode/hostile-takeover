@@ -363,13 +363,13 @@ void SelectMissionForm::OnControlNotify(word idc, int nNotify) {
 }
 
 int SelectMissionForm::GetSelectedMissionIndex(ListControl *plstc) {
-    dword dw = (dword)plstc->GetSelectedItemData();
-    return (int)(dw & ~kfItemLocked);
+    pword pw = (pword)plstc->GetSelectedItemData();
+    return (int)(pw & ~kfItemLocked);
 }
 
 bool SelectMissionForm::IsSelectedMissionLocked(ListControl *plstc) {
-    dword dw = (dword)plstc->GetSelectedItemData();
-    return (dw & kfItemLocked) != 0;
+    pword pw = (pword)plstc->GetSelectedItemData();
+    return (pw & kfItemLocked) != 0;
 }
 
 void SelectMissionForm::UpdateDescription() {

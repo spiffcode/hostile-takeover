@@ -171,7 +171,7 @@ bool MemPdbReader::ReadRecord(word nRec, word n, word cb, void *pv)
 	return true;
 }
 
-byte *MemPdbReader::MapRecord(word nRec, dword *pdwCookie, word *pcb)
+byte *MemPdbReader::MapRecord(word nRec, void **ppvCookie, word *pcb)
 {
 	// First see if the record is cached
 
@@ -196,7 +196,7 @@ byte *MemPdbReader::MapRecord(word nRec, dword *pdwCookie, word *pcb)
 				return NULL;
 			memcpy(pbT, &m_pb[offBytes], cbT);
 			m_cMapped++;
-			*pdwCookie = (dword)pbT;
+			*ppvCookie = pbT;
 			*pcb = cbT;
 			return pbT;
 		}
@@ -215,18 +215,18 @@ byte *MemPdbReader::MapRecord(word nRec, dword *pdwCookie, word *pcb)
 	byte *pbUncompressed = (byte *)gcam.Lock(hc);
 	if (pcb != NULL)
 		*pcb = gcam.GetSize(hc);
-	*pdwCookie = 0;
+	*ppvCookie = 0;
 	m_cMapped++;
 	return pbUncompressed;
 }
 
-void MemPdbReader::UnmapRecord(word nRec, dword dwCookie)
+void MemPdbReader::UnmapRecord(word nRec, void *pvCookie)
 {
 	Assert(m_pb != NULL);
 	Assert(nRec < m_cRecs);
 	Assert(m_cMapped > 0);
 	m_cMapped--;
-	if (dwCookie == 0) {
+	if (pvCookie == NULL) {
 		// Pointed to cache object; unlock it
 
 		if (m_aphcRecordData[nRec] != 0) {
@@ -237,7 +237,7 @@ void MemPdbReader::UnmapRecord(word nRec, dword dwCookie)
 	} else {
 		// Pointed to alloced object; unlock it
 
-		byte *pb = (byte *)dwCookie;
+		byte *pb = (byte *)pvCookie;
 		delete pb;
 	}
 }

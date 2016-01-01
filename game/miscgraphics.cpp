@@ -260,7 +260,7 @@ word Compile8(byte *pbCompileBuffer, ScanData *psd, bool fOdd)
 		if (op == kopEnd)
 			break;
 	}
-	if (((byte)(dword)pbT) & 1)
+	if (((byte)(pword)pbT) & 1)
 		pbT++;
 	int cbOps = pbT - pb;
 

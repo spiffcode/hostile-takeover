@@ -783,7 +783,7 @@ void DisplayOptionsForm::OnControlSelected(word idc)
 		{
 			ListControl *plstc = (ListControl *)GetControlPtr(kidcModesList);
 			if (plstc->GetFlags() & kfCtlVisible) {
-				int immNew = (int)plstc->GetSelectedItemData();
+				int immNew = (int)(long)plstc->GetSelectedItemData();
 				ggame.RequestModeChange(immNew);
 			}
 

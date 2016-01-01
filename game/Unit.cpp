@@ -588,7 +588,7 @@ dword UnitGob::GetAnimationHash()
 {
     int nFrame = m_ani.GetFrame();
     int nStrip = m_ani.GetStrip();
-    return ((nFrame << 16) | nStrip) ^ (dword)this ^ (GetId() << 16);
+    return ((nFrame << 16) | nStrip) ^ (dword)(unsigned long)this ^ (GetId() << 16);
 }
 
 void UnitGob::GetAnimationBounds(Rect *prc, bool fBase)

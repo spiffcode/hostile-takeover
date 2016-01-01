@@ -36,7 +36,7 @@ public:
 
 private:
     void InitAudioBuffer(AudioQueueBuffer *paqb);
-    void InterruptionListener(UInt32 interruptionState);
+    void InterruptionListener(void *data, UInt32 interruptionState);
 
     bool m_fEnable;
     long m_tSilence;
@@ -65,7 +65,7 @@ SoundDevice *CreateIPhoneSoundDevice()
 void InterruptionListener(void *data, UInt32 interruptionState)
 {
     IPhoneSoundDevice *psndd = (IPhoneSoundDevice *)data;
-    psndd->InterruptionListener(interruptionState);
+    psndd->InterruptionListener(data, interruptionState);
 }
 
 IPhoneSoundDevice::IPhoneSoundDevice()
@@ -93,7 +93,7 @@ bool IPhoneSoundDevice::Init()
     // over audio. If the user then ignores the phone call, the
     // audio needs to be turned on again.
 
-    AudioSessionInitialize(NULL, NULL, wi::InterruptionListener, this);
+    AudioSessionInitialize(NULL, NULL, (AudioSessionInterruptionListener)wi::InterruptionListener, this);
     UInt32 category = kAudioSessionCategory_UserInterfaceSoundEffects;
     AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
             sizeof(category), &category);
@@ -129,7 +129,7 @@ bool IPhoneSoundDevice::Init()
     return true;
 }
 
-void IPhoneSoundDevice::InterruptionListener(UInt32 interruptionState) {
+void IPhoneSoundDevice::InterruptionListener(void *inClientData, UInt32 interruptionState) {
     switch (interruptionState) {
     case kAudioSessionBeginInterruption:
         AudioSessionSetActive(false);

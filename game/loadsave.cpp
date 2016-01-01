@@ -167,7 +167,7 @@ bool LoadGameForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 		} else {
 			strcpy(szT, szLevel);
 		}
-		plstc->Add(szT, (void *)(nGame + 1));
+		plstc->Add(szT, (void *)((long)nGame + 1));
 	}
 	m_nGameLast = nGameLast;
 
@@ -196,7 +196,7 @@ void LoadGameForm::OnControlSelected(word idc)
 	case kidcOk:
 		{
 			ListControl *plstc = (ListControl *)GetControlPtr(kidcGameList);
-			int nGame = ((int)plstc->GetSelectedItemData()) - 1;
+			int nGame = ((int)(long)plstc->GetSelectedItemData()) - 1;
 			EndForm(nGame);
 		}
 		return;

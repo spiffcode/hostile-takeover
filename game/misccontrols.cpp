@@ -1137,7 +1137,7 @@ void ListControl::DrawItem(DibBitmap *pbm, ListItem *pli, int x, int y,
             pszDraw = pszAfterTab;
         } else {
             strncpyz(szT, pszAfterTab,
-                    _min((int)sizeof(szT), pszTabNext - pszAfterTab + 1));
+                    _min((int)sizeof(szT), (int)(pszTabNext - pszAfterTab + 1)));
             pszDraw = szT;
         }
 

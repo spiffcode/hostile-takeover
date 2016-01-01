@@ -20,8 +20,8 @@ public:
 	virtual void Close() secPackFile;
 	virtual bool GetRecordSize(word nRec, word *pcb) secPackFile;
 	virtual bool ReadRecord(word nRec, word n, word cb, void *pv) secPackFile;
-	virtual byte *MapRecord(word nRec, dword *pdwCookie, word *pcb = NULL) secPackFile;
-	virtual void UnmapRecord(word nRec, dword dwCookie) secPackFile;
+	virtual byte *MapRecord(word nRec, void **ppvCookie, word *pcb = NULL) secPackFile;
+	virtual void UnmapRecord(word nRec, void *pvCookie) secPackFile;
 
 private:
 	bool GetRecordEntry(word nRec, int cRec, RecordEntryType *prece, dword *pcb) secPackFile;

@@ -194,12 +194,12 @@ void RawBitmap::BltTo(DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
 	int cyLeft = prcSrc->Height();
 	byte *pbRec = NULL;
 	word cbRec;
-	dword dwCookie;
+	void *pvCookie;
 	while (cyLeft > 0) {
 		// See how much we can blt from the current record
 
 		if (pbRec == NULL) {
-			pbRec = m_pfil->prnfo->ppdbReader->MapRecord(nRecCurrent, &dwCookie, &cbRec);
+			pbRec = m_pfil->prnfo->ppdbReader->MapRecord(nRecCurrent, &pvCookie, &cbRec);
 			if (pbRec == NULL)
 				break;
 		}
@@ -224,10 +224,10 @@ void RawBitmap::BltTo(DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
 
 			int cbLeftHalf = (int)(offRecCurrent + cbRec - offBits);
 			memcpy(pbDst, &pbRec[offBits - offRecCurrent], cbLeftHalf);
-			m_pfil->prnfo->ppdbReader->UnmapRecord(nRecCurrent, dwCookie);
+			m_pfil->prnfo->ppdbReader->UnmapRecord(nRecCurrent, pvCookie);
 			offRecCurrent += cbRec;
 			nRecCurrent++;
-			pbRec = m_pfil->prnfo->ppdbReader->MapRecord(nRecCurrent, &dwCookie, &cbRec);
+			pbRec = m_pfil->prnfo->ppdbReader->MapRecord(nRecCurrent, &pvCookie, &cbRec);
 			if (pbRec == NULL)
 				return;
 			memcpy(pbDst + cbLeftHalf, pbRec, cxBlt - cbLeftHalf);
@@ -240,7 +240,7 @@ void RawBitmap::BltTo(DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
 		// Next scan doesn't intersect a record boundary
 
 		memcpy(pbDst, &pbRec[offBits - offRecCurrent], cxBlt);
-		m_pfil->prnfo->ppdbReader->UnmapRecord(nRecCurrent, dwCookie);
+		m_pfil->prnfo->ppdbReader->UnmapRecord(nRecCurrent, pvCookie);
 		pbRec = NULL;
 		offRecCurrent += cbRec;
 		offBits += m_cx;
@@ -250,7 +250,7 @@ void RawBitmap::BltTo(DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
 	}
 
 	if (pbRec != NULL)
-		m_pfil->prnfo->ppdbReader->UnmapRecord(nRecCurrent, dwCookie);
+		m_pfil->prnfo->ppdbReader->UnmapRecord(nRecCurrent, pvCookie);
 }
 #endif
 

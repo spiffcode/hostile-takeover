@@ -478,7 +478,6 @@ void Simulation::Update(CommandQueue *pcmdq)
     // to the insertion or deletion of elements on the Gob list during the
     // kmidReserveUpdate callbacks.
 
-    Assert(kcpgobMax * sizeof(Gid) <= 1536);
     Gid agid[kcpgobMax];
     Gid *pgidT = agid;
     int cgid = 0;
@@ -706,10 +705,7 @@ void Simulation::SelectSameUnitTypes(UnitGob *punt, TRect *ptrc)
 
     UnitType ut = punt->GetUnitType();
 
-    // Store the gobs on the stack; we've tested this with 1K of stack; assert if it
-    // changes
-
-    Assert(kcpgobMax / 2 * sizeof(Gob *) <= 1536);
+    // Store the gobs on the stack.
     Gob *apgob[kcpgobMax / 2];
 
     int cpgob = ggobm.FindGobs(ptrc, apgob, ARRAYSIZE(apgob));

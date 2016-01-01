@@ -160,7 +160,7 @@ void RoomForm::OnControlNotify(word idc, int nNotify) {
 
 void RoomForm::OnJoinGame() {
     ListControl *plstc = (ListControl *)GetControlPtr(kidcGameList);
-    dword gameid = (dword)plstc->GetSelectedItemData();
+    dword gameid = (dword)(pword)plstc->GetSelectedItemData();
     GameMap::iterator it = map_.find(gameid);
     if (it == map_.end()) {
         return;
@@ -438,7 +438,7 @@ void RoomForm::Refresh(int ct) {
 void RoomForm::OnTimeout(int id) {
     refresh_ = false;
     ListControl *plstc = (ListControl *)GetControlPtr(kidcGameList);
-    dword gameid = (dword)plstc->GetSelectedItemData();
+    dword gameid = (dword)(pword)plstc->GetSelectedItemData();
     plstc->Clear();
     GameMap::iterator it = map_.begin();
     for (; it != map_.end(); it++) {
@@ -470,7 +470,7 @@ void RoomForm::OnTimeout(int id) {
 
 void RoomForm::HideShowJoinGame() {
     ListControl *plstc = (ListControl *)GetControlPtr(kidcGameList);
-    dword gameid = (dword)plstc->GetSelectedItemData();
+    dword gameid = (dword)(pword)plstc->GetSelectedItemData();
     GameMap::iterator it = map_.find(gameid);
     bool show = true;
     if (it == map_.end()) {

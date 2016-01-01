@@ -380,7 +380,7 @@ void StructureBuildForm::SetOwner(BuilderGob *pgobOwner)
 
 void StructureBuildForm::UpdateStructureInfo(ListItem *pli)
 {
-	StructConsts *pstruc = (StructConsts *)gapuntc[(int)pli->pvData];
+	StructConsts *pstruc = (StructConsts *)gapuntc[(long)pli->pvData];
 
 	// Update Cost
 

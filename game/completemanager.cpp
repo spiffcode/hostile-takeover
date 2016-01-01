@@ -9,6 +9,7 @@
 namespace wi {
 
 void CompleteManager::Init() {
+	return;
     map_.clear();
     DIR *pdir = opendir(completedir_.c_str());
     dirent *pdent;

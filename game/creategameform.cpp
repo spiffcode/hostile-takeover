@@ -306,7 +306,7 @@ void CreateGameForm::OnControlSelected(word idc) {
         // Fill in GameParams
         
         ListControl *plstc = m_aplstc[IndexFromMissionType(m_mt)];
-        int nLevel = (int)plstc->GetSelectedItemData();
+        int nLevel = (long)plstc->GetSelectedItemData();
         
         MissionIdentifier miid;
         if (!m_pml->GetMissionIdentifier(nLevel, &miid)) {
@@ -426,7 +426,7 @@ void CreateGameForm::UpdateLabels() {
         plbl->SetText("");
         return;
     }
-    int i = (int)plstc->GetSelectedItemData();
+    int i = (long)plstc->GetSelectedItemData();
     MissionIdentifier miid;
     if (!m_pml->GetMissionIdentifier(i, &miid)) {
         plbl->SetText("");

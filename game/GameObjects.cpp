@@ -1283,9 +1283,9 @@ Direction16 CalcDir16(int dx, int dy)
 
 #define PpgobFromGid(gid)	((Gob **)((byte *)m_apgobMaster + (gid)))
 #define GidFromPpgob(ppgob) ((byte *)(ppgob) - (byte *)m_apgobMaster)
-#define MakeUsedEntry(dw)	(Gob **)((dword)(dw) & ~1)
-#define MakeFreeEntry(dw)	(Gob *)((dword)(dw) | 1)
-#define IsFreeEntry(dw)		((dword)(dw) & 1)
+#define MakeUsedEntry(pw)	(Gob **)((pword)(pw) & ~1)
+#define MakeFreeEntry(pw)	(Gob *)((pword)(pw) | 1)
+#define IsFreeEntry(pw)		((pword)(pw) & 1)
 #define IgidFromWXY(wx, wy)	(TcFromWc(wy) * m_ctx + TcFromWc(wx))
 
 GobMgr::GobMgr()

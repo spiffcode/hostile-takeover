@@ -199,9 +199,9 @@ void TileMap::Draw(DibBitmap *pbm, int x, int y, int cx, int cy, int xMap, int y
 			*ppbDrawMap = NULL;
 			if (!IsFogOpaque(*pbFogT)) {
 				if (*pfInvalid) {
-                    word offset = BigWord(*pwMapT);
-                    Assert(offset < 0xff00);
-                    *ppbDrawMap = *(byte **)((long)m_apbTileData + offset);
+					word offset = BigWord(*pwMapT);
+					Assert(offset < 0xff00);
+					*ppbDrawMap = m_apbTileData[offset / 4];
 				}
 			}
 

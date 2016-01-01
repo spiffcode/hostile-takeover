@@ -219,7 +219,7 @@
 		C11FDC661033682E0053CD83 /* eventer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = eventer.h; path = ../base/eventer.h; sourceTree = SOURCE_ROOT; };
 		C11FDC671033682E0053CD83 /* selectserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = selectserver.cpp; path = ../base/selectserver.cpp; sourceTree = SOURCE_ROOT; };
 		C11FDC681033682E0053CD83 /* selectserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = selectserver.h; path = ../base/selectserver.h; sourceTree = SOURCE_ROOT; };
-		C124299F0E553D9500DDDFD1 /* stylushandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stylushandler.cpp; sourceTree = SOURCE_ROOT; };
+		C124299F0E553D9500DDDFD1 /* stylushandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stylushandler.cpp; sourceTree = SOURCE_ROOT; usesTabs = 0; };
 		C12429F00E5727BF00DDDFD1 /* fingerhandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fingerhandler.cpp; sourceTree = SOURCE_ROOT; };
 		C12D9D2C0ECA3F94006B5FD9 /* completemanager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = completemanager.cpp; sourceTree = SOURCE_ROOT; };
 		C12D9D2D0ECA3F94006B5FD9 /* completemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = completemanager.h; sourceTree = SOURCE_ROOT; };
@@ -717,6 +717,7 @@
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
+			usesTabs = 1;
 		};
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
@@ -976,10 +977,10 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = BTM58P9QZU;
+						DevelopmentTeam = 4KSYT9966B;
 					};
 				};
 			};
@@ -1194,8 +1195,8 @@
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1206,7 +1207,7 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = "";
 				INFOPLIST_FILE = iphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wno-write-strings";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -1219,11 +1220,12 @@
 					"-DTRACKSTATE",
 				);
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
 				PRODUCT_NAME = wi;
-				PROVISIONING_PROFILE = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = Debug;
 		};
@@ -1232,8 +1234,8 @@
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1242,7 +1244,7 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = iphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wno-write-strings";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -1253,11 +1255,12 @@
 					"-DTRACKSTATE",
 				);
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
 				PRODUCT_NAME = wi;
-				PROVISIONING_PROFILE = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = Release;
 		};
@@ -1265,8 +1268,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
 				GCC_VERSION = "";
@@ -1274,11 +1279,12 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_EXPAND_BUILD_SETTINGS = YES;
 				INFOPLIST_FILE = "";
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				PREBINDING = NO;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = Debug;
 		};
@@ -1286,6 +1292,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
@@ -1297,6 +1304,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = Release;
 		};
@@ -1304,6 +1312,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
@@ -1317,6 +1326,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = Distribution;
 		};
@@ -1325,8 +1335,8 @@
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1337,7 +1347,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = iphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wno-write-strings";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -1347,11 +1357,12 @@
 					"-DTRACKSTATE",
 				);
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
 				PRODUCT_NAME = wi;
-				PROVISIONING_PROFILE = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = Distribution;
 		};
@@ -1359,6 +1370,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_ENTITLEMENTS = dist.plist;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
@@ -1370,6 +1382,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = "Distribution-store";
 		};
@@ -1378,8 +1391,8 @@
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1389,7 +1402,7 @@
 				GCC_VERSION = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = iphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "-Wno-write-strings";
 				OTHER_CPLUSPLUSFLAGS = (
@@ -1399,10 +1412,11 @@
 					"-DTRACKSTATE",
 				);
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
 				PRODUCT_NAME = wi;
-				PROVISIONING_PROFILE = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
+				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = "Distribution-store";
 		};
@@ -1410,6 +1424,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_SYMBOL_SEPARATION = NO;
@@ -1421,6 +1436,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos;
 				USER_HEADER_SEARCH_PATHS = ".. ../inc iphone";
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = AdHoc;
 		};
@@ -1429,8 +1445,8 @@
 			buildSettings = {
 				CLANG_LINK_OBJC_RUNTIME = NO;
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -1439,7 +1455,7 @@
 				GCC_PREFIX_HEADER = "";
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				INFOPLIST_FILE = iphone/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CPLUSPLUSFLAGS = (
 					"$(OTHER_CFLAGS)",
@@ -1447,11 +1463,12 @@
 					"-DDEV_BUILD",
 				);
 				PREBINDING = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
 				PRODUCT_NAME = wi;
-				PROVISIONING_PROFILE = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E522801F-D4E0-499E-9568-7FF0F4B07D52";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
-				VALID_ARCHS = armv7;
+				VALID_ARCHS = "armv7, arm64";
 			};
 			name = AdHoc;
 		};
