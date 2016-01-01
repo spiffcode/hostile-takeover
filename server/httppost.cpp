@@ -133,7 +133,10 @@ bool HttpPost::FindStatusCode(int *status_code) {
         int cch = strlen(line);
         if (cch >= 15) {
             if (strncmp(line, "Content-Length:", 15) == 0) {
-                base::Format::ToInteger(&line[15], 10, &cbBody);
+                char *pszT = &line[15];
+                while (*pszT == ' ')
+                    pszT++;
+                base::Format::ToInteger(pszT, 10, &cbBody);
             }
         }
         if (strlen(line) == 0) {
