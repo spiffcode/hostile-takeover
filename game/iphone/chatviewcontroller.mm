@@ -91,8 +91,8 @@
 - (void)loadView
 {
     // Create parent view that subviews go into
-    CGRect frame = CGRectMake(0, 0, parent_.frame.size.height,
-            parent_.frame.size.width);
+    CGRect frame = CGRectMake(0, 0, parent_.frame.size.width,
+            parent_.frame.size.height);
     view_ = [[UIView alloc] initWithFrame:frame];
     view_.autoresizesSubviews = YES;
     view_.autoresizingMask = UIViewAutoresizingFlexibleHeight |
