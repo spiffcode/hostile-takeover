@@ -33,7 +33,6 @@ void Player::Init(Pid pid) {
     memset(alatr_, 0, sizeof(alatr_));
     memset(&ws_, 0, sizeof(ws_));
     memset(did_, 0, sizeof(did_));
-    return true;
 }
 
 void Player::SetEndpoint(Endpoint *endpoint) {

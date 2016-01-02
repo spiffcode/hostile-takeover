@@ -3,8 +3,8 @@
 # gcc is silent.
 UNAME := $(shell uname)
 ifeq ($(UNAME), Darwin)
-PRE_CC=g++ -m32
-CC=$(PRE_CC) -Wshorten-64-to-32 -DOSX
+PRE_CC=g++
+CC=$(PRE_CC) -DOSX
 endif
 ifeq ($(UNAME), Linux)
 PRE_CC=g++
@@ -84,5 +84,5 @@ $(YAJLFILESCPP:%=$(OUTDIR)/%.o): $(YAJLFILESCPP:%=../yajl/wrapper/%.cpp)
 	$(CC) $(CPPFLAGS) -c $(<D)/$(*F).cpp -o $@
 
 $(YAJLFILESC:%=$(OUTDIR)/%.o): $(YAJLFILESC:%=../yajl/src/%.c)
-	$(CC) $(CPPFLAGS) -c $(<D)/$(*F).c -o $@
+	$(CC) $(CPPFLAGS) -x c -c $(<D)/$(*F).c -o $@
 
