@@ -293,7 +293,6 @@ void Server::OnCommand(const std::string command, const json::JsonMap *map) {
 }
 
 void Server::OnModeratorListUpdated(ThreadedFileWatcher *watcher) {
-    RLOG() << watcher->filename() << " has changed!";
     FILE *f = fopen(watcher->filename().c_str(), "r");
     if (f != NULL) {
         std::vector<std::string> moderator_names;
@@ -307,12 +306,12 @@ void Server::OnModeratorListUpdated(ThreadedFileWatcher *watcher) {
             }
             if (strncmp(start, "mod,", 4) == 0) {
                 std::string name(start + 4, cch - 4);
-                RLOG() << "moderator: '" << name << "'";
+                //RLOG() << "moderator: '" << name << "'";
                 moderator_names.push_back(name);
             }
             if (strncmp(start, "admin,", 6) == 0) {
                 std::string name(start + 6, cch - 6);
-                RLOG() << "admin: '" << name << "'";
+                //RLOG() << "admin: '" << name << "'";
                 admin_names.push_back(name);
             }
         }
@@ -320,6 +319,7 @@ void Server::OnModeratorListUpdated(ThreadedFileWatcher *watcher) {
         moderator_names_ = moderator_names;
         admin_names_ = admin_names;
     }
+    RLOG() << watcher->filename() << " has changed! " << moderator_names_.size() << " moderators, " << admin_names_.size() << " admins.";
 }
 
 bool Server::IsModerator(const char *name) {

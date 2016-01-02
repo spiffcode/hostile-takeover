@@ -199,7 +199,7 @@ void BadWords::AddWord(const std::string& word, bool standalone,
         current_index = nodes_.size();
         nodes_.push_back(MatchNode());
     }
-    LOG() << "added: " << word << " total nodes:" << nodes_.size();
+    //LOG() << "added: " << word << " total nodes:" << nodes_.size();
 }
 
 std::vector<std::string> BadWords::Split(const std::string& s, char ch) {

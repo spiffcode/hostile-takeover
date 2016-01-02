@@ -6,14 +6,18 @@
 namespace wi {
 
 void LevelInfoCache::SubmitIndex(const std::string& indexfile) {
+    int cLoaded = 0;
     IndexLoader index;
     if (index.InitFromFile(indexfile.c_str())) {
         int c = index.GetCount();
         for (int i = 0; i < c; i++) {
             const IndexEntry *entry = index.GetEntry(i);
-            SubmitHelper(entry->packid);
+            if (SubmitHelper(entry->packid)) {
+                cLoaded++;
+            }
         }
     }
+    RLOG() << cLoaded << " mission packs successfully submitted.";
 }
 
 bool LevelInfoCache::SubmitHelper(const PackId& packid) {
@@ -40,7 +44,6 @@ bool LevelInfoCache::Submit(PackFileReader& pakr, const PackId& packid) {
     }
     map_.insert(PackMap::value_type(packid.id,
             std::make_pair(packid, infomap)));
-    RLOG() << "Added: " << PackManager::GetPackFilename(&packid);
 
     return true;
 }
