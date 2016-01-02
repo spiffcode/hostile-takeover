@@ -11,7 +11,6 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		5500324318B9936800466FDF /* xtransport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5500324118B9936800466FDF /* xtransport.cpp */; };
-		5569EAD31C11252300B0622D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5569EAD11C11252300B0622D /* Default-568h@2x.png */; };
 		5569EAD41C11252300B0622D /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5569EAD21C11252300B0622D /* Entitlements.plist */; };
 		5569EAD81C11632900B0622D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5569EAD71C11632900B0622D /* Images.xcassets */; };
 		C10777AD0E1D9FE5003DA7D6 /* messages.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C10777AB0E1D9FE5003DA7D6 /* messages.cpp */; };
@@ -66,7 +65,6 @@
 		C17685770E0C36100058E49D /* misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17685700E0C36100058E49D /* misc.cpp */; };
 		C17685780E0C36100058E49D /* netmessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17685730E0C36100058E49D /* netmessage.cpp */; };
 		C17685B80E15CB180058E49D /* xpump.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17685B60E15CB180058E49D /* xpump.cpp */; };
-		C178D3F90EABD5AF0015E32D /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = C178D3F80EABD5AF0015E32D /* icon.png */; };
 		C17D66090D9E15A300CB9F01 /* alertcontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66080D9E15A300CB9F01 /* alertcontrol.cpp */; };
 		C17D665E0D9E15BE00CB9F01 /* Andy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D660A0D9E15BE00CB9F01 /* Andy.cpp */; };
 		C17D665F0D9E15BE00CB9F01 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D660B0D9E15BE00CB9F01 /* Animation.cpp */; };
@@ -195,7 +193,6 @@
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		5500324118B9936800466FDF /* xtransport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xtransport.cpp; sourceTree = SOURCE_ROOT; };
 		5500324218B9936800466FDF /* xtransport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xtransport.h; sourceTree = SOURCE_ROOT; };
-		5569EAD11C11252300B0622D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "iphone/Default-568h@2x.png"; sourceTree = "<group>"; };
 		5569EAD21C11252300B0622D /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Entitlements.plist; path = iphone/Entitlements.plist; sourceTree = "<group>"; };
 		5569EAD71C11632900B0622D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = iphone/Images.xcassets; sourceTree = "<group>"; };
 		636035590F19AA7C00ABF8EB /* multiplayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = multiplayer.h; sourceTree = SOURCE_ROOT; };
@@ -330,7 +327,6 @@
 		C17685760E0C36100058E49D /* xmsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xmsg.h; path = ../mpshared/xmsg.h; sourceTree = SOURCE_ROOT; };
 		C17685B60E15CB180058E49D /* xpump.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = xpump.cpp; path = ../mpshared/xpump.cpp; sourceTree = SOURCE_ROOT; };
 		C17685B70E15CB180058E49D /* xpump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = xpump.h; path = ../mpshared/xpump.h; sourceTree = SOURCE_ROOT; };
-		C178D3F80EABD5AF0015E32D /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = iphone/icon.png; sourceTree = "<group>"; };
 		C17D66080D9E15A300CB9F01 /* alertcontrol.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = alertcontrol.cpp; sourceTree = SOURCE_ROOT; };
 		C17D660A0D9E15BE00CB9F01 /* Andy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Andy.cpp; sourceTree = SOURCE_ROOT; };
 		C17D660B0D9E15BE00CB9F01 /* Animation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Animation.cpp; sourceTree = SOURCE_ROOT; };
@@ -727,7 +723,6 @@
 			isa = PBXGroup;
 			children = (
 				5569EAD71C11632900B0622D /* Images.xcassets */,
-				C178D3F80EABD5AF0015E32D /* icon.png */,
 				C1EC87C20DDE4A7E00B595FD /* htdata832.pdb */,
 				C17D66CC0D9E162500CB9F01 /* htsfx.pdb */,
 			);
@@ -900,7 +895,6 @@
 		C17D66A80D9E15CA00CB9F01 /* iphone */ = {
 			isa = PBXGroup;
 			children = (
-				5569EAD11C11252300B0622D /* Default-568h@2x.png */,
 				5569EAD21C11252300B0622D /* Entitlements.plist */,
 				C1456692101A9EF0006DCF81 /* inputcontroller.mm */,
 				C1456693101A9EF0006DCF81 /* inputcontroller.h */,
@@ -1017,9 +1011,7 @@
 				C17D66D00D9E162500CB9F01 /* htsfx.pdb in Resources */,
 				C1EC87C30DDE4A7E00B595FD /* htdata832.pdb in Resources */,
 				C1D143980E45881F0025FA74 /* dist.plist in Resources */,
-				C178D3F90EABD5AF0015E32D /* icon.png in Resources */,
 				C1DF859F10026655007A26BA /* NavBackSmall.png in Resources */,
-				5569EAD31C11252300B0622D /* Default-568h@2x.png in Resources */,
 				C1DF85A010026655007A26BA /* NavForwardSmall.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
