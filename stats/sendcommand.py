@@ -28,7 +28,7 @@ class SendCommand(webapp.RequestHandler):
     def post(self):
         hash = self.request.body[:32]
         j = self.request.body[32:]
-        m = md5(json + config.SENDCOMMAND_SECRET)
+        m = md5(j + config.SENDCOMMAND_SECRET)
         if m.hexdigest() == hash:
             c = json.loads(j)
             serverinfo.ServerInfo.send_command(c['info'],
