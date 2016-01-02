@@ -186,7 +186,7 @@
                 TEXTFIELDFONTSIZE_PORTRAIT];
     } else {
         rcTextField.size.height = TEXTFIELDHEIGHT_LANDSCAPE;
-        rcTextField.size.width = TEXTFIELDWIDTH_LANDSCAPE;
+        rcTextField.size.width = TEXTFIELDWIDTH_LANDSCAPE / 480.0f * view_.bounds.size.width;;
         textField_.font = [UIFont systemFontOfSize:
                 TEXTFIELDFONTSIZE_LANDSCAPE];
     }
@@ -216,7 +216,7 @@
     // Size the label width
     [titleLabel_ sizeToFit];
     CGRect frame = titleLabel_.frame;
-    frame.size.width = TITLELABELWIDTH_LANDSCAPE;
+    frame.size.width = TITLELABELWIDTH_LANDSCAPE / 480.0f * view_.bounds.size.width;
     titleLabel_.frame = frame;
 
     // Toolbar2 goes at the top
