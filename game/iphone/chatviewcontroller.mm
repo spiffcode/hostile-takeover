@@ -31,8 +31,8 @@
     suspended_ = NO;
     chatEntries_ = [[NSMutableArray alloc] initWithCapacity:CHAT_HISTORY];
     entryFont_ = [UIFont systemFontOfSize:12];
-    CGSize size10Spaces = [@"          " sizeWithFont:entryFont_];
-    width10Spaces_ = size10Spaces.width;
+    CGSize size10Spaces = [@"          " sizeWithAttributes:@{NSFontAttributeName: entryFont_}];
+    width10Spaces_ = ceilf(size10Spaces.width);
     chatc_ = NULL;
     title_ = @"Chat";
     [title_ retain];
@@ -458,8 +458,8 @@
             // Insert spaces into chat so that user's name can draw into that
             // space with a different UILabel. Hack-o-rama.
 
-            CGSize sizeUser = [newUser sizeWithFont:entryFont_];
-            CGFloat ratio = sizeUser.width / width10Spaces_;
+            CGSize sizeUser = [newUser sizeWithAttributes:@{NSFontAttributeName: entryFont_}];
+            CGFloat ratio = ceilf(sizeUser.width) / width10Spaces_;
             int countSpaces = ceil(ratio * 10.0) + 2;
 
             char szSpaces[256];
@@ -535,12 +535,15 @@
     // Calculate what the height is, cache it, return it
     NSString *chat = (NSString *)[entry objectForKey:@"chat"];
 
-    CGSize sizeBox = CGSizeMake(width, 2800);
-    CGSize size = [chat sizeWithFont:entryFont_ constrainedToSize:sizeBox
-            lineBreakMode:UILineBreakModeWordWrap];
-    value = [NSString stringWithFormat:@"%d", (int)size.height];
+    CGRect rect = [chat boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+            options: NSStringDrawingUsesLineFragmentOrigin
+            attributes: @{ NSFontAttributeName: entryFont_ }
+            context:nil];
+    CGFloat height = ceilf(rect.size.height);
+
+    value = [NSString stringWithFormat:@"%d", (int)height];
     [entry setObject:value forKey:key];
-    return size.height;
+    return height;
 }
 
 - (void)doClear

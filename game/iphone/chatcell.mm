@@ -39,7 +39,11 @@
     chatLabel_.frame = frame;
     nameLabel_.text = user;
     frame = nameLabel_.frame;
-    frame.size = [user sizeWithFont:nameLabel_.font];
+
+    CGSize sizeFont = [user sizeWithAttributes:@{NSFontAttributeName: nameLabel_.font}];
+    frame.size.height = ceilf(sizeFont.height);
+    frame.size.width = ceilf(sizeFont.width);
+
     nameLabel_.frame  = frame;
 
     // length 0 means system message
