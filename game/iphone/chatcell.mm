@@ -11,7 +11,7 @@
     chatLabel_.backgroundColor = [UIColor whiteColor];
     chatLabel_.opaque = YES;
     chatLabel_.font = [UIFont systemFontOfSize:12];
-    chatLabel_.lineBreakMode = UILineBreakModeWordWrap;
+    chatLabel_.lineBreakMode = NSLineBreakByWordWrapping;
     chatLabel_.numberOfLines = 0;
 
     [self addSubview:chatLabel_];
@@ -21,7 +21,7 @@
     nameLabel_.opaque = YES;
     nameLabel_.textColor = [UIColor blueColor];
     nameLabel_.font = [UIFont systemFontOfSize:12];
-    nameLabel_.lineBreakMode = UILineBreakModeWordWrap;
+    nameLabel_.lineBreakMode = NSLineBreakByWordWrapping;
     nameLabel_.numberOfLines = 0;
 
     [self addSubview:nameLabel_];
