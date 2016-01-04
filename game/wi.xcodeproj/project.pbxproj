@@ -137,12 +137,13 @@
 		C17D66C00D9E160100CB9F01 /* display.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66AE0D9E160100CB9F01 /* display.cpp */; };
 		C17D66C20D9E160100CB9F01 /* host.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66B10D9E160100CB9F01 /* host.cpp */; };
 		C17D66C30D9E160100CB9F01 /* iphone.mm in Sources */ = {isa = PBXBuildFile; fileRef = C17D66B50D9E160100CB9F01 /* iphone.mm */; };
-		C17D66C40D9E160100CB9F01 /* iphonesounddev.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66B60D9E160100CB9F01 /* iphonesounddev.cpp */; };
 		C17D66C60D9E160100CB9F01 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66B90D9E160100CB9F01 /* main.cpp */; };
 		C17D66C80D9E160100CB9F01 /* savegame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66BC0D9E160100CB9F01 /* savegame.cpp */; };
 		C17D66CA0D9E160100CB9F01 /* transportmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C17D66BF0D9E160100CB9F01 /* transportmgr.cpp */; };
 		C17D66D00D9E162500CB9F01 /* htsfx.pdb in Resources */ = {isa = PBXBuildFile; fileRef = C17D66CC0D9E162500CB9F01 /* htsfx.pdb */; };
 		C17D66E50D9E163900CB9F01 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C17D66E40D9E163900CB9F01 /* AudioToolbox.framework */; };
+		C17E7A061C3A35BA00B48EDC /* iphonesounddev.mm in Sources */ = {isa = PBXBuildFile; fileRef = C17E7A051C3A35BA00B48EDC /* iphonesounddev.mm */; };
+		C17E7A081C3A48AA00B48EDC /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C17E7A071C3A48AA00B48EDC /* AVFoundation.framework */; };
 		C1949CF80E7874C200A654A1 /* downloadbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C1949CF70E7874C200A654A1 /* downloadbox.cpp */; };
 		C194A1050E7F8CF000A654A1 /* httpindexloader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C194A0FF0E7F8CF000A654A1 /* httpindexloader.cpp */; };
 		C194A1060E7F8CF000A654A1 /* httppackinfomanager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C194A1010E7F8CF000A654A1 /* httppackinfomanager.cpp */; };
@@ -411,7 +412,6 @@
 		C17D66B30D9E160100CB9F01 /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = input.h; path = iphone/input.h; sourceTree = "<group>"; };
 		C17D66B40D9E160100CB9F01 /* iphone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iphone.h; path = iphone/iphone.h; sourceTree = "<group>"; };
 		C17D66B50D9E160100CB9F01 /* iphone.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iphone.mm; path = iphone/iphone.mm; sourceTree = "<group>"; };
-		C17D66B60D9E160100CB9F01 /* iphonesounddev.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = iphonesounddev.cpp; path = iphone/iphonesounddev.cpp; sourceTree = "<group>"; };
 		C17D66B70D9E160100CB9F01 /* cgview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cgview.h; path = iphone/cgview.h; sourceTree = "<group>"; };
 		C17D66B80D9E160100CB9F01 /* cgview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = cgview.mm; path = iphone/cgview.mm; sourceTree = "<group>"; };
 		C17D66B90D9E160100CB9F01 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = iphone/main.cpp; sourceTree = "<group>"; };
@@ -419,6 +419,8 @@
 		C17D66BF0D9E160100CB9F01 /* transportmgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transportmgr.cpp; path = iphone/transportmgr.cpp; sourceTree = "<group>"; };
 		C17D66CC0D9E162500CB9F01 /* htsfx.pdb */ = {isa = PBXFileReference; lastKnownFileType = text; path = htsfx.pdb; sourceTree = "<group>"; };
 		C17D66E40D9E163900CB9F01 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		C17E7A051C3A35BA00B48EDC /* iphonesounddev.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = iphonesounddev.mm; path = iphone/iphonesounddev.mm; sourceTree = "<group>"; };
+		C17E7A071C3A48AA00B48EDC /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		C18E0E020DBAC70700096237 /* oglview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = oglview.h; path = iphone/oglview.h; sourceTree = "<group>"; };
 		C18E0E030DBAC70700096237 /* oglview.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = oglview.mm; path = iphone/oglview.mm; sourceTree = "<group>"; };
 		C1949CF70E7874C200A654A1 /* downloadbox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = downloadbox.cpp; sourceTree = SOURCE_ROOT; };
@@ -506,6 +508,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C17E7A081C3A48AA00B48EDC /* AVFoundation.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				1D3623EC0D0F72F000981E51 /* CoreGraphics.framework in Frameworks */,
@@ -732,6 +735,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C17E7A071C3A48AA00B48EDC /* AVFoundation.framework */,
 				C17D66E40D9E163900CB9F01 /* AudioToolbox.framework */,
 				1058C7A0FEA54F0111CA2CBB /* Linked Frameworks */,
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
@@ -895,6 +899,7 @@
 		C17D66A80D9E15CA00CB9F01 /* iphone */ = {
 			isa = PBXGroup;
 			children = (
+				C17E7A051C3A35BA00B48EDC /* iphonesounddev.mm */,
 				5569EAD21C11252300B0622D /* Entitlements.plist */,
 				C1456692101A9EF0006DCF81 /* inputcontroller.mm */,
 				C1456693101A9EF0006DCF81 /* inputcontroller.h */,
@@ -925,7 +930,6 @@
 				C17D66B30D9E160100CB9F01 /* input.h */,
 				C17D66B40D9E160100CB9F01 /* iphone.h */,
 				C17D66B50D9E160100CB9F01 /* iphone.mm */,
-				C17D66B60D9E160100CB9F01 /* iphonesounddev.cpp */,
 				C17D66B90D9E160100CB9F01 /* main.cpp */,
 				C17D66BC0D9E160100CB9F01 /* savegame.cpp */,
 				C17D66BF0D9E160100CB9F01 /* transportmgr.cpp */,
@@ -1095,7 +1099,6 @@
 				C17D66C00D9E160100CB9F01 /* display.cpp in Sources */,
 				C17D66C20D9E160100CB9F01 /* host.cpp in Sources */,
 				C17D66C30D9E160100CB9F01 /* iphone.mm in Sources */,
-				C17D66C40D9E160100CB9F01 /* iphonesounddev.cpp in Sources */,
 				C17D66C60D9E160100CB9F01 /* main.cpp in Sources */,
 				C17D66C80D9E160100CB9F01 /* savegame.cpp in Sources */,
 				C17D66CA0D9E160100CB9F01 /* transportmgr.cpp in Sources */,
@@ -1155,6 +1158,7 @@
 				C14753040EB6908B0059D367 /* dragrect.cpp in Sources */,
 				C1DD17A60EC279A500D941E8 /* layerdib.cpp in Sources */,
 				C1DD17A80EC279A500D941E8 /* layerview.mm in Sources */,
+				C17E7A061C3A35BA00B48EDC /* iphonesounddev.mm in Sources */,
 				C1DD18070EC3756A00D941E8 /* layermap.mm in Sources */,
 				C12D9D2E0ECA3F94006B5FD9 /* completemanager.cpp in Sources */,
 				C12DA1FB0ECE7A9E006B5FD9 /* xmsglog.cpp in Sources */,

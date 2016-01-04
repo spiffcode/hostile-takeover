@@ -1,4 +1,4 @@
-#include "../ht.h"
+#import <AVFoundation/AVFoundation.h>
 
 #include <AudioToolbox/AudioQueue.h>
 #include <AudioToolbox/AudioServices.h>
@@ -6,6 +6,25 @@
 #include "../mixer.h"
 #include "criticalsection.h"
 #include "iphone.h"
+
+@interface AudioInterruptionHandler : NSObject
+{
+}
+@end
+
+@implementation AudioInterruptionHandler
+- (void)handleInterruption:(NSNotification *)notification
+{
+    UInt8 type = [[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue];
+    if (type == AVAudioSessionInterruptionTypeEnded) {
+        NSError *error = nil;
+        BOOL success = [[AVAudioSession sharedInstance] setActive:YES error:&error];
+        if (!success) {
+            NSLog(@"AVAudioSession setActive error %@", error);
+        }
+    }
+}
+@end
 
 namespace wi {
 
@@ -36,7 +55,6 @@ public:
 
 private:
     void InitAudioBuffer(AudioQueueBuffer *paqb);
-    void InterruptionListener(void *data, UInt32 interruptionState);
 
     bool m_fEnable;
     long m_tSilence;
@@ -47,7 +65,6 @@ private:
 
     friend void AudioCallback(void *pvUser, AudioQueueRef haq,
             AudioQueueBuffer *paqb);
-    friend void InterruptionListener(void *data, UInt32 interruptionState);
 };
 
 SoundDevice *CreateIPhoneSoundDevice()
@@ -60,12 +77,6 @@ SoundDevice *CreateIPhoneSoundDevice()
         return NULL;
     }
     return (SoundDevice *)psndd;
-}
-
-void InterruptionListener(void *data, UInt32 interruptionState)
-{
-    IPhoneSoundDevice *psndd = (IPhoneSoundDevice *)data;
-    psndd->InterruptionListener(data, interruptionState);
 }
 
 IPhoneSoundDevice::IPhoneSoundDevice()
@@ -93,11 +104,32 @@ bool IPhoneSoundDevice::Init()
     // over audio. If the user then ignores the phone call, the
     // audio needs to be turned on again.
 
-    AudioSessionInitialize(NULL, NULL, (AudioSessionInterruptionListener)wi::InterruptionListener, this);
-    UInt32 category = kAudioSessionCategory_UserInterfaceSoundEffects;
-    AudioSessionSetProperty(kAudioSessionProperty_AudioCategory,
-            sizeof(category), &category);
-    AudioSessionSetActive(true);
+    AVAudioSession *session = [AVAudioSession sharedInstance];
+    if (session == nil) {
+        return false;
+    }
+
+    // This category will let background music continue to play, will mute
+    // when ring/silent is set to "silent", and will mute when the screen locks.
+    NSError *sessionError = nil;
+    BOOL success = [session setCategory:AVAudioSessionCategoryAmbient error:&sessionError];
+    if (!success) {
+        NSLog(@"AVAudioSession setCategory error %@", sessionError);
+        return false;
+    }
+
+    // Set up callback for turning on audio when an interruption ends
+    AudioInterruptionHandler *handler = [AudioInterruptionHandler alloc];
+    [[NSNotificationCenter defaultCenter] addObserver: handler
+            selector: @selector(handleInterruption:)
+            name: AVAudioSessionInterruptionNotification
+            object: session];
+    [handler release];
+
+    success = [session setActive:YES error:nil];
+    if (!success) {
+        return false;
+    }
 
     // Set up streaming
 
@@ -127,18 +159,6 @@ bool IPhoneSoundDevice::Init()
     }
 
     return true;
-}
-
-void IPhoneSoundDevice::InterruptionListener(void *inClientData, UInt32 interruptionState) {
-    switch (interruptionState) {
-    case kAudioSessionBeginInterruption:
-        AudioSessionSetActive(false);
-        break;
-
-    case kAudioSessionEndInterruption:
-        AudioSessionSetActive(true);
-        break;
-    }
 }
 
 bool IPhoneSoundDevice::IsEnabled()
