@@ -86,7 +86,7 @@ bool HttpPackManager::Install(const char *pszURL, PackId *ppackidUpdate,
     memset(&temppackid_, 0, sizeof(temppackid_));
     MD5_CTX md5;
     MD5Init(&md5);
-    MD5Update(&md5, (const byte *)pszURL, strlen(pszURL));
+    MD5Update(&md5, (const byte *)pszURL, (int)strlen(pszURL));
     byte hashURL[16];
     MD5Final(hashURL, &md5);
     temppackid_.id = *(dword *)(&hashURL[0]) ^ *(dword *)(&hashURL[4]) ^
@@ -268,7 +268,7 @@ bool HttpPackManager::FinishInstall() {
         if (cb == 0) {
             break;
         }
-        MD5Update(&ctx, ab, cb);
+        MD5Update(&ctx, ab, (unsigned int)cb);
     }
     byte hash[16];
     MD5Final(hash, &ctx);

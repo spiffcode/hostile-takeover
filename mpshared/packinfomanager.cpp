@@ -55,7 +55,7 @@ json::JsonMap *PackInfoManager::LoadInfoMap(FILE *file) {
     builder.Start(NULL);
     byte ab[256];
     while (true) {
-        size_t cb = fread(ab, 1, sizeof(ab), file);
+        int cb = (int)fread(ab, 1, sizeof(ab), file);
         if (cb == 0) {
             break;
         }

@@ -293,7 +293,7 @@ BeginStateMachine
 						if (pmunt->GetOwner() == gpplrLocal) {
 							static long s_tLastNotify;
 							long tCurrent = gtimm.GetTickCount();
-							if (abs(s_tLastNotify - tCurrent) >= kctIntervalLimitNotify) {
+							if (abs((int)(s_tLastNotify - tCurrent)) >= kctIntervalLimitNotify) {
 								s_tLastNotify = tCurrent;
 								ShowAlert(kidsUnitLimitReached);
 							}
@@ -305,7 +305,7 @@ BeginStateMachine
 
 					MobileUnitConsts *pmuntc = (MobileUnitConsts *)pmunt->GetConsts();
 					Player *pplr = pmunt->GetOwner();
-					long cCredits = pplr->GetCredits();
+					int cCredits = pplr->GetCredits();
 
 					int nCost = pmuntc->GetCost();
 					int cReplicationCost = GetReplicationCost(nCost);

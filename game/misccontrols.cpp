@@ -653,7 +653,7 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 	Font *pfnt = pfntDefault;
 
 	if (cch == 0)
-		cch = strlen(psz);
+		cch = (int)strlen(psz);
 
 	int cx = 0;
 
@@ -666,9 +666,9 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 		if (ch == '@') {
 			if (pchT != psz + 1) {
 				if (fGetExtent) {
-					cx += pfnt->GetTextExtent(psz, pchT - psz - 1);
+					cx += pfnt->GetTextExtent(psz, (int)(pchT - psz - 1));
 				} else {
-					cx += pfnt->DrawText(pbm, psz, x, y, pchT - psz - 1, mpscaiclr);
+					cx += pfnt->DrawText(pbm, psz, x, y, (int)(pchT - psz - 1), mpscaiclr);
 					x += cx;
 				}
 				psz = pchT;
@@ -701,9 +701,9 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 
 	if (pchT != psz) {
 		if (fGetExtent)
-			cx += pfnt->GetTextExtent(psz, pchT - psz);
+			cx += pfnt->GetTextExtent(psz, (int)(pchT - psz));
 		else
-			cx += pfnt->DrawText(pbm, psz, x, y, pchT - psz, mpscaiclr);
+			cx += pfnt->DrawText(pbm, psz, x, y, (int)(pchT - psz), mpscaiclr);
 	}
 
 	return cx;
@@ -744,7 +744,7 @@ bool BitmapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	// Distinguish between RawBitmaps and TBitmaps
 	// UNDONE: this should probably be handled by an HtBitmap::Init.
 
-	int cch = strlen(szBitmap);
+	int cch = (int)strlen(szBitmap);
 	if (szBitmap[cch - 3] == 'r') {
 		Assert(szBitmap[cch - 4] == '.' && szBitmap[cch - 2] == 'b' && szBitmap[cch - 1] == 'm');
 		m_phtbm = new RawBitmap();
@@ -1194,7 +1194,7 @@ void ListControl::DrawText(DibBitmap *pbm, char *psz, int x, int y,
     // Make room before the next tab stop for ellipsis
 
     if (wf & kfLstTabEllipsis) {
-        pfnt->DrawTextWithEllipsis(pbm, psz, strlen(psz), x,
+        pfnt->DrawTextWithEllipsis(pbm, psz, (int)strlen(psz), x,
                 y + kcyListLineSpace, cx);
     } else {
         pfnt->DrawText(pbm, psz, x, y + kcyListLineSpace, cx, cy, false);
@@ -1696,7 +1696,7 @@ void SliderControl::OnPenEvent(Event *pevt)
 
 		int x = pevt->x + (kcxySlider / 2) - (rcForm.left + m_rc.left);
 		
-		m_nValue = m_nMin + ((x  * (long)(m_nMax - m_nMin)) / m_rc.Width());
+		m_nValue = m_nMin + ((x  * (m_nMax - m_nMin)) / m_rc.Width());
 		if (m_nValue < m_nMin)
 			m_nValue = m_nMin;
 		else if (m_nValue > m_nMax)
@@ -1708,7 +1708,7 @@ void SliderControl::OnPenEvent(Event *pevt)
 	}
 }
 
-void SliderControl::SetRange(long nMin, long nMax)
+void SliderControl::SetRange(int nMin, int nMax)
 {
 	Assert(nMax >= nMin);
 
@@ -1722,7 +1722,7 @@ void SliderControl::SetRange(long nMin, long nMax)
 	Invalidate();
 }
 
-void SliderControl::SetValue(long n)
+void SliderControl::SetValue(int n)
 {
 	if (m_nValue < m_nMin)
 		m_nValue = m_nMin;
@@ -1734,7 +1734,7 @@ void SliderControl::SetValue(long n)
 	Invalidate();
 }
 
-long SliderControl::GetValue()
+int SliderControl::GetValue()
 {
 	return m_nValue;
 }
@@ -1809,7 +1809,7 @@ void PipMeterControl::OnPaint(DibBitmap *pbm)
 
 	Size sizPip;
 	s_ptbmPip->GetSize(&sizPip);
-	int cxPips = (rcT.Width() * (long)m_nValue) / 100;
+	int cxPips = (rcT.Width() * m_nValue) / 100;
 	int cPips = (cxPips + (sizPip.cx / 2)) / sizPip.cx;
 
 	int x = rcT.left;
@@ -1961,10 +1961,10 @@ bool RadioButtonBarControl::Init(const char *pszLabel, int ifnt, int isel)
     while (true) {
         const char *pszT = strchr(pszNext, '|');
         if (pszT == NULL) {
-            AddLabel(pszNext, strlen(pszNext));
+            AddLabel(pszNext, (int)strlen(pszNext));
             break;
         }
-        AddLabel(pszNext, pszT - pszNext);
+        AddLabel(pszNext, (int)(pszT - pszNext));
         pszNext = pszT + 1;
     }
 

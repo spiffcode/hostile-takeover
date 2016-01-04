@@ -182,7 +182,7 @@ void RawBitmap::BltTo(DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
 
 	// Seek to the start of bits
 
-	long offBits = sizeof(word) * 2 + (long)prcSrc->top * m_cx + prcSrc->left;
+	dword offBits = sizeof(word) * 2 + prcSrc->top * m_cx + prcSrc->left;
 	gpakr.fseek(m_pfil, offBits, SEEK_SET);
 	int nRecCurrent = BigWord(m_pfil->nRecFirst) + m_pfil->nRecOffStream;
 	dword offRecCurrent = m_pfil->offRecStart;

@@ -155,7 +155,7 @@ void BuildMgr::Update()
 
 			// Can this builder build the type we want?
 
-			UnitMask um = (1UL << pblde->ut);
+			UnitMask um = (1 << pblde->ut);
 			if (pbldrc->umCanBuild & um) {
 				// Yes!
 

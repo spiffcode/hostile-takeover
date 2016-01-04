@@ -104,13 +104,13 @@ XMsg *XMsgLog::GetNextXMsg(FILE *file, LogItem *pli) {
 }
 
 base::ByteBuffer *XMsgLog::GetNextByteBuffer(FILE *file, LogItem *pli) {
-    size_t c = fread(pli, sizeof(*pli), 1, file);
+    int c = (int)fread(pli, sizeof(*pli), 1, file);
     if (c != 1) {
         return NULL;
     }
 
     dword cb;
-    c = fread(&cb, sizeof(cb), 1, file);
+    c = (int)fread(&cb, sizeof(cb), 1, file);
     if (c != 1) {
         LOG() << "size read error!";
         return NULL;
@@ -129,7 +129,7 @@ base::ByteBuffer *XMsgLog::GetNextByteBuffer(FILE *file, LogItem *pli) {
         if (cb < cbRead) {
             cbRead = cb;
         }
-        c = fread(ab, 1, cbRead, file);
+        c = (int)fread(ab, 1, cbRead, file);
         if (c != cbRead) {
             LOG() << "read error!";
             delete pbb;

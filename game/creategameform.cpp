@@ -234,7 +234,7 @@ MissionType CreateGameForm::InitLists(int iMissionSelect) {
                                           md.szLvlTitle, md.cPlayersMin, md.cPlayersMax);
         }
         ListControl *plstc = m_aplstc[IndexFromMissionType(md.mt)];
-        plstc->Add(pszT, (void *)i);
+        plstc->Add(pszT, (void *)(pword)i);
         
         // Track the first incomplete, for later selection
         
@@ -306,7 +306,7 @@ void CreateGameForm::OnControlSelected(word idc) {
         // Fill in GameParams
         
         ListControl *plstc = m_aplstc[IndexFromMissionType(m_mt)];
-        int nLevel = (long)plstc->GetSelectedItemData();
+        int nLevel = (int)(pword)plstc->GetSelectedItemData();
         
         MissionIdentifier miid;
         if (!m_pml->GetMissionIdentifier(nLevel, &miid)) {
@@ -426,7 +426,7 @@ void CreateGameForm::UpdateLabels() {
         plbl->SetText("");
         return;
     }
-    int i = (long)plstc->GetSelectedItemData();
+    int i = (int)(pword)plstc->GetSelectedItemData();
     MissionIdentifier miid;
     if (!m_pml->GetMissionIdentifier(i, &miid)) {
         plbl->SetText("");

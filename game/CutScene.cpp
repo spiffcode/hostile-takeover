@@ -180,7 +180,7 @@ void CutSceneForm::More()
 	}
 
 	EcomTextControl *pect = (EcomTextControl *)GetControlPtr(kidcMessage);
-	int cch = pch - m_pszText;
+	int cch = (int)(pch - m_pszText);
 	char *pszT = new char[cch + 1];
 	Assert(pszT != NULL, "out of memory!");
 	if (pszT != NULL) {

@@ -733,7 +733,7 @@ bool FogMap::FindNearestGalaxite(TCoord txOrigin, TCoord tyOrigin, TPoint *ptpt,
 		// of the found locations and return it.
 
 		if (ptptGx != atptGx) {
-			ctptGx = ptptGx - atptGx;
+			ctptGx = (int)(ptptGx - atptGx);
 			int i = GetRandom() % ctptGx;
 			*ptpt = atptGx[i];
 //			MpTrace("  -- found %d, %d, 0x%lx [%d of %d]", ptpt->tx, ptpt->ty, &atptGx[i], i, ctptGx);

@@ -200,7 +200,7 @@ MissionType SelectMissionForm::InitLists(int iMissionSelect) {
         // Add the item
 
         plstc->Add(base::Format::ToString("%s\t%s", md.szLvlTitle,
-                pszStatus), (void *)dw);
+                pszStatus), (void *)(pword)dw);
 
         // Track the first incomplete for each mission type.
 

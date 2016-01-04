@@ -53,7 +53,7 @@ int VIniScanf(char *pszBuff, char *pszFmt, va_list va)
 
 		if (pszFmtT[0] == '%' && pszFmtT[1] == '+') {
 			pszFmtT += 2;
-			*va_arg(va, int *) = pszBuffT - pszBuff;
+			*va_arg(va, int *) = (int)(pszBuffT - pszBuff);
 			cArgs++;
 			continue;
 		}
@@ -109,7 +109,7 @@ int VIniScanf(char *pszBuff, char *pszFmt, va_list va)
 
 					// Go past initial whitespace
 
-					int nchStart = pszBuffT - pszBuff;
+					int nchStart = (int)(pszBuffT - pszBuff);
 					while (IsWhiteSpace(*pszBuffT)) {
 						nchStart++;
 						pszBuffT++;

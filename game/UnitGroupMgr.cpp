@@ -800,7 +800,7 @@ bool WaitUnitGroupAction::SaveState(Stream *pstm)
 {
 	pstm->WriteByte(knVerWaitUnitGroupActionState);
 	pstm->WriteByte(m_fWaiting);
-	pstm->WriteDword(m_tStart);
+	pstm->WriteDword((dword)m_tStart);
 
 	return pstm->IsSuccess();
 }
@@ -1032,7 +1032,7 @@ bool AttackUnitGroupAction::SaveState(Stream *pstm)
 {
 	pstm->WriteByte(knVerAttackUnitGroupActionState);
 	pstm->WriteByte(m_fWaiting);
-	pstm->WriteDword(m_tStart);
+	pstm->WriteDword((dword)m_tStart);
 	pstm->WriteWord(m_gidTarget);
 
 	return pstm->IsSuccess();
@@ -1235,7 +1235,7 @@ bool GuardUnitGroupAction::SaveState(Stream *pstm)
 {
 	pstm->WriteByte(knVerGuardUnitGroupActionState);
 	pstm->WriteByte(m_fWaiting);
-	pstm->WriteDword(m_tStart);
+	pstm->WriteDword((word)m_tStart);
 
 	return pstm->IsSuccess();
 }
@@ -1370,7 +1370,7 @@ bool GuardVicinityUnitGroupAction::SaveState(Stream *pstm)
 {
 	pstm->WriteByte(knVerGuardVicinityUnitGroupActionState);
 	pstm->WriteByte(m_fWaiting);
-	pstm->WriteDword(m_tStart);
+	pstm->WriteDword((dword)m_tStart);
 
 	return pstm->IsSuccess();
 }

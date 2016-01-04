@@ -65,7 +65,7 @@ void GetPrerequisiteString(char *psz, UnitConsts *puntc)
 bool UnitGob::InitClass(UnitConsts *puntc, IniReader *pini)
 {
 	gapuntc[puntc->ut] = puntc;
-	puntc->um = 1L << puntc->ut;
+	puntc->um = 1 << puntc->ut;
 
 	char szTemplate[10];
 	itoa(puntc->gt, szTemplate, 10);
@@ -350,7 +350,7 @@ bool UnitGob::LoadState(Stream *pstm)
 	pstm->Read(m_agidEnemyNearby, sizeof(m_agidEnemyNearby));
 	m_ani.Init(m_puntc->panid);
 	m_ani.LoadState(pstm);
-	m_cupdLastHitNotify = (long)pstm->ReadDword();
+	m_cupdLastHitNotify = (int)pstm->ReadDword();
 	m_cDamageCountdown = pstm->ReadWord();
 
 	return Gob::LoadState(pstm);
@@ -511,7 +511,10 @@ void UnitGob::Draw(DibBitmap *pbm, int xViewOrigin, int yViewOrigin, int nLayer)
 
 dword UnitGob::GetSortKey()
 {
-	return MakeSortKey(m_wy + m_puntc->wdySortOffset, m_gid);
+	int wy = m_wy;
+	int wySortOffset = wy + m_puntc->wdySortOffset;
+	int key = MakeSortKey(wySortOffset, m_gid);
+	return (dword)key;
 }
 
 // See Gob::GetClippingBounds for a description of what the clipping
@@ -985,7 +988,7 @@ void UnitGob::NotifyNearbyAlliesOfHit(Gid gidAssailant)
 {
 	// Only report getting nailed once every other update
 
-	long cupd = gsim.GetUpdateCount();
+	int cupd = gsim.GetUpdateCount();
 	if (cupd - m_cupdLastHitNotify < 2)
 		return;
 	m_cupdLastHitNotify = cupd;

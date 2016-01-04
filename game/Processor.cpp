@@ -73,7 +73,7 @@ bool ProcessorGob::SaveState(Stream *pstm)
 	return StructGob::SaveState(pstm);
 }
 
-long CalcCreditsShare(Player *pplr)
+int CalcCreditsShare(Player *pplr)
 {
 	int cWarehouses = pplr->GetUnitCount(kutWarehouse);
 	int cProcessors = pplr->GetUnitCount(kutProcessor);
@@ -121,7 +121,7 @@ void ProcessorGob::Takeover(Player *pplr)
 {
 	// Takeover the credits this Processor 'owns'
 
-	long cCreditsTaken = CalcCreditsShare(m_pplr);
+	int cCreditsTaken = CalcCreditsShare(m_pplr);
 	m_pplr->SetCredits(m_pplr->GetCredits() - cCreditsTaken, true);
 	pplr->SetCredits(pplr->GetCredits() + cCreditsTaken, true);
 
@@ -189,7 +189,7 @@ void ProcessorGob::Draw(DibBitmap *pbm, int xViewOrigin, int yViewOrigin, int nL
 		rcT.FromWorldRect(&wrcT);
 		rcT.Offset(-xViewOrigin, -yViewOrigin);
 
-		long nCapacity = m_pplr->GetCapacity();
+		int nCapacity = m_pplr->GetCapacity();
 		int nPips = 0;
 		if (nCapacity != 0)
 			nPips = ((m_pplr->GetCredits() * 10) + (nCapacity / 20)) / nCapacity;
@@ -422,7 +422,7 @@ lbError:
 				nAmount -= 2;
 				int nGalaxiteValue = m_pplr->GetHandicap() & kfHcapIncreasedMinerLoadValue ? 
 						((knGalaxiteValue * (100 + knIncreasedMinerLoadValuePercent)) + 50) / 100 : knGalaxiteValue;
-				long nCreditsNew = m_pplr->GetCredits() + 2 * nGalaxiteValue;
+				int nCreditsNew = m_pplr->GetCredits() + 2 * nGalaxiteValue;
 				if (nCreditsNew <= m_pplr->GetCapacity()) {
 					MarkRedraw();
 					m_pplr->SetCredits(nCreditsNew, true);

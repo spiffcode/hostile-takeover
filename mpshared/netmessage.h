@@ -156,7 +156,7 @@ public:
 	void ToString(char *psz, int cb) {
 		snprintf(psz, cb, "CsClientCommands(cmsg: %d)", cmsgCommands);
 		for (int i = 0; i < cmsgCommands; i++) {
-            int cch = strlen(psz);
+            int cch = (int)strlen(psz);
             if ((cb - (cch + 1)) <= 0)
                 break;
             snprintf(&psz[cch], cb - cch, ", %d", amsgCommands[i].mid);

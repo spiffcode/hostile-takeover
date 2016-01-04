@@ -165,7 +165,7 @@ dword LoginHandler::GetToken() {
     const char *s = base::Format::ToString("%s#%s", username_, password_);
     char input[sizeof(username_) + sizeof(password_)];
     strncpyz(input, s, sizeof(input));
-    int cchInput = strlen(input);
+    int cchInput = (int)strlen(input);
     input[strlen(username_)] = 0;
     char output[(sizeof(username_) + sizeof(password_)) * 2];
     int cb = base::base64encode((const byte *)input, cchInput, (byte *)output,
@@ -185,7 +185,7 @@ dword LoginHandler::GetToken() {
     if (!req.Get(url, result, sizeof(result))) {
         return knGetTokenResultServiceUnavailable;
     }
-    int cchResult = strlen(result);
+    int cchResult = (int)strlen(result);
 
     // Strip whitespace from the start and end.
     char *start = result;
@@ -205,7 +205,7 @@ dword LoginHandler::GetToken() {
     if (end <= start) { 
         return knGetTokenResultTokenInvalid;
     }
-    strncpyz(token_, start, end - start + 1);
+    strncpyz(token_, start, (int)(end - start + 1));
     return knGetTokenResultSuccess;
 }
 

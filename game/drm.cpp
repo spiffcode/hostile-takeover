@@ -50,7 +50,7 @@ bool GetCode(char *szName, Code *pcode, bool fShowError)
 		szName = szNameT;
 	}
 
-	long lSeed = (long)HashBytes((byte *)szName, strlen(szName));
+	long lSeed = (long)HashBytes((byte *)szName, (int)strlen(szName));
 
 	// Serialize in endian independent way
 
@@ -385,7 +385,7 @@ void FillTemplate(char *psz, char *pszFormat, byte *pb)
 
 	bool fMSB = true;
 	byte bT = 0;
-	int cb = strlen(pszFormat) + 1;
+	int cb = (int)strlen(pszFormat) + 1;
 	while (cb-- != 0) {
 		if (*pchSrc != '?') {
 			*pchDst++ = *pchSrc++;
@@ -478,7 +478,7 @@ void DrmKeyForm::OnEnterNumber(int nNumber)
 
 	// Find first '?'
 
-	int cch = strlen(szT);
+	int cch = (int)strlen(szT);
 	int n;
 	for (n = 0; n < cch; n++) {
 		if (szT[n] == '?')
@@ -502,7 +502,7 @@ void DrmKeyForm::OnBackspace()
 
 	// Find last number
 
-	int cch = strlen(szT);
+	int cch = (int)strlen(szT);
 	int n;
 	for (n = cch - 1; n >= 0; n--) {
 		if ((szT[n] >= '0' && szT[n] <= '9') || (szT[n] >= 'A' && szT[n] <= 'F'))
@@ -532,7 +532,7 @@ void DrmKeyForm::ParseKey(Key *pkey)
 
 	// Find last number
 
-	int cch = strlen(psz);
+	int cch = (int)strlen(psz);
 	int n;
 	bool fMSB = true;
 	for (n = 0; n < cch; n++) {

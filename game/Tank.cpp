@@ -107,8 +107,8 @@ bool TankGob::Fire(UnitGob *puntTarget, WCoord wx, WCoord wy, WCoord wdx, WCoord
 	// Firing rate is limited by ctFiringRate
 
 	long t = gsim.GetTickCount();
-	long ctWait = m_pmuntc->ctFiringRate;
-	long ctRemaining = ctWait - (t - m_tLastFire);
+	int ctWait = m_pmuntc->ctFiringRate;
+	int ctRemaining = ctWait - (int)(t - m_tLastFire);
 	if (ctRemaining > 0) {
 		m_unvl.MinSkip((ctRemaining + (kctUpdate / 2)) / kctUpdate - 1);
 		return false;
@@ -525,8 +525,8 @@ bool GTankGob::Fire(UnitGob *puntTarget, WCoord wx, WCoord wy, WCoord wdx, WCoor
 	// Firing rate is limited by ctFiringRate
 
 	long t = gsim.GetTickCount();
-	long ctWait = m_pmuntc->ctFiringRate;
-	long ctRemaining = ctWait - (t - m_tLastFire);
+	int ctWait = m_pmuntc->ctFiringRate;
+	int ctRemaining = ctWait - (int)(t - m_tLastFire);
 	if (ctRemaining > 0) {
 		m_unvl.MinSkip((ctRemaining + (kctUpdate / 2)) / kctUpdate - 1);
 		return false;

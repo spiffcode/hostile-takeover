@@ -332,7 +332,7 @@ bool MobileUnitGob::SaveState(Stream *pstm)
 	pstm->WriteByte(m_dir);
 	pstm->WriteByte(m_dirNext);
 	pstm->WriteWord(m_gidTarget);
-	pstm->WriteDword(gsim.GetTickCount() - m_tLastFire);
+	pstm->WriteDword((dword)(gsim.GetTickCount() - m_tLastFire));
 	pstm->Write(&m_msgPending, sizeof(m_msgPending));
 	pstm->Write(&m_msgAction, sizeof(m_msgAction));
 	pstm->WriteWord(m_cCountdown);
@@ -471,8 +471,8 @@ bool MobileUnitGob::Fire(UnitGob *puntTarget, WCoord wx, WCoord wy, WCoord wdx, 
 
 	long t = gsim.GetTickCount();
 
-	long ctWait = m_pmuntc->ctFiringRate;
-	long ctRemaining = ctWait - (t - m_tLastFire);
+	int ctWait = m_pmuntc->ctFiringRate;
+	int ctRemaining = ctWait - (int)(t - m_tLastFire);
 	if (ctRemaining > 0) {
 		m_unvl.MinSkip((ctRemaining + (kctUpdate / 2)) / kctUpdate - 1);
 		return false;

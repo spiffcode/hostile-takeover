@@ -123,7 +123,7 @@ Socket::ConnState Socket::GetState() const {
 }
 
 int Socket::Send(const void *pv, size_t cb) {
-    int sent = ::send(s_, reinterpret_cast<const char *>(pv), (int)cb, 0);
+    int sent = (int)::send(s_, reinterpret_cast<const char *>(pv), cb, 0);
     UpdateLastError();
     if ((sent < 0) && IsBlocking()) {
         dispatcher_->SetEvents(Dispatcher::kfWrite);
@@ -134,8 +134,8 @@ int Socket::Send(const void *pv, size_t cb) {
 int Socket::SendTo(const void *pv, size_t cb, const SocketAddress& addr) {
     sockaddr_in saddr;
     addr.ToSockAddr(&saddr);
-    int sent = ::sendto(
-            s_, (const char *)pv, (int)cb, 0, (sockaddr*)&saddr,
+    int sent = (int)::sendto(
+            s_, (const char *)pv, cb, 0, (sockaddr*)&saddr,
             sizeof(saddr));
     UpdateLastError();
     if ((sent < 0) && IsBlocking()) {
@@ -145,7 +145,7 @@ int Socket::SendTo(const void *pv, size_t cb, const SocketAddress& addr) {
 }
 
 int Socket::Recv(void *pv, size_t cb) {
-    int received = ::recv(s_, (char *)pv, (int)cb, 0);
+    int received = (int)::recv(s_, (char *)pv, cb, 0);
     if ((received == 0) && (cb != 0)) {
         dispatcher_->SetEvents(Dispatcher::kfRead | Dispatcher::kfRemoteClose);
         error_ = EWOULDBLOCK;
@@ -161,7 +161,7 @@ int Socket::Recv(void *pv, size_t cb) {
 int Socket::RecvFrom(void *pv, size_t cb, SocketAddress *paddr) {
     sockaddr_in saddr;
     socklen_t cbAddr = sizeof(saddr);
-    int received = ::recvfrom(s_, (char *)pv, (int)cb, 0, (sockaddr*)&saddr,
+    int received = (int)::recvfrom(s_, (char *)pv, cb, 0, (sockaddr*)&saddr,
             &cbAddr);
     UpdateLastError();
     if (received >= 0 && paddr != NULL) {

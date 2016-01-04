@@ -445,7 +445,7 @@ void RoomForm::OnTimeout(int id) {
         GameInfo& info = it->second;
         char s[80];
         GetString(info, s, sizeof(s));
-        plstc->Add(s, (void *)info.gameid);
+        plstc->Add(s, (void *)(pword)info.gameid);
     }
     int selected = FindIndex(gameid);
     if (selected < 0 && map_.size() != 0) {
@@ -457,7 +457,7 @@ void RoomForm::OnTimeout(int id) {
     HideShowJoinGame();
 
     // Update room label with player count.
-    int count = players_.size();
+    int count = (int)players_.size();
     for (GameMap::iterator it = map_.begin(); it != map_.end(); it++) {
         count += it->second.cnames;
     }
@@ -596,7 +596,7 @@ void RoomForm::GetString(GameInfo& info, char *s, int cb) {
 
     // Add the players one by one.
     for (int i = 0; i < info.cnames; i++) {
-        int cch = strlen(s);
+        int cch = (int)strlen(s);
         if (i != 0) {
             if (cb - cch < 3) {
                 break;

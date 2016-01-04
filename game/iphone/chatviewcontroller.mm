@@ -252,7 +252,7 @@
     // in this UITextField text. Remove them, and remove whitespace.
 
     NSString *text = textField_.text;
-    int count = text.length;
+    int count = (int)text.length;
     int index = 0;
     for (; index < count; index++) {
         unichar ch = [text characterAtIndex:index];
@@ -283,7 +283,7 @@
     [tableView_ beginUpdates];
 
     // Scroll to the bottom
-    int index = [chatEntries_ count] - 1;
+    int index = (int)[chatEntries_ count] - 1;
     if (index >= 0) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index
                 inSection:0];
@@ -422,7 +422,7 @@
         cell = [[[ChatCell alloc] initWithFrame:CGRectZero
                 reuseIdentifier:@"chatcell"] autorelease];
     }
-    [self initializeChatCell:indexPath.row cell:cell];
+    [self initializeChatCell:(int)indexPath.row cell:cell];
     return cell;
 }
 
@@ -434,7 +434,7 @@
     if (entry == nil) {
         return 0;
     }
-    return [self getRowHeight:indexPath.row
+    return [self getRowHeight:(int)indexPath.row
             forWidth:view_.bounds.size.width];
 }
 

@@ -31,7 +31,7 @@ JsonString::JsonString(const char *pch, int cb) : JsonObject(JSONTYPE_STRING) {
 }
 
 int JsonString::GetLength() const {
-    return s_.length();
+    return (int)s_.length();
 }
 
 const char *JsonString::GetString() const {

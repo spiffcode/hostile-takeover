@@ -61,7 +61,7 @@ bool StateMachineMgr::LoadState(Stream *pstm)
 		if (pstm->Read(&msg, sizeof(msg)) == 0)
 			return false;
 		dword ctDelivery = pstm->ReadDword();
-		msg.tDelivery = tCurrent + ctDelivery;
+		msg.tDelivery = (int)(tCurrent + ctDelivery);
 		StoreDelayedMessage(&msg);
 	}
 
@@ -87,7 +87,7 @@ bool StateMachineMgr::SaveState(Stream *pstm)
 	long tCurrent = m_ptimm->GetTickCount();
 	for (pdmsg = m_pdmsgHead; pdmsg != NULL; pdmsg = pdmsg->pdmsgNext) {
 		pstm->Write(&pdmsg->msg, sizeof(pdmsg->msg));
-		pstm->WriteDword(pdmsg->msg.tDelivery - tCurrent);
+		pstm->WriteDword((int)(pdmsg->msg.tDelivery - tCurrent));
 	}
 
 	return pstm->IsSuccess();
@@ -155,7 +155,7 @@ void StateMachineMgr::PostMsg(MessageId mid, StateMachineId smidSender, StateMac
 
 void StateMachineMgr::SendDelayedMsg(Message *pmsg, long tDelay)
 {
-	pmsg->tDelivery = m_ptimm->GetTickCount() + tDelay;
+	pmsg->tDelivery = (int)(m_ptimm->GetTickCount() + tDelay);
 	RouteMessage(pmsg);
 }
 
@@ -167,7 +167,7 @@ void StateMachineMgr::SendDelayedMsg(MessageId mid, long tDelay, StateMachineId 
 	msg.mid = mid;
 	msg.smidSender = smidSender;
 	msg.smidReceiver = smidReceiver;
-	msg.tDelivery = m_ptimm->GetTickCount() + tDelay;
+	msg.tDelivery = (int)(m_ptimm->GetTickCount() + tDelay);
 
 	RouteMessage(&msg);
 }

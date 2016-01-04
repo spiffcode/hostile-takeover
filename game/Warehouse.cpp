@@ -46,7 +46,7 @@ void WarehouseGob::Takeover(Player *pplr)
 {
 	// Takeover the credits this Warehouse 'owns'
 
-	long cCreditsTaken = CalcCreditsShare(m_pplr);
+	int cCreditsTaken = CalcCreditsShare(m_pplr);
 	m_pplr->SetCredits(m_pplr->GetCredits() - cCreditsTaken, true);
 	pplr->SetCredits(pplr->GetCredits() + cCreditsTaken, true);
 
@@ -63,7 +63,7 @@ void WarehouseGob::Draw(DibBitmap *pbm, int xViewOrigin, int yViewOrigin, int nL
 		StructGob::Draw(pbm, xViewOrigin, yViewOrigin, nLayer);
 	} else {
 
-		long nCapacity = m_pplr->GetCapacity();
+		int nCapacity = m_pplr->GetCapacity();
 
 		// OPT: add a Player::GetFullnessPips to cache this calculation and have 
 		// SetCapacity/SetCredits set a recalc bit.

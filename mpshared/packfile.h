@@ -125,7 +125,7 @@ public:
 	File *fopen(const char *pszFn, const char *pszMode);
 	int fclose(File *pfil);
 	dword fread(void *pv, dword cb, int c, File *pfil);
-	int fseek(File *pfil, long off, int nOrigin);
+	int fseek(File *pfil, int off, int nOrigin);
 	dword ftell(File *pfil);
 	bool EnumFiles(Enum *penm, int key, char *pszFn, int cbFn);
 	void *MapFile(const char *pszFn, FileMap *pfmap, dword *pcb = NULL);

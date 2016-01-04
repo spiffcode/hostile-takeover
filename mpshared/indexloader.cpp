@@ -19,7 +19,7 @@ bool IndexLoader::InitFromFile(const char *indexfile) {
     builder.Start(this);
     while (true) {
         char ach[512];
-        size_t cb = fread(ach, 1, sizeof(ach), file);
+        int cb = (int)fread(ach, 1, sizeof(ach), file);
         if (cb == 0) {
             if (ferror(file)) {
                 fclose(file);
@@ -38,7 +38,7 @@ bool IndexLoader::InitFromFile(const char *indexfile) {
 }
 
 int IndexLoader::GetCount() {
-    return index_.size();
+    return (int)index_.size();
 }
 
 const IndexEntry *IndexLoader::GetEntry(int i) {

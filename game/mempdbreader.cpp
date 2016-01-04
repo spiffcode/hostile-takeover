@@ -32,7 +32,7 @@ bool MemPdbReader::Open(char *pszFn)
 	// Read in the entire thing
 
 	fseek(pfil, 0, SEEK_END);
-	m_cb = ftell(pfil);
+	m_cb = (dword)ftell(pfil);
 	fseek(pfil, 0, SEEK_SET);
 
 	m_pb = new byte[m_cb];

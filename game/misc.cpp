@@ -435,7 +435,7 @@ char *_fgets(char *psz, int cch, File *pfil)
 
 	// Look for a newline, and end there
 
-	int cchOld = strlen(psz);
+	int cchOld = (int)strlen(psz);
 	int nchNew;
 	for (nchNew = 0; nchNew < cchOld; nchNew++) {
 		if (psz[nchNew] == '\n') {
@@ -671,7 +671,7 @@ unsigned int isqrt(unsigned long val)
 
   temp = g+g+1;
   if (val >= temp) g++;
-  return g;
+  return (unsigned int)g;
 }
 
 // LineIterator implementation
@@ -1211,7 +1211,7 @@ void Stream::ReadString(char *psz, int cb)
 
 void Stream::WriteString(char *psz)
 {
-	Write(psz, strlen(psz) + 1);
+	Write(psz, (int)(strlen(psz) + 1));
 }
 
 void Stream::WriteBytesRLE(byte *pb, int cb)
@@ -1226,9 +1226,9 @@ void Stream::WriteBytesRLE(byte *pb, int cb)
 
 		int cbLiteral = 0;
 		if (pbRepeat == NULL) {
-			cbLiteral = pbMax - pbChunk;
+			cbLiteral = (int)(pbMax - pbChunk);
 		} else if (pbRepeat > pbChunk) {
-			cbLiteral = pbRepeat - pbChunk;
+			cbLiteral = (int)(pbRepeat - pbChunk);
 		}
 		if (cbLiteral != 0) {
 			WriteRLEChunk(pbChunk, cbLiteral, false);
@@ -1244,7 +1244,7 @@ void Stream::WriteBytesRLE(byte *pb, int cb)
 			if (*pbT != *pbRepeat)
 				break;
 		}
-		int cbRepeat = pbT - pbRepeat;
+		int cbRepeat = (int)(pbT - pbRepeat);
 		Assert(cbRepeat >= 3);
 		WriteRLEChunk(pbChunk, cbRepeat, true);
 		pbChunk += cbRepeat;
@@ -1736,7 +1736,7 @@ void ExpandVars(char *pszSrc, char *pszBuff, int cbBuff)
 				*pszT = 0;
 				ggame.GetVar(szT, pszBuff, cbBuff);
 
-				int cb = strlen(pszBuff);
+				int cb = (int)strlen(pszBuff);
 				cbBuff -= cb;
 				pszBuff += cb;
 				pszSrc++;

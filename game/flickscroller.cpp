@@ -72,7 +72,7 @@ bool FlickScroller::GetPosition(Point *ppt)
     float flDecayMultiplier = 1.0f * ((float)m_cmsDecaySpan / (float)m_fliv.cms);
     float flDecayPercent = m_flDecayPercent;
     
-    dword cmsDelta = HostGetMillisecondCount() - m_msStart;        
+    dword cmsDelta = (dword)(HostGetMillisecondCount() - m_msStart);
     int count = ((float)cmsDelta / (float)m_cmsDecaySpan + 0.5f);
     while (count-- != 0 && m_fHasMagnitude) {
         float dxT = m_fliv.dx * flDecayMultiplier;

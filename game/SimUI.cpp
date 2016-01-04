@@ -675,7 +675,7 @@ bool SimUIForm::ProcessUpdateMessage(CommandQueue *pcmdq)
     // Don't send if cUpdatesBlock_ == 0. This is a special case
     // that is handled elsewhere (search for calls to SendUpdatesResult).
 
-    long cmsLatency = m_msUpdatesBlock - punmr->msReceived;
+    int cmsLatency = (int)(m_msUpdatesBlock - punmr->msReceived);
 
 #ifdef TRACKSTATE
     dword hash = m_ptracker->GetHash();
@@ -716,7 +716,7 @@ bool SimUIForm::ProcessUpdateMessage(CommandQueue *pcmdq)
     return true;
 }
 
-void SimUIForm::SendUpdateResult(long cUpdatesBlock, long cmsLatency,
+void SimUIForm::SendUpdateResult(int cUpdatesBlock, int cmsLatency,
         dword hash)
 {
 	UpdateResultNetMessage urnm;
@@ -2642,8 +2642,19 @@ void MiniMapControl::OnPenEvent2(Event *pevt)
 
 bool MiniMapControl::CalcPoweredRadar()
 {
-	if (this == NULL)
+	// gpmm uninitialized?
+
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+#endif
+
+	if (gpmm == NULL)
 		return false;
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 	// Remember if the local player has fully powered Radar. This determines whether
 	// enemy units show on the mini-map.
@@ -2673,8 +2684,17 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 {
 	// gpmm uninitialized?
 
-	if (this == NULL)
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wtautological-undefined-compare"
+#endif
+
+	if (gpmm == NULL)
 		return;
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 	// Redraw this rect
 

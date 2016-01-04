@@ -159,7 +159,7 @@ dword Lobby::BeginGame(const GameInfo& info, bool creator, Chatter& chatter) {
     // Force certain game options that need to be the same across clients
     word wfPerfOptionsSave = gwfPerfOptions;
     gwfPerfOptions = kfPerfMax;
-    long tGameSpeedSave = gtGameSpeed;
+    int tGameSpeedSave = gtGameSpeed;
     gtGameSpeed = info.params.tGameSpeed;
     
     // Play the game!

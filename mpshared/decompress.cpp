@@ -66,7 +66,7 @@ word DecompressChunk(byte **ppbCompressed, byte *pbDecompressed,
 
 			// Copy this chunk into the output
 
-			int offStart = (pbDst - pbDecompressed) - offBackwards;
+			int offStart = (int)(pbDst - pbDecompressed) - offBackwards;
 			if (offStart >= 0) {
 				// Block is in local memory
 				memcpy(pbDst, pbDecompressed + offStart, cb);

@@ -180,7 +180,7 @@ void IPhoneHttpRequest::OnReceivedResponse(NSHTTPURLResponse *resp) {
             [k cStringUsingEncoding:[NSString defaultCStringEncoding]],
             [v cStringUsingEncoding:[NSString defaultCStringEncoding]]);
     }
-    pparams->code = [resp statusCode];
+    pparams->code = (int)[resp statusCode];
 
     // Post this to the game thread
     thread_.Post(kidmReceivedResponse, this, pparams);
@@ -189,7 +189,7 @@ void IPhoneHttpRequest::OnReceivedResponse(NSHTTPURLResponse *resp) {
 void IPhoneHttpRequest::OnReceivedData(NSData *data) {
     // Called on main thread. Populate ReceivedDataParams
     ReceivedDataParams *pparams = new ReceivedDataParams;
-    pparams->bb.WriteBytes((const byte *)[data bytes], [data length]);
+    pparams->bb.WriteBytes((const byte *)[data bytes], (int)[data length]);
 
      // Post this to the game thread
     thread_.Post(kidmReceivedData, this, pparams);

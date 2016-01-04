@@ -42,7 +42,7 @@ dword HashString(const char *s) {
 }
 
 char *AllocString(const char *psz) {
-    int cb = strlen(psz) + 1;
+    int cb = (int)strlen(psz) + 1;
     char *pszNew = new char[cb];
     if (pszNew == NULL) {
         return NULL;
@@ -52,7 +52,7 @@ char *AllocString(const char *psz) {
 }
 
 const char *StripWhitespace(const char *sz, int *pcch) {
-    int cch = strlen(sz);
+    int cch = (int)strlen(sz);
     int start = 0;
     for (int i = 0; i < cch; i++, start++) {
         if (!isspace(sz[i])) {

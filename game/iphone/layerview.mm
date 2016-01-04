@@ -156,7 +156,7 @@
             prc++;
         }
     }
-    crcInvalid_ = prc - arcInvalid_;
+    crcInvalid_ = (int)(prc - arcInvalid_);
     pcrit_->Leave();
 
     [self performSelectorOnMainThread:@selector(invalidate)

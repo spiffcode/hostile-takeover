@@ -275,7 +275,7 @@ bool WaitAction::Perform(Trigger *ptgr, Side side)
 	// Starting the wait, assume wait not over
 
 	m_afWaitingSide[side] = true;
-	m_atStartSide[side] = t;
+	m_atStartSide[side] = (dword)t;
 	return false;
 }
 
@@ -908,7 +908,7 @@ bool ModifyCreditsAction::Init(char *psz)
 		return false;
 	m_wfCaSideMask = nCaSideMask;
 
-	if (!ParseLong(&psz, &m_nAmount))
+	if (!ParseNumber(&psz, &m_nAmount))
 		return false;
 
 	return true;
@@ -928,7 +928,7 @@ bool ModifyCreditsAction::Perform(Trigger *ptgr, Side side)
 
 		case knModifyNumberTypeAdd:
 			{
-				long nCredits = pplr->GetCredits() + m_nAmount;
+				int nCredits = pplr->GetCredits() + m_nAmount;
 				if (nCredits < 0)
 					nCredits = 0;
 				pplr->SetCredits(nCredits, true);
@@ -937,7 +937,7 @@ bool ModifyCreditsAction::Perform(Trigger *ptgr, Side side)
 
 		case knModifyNumberTypeSubtract:
 			{
-				long nCredits = pplr->GetCredits() - m_nAmount;
+				int nCredits = pplr->GetCredits() - m_nAmount;
 				if (nCredits < 0)
 					nCredits = 0;
 				pplr->SetCredits(nCredits, true);
@@ -1015,7 +1015,7 @@ bool MoveUnitsInAreaAction::Perform(Trigger *ptgr, Side side)
 
 	// Send them off to AreaDst
 
-	int cpmunt = ppgobT - apgob;
+	int cpmunt = (int)(ppgobT - apgob);
 	if (cpmunt > 0) {
 		TRect trc;
 		ggobm.GetAreaRect(m_nAreaDst, &trc, side);
@@ -1271,7 +1271,7 @@ bool ModifyPvarAction::Init(char *psz)
 	if (!ParseNumber(&psz, &m_nAction))
 		return false;
 
-	if (!ParseLong(&psz, &m_nAmount))
+	if (!ParseNumber(&psz, &m_nAmount))
 		return false;
 
 	return true;

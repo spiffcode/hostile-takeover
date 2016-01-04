@@ -55,8 +55,8 @@ SocketAddress::SocketAddress(const char *hostport, bool use_dns) {
     } else {
         // Hostname:port
         char hostnameT[256];
-        wi::strncpyz(hostnameT, hostport, colon - hostport + 1);
-        long port = strtol(colon + 1, NULL, 10);
+        wi::strncpyz(hostnameT, hostport, (int)(colon - hostport + 1));
+        int port = atoi(colon + 1);
         SetIP(hostnameT, use_dns);
         SetPort(port);
     }
@@ -95,7 +95,7 @@ void SocketAddress::SetHostname(const char *hostname) {
     delete[] hostname_;
     hostname_ = NULL;
     if (hostname != NULL) {
-        int cb = strlen(hostname) + 1;
+        int cb = (int)strlen(hostname) + 1;
         hostname_ = new char[cb];
         wi::strncpyz(hostname_, hostname, cb);
     }
@@ -148,7 +148,7 @@ void SocketAddress::PortAsString(char *psz, int cb) const {
 
 void SocketAddress::ToString(char *psz, int cb) const {
     IPAsString(psz, cb);
-    int cbT = strlen(psz);
+    int cbT = (int)strlen(psz);
     cb -= cbT + 1;
     psz = &psz[cbT];
     if (cb <= 0)

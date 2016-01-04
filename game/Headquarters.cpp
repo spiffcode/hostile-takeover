@@ -352,7 +352,7 @@ void StructureBuildForm::SetOwner(BuilderGob *pgobOwner)
 
 			int nStripIcon = puntc->panid->GetStripIndex("icon");
 			if (nStripIcon != -1) {
-				plstc->Add(puntc->panid, nStripIcon, 0, (void *)(int)puntc->ut, fDisabled);
+				plstc->Add(puntc->panid, nStripIcon, 0, (void *)(pword)puntc->ut, fDisabled);
 			}
 		}
 	}
@@ -389,7 +389,7 @@ void StructureBuildForm::UpdateStructureInfo(ListItem *pli)
 	itoa(pstruc->GetCost(), szT, 10);
 	plbl->SetText(szT);
 	PipMeterControl *pmtr = (PipMeterControl *)GetControlPtr(kidcCostMeter);
-	pmtr->SetValue(((long)pstruc->GetCost() * 100) / GetUnitCostMax());
+	pmtr->SetValue((pstruc->GetCost() * 100) / GetUnitCostMax());
 
 	// Update Name
 
@@ -408,7 +408,7 @@ void StructureBuildForm::UpdateStructureInfo(ListItem *pli)
 	// Use gnPowerSupplyMax as the scaler instead of gnPowerDemandMax so
 	// both supply and demand can be compared on the same scale
 
-	pmtr->SetValue(((long)pstruc->nPowerDemand * 100) / gnPowerSupplyMax);
+	pmtr->SetValue((pstruc->nPowerDemand * 100) / gnPowerSupplyMax);
 
 	// Update Power Supply
 
@@ -416,7 +416,7 @@ void StructureBuildForm::UpdateStructureInfo(ListItem *pli)
 	itoa(pstruc->nPowerSupply, szT, 10);
 	plbl->SetText(szT);
 	pmtr = (PipMeterControl *)GetControlPtr(kidcPowerSupplyMeter);
-	pmtr->SetValue(((long)pstruc->nPowerSupply * 100) / gnPowerSupplyMax);
+	pmtr->SetValue((pstruc->nPowerSupply * 100) / gnPowerSupplyMax);
 
 	// Update Firepower
 
@@ -437,7 +437,7 @@ void StructureBuildForm::UpdateStructureInfo(ListItem *pli)
 		pszT = "HEAVY";
 	plbl->SetText(pszT);
 	pmtr = (PipMeterControl *)GetControlPtr(kidcArmorStrengthMeter);
-	pmtr->SetValue(((long)fxtoi(pstruc->GetArmorStrength()) * 100) / fxtoi(gfxStructureArmorStrengthMax));
+	pmtr->SetValue(((int)fxtoi(pstruc->GetArmorStrength()) * 100) / fxtoi(gfxStructureArmorStrengthMax));
 
 	// Update Description. Substitute the list of prerequisites if the
 	// item is disabled.

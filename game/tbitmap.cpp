@@ -251,7 +251,7 @@ bool TBitmap::Init(File *pfil, word ib)
 {
 	// How many?
 
-	if (gpakr.fseek(pfil, (long)ib, SEEK_SET) != 0)
+	if (gpakr.fseek(pfil, ib, SEEK_SET) != 0)
 		return false;
 	word ctbmT;
 	if (gpakr.fread(&ctbmT, sizeof(ctbmT), 1, pfil) == 0)

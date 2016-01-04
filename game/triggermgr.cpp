@@ -163,7 +163,7 @@ bool TriggerMgr::SaveState(Stream *pstm)
 
 	for (i = 0; i < m_cTimers; i++)
 		pstm->WriteDword(m_actCountdown[i]);
-	pstm->WriteDword(m_tLastUpdate);
+	pstm->WriteDword((dword)m_tLastUpdate);
 
 	m_cdt.SaveState(pstm);
 
@@ -208,7 +208,7 @@ void TriggerMgr::Update()
 	long dt = t - m_tLastUpdate;
 	m_tLastUpdate = t;
 
-	long *pct = m_actCountdown;
+	int *pct = m_actCountdown;
 	int i;	// thank you WinCE compiler for this
 	for (i = 0; i < m_cTimers; i++)
 		if (*pct != kctTimerNotStarted)
@@ -518,7 +518,7 @@ bool CountdownTimer::SaveState(Stream *pstm)
 	m_wf = (wf & kfCtlVisible) ? (m_wf | kfCtVisibleAtStart) : (m_wf & ~kfCtVisibleAtStart);
 
 	pstm->WriteWord(m_wf);
-	pstm->WriteDword(m_tLast);
+	pstm->WriteDword((dword)m_tLast);
 	pstm->WriteString(m_szFormat);
 
 

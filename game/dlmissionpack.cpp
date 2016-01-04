@@ -284,7 +284,7 @@ void DownloadMissionPackForm::Sort(word id) {
     if (idSortIndicator_ != 0) {
         LabelControl *plbl = (LabelControl *)GetControlPtr(idSortIndicator_);
         strncpyz(szT, plbl->GetText(), sizeof(szT));
-        int cch = strlen(szT);
+        int cch = (int)strlen(szT);
         if (szT[cch - 1] == '*') {
             szT[cch - 1] = 0;
             plbl->SetText(szT);
@@ -296,7 +296,7 @@ void DownloadMissionPackForm::Sort(word id) {
     idSortIndicator_ = id;
     LabelControl *plbl = (LabelControl *)GetControlPtr(idSortIndicator_);
     strncpyz(szT, plbl->GetText(), sizeof(szT));
-    int cch = strlen(szT);
+    int cch = (int)strlen(szT);
     if (szT[cch - 1] != '*') {
         szT[cch] = '*';
         szT[cch + 1] = 0;

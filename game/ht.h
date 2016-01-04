@@ -2317,7 +2317,7 @@ public:
             int nRank = 0) secGame;
 	int PlaySavedGame(Stream *pstm) secGame;
 	bool IsMultiplayer() secGame;
-	void SetGameSpeed(long t) secGame;
+	void SetGameSpeed(int t) secGame;
 	void SavePreferences() secGame;
 	bool SaveReinitializeGame() secGame;
 	bool GetFormattedVersionString(char *pszVersion, char *pszOut) secGame;
@@ -3405,13 +3405,13 @@ public:
 	virtual void OnSelect(int nSelect) secSliderControl;
 	virtual void OnPenEvent(Event *pevt) secSliderControl;
 
-	void SetRange(long nMin, long nMax) secSliderControl;
-	void SetValue(long n) secSliderControl;
-	long GetValue() secSliderControl;
+	void SetRange(int nMin, int nMax) secSliderControl;
+	void SetValue(int n) secSliderControl;
+	int GetValue() secSliderControl;
 
 private:
-	long m_nMin, m_nMax;
-	long m_nValue;
+	int m_nMin, m_nMax;
+	int m_nValue;
 };
 
 inline SliderControl::~SliderControl() {
@@ -3633,7 +3633,7 @@ public:
 	SimUIForm(word wfRole, dword gameid, Chatter *chatter);
 	virtual ~SimUIForm() secSimUIForm;
 	void Update() secSimUIForm;
-	void SendUpdateResult(long cUpdatesBlock, long cmsLatency, dword hash);
+	void SendUpdateResult(int cUpdatesBlock, int cmsLatency, dword hash);
 	void CalcLevelSpecificConstants() secSimUIForm;
 	void InvalidateDragSelection() secSimUIForm;
     Gob *HitTestGob(int x, int y, bool fFinger, WCoord *pwx, WCoord *pwy,
@@ -3810,7 +3810,7 @@ private:
 	WCoord m_wxMoveTarget;
 	WCoord m_wyMoveTarget;
 	int m_nStateMoveTarget;
-    long m_cUpdatesBlock;
+    int m_cUpdatesBlock;
     long m_msUpdatesBlock;
     DialogForm *m_pfrmLag;
     Pid m_pidLagging;
@@ -4611,7 +4611,7 @@ public:
 
 private:
 	word m_wfCaSideMask;
-	long m_nAmount;
+	int m_nAmount;
 	int m_nAction;
 };
 
@@ -4789,7 +4789,7 @@ public:
 
 private:
 	char m_szName[kcbPvarNameMax];
-	long m_nAmount;
+	int m_nAmount;
 	int m_nAction;
 };
 
@@ -4859,7 +4859,7 @@ public:
 		return m_abSwitch[iSwitch] != 0;
 	}
 
-	int AddPeriodicTimer(long ctPeriod) {
+	int AddPeriodicTimer(int ctPeriod) {
 		Assert(m_cTimers < kcTriggerTimersMax);
 		m_actPeriod[m_cTimers] = ctPeriod;
 		m_actCountdown[m_cTimers] = kctTimerNotStarted;
@@ -4906,8 +4906,8 @@ private:
 	SideMask m_asidmCondition[knConditionMax];
 	byte m_abSwitch[kcSwitchMax];
 	int m_cTimers;
-	long m_actPeriod[kcTriggerTimersMax];
-	long m_actCountdown[kcTriggerTimersMax];
+	int m_actPeriod[kcTriggerTimersMax];
+	int m_actCountdown[kcTriggerTimersMax];
 	long m_tLastUpdate;
 	bool m_fEnabled;
 	CountdownTimer m_cdt;
@@ -5077,7 +5077,7 @@ public:
 
 private:
 	dword m_ctWait;
-	dword m_tStart;
+	long m_tStart;
 	bool m_fWaiting;
 };
 
@@ -5136,7 +5136,7 @@ private:
 	// These are persisted in the save game
 
 	bool m_fWaiting;
-	dword m_tStart;
+	long m_tStart;
 	Gid m_gidTarget;
 };
 
@@ -5162,7 +5162,7 @@ private:
 	// These are persisted in the save game
 
 	bool m_fWaiting;
-	dword m_tStart;
+	long m_tStart;
 };
 
 class MineUnitGroupAction : public UnitGroupAction
@@ -5199,7 +5199,7 @@ private:
 	// These are persisted in the save game
 
 	bool m_fWaiting;
-	dword m_tStart;
+	long m_tStart;
 };
 
 // BuildMgr
@@ -5262,7 +5262,7 @@ public:
 		return m_plvl;
 	}
 
-	long GetUpdateCount() {
+	int GetUpdateCount() {
 		return m_cUpdates;
 	}
 
@@ -5306,7 +5306,7 @@ private:
 	Level *m_plvl;
 	WCoord m_wxView, m_wyView;
 	bool m_fGameOver;
-	long m_cUpdates;		// Can count 80 ms updates for over 10 years without wrapping
+	int m_cUpdates;		// Can count 80 ms updates for 5+ years without wrapping
 	long m_tCurrent;
 	bool m_fPaused;
 	int m_nMiniMapScale;
@@ -5316,8 +5316,8 @@ private:
 	int m_cgobVisible;
 	WCoord m_wxViewSave;
 	WCoord m_wyViewSave;
-	long m_cUpdatesSave;
-	long m_cupdTriggerMgrUpdateLast;
+	int m_cUpdatesSave;
+	int m_cupdTriggerMgrUpdateLast;
 };
 extern Simulation gsim;
 
@@ -5336,7 +5336,7 @@ inline int MmcFromWc(WCoord wc) {
 
 struct SideInfo	// sidi
 {
-	long nInitialCredits;
+	int nInitialCredits;
 	WPoint wptInitialView;
 	int nIntelligence;
 	int cStructuresInitial;
@@ -5548,18 +5548,18 @@ public:
 	bool SaveState(Stream *pstm) secPlayer;
 	void SetName(const char *pszName) secPlayer;
 	UnitMask GetUnitMask() secPlayer;
-	void SetCredits(long nCredits, bool fAffectTotals, int nConsumer = knConsumerGeneric) secPlayer;
+	void SetCredits(int nCredits, bool fAffectTotals, int nConsumer = knConsumerGeneric) secPlayer;
 	int GetCreditsDirection() secPlayer;
 	int GetCreditsConsumer() secPlayer;
 	void AddPowerSupplyAndDemand(int nPowerSupply, int nPowerDemand) secPlayer;
 	void Repair(bool fOn) secPlayer;
-	void Update(long cUpdates) secPlayer;
+	void Update(int cUpdates) secPlayer;
 	void SetFormalObjectiveText(int iObjective, char *pszText) secPlayer;
 	void SetFormalObjectiveStatus(int iObjective, char *pszStatus) secPlayer;
 	void SetFormalObjectiveInfo(char *pszInfo) secPlayer;
 	int ShowObjectives(int so, bool fForceInfoDisplay = false, bool fAborting = false) secObjectives;
 	void ModifyNeedCreditsCount(int cDelta)secPlayer;
-	bool IsBehind(long cUpdates) secPlayer;
+	bool IsBehind(int cUpdates) secPlayer;
     void SetLeftGame() {
         m_fLeftGame = true;
     }
@@ -5628,7 +5628,7 @@ public:
 		return m_tptDiscover;
 	}
 
-	long GetCredits() {
+	int GetCredits() {
 		return m_nCredits;
 	}
 
@@ -5636,7 +5636,7 @@ public:
 		return m_cStructsNeedCredits;
 	}
 
-	long GetCapacity() {
+	int GetCapacity() {
 		return (m_acut[kutWarehouse] * knWarehouseCapacity) + (m_acut[kutProcessor] * knProcessorCapacity);
 	}
 
@@ -5747,15 +5747,15 @@ public:
 		return m_cstruLost;
 	}
 
-	long GetTotalCreditsAcquired() {
+	int GetTotalCreditsAcquired() {
 		return m_nTotalCreditsAcquired;
 	}
 
-	void ModifyTotalCreditsConsumed(long nAmount) {
+	void ModifyTotalCreditsConsumed(int nAmount) {
 		m_nTotalCreditsConsumed += nAmount;
 	}
 
-	long GetTotalCreditsConsumed() {
+	int GetTotalCreditsConsumed() {
 		return m_nTotalCreditsConsumed;
 	}
 
@@ -5773,7 +5773,7 @@ public:
 		return m_cUpdates;
 	}
 
-	void SetUpdateCount(long cUpdates) {
+	void SetUpdateCount(int cUpdates) {
 		m_cUpdates = cUpdates;
 	}
 
@@ -5795,7 +5795,7 @@ private:
 	char m_szName[kcbPlayerName];
 	word m_wf;
 	Pid m_pid;
-	long m_nCredits;
+	int m_nCredits;
 	int m_nCreditsAcquired, m_nCreditsConsumed;
 	int m_nDirCredits;
 	int m_nConsumerCredits;
@@ -5814,12 +5814,12 @@ private:
 	int m_cstruKilled;
 	int m_cmuntLost;
 	int m_cstruLost;
-	long m_nTotalCreditsAcquired;
-	long m_nTotalCreditsConsumed;
-	long m_cUpdatesRepairLast;
+	int m_nTotalCreditsAcquired;
+	int m_nTotalCreditsConsumed;
+	int m_cUpdatesRepairLast;
 	word m_cStructsNeedCredits;
 	word m_wfHandicap;
-	long m_cUpdates;	// only valid for server-side Player proxies
+	int m_cUpdates;	// only valid for server-side Player proxies
 	int m_nLagState;
 	long m_tLagStart;
 	long m_tLastLag;
@@ -5844,7 +5844,7 @@ public:
 	bool LoadState(Stream *pstm) secPlayer;
 	bool SaveState(Stream *pstm) secPlayer;
 	Player *AllocPlayer(word wf = 0) secPlayer;
-	void Update(long cUpdates) secPlayer;
+	void Update(int cUpdates) secPlayer;
 	void SetAllies(Player **applr, int cplrs, SideMask sidmAllies) secPlayer;
 
 	void FreePlayer(Player *pplr) {
@@ -5929,7 +5929,7 @@ protected:
 // NOTE: will become spotty when gid values wrap or exceed 1024 (more than
 // 256 ids assigned) but this is deemed inconsequential.
 
-#define MakeSortKey(a, b) (((long)(a) << 8) | (((b) >> 2) & 0xff))
+#define MakeSortKey(a, b) (((int)(a) << 8) | (((b) >> 2) & 0xff))
 
 class Gob : public StateMachine // gob
 {
@@ -6562,7 +6562,7 @@ protected:
 	Animation m_ani;
     AnimSprite *m_panispr;
 	word m_wfUnit;
-	long m_cupdLastHitNotify;
+	int m_cupdLastHitNotify;
 	short m_cDamageCountdown;
 };
 
@@ -6836,7 +6836,7 @@ protected:
 	MobileUnitAction m_mua, m_muaPending;
 	word m_wfMunt;
 	State m_stPending;
-	long m_cupdLastHitOrNearbyAllyHit;
+	int m_cupdLastHitOrNearbyAllyHit;
 
 #ifdef DRAW_PATHS
 public:
@@ -7001,7 +7001,7 @@ public:
 	virtual void OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd) secStructures;
 
 private:
-	long m_cupdLast;
+	int m_cupdLast;
 	bool m_fLimitReached;
 	bool m_fOrderValid;
 	BuilderGob *m_pbldr;
@@ -8496,7 +8496,7 @@ extern int gnDemoRank;
 extern double gnScrollSpeed;
 extern char gszAskURL[512];
 extern char gszDeviceId[34];
-extern long gtGameSpeed;
+extern int gtGameSpeed;
 extern AnimationData *g_panidMoveTarget;
 extern UpdateMap *gpupdSim;
 extern Color *gaclrFixed;
@@ -8617,7 +8617,7 @@ bool FormDragger(Form *pfrm, Event *pevt) secForm;
 bool HostMultiplayerGame() secMultiplayer;
 bool JoinOrHostMultiplayerGame(const PackId *ppackid) secMultiplayer;
 Direction TurnToward(Direction dirTo, Direction dirFrom) secMisc;
-long CalcCreditsShare(Player *pplr) secStructures;
+int CalcCreditsShare(Player *pplr) secStructures;
 void DrawTileMap(byte **ppbMap, int ctx, int cty, byte *pbDst, int cbDstStride, int cxLeftTile, int cyTopTile, int cxRightTile, int cyBottomTile, int ctxInside, int ctyInside, int cxTile, int cyTile) secTileMap;
 FormMgr *CreateFormMgr(DibBitmap *pbm) secFormMgr;
 void ShadowHelper(DibBitmap *pbm, UpdateMap *pupd, Rect *prc) secForm;

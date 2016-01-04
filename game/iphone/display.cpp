@@ -82,7 +82,7 @@ bool Display::Init()
     pmode++;
 #endif
 
-    m_cmodes = pmode - m_amodeInfo;
+    m_cmodes = (int)(pmode - m_amodeInfo);
 
     HostOutputDebugString("Display::Init %d", pmode - m_amodeInfo);
     HostOutputDebugString("Display::Init %d modes", m_cmodes);

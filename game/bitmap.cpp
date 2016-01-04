@@ -37,7 +37,7 @@ DibBitmap::~DibBitmap()
 bool DibBitmap::Init(byte *pb, int cx, int cy)
 {
 	m_cbRow = (cx + 1) & ~1;
-	m_cb = (long)cy * m_cbRow;
+	m_cb = (int)cy * m_cbRow;
 	if (pb == NULL) {
 		m_pb = new byte[m_cb];
 		Assert(m_pb != NULL, "out of memory!");
@@ -284,13 +284,13 @@ void DibBitmap::GetSize(Size *psiz)
 
 void DibBitmap::DrawLine(short x1, short y1, short x2, short y2, Color clr)
 {
-	long xl = 0, yb = 0;
-	long xr = m_siz.cx - 1;
-	long yt = m_siz.cy - 1;
+	int xl = 0, yb = 0;
+	int xr = m_siz.cx - 1;
+	int yt = m_siz.cy - 1;
 
-	long adx, ady, adx2, ady2, sx, sy;
-	long out1, out2, type1, type2;
-	long ca, cb, r, diff, xs, ys, n, alt;
+	int adx, ady, adx2, ady2, sx, sy;
+	int out1, out2, type1, type2;
+	int ca, cb, r, diff, xs, ys, n, alt;
 
 	OUTCODE(x1, y1, out1, type1);
 	OUTCODE(x2, y2, out2, type2);

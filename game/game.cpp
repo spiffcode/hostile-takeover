@@ -52,7 +52,7 @@ char gszAskURL[512];
 char gszDeviceId[34];
 Stream *gpstmSavedGame;
 UpdateMap *gpupdSim;
-long gtGameSpeed = kcmsUpdate / 10;	// 80 ms/frame or 12.5 FPS (1000/80)
+int gtGameSpeed = kcmsUpdate / 10;	// 80 ms/frame or 12.5 FPS (1000/80)
 Color *gaclrFixed;
 bool gfClearFog;
 word gwfPerfOptions = kfPerfAll;
@@ -2358,7 +2358,7 @@ void Game::SetNextLevel(char *pszLevel)
     // Some missions don't have correct "next level" filenames,
     // in that .lvl isn't there. Append if it's not there.
 
-    int cch = strlen(szT);
+    int cch = (int)strlen(szT);
     if (sizeof(szT) - 1 - cch >= 4) {
         bool fAppend = false;
         if (cch < 4) {
@@ -2387,7 +2387,7 @@ bool Game::IsMultiplayer()
 	return (m_wf & kfGameMultiplayer) != 0; 
 }
 
-void Game::SetGameSpeed(long t)
+void Game::SetGameSpeed(int t)
 {
 	gtGameSpeed = t;
 	if (m_pfrmSimUI != NULL)
@@ -2553,7 +2553,7 @@ void Game::SavePreferences()
 	wfPrefs |= gfIgnoreBluetoothWarning ? kfPrefIgnoreBluetoothWarning : 0;
 	prefs.wfPrefs = BigWord(wfPrefs);
 	prefs.wfPerfOptions = BigWord((gwfPerfOptions & kfPerfAll) | (kfPerfMax & ~kfPerfAll));
-	prefs.ctGameSpeed = BigDword(gtGameSpeed);
+	prefs.ctGameSpeed = BigDword((dword)gtGameSpeed);
 	prefs.fLassoSelection = gfLassoSelection ? BigWord(1) : 0;
 	prefs.nHueOffset = BigWord(gnHueOffset);
 	prefs.nSatMultiplier = BigWord(gnSatMultiplier);

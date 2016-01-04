@@ -69,7 +69,7 @@ public:
     const char *creator_ip() { return creator_ip_; }
     dword creator_id() { return creator_id_; }
     dword id() { return id_; }
-    int cGames() { return gamemap_.size(); }
+    int cGames() { return (int)gamemap_.size(); }
     bool unlimited() { return (ff_ & kfRmUnlimited) != 0; }
     bool registeredonly() { return (ff_ & kfRmRegisteredOnly) != 0; }
     bool moderated() { return (ff_ & kfRmUnmoderated) == 0; }

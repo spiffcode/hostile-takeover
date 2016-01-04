@@ -316,7 +316,7 @@ const char *PlayerMgr::GetCreatorName()
     return NULL;
 }
 
-void PlayerMgr::Update(long cUpdates)
+void PlayerMgr::Update(int cUpdates)
 {
 	Player *pplr = m_aplr;
 	for (int i = 0; i < kcPlayersMax; i++, pplr++) {
@@ -508,7 +508,7 @@ bool Player::LoadState(Stream *pstm)
 	pstm->ReadString(m_szName, sizeof(m_szName));
 	m_wf = pstm->ReadWord();
 	m_pid = pstm->ReadWord();
-	m_nCredits = (long)pstm->ReadDword();
+	m_nCredits = pstm->ReadDword();
 
 	m_nCreditsAcquired = 0;
 	m_nCreditsConsumed = 0;
@@ -638,7 +638,7 @@ bool Player::SaveState(Stream *pstm)
 #define kctLagRedemption 0 // 300 // to become non-laggy, the player must be not laggy for this period
 #define kctLagKill 800 // if still laggy after this period, recommend kill
 
-bool Player::IsBehind(long cUpdates)
+bool Player::IsBehind(int cUpdates)
 {
     // If this player has already broadcasted a disconnect message, force it
     // into a no-lag state
@@ -727,7 +727,7 @@ int Player::GetLagTimeout()
 	long ctElapsed = HostGetTickCount() - m_tLagStart;
 	if (ctElapsed > kctLagKill)
 		return 0;
-	return (kctLagKill - ctElapsed + 50) / 100;
+	return (int)((kctLagKill - ctElapsed + 50) / 100);
 }
 
 void Player::SetUpgrades(word wfUpgrades)
@@ -868,7 +868,7 @@ int Player::GetCreditsConsumer()
 	return nConsumer;
 }
 
-void Player::SetCredits(long nCredits, bool fAffectTotals, int nConsumer)
+void Player::SetCredits(int nCredits, bool fAffectTotals, int nConsumer)
 {
 	Assert(nCredits >= 0);
 
@@ -882,7 +882,7 @@ void Player::SetCredits(long nCredits, bool fAffectTotals, int nConsumer)
 			m_nDirCredits = -1;
 	}
 
-	long dCredits = nCredits - m_nCredits;
+	int dCredits = nCredits - m_nCredits;
 	if (dCredits > 0)
 		m_nTotalCreditsAcquired += dCredits;
 	else
@@ -903,7 +903,7 @@ void Player::SetObjective(char *psz)
 	strncpyz(m_szObjective, psz, sizeof(m_szObjective));
 }
 
-void Player::Update(long cUpdates)
+void Player::Update(int cUpdates)
 {
 	// If auto repair is on, repair all damaged structures owned by this player.
 	// TUNE:
@@ -1075,17 +1075,17 @@ void ObjectivesForm::UpdateStatistics()
 	plbl->SetText(szT);
 
 	plbl = (LabelControl *)GetControlPtr(kidcCreditsAction);
-	sprintf(szT, "%ld / %ld", m_pplr->GetTotalCreditsAcquired(), m_pplr->GetTotalCreditsConsumed());
+	sprintf(szT, "%d / %d", m_pplr->GetTotalCreditsAcquired(), m_pplr->GetTotalCreditsConsumed());
 	plbl->SetText(szT);
 
 	plbl = (LabelControl *)GetControlPtr(kidcGameTime);
 	long t = gsim.GetTickCount();
-	int nHour = t / (100L * 60 * 60);
+	int nHour = (int)(t / (100 * 60 * 60));
 	t -= nHour * (100L * 60 * 60);
-	int nMin = t / (100 * 60);
+	int nMin = (int)(t / (100 * 60));
 	Assert(nMin < 60);
 	t -= nMin * (100L * 60);
-	int nSec = t / 100;
+	int nSec = (int)(t / 100);
 	Assert(nSec < 60);
 	sprintf(szT, "%02d:%02d:%02d", nHour, nMin, nSec);
 	plbl->SetText(szT);

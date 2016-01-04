@@ -156,7 +156,7 @@ dword PackFileReader::fread(void *pv, dword cb, int c, File *pfil)
 	return cbRead / cb;
 }
 
-int PackFileReader::fseek(File *pfil, long delta, int nOrigin)
+int PackFileReader::fseek(File *pfil, int delta, int nOrigin)
 {
 	dword offNew;
 	switch (nOrigin) {
@@ -492,11 +492,11 @@ bool PackFileReader::Push(const char *pszDir, const char *pszFn,
     // prnfo->pszFn must just point to the basename.
 	if (pszDir == NULL) {
         char *pszBasename = basename((char *)pszFn);
-        int cchBase = strlen(pszBasename);
-        int cchFn = strlen(pszFn);
+        int cchBase = (int)strlen(pszBasename);
+        int cchFn = (int)strlen(pszFn);
         prnfo->pszDir = new char[cchFn - cchBase + 1];
         strncpyz(prnfo->pszDir, pszFn, cchFn - cchBase + 1);
-        int cch = strlen(prnfo->pszDir);
+        int cch = (int)strlen(prnfo->pszDir);
         if (cch >= 1 && prnfo->pszDir[cch - 1] == '/') {
             prnfo->pszDir[cch - 1] = 0;
         }

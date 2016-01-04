@@ -303,7 +303,7 @@ bool Simulation::LoadState(Stream *pstm)
 
     // Load update count!
 
-    m_cUpdates = (long)pstm->ReadDword();
+    m_cUpdates = pstm->ReadDword();
 
     // Load view
 
@@ -361,7 +361,7 @@ bool Simulation::SaveState(Stream *pstm)
 
     // Save Simulation tick count
 
-    pstm->WriteDword(m_tCurrent);
+    pstm->WriteDword((dword)m_tCurrent);
     pstm->WriteDword(m_cupdTriggerMgrUpdateLast);
 
     // Save level
@@ -569,7 +569,7 @@ void Simulation::Update(CommandQueue *pcmdq)
     if (gpplrLocal->GetFlags() & kfPlrStructureAttacked) {
         gpplrLocal->SetFlags(gpplrLocal->GetFlags() & ~kfPlrStructureAttacked);
         static long s_tLastAttackNotify = 0;
-        if (s_tLastAttackNotify == 0 || abs(tCurrent - s_tLastAttackNotify) >= kctIntervalAttackNotify) {
+        if (s_tLastAttackNotify == 0 || abs((int)(tCurrent - s_tLastAttackNotify)) >= kctIntervalAttackNotify) {
             s_tLastAttackNotify = tCurrent;
             gsndm.PlaySfx(ksfxGameBaseUnderAttack);
             ShowAlert(kidsBaseUnderAttack);

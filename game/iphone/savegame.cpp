@@ -77,7 +77,7 @@ void FileStream::Close()
 
 dword FileStream::Read(void *pv, dword cb)
 {
-	size_t cbT = fread(pv, 1, cb, m_pf);
+	dword cbT = (dword)fread(pv, 1, cb, m_pf);
 	if (cb != cbT)
 		m_fSuccess = false;
 	return cbT;
@@ -85,7 +85,7 @@ dword FileStream::Read(void *pv, dword cb)
 
 dword FileStream::Write(void *pv, dword cb)
 {
-	size_t cbT = fwrite(pv, 1, cb, m_pf);
+	dword cbT = (dword)fwrite(pv, 1, cb, m_pf);
 	if (cb != cbT)
 		m_fSuccess = false;
 	return cbT;
@@ -112,14 +112,14 @@ bool FindSaveGame(int nGame, char *psz, int cb, int *pc = NULL)
 
 	char szCompare[PATH_MAX];
 	sprintf(szCompare, "htsave%d_", nGame);
-	int cchCompare = strlen(szCompare);
+	int cchCompare = (int)strlen(szCompare);
 
     // This is the special save game that is only used
     // when the game exits and reloads right away
 
 	char szReinitializeSave[20];
 	sprintf(szReinitializeSave, "htsave%d_", knGameReinitializeSave);
-	int cchReinitializeSave = strlen(szReinitializeSave);
+	int cchReinitializeSave = (int)strlen(szReinitializeSave);
 
     // Enum files in this directory
 
@@ -208,7 +208,7 @@ bool HostGetSaveGameName(int nGame, char *psz, int cb, Date *pdate, int *pnHours
 	// Copy over filename, lose prefix
 
 	char *pszName = strchr(szT, '_') + 1;
-	int cbName = strlen(pszName) - 4 + 1;
+	int cbName = (int)strlen(pszName) - 4 + 1;
 	strncpyz(psz, pszName, _min(cb, cbName));
 
 	// restore '#' to ':'

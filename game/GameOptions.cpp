@@ -764,7 +764,7 @@ bool DisplayOptionsForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 #else
 		sprintf(szT, "%dx%d, %s%s", mode.cx, mode.cy, szArt, szOrientation);
 #endif
-		plstc->Add(szT, (void *)imm);
+		plstc->Add(szT, (void *)(pword)imm);
 	}
 
 	plstc->Select(immCur);
@@ -1106,15 +1106,15 @@ void MemoryUseForm::UpdateLabels()
 
 	char szT[128];
 
-	sprintf(szT, "start dyn, db free: %ld, %ld", gcbDynMemAtStart, gcbDbMemAtStart);
+	sprintf(szT, "start dyn, db free: %u, %u", gcbDynMemAtStart, gcbDbMemAtStart);
 	((LabelControl *)GetControlPtr(kidcDynDbInitial))->SetText(szT);
-	sprintf(szT, "mmgr dyn, db reserve: %ld, %ld", cbDyn, cbDb);
+	sprintf(szT, "mmgr dyn, db reserve: %u, %u", cbDyn, cbDb);
 	((LabelControl *)GetControlPtr(kidcMmgrDynDbReserve))->SetText(szT);
-	sprintf(szT, "dyn use: %ld / %ld", gcbDynMemAtStart - cbFree, gcbDynMemAtStart);
+	sprintf(szT, "dyn use: %u / %u", gcbDynMemAtStart - cbFree, gcbDynMemAtStart);
 	((LabelControl *)GetControlPtr(kidcDynUse))->SetText(szT);
-	sprintf(szT, "mmgr use: %ld / %ld", cbTotal - gmmgr.GetFreeSize(), cbTotal);
+	sprintf(szT, "mmgr use: %u / %u", cbTotal - gmmgr.GetFreeSize(), cbTotal);
 	((LabelControl *)GetControlPtr(kidcMmgrUse))->SetText(szT);
-	sprintf(szT, "cache use: %ld", gcam.GetTotalSize());
+	sprintf(szT, "cache use: %u", gcam.GetTotalSize());
 	((LabelControl *)GetControlPtr(kidcCacheUse))->SetText(szT);
 
 	bool fCacheLimit = (gcam.GetLimit() != 0);
@@ -1122,7 +1122,7 @@ void MemoryUseForm::UpdateLabels()
 	GetControlPtr(kidcSub10KCache)->Show(fCacheLimit);
 	GetControlPtr(kidcCacheLimit)->Show(fCacheLimit);
 
-	sprintf(szT, "Cache Limit: %ld", gcam.GetLimit());
+	sprintf(szT, "Cache Limit: %u", gcam.GetLimit());
 	((LabelControl *)GetControlPtr(kidcCacheLimit))->SetText(szT);
 }
 
@@ -1439,7 +1439,7 @@ const int kcyBox = (118 - kyBox - 5);
 int InputPanelForm::GetCharRect(int iCol, int iRow, char *pch, Rect *prcChar)
 {
 	int cRows = m_cRows;
-	int cCols = strlen(m_ppszChars[0]);
+	int cCols = (int)strlen(m_ppszChars[0]);
 	prcChar->SetEmpty();
 	if (iRow < 0 || iRow >= cRows)
 		return 0;
@@ -1464,7 +1464,7 @@ char InputPanelForm::TrackPen(int x, int y, bool fDown)
 	int iRow, iCol;
 	bool fFound = false;
 	for (iRow = 0; iRow < m_cRows; iRow++) {
-		int cCols = strlen(m_ppszChars[iRow]);
+		int cCols = (int)strlen(m_ppszChars[iRow]);
 		for (iCol = 0; iCol < cCols; iCol++) {
 			GetCharRect(iCol, iRow, &ch, &rcChar);
 			if (rcChar.PtIn(x, y)) {
@@ -1528,7 +1528,7 @@ bool InputPanelForm::EventProc(Event *pevt)
 		OnBackspace();
 	} else {
 		for (int iRow = 0; iRow < m_cRows; iRow++) {
-			int cCols = strlen(m_ppszChars[iRow]);
+			int cCols = (int)strlen(m_ppszChars[iRow]);
 			for (int iCol = 0; iCol < cCols; iCol++) {
 				if (pevt->chr == m_ppszChars[iRow][iCol])
 					OnChar(pevt->chr);
@@ -1546,7 +1546,7 @@ void InputPanelForm::OnUpdateMapInvalidate(UpdateMap *pupd, Rect *prcOpaque)
 	Rect rc;
 	rc.SetEmpty();
 	for (int iRow = 0; iRow < m_cRows; iRow++) {
-		int cCols = strlen(m_ppszChars[iRow]);
+		int cCols = (int)strlen(m_ppszChars[iRow]);
 		for (int iCol = 0; iCol < cCols; iCol++) {
 			Rect rcChar;
 			char ch;
@@ -1563,7 +1563,7 @@ void InputPanelForm::OnPaint(DibBitmap *pbm)
 
 	int cyChar = m_pfnt->GetHeight();
 	for (int iRow = 0; iRow < m_cRows; iRow++) {
-		int cCols = strlen(m_ppszChars[iRow]);
+		int cCols = (int)strlen(m_ppszChars[iRow]);
 		for (int iCol = 0; iCol < cCols; iCol++) {
 			Rect rcChar;
 			char ch;
@@ -1581,7 +1581,7 @@ void InputPanelForm::OnChar(char ch)
 {
 	char szT[128];
 	GetEdit(szT, sizeof(szT));
-	int cch = strlen(szT);
+	int cch = (int)strlen(szT);
 	if (cch < sizeof(szT) - 1) {
 		szT[cch] = ch;
 		szT[cch + 1] = 0;
@@ -1593,7 +1593,7 @@ void InputPanelForm::OnBackspace()
 {
 	char szT[128];
 	GetEdit(szT, sizeof(szT));
-	int cch = strlen(szT);
+	int cch = (int)strlen(szT);
 	if (cch > 0) {
 		szT[cch - 1] = 0;
 		SetEdit(szT);

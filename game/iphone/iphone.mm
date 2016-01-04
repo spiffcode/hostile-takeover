@@ -49,7 +49,7 @@ IPhoneAppDelegate *g_appDelegate;
 - (void)allocPath:(char **)ppsz baseDir:(const char *)baseDir
         subDir:(const char *)subDir
 {
-    int cb = strlen(baseDir) + strlen(subDir) + 1;
+    int cb = (int)(strlen(baseDir) + strlen(subDir) + 1);
     char *psz = (char *)malloc(cb);
     strcpy(psz, baseDir);
     strcat(psz, subDir);

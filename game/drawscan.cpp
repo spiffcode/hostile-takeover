@@ -161,7 +161,7 @@ int DrawScan(byte *pbDst, int cx, byte*& pbSrc, byte*& pop, word*& psc,
 			continue;
 		}
 		if (op >= kopNextScan0 && op <= kopNextScan48) {
-			return &pbDst[op - kopNextScan0] - pbDstStart;
+			return (int)(&pbDst[op - kopNextScan0] - pbDstStart);
 		}
 		if (op == kopEnd)
 			return 0;

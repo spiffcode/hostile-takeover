@@ -249,7 +249,7 @@ void BuilderGob::DefUpdate()
 
  		int nCostPerUpdate = nCost / cupdTimeToBuild;
 
- 		long nCredits = m_pplr->GetCredits() - nCostPerUpdate;
+ 		int nCredits = m_pplr->GetCredits() - nCostPerUpdate;
  		if (nCredits >= 0) {
 			WaitingForCredits(false);
 
@@ -421,7 +421,7 @@ void BuilderGob::DrawBuildProgress(DibBitmap *pbm, Rect *prc)
 
 	Color clr = GetColor(kiclrYellow);
 	int cxWidth = prc->right - prc->left;
-	int nLength = (cxWidth * (long)m_fxHealthBuilding) / gapuntc[m_bq.Peek()]->GetArmorStrength();
+	int nLength = (cxWidth * (int)m_fxHealthBuilding) / gapuntc[m_bq.Peek()]->GetArmorStrength();
 	pbm->Fill(prc->left, prc->top, nLength, kcyBuildProgress, clr);
 }
 
@@ -539,7 +539,7 @@ void MobileUnitBuildForm::SetOwner(BuilderGob *pbldr)
 
 			int nStripIcon = puntc->panid->GetStripIndex("icon");
 			if (nStripIcon != -1) {				
-				plstc->Add(puntc->panid, nStripIcon, 0, (void *)(int)puntc->ut, fDisabled);
+				plstc->Add(puntc->panid, nStripIcon, 0, (void *)(pword)puntc->ut, (pword)fDisabled);
 				j++;
 				if (j == m_pbldr->GetLastSelection()) {
 					// If disabled, orders are not valid
@@ -596,7 +596,7 @@ void MobileUnitBuildForm::UpdateUnitInfo(ListItem *pli)
 	plbl->SetText(szT);
 	PipMeterControl *pmtr = (PipMeterControl *)GetControlPtr(kidcCostMeter);
 	Assert(pmuntc->GetCost() <= GetUnitCostMax()); // make sure we're scaling correctly
-	pmtr->SetValue(((long)pmuntc->GetCost() * 100) / GetUnitCostMax());
+	pmtr->SetValue(((int)pmuntc->GetCost() * 100) / GetUnitCostMax());
 
 	// Update Name
 
@@ -638,7 +638,7 @@ void MobileUnitBuildForm::UpdateUnitInfo(ListItem *pli)
 	plbl->SetText(pszT);
 	pmtr = (PipMeterControl *)GetControlPtr(kidcArmorStrengthMeter);
 	Assert(pmuntc->GetArmorStrength() <= gfxMobileUnitArmorStrengthMax);
-	pmtr->SetValue(((long)fxtoi(pmuntc->GetArmorStrength()) * 100) / fxtoi(gfxMobileUnitArmorStrengthMax));
+	pmtr->SetValue(((int)fxtoi(pmuntc->GetArmorStrength()) * 100) / fxtoi(gfxMobileUnitArmorStrengthMax));
 
 	// Update Range
 
@@ -862,7 +862,7 @@ void MobileUnitBuildForm::DefUpdate(BuilderGob *pbldr, bool fBuildInProgress)
 	// Don't do it every update. This gets rechecked at actual order time so it'll be
 	// up to date.
 
-	long cupdCurrent = gsim.GetUpdateCount();
+	int cupdCurrent = gsim.GetUpdateCount();
 	if (abs(cupdCurrent - m_cupdLast) > kcupdLimit) {
 		m_cupdLast = cupdCurrent;
 		UpdateOrderButton(true);

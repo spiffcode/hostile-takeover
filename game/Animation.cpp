@@ -39,7 +39,7 @@ bool AnimationData::Init(const char *pszAniName)
 	// UNDONE: incorporate the bitmaps directly inside the animation file?
 
 	char szTbmName[kcbFilename];
-	int cch = strlen(pszAniName);
+	int cch = (int)strlen(pszAniName);
 
 	// Animation files must end with ".anir" for this to work
 

@@ -140,7 +140,7 @@ void Font::DrawTextWithEllipsis(DibBitmap *pbm, char *psz, int cch, int x,
     if (!fForce) {
         // If not being forced and text fits, draw it without ellipsis
         if (GetTextExtent(psz) < cx) {
-            DrawText(pbm, psz, x, y, strlen(psz));
+            DrawText(pbm, psz, x, y, (int)strlen(psz));
             return;
         }
     }
@@ -173,7 +173,7 @@ void Font::DrawTextWithEllipsis(DibBitmap *pbm, char *psz, int cch, int x,
     }
     strncpyz(szT, psz, ifit + 2); // convert to count, add one for 0
     strcat(szT, "..."); // this fits without checks
-    DrawText(pbm, szT, x, y, strlen(szT));
+    DrawText(pbm, szT, x, y, (int)strlen(szT));
 }
 
 #define IsBreakingChar(ch) ((ch) == ' ' || (ch) == '\t')
@@ -292,7 +292,7 @@ int Font::DrawText(DibBitmap *pbm, char *psz, int x, int y, int cch, dword *mpsc
 #endif
 
 	if (cch == -1)
-		cch = strlen(psz);
+		cch = (int)strlen(psz);
 
 	// Clip entire line of text first.
 

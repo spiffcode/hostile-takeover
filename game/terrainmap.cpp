@@ -512,7 +512,7 @@ Path *TerrainMap::FindPath(int txFrom, int tyFrom, int txTo, int tyTo, byte bfTe
 	// Clear dwords (up to 7 dwords)
 
 	pdwT = pdwMax;
-	int cdwT = ((dword *)&m_abBuffer[m_cbBuffer]) - pdwT;
+	int cdwT = (int)(((dword *)&m_abBuffer[m_cbBuffer]) - pdwT);
 	pdwMax = &pdwT[cdwT];
 	while (pdwT < pdwMax)
 		*pdwT++ &= dwClear;
@@ -759,7 +759,7 @@ Path *TerrainMap::MakePath(TCoord txStart, TCoord tyStart, word off)
 		ty += g_mpDirToDy[dirOpposite];
 	}
 
-	return CreatePath(this, txStart, tyStart, pdirT, &adir[ARRAYSIZE(adir)] - pdirT);
+	return CreatePath(this, txStart, tyStart, pdirT, (int)(&adir[ARRAYSIZE(adir)] - pdirT));
 }
 
 //

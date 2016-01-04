@@ -41,7 +41,7 @@ private:
     MissionType m_mt;
     GameParams *m_prams;
     MissionIdentifier m_miidFind;
-    long m_tGameSpeed;
+    int m_tGameSpeed;
     MissionList *m_pml;
     ListControl *m_aplstc[2];
     std::string message_;

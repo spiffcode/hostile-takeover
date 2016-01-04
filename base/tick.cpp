@@ -13,10 +13,10 @@ void GetTimeOfDay(int *sec, int *usec) {
     static dword s_sec;
     if (!s_init) {
         s_init = true;
-        s_sec = tv.tv_sec - 1; // so it's never zero
+        s_sec = (dword)(tv.tv_sec - 1); // so it's never zero
     }
 
-    *sec = tv.tv_sec - s_sec;
+    *sec = (int)(tv.tv_sec - s_sec);
     *usec = tv.tv_usec;
 }
 

@@ -256,7 +256,7 @@ MissionList::PdbItem *MissionList::AddLevelFiles(const PackId *ppackid) {
     int key = (ppackid->id == PACKID_MAIN) ? PACKENUM_FIRST : PACKENUM_LAST;
     Enum enm;
     while (gpakr.EnumFiles(&enm, key, szFn, sizeof(szFn))) {
-        int cch = strlen(szFn);
+        int cch = (int)strlen(szFn);
         if (cch < 4) {
             continue;
         }

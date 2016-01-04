@@ -104,7 +104,7 @@ bool EventMgr::GetEvent(Event *pevt, long ctWait, bool fCheckPaints)
 		// Don't wait any longer than it takes for a penHoldEvent to be produced
 
 		if (m_fTimingPenHold) {
-			int ctPenHoldRemaining = kctPenHoldDelay - (tCurrent - m_tPenDown);
+			int ctPenHoldRemaining = (int)(kctPenHoldDelay - (tCurrent - m_tPenDown));
 			if (ctPenHoldRemaining < 0)
 				ctPenHoldRemaining = 0;
 

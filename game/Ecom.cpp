@@ -386,7 +386,7 @@ bool EcomTextControl::ShowMoreText()
 
 	// output the needed characters to get our output rate
 
-	int cch = ((long)kcchPerSec * ctDeltaTime)/(long)100;
+	int cch = (int)((kcchPerSec * ctDeltaTime)/100);
 	if (cch <= 0)
 		return false;
 	m_ctPrevTime = ctCurTime;
@@ -407,7 +407,7 @@ void EcomTextControl::ShowAll()
 {
 	// for now invalidate the whole control. Can we do better?
 
-	m_cchCur = strlen(m_szLabel);
+	m_cchCur = (int)strlen(m_szLabel);
 	Invalidate();
 }
 

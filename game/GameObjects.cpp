@@ -1034,7 +1034,7 @@ void GetHealthColorAndLength(int nNumerator, int nDenominator, int cxWidth, Colo
 	else
 		*pclr = GetColor(kiclrRed);
 
-	*pnLength = ((cxWidth - 2) * (long)nNumerator) / nDenominator;
+	*pnLength = ((cxWidth - 2) * nNumerator) / nDenominator;
 
 	// The health bar should show at least one pixel of life left until
 	// the unit/structure is completely destroyed.
@@ -1129,7 +1129,7 @@ void DrawBuildProgressIndicator(DibBitmap *pbm, Rect *prc, int nNumerator, int n
 {
 	Color clr = GetColor(kiclrYellow);
 	int cxWidth = prc->right - prc->left;
-	int nLength = ((cxWidth - 2) * (long)nNumerator) / nDenominator;
+	int nLength = ((cxWidth - 2) * nNumerator) / nDenominator;
 
 	int y = prc->top + prc->Height() / 2;
 //	gapfnt[0]->DrawText(pbm, "Building...", prc->left, y - gapfnt[0]->GetHeight());
@@ -2589,7 +2589,7 @@ lbNextGob:
 	}
 
 lbFull:
-	int cpgob = ppgobT - apgob;
+	int cpgob = (int)(ppgobT - apgob);
 	SortGobs(apgob, cpgob);
 	return cpgob;
 }

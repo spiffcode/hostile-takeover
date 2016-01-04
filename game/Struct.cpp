@@ -237,7 +237,7 @@ bool StructGob::LoadState(Stream *pstm)
 bool StructGob::SaveState(Stream *pstm)
 {
 	pstm->WriteByte(knVerStructGobState);
-	pstm->WriteDword(gsim.GetTickCount() - m_tLastSmoke);
+	pstm->WriteDword((dword)(gsim.GetTickCount() - m_tLastSmoke));
 	return UnitGob::SaveState(pstm);
 }
 
@@ -507,8 +507,8 @@ void StructGob::DefUpdate()
 	// we will be none of these, so GetUpdateCount and do the math for cupdUntilFlash inside the tests
 	// for symbol situations rather than on every single update.
 
-	long cUpdates;
-	long cupdUntilFlash;
+	int cUpdates;
+	int cupdUntilFlash;
 
 	if ((m_puntc->wf & kfUntcNotifyPowerLowHigh) && m_pplr->IsPowerLow() && (m_ff & kfGobActive)) {
 		cUpdates = gsim.GetUpdateCount();
@@ -536,7 +536,7 @@ void StructGob::DefUpdate()
 		cUpdates = gsim.GetUpdateCount();
 		cupdUntilFlash = kcupdSymbolFlashRate - (cUpdates % kcupdSymbolFlashRate);
 
-		long nCreditsHave = m_pplr->GetCredits();
+		int nCreditsHave = m_pplr->GetCredits();
 
 		if (cupdUntilFlash == kcupdSymbolFlashRate) {
 			if (nCreditsHave > 0) { 

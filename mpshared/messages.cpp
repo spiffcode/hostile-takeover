@@ -17,7 +17,7 @@ std::string XMsgShowMessage::ToString() {
 
 base::ByteBuffer *XMsgShowMessage::ToBuffer(const char *message,
         dword ipRedirect, bool disconnect) {
-    int cbMessage = strlen(message) + 1;
+    int cbMessage = (int)strlen(message) + 1;
     char messageT[kcbShowMessageMax];
     if (cbMessage > sizeof(messageT)) {
         strncpyz(messageT, message, sizeof(messageT));

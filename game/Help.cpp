@@ -81,8 +81,8 @@ bool HelpControl::FollowLink(const char *str, int cch)
 
 	char szTag[128];
 	strcpy(szTag, "<A NAME=\"");
-	strncpyz(&szTag[9], (char *)str, 1 + (cch != -1 ? cch : strlen(str))); // + 1 for zero terminator
-	int cchTag = strlen(szTag);
+	strncpyz(&szTag[9], (char *)str, 1 + (cch != -1 ? cch : (int)strlen(str))); // + 1 for zero terminator
+	int cchTag = (int)strlen(szTag);
 
 	// Loop until we've found the tag or reached the end
 
@@ -113,7 +113,7 @@ bool HelpControl::FollowLink(const char *str, int cch)
 				m_nchBack[i + 1] = m_nchBack[i];
 			m_nchBack[0] = m_nchCurrent;
 
-			m_nchCurrent = nchFile + (pszFind - szBuffer);
+			m_nchCurrent = nchFile + (int)(pszFind - szBuffer);
 			Invalidate();
 			return true;
 		}
@@ -474,7 +474,7 @@ bool HelpControl::Layout(dword nchStart, bool fLargeFont, DibBitmap *pbm, ChunkP
 				bool fNewLine = true;
 				int cchChunk = gapfnt[kifntDefault]->CalcBreak(rcT.right - xCurrent, &pchBreakNext, xCurrent == xStart);
 				if (cchChunk > pchLinkEnd - pchT) {
-					cchChunk = pchLinkEnd - pchT;
+					cchChunk = (int)(pchLinkEnd - pchT);
 					pchBreakNext = pchLinkEnd;
 					fNewLine = false;
 				}	
@@ -772,7 +772,7 @@ int HelpControl::FindNextPosition(int nchFrom, int cyAmount, bool *pfLargeFont, 
 		char *pszFind = strstr(szBuffer, "<HR>");
 		
 		*pfLargeFont = fLargeFontT;
-		return nchIndexOfHR + (pszFind + 4 - szBuffer);
+		return nchIndexOfHR + (int)(pszFind + 4 - szBuffer);
 	} else {
 		// otherwise we should use the position at which the span was met
 
@@ -912,7 +912,7 @@ bool HitTestChunk(int x, int y, int cx, int cy, int nchBuffer, int cyTotal, int 
 				pHitTest->dBest = d;
                 pHitTest->nchBuffer = nchBuffer;
 				strcpy(pHitTest->szText, pChunk->szText);
-				pHitTest->cch = strlen(pHitTest->szText);
+				pHitTest->cch = (int)strlen(pHitTest->szText);
 			}
 			break;
 		}

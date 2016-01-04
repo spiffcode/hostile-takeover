@@ -55,7 +55,7 @@ bool ByteBuffer::ReadString(char *psz, int cb) {
 
     // Include the zero termination if found
     if (*pb == 0) {
-        if (!ReadBytes((byte *)psz, pb - pbStart)) {
+        if (!ReadBytes((byte *)psz, (int)(pb - pbStart))) {
             return false;
         }
     } else {
@@ -65,7 +65,7 @@ bool ByteBuffer::ReadString(char *psz, int cb) {
             if (pb == bytes_ + cb) {
                 pb--;
             }
-            if (!ReadBytes((byte *)psz, pb - pbStart)) {
+            if (!ReadBytes((byte *)psz, (int)(pb - pbStart))) {
                 return false;
             }
             psz[cb - 1] = 0;
@@ -99,7 +99,7 @@ void ByteBuffer::WriteDword(dword dw) {
 }
 
 void ByteBuffer::WriteString(const char *psz, bool zero) {
-    int cch = strlen(psz);
+    int cch = (int)strlen(psz);
     int cbWrite = cch + (zero ? 1 : 0);
     WriteBytes((const byte *)psz, cbWrite);
 }

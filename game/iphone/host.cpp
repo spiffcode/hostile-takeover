@@ -48,7 +48,7 @@ const char *HostGenerateDeviceId() {
     MD5_CTX md5;
     MD5Init(&md5);
     const char *pszUUID = IPhone::GetStaticUUID();
-    MD5Update(&md5, (const byte *)pszUUID, strlen(pszUUID));
+    MD5Update(&md5, (const byte *)pszUUID, (int)strlen(pszUUID));
     byte hash[16];
     MD5Final(hash, &md5);
     return base::Format::ToHex(hash, 16);
@@ -312,12 +312,12 @@ void HostCloseFile(FileHandle hf)
 
 dword HostWriteFile(FileHandle hf, void *pv, dword cb)
 {
-    return fwrite(pv, 1, cb, (FILE *)hf);
+    return (dword)fwrite(pv, 1, (size_t)cb, (FILE *)hf);
 }
 
 dword HostReadFile(FileHandle hf, void *pv, dword cb)
 {
-    return fread(pv, 1, cb, (FILE *)hf);
+    return (dword)fread(pv, 1, (size_t)cb, (FILE *)hf);
 }
 
 void HostSleep(dword ct)

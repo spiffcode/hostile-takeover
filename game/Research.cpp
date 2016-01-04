@@ -347,7 +347,7 @@ void ResearchGob::UpgradeUpdate()
 
 		// update if the player has enough credits to cover it
 
- 		long nCredits = m_pplr->GetCredits() - nCostPerUpdate;
+ 		int nCredits = m_pplr->GetCredits() - nCostPerUpdate;
  		if (nCredits >= 0) {
  			m_pplr->SetCredits(nCredits, true);
 			m_nCreditsSpentOnUpgrade += nCostPerUpdate;
@@ -524,7 +524,7 @@ void UpgradeForm::UpdateUpgradeInfo(ListItem *pli)
 	itoa(pupg->nCost, szT, 10);
 	plbl->SetText(szT);
 	PipMeterControl *pmtr = (PipMeterControl *)GetControlPtr(kidcCostMeter);
-	pmtr->SetValue(((long)pupg->nCost * 100) / 3000);
+	pmtr->SetValue((pupg->nCost * 100) / 3000);
 	plbl = (LabelControl *)GetControlPtr(kidcCostLabel);
 	plbl->Show(true);
 

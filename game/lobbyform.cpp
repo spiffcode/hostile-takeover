@@ -267,7 +267,7 @@ void LobbyForm::OnTimeout(int id) {
                     info.cGames,
                     info.cGames == 1 ? "game" : "games");
         }
-        plstc->Add(s, (void *)info.roomid);
+        plstc->Add(s, (void *)(pword)info.roomid);
     }
     int selected = FindIndex(roomid);
     if (selected < 0 && map_.size() != 0) {

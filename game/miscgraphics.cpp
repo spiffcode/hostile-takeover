@@ -262,7 +262,7 @@ word Compile8(byte *pbCompileBuffer, ScanData *psd, bool fOdd)
 	}
 	if (((byte)(pword)pbT) & 1)
 		pbT++;
-	int cbOps = pbT - pb;
+	int cbOps = (int)(pbT - pb);
 
 	// Transcode side codes into alignment sensitive mapping table offsets
 
@@ -336,7 +336,7 @@ word Compile8(byte *pbCompileBuffer, ScanData *psd, bool fOdd)
 		}
 	}
 	pbT = (byte *)pwT;
-	int cbScs = pbT - (pb + cbOps);
+	int cbScs = (int)(pbT - (pb + cbOps));
 
 	// Now copy data and align as we go
 
