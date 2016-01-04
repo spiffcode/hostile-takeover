@@ -346,8 +346,10 @@
     keyboardShown_ = true;
 
     NSDictionary *info = [notification userInfo];
-    NSValue *value = [info objectForKey:UIKeyboardBoundsUserInfoKey];
-    CGSize sizeKeyboard = [value CGRectValue].size;
+
+    CGRect rectKeyboard;
+    [[info objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&rectKeyboard];
+    CGSize sizeKeyboard = rectKeyboard.size;
 
     CGRect rcToolbar = toolbar_.frame;
     rcToolbar = CGRectOffset(rcToolbar, 0, -sizeKeyboard.height);
@@ -368,8 +370,10 @@
     keyboardShown_ = false;
 
     NSDictionary *info = [notification userInfo];
-    NSValue *value = [info objectForKey:UIKeyboardBoundsUserInfoKey];
-    CGSize sizeKeyboard = [value CGRectValue].size;
+
+    CGRect rectKeyboard;
+    [[info objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&rectKeyboard];
+    CGSize sizeKeyboard = rectKeyboard.size;
 
     CGRect rcToolbar = toolbar_.frame;
     rcToolbar = CGRectOffset(rcToolbar, 0, sizeKeyboard.height);
