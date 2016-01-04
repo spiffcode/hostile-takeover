@@ -153,14 +153,6 @@ IPhoneAppDelegate *g_appDelegate;
     wi::g_appDelegate = self;
     m_fExiting = false;
 
-    // Set these here rather than in Info.plist, because devices with OS's
-    // before iPhone OS 2.1 don't honor the Info.plist settings.
-    // Hide the status bar. Unfortunately, the status bar area still
-    // eat events. No known workaround currently.
-    // NOTE: This is fixed on iOS >= 7 by the implementation of prefersStatusBarHidden
-    // in wiviewcontroller.mm.
-    [application setStatusBarHidden:YES animated:NO];
-
     // Tell the application object to turn off the screen dimming idle
     // timer.
     application.idleTimerDisabled = YES; 
