@@ -132,7 +132,7 @@
 
     titleLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
     titleLabel_.font = [UIFont boldSystemFontOfSize:18];
-    titleLabel_.textAlignment = UITextAlignmentCenter;
+    titleLabel_.textAlignment = NSTextAlignmentCenter;
     titleLabel_.textColor = [UIColor whiteColor];
     titleLabel_.backgroundColor = [UIColor clearColor];
     titleLabel_.shadowColor = [UIColor darkGrayColor];
