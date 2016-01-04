@@ -1,13 +1,11 @@
 #import "game/iphone/chatcell.h"
 
 @implementation ChatCell
-- (id)initWithFrame:(CGRect)frame reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
+- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self == nil) {
         return nil;
     }
-
-    self.selectionStyle = UITableViewCellSelectionStyleNone;
 
     chatLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
     chatLabel_.backgroundColor = [UIColor whiteColor];
