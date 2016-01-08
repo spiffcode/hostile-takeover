@@ -1,0 +1,88 @@
+#!/bin/bash
+
+SERVER_DIR="$(cd "${0%/*}" && echo $PWD)"
+LEADERBOARD_ADDRESS_AND_PORT="$(${SERVER_DIR}/docker/config LEADERBOARD_ADDRESS_AND_PORT)"
+
+# Usage:
+#
+# [DEBUGGER=<gdb|cgdb> [DOCKER=0] [REL=1] ./run
+#
+# Set DEBUGGER to cgdb or gdb to debug
+# Set DOCKER=0 to run without docker (runs with docker by default)
+# Set REL=1 to run release (runs debug by default)
+
+run_with_docker() {
+    # Ensure control-c goes to docker, not this script
+    set -m
+
+    # Use wi_build because it has debuggers in it. wi_build contains app data and images
+    # because the entire wi tree gets mapped in.
+    TAG_VERSION="$(${SERVER_DIR}/docker/image_version wi_build)"
+    IMAGE="$(${SERVER_DIR}/docker/config REGISTRY_PREFIX)/wi_build"
+    AUTH_PREFIX="$(${SERVER_DIR}/docker/config AUTH_PREFIX)"
+
+    # Debugger
+    if [ ! -z "$DEBUGGER" ]; then
+        DEBUGGER="--debugger ${DEBUGGER}"
+    fi
+
+    # Prepare test data once, for faster iteration
+    if [ ! -f "${SERVER_DIR}/docker/wicontent/wi/index" ]; then
+        # Expand test data if it exists, otherwise try to download it
+        if [ -f "${SERVER_DIR}/testdata.tar.gz" ]; then
+            tar -xf "${SERVER_DIR}/testdata.tar.gz" -C "${SERVER_DIR}/docker/wicontent"
+            mv "${SERVER_DIR}/docker/wicontent/testdata" "${SERVER_DIR}/docker/wicontent/wi"
+        else
+            WICONTENT_URL="$(${SERVER_DIR}/docker/config WICONTENT_URL)"
+        fi
+    fi
+
+    # Run
+    echo Build: ${BUILD_TYPE}, image: ${IMAGE}:${TAG_VERSION}
+    ${AUTH_PREFIX} docker -- run -it --rm -p 22221:22221 -v "${SERVER_DIR}/docker/entrypoint":/entrypoint -v "$(dirname "${SERVER_DIR}")":/wi ${IMAGE}:${TAG_VERSION} /entrypoint runwis ${DEBUGGER} --build_type ${BUILD_TYPE} --public_ip 127.0.0.1 --public_listen_port 22221 --instance_name "My Instance Name" --image_tag "My Image Tag" --wicontent_url "${WICONTENT_URL}" --args --server_id 50 --server_name "My Server" --server_location "My Office" --server_type "production" --listen_address 0.0.0.0 --listen_port 22221 --stats_address "${LEADERBOARD_ADDRESS_AND_PORT}" --checksync
+
+    rm -f "${TEMP_ENTRYPOINT}"
+}
+
+run_without_docker() {
+    # Attempt putting test data in place
+    if [ ! -f "${SERVER_DIR}/docker/wicontent/wi/index" ]; then
+        # Expand test data if it exists
+        if [ -f "${SERVER_DIR}/testdata.tar.gz" ]; then
+            echo Untaring testdata.tar.gz...
+            tar -xf "${SERVER_DIR}/testdata.tar.gz" -C "${SERVER_DIR}/docker/wicontent"
+            mv "${SERVER_DIR}/docker/wicontent/testdata" "${SERVER_DIR}/docker/wicontent/wi"
+        else
+            WICONTENT_URL="$(${SERVER_DIR}/docker/config WICONTENT_URL)"
+            if [ ! -z "${WICONTENT_URL}" ]; then
+                echo Attempting download of wicontent.tar.gz...
+                curl -s "${WICONTENT_URL}" -o "${SERVER_DIR}/docker/wicontent/wicontent.tar.gz"
+                tar -xf "${SERVER_DIR}/docker/wicontent/wicontent.tar.gz" -C "${SERVER_DIR}/docker/wicontent"
+            fi
+        fi
+    fi
+
+    if [ ! -f "${SERVER_DIR}/docker/wicontent/wi/index" ]; then
+        echo "Mission pack info missing ${SERVER_DIR}/docker/wicontent"
+        exit 1
+    fi
+
+    # Debugger
+    if [ ! -z "$DEBUGGER" ]; then
+        DEBUGGER="${DEBUGGER} --args"
+    fi
+
+    ${DEBUGGER} ${BUILD_TYPE}/wis --listen_address 127.0.0.1:22221 --server_id 0 --missionpack_dir docker/wicontent/wi --htdata ../game/htdata832.pdb --stats_address "${LEADERBOARD_ADDRESS_AND_PORT}" --stats_path /api/addgamestats --server_info_path /api/serverinfo --server_name Icarus --server_location "Seattle WA" --server_type beta --server_info_extra "{\"foo\":\"bar\"}" --server_info_expires 60 --checksync --max_players 2000
+}
+
+if [ "${REL}" == "1" ]; then
+    BUILD_TYPE=release
+else
+    BUILD_TYPE=debug
+fi
+
+if [ "${DOCKER}" == "0" ]; then
+    run_without_docker
+else
+    run_with_docker
+fi

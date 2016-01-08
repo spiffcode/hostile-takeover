@@ -1,0 +1,7 @@
+FROM wi_base:latest
+
+RUN mkdir -p /wi/server/docker/wicontent && chown wi:wi /wi/server/docker/wicontent
+COPY game/htdata832.pdb /wi/game/htdata832.pdb
+COPY server/docker/release /wi/server/docker/release
+COPY server/docker/entrypoint /entrypoint
+ENTRYPOINT ["/entrypoint"]

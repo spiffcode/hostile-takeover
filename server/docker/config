@@ -1,0 +1,7 @@
+#!/usr/bin/python2.7
+
+import sys
+import config
+
+if len(sys.argv) == 2:
+    print config.get(sys.argv[1])

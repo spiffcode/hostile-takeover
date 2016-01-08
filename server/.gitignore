@@ -2,5 +2,13 @@ debug/*
 !debug/.keep
 release/*
 !release/.keep
+docker/debug/*
+!docker/debug/.keep
+docker/release/*
+!docker/release/.keep
+docker/wicontent/*
+!docker/wicontent/.keep
 log/
 log.txt
+*.pyc
+.*.swp

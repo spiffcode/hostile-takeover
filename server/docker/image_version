@@ -1,0 +1,46 @@
+#!/usr/bin/python2.7
+
+"""image_version <image name>
+
+This tool returns the latest version tag for an image
+"""
+
+import re
+import sys
+import os
+import json
+import time
+import datetime
+import tempfile
+import subprocess
+import shlex
+import shutil
+
+def load_versions(filename):
+    if not os.path.exists(filename):
+        print 'Can\'t find image_versions.json'
+        sys.exit(1)
+    t = json.loads(file(filename).read())
+    versions = {}
+    for key in t:
+        versions[key.encode('utf-8')] = t[key].encode('utf-8')
+    return versions
+
+def main():
+    if len(sys.argv) == 1:
+        print __doc__
+        sys.exit(1)
+
+    image_name = sys.argv[1]
+    dir = os.path.dirname(os.path.abspath(sys.argv[0]))
+    versions = load_versions(os.path.join(dir, 'image_versions.json'))
+
+    # Does version exist for this image?
+    if not versions.has_key(image_name):
+        print 'Version not available for %s.' % image_name
+        sys.exit(1)
+
+    print versions[image_name]
+
+if __name__ == '__main__':
+    main()

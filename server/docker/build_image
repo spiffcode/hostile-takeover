@@ -1,0 +1,106 @@
+#!/usr/bin/python2.7
+
+"""build_image <image name>
+
+This tool wraps docker build to handle image versions appropriately
+"""
+
+import re
+import sys
+import os
+import json
+import time
+import datetime
+import tempfile
+import subprocess
+import shlex
+import shutil
+import config
+
+registry = config.get('REGISTRY_PREFIX')
+
+def load_versions(filename):
+    if not os.path.exists(filename):
+        print 'Can\'t find image_versions.json'
+        sys.exit(1)
+    t = json.loads(file(filename).read())
+    versions = {}
+    for key in t:
+        versions[key.encode('utf-8')] = t[key].encode('utf-8')
+    return versions
+
+def save_versions(filename, versions):
+    filename_tmp = '%s_tmp' % filename
+    f = file(filename_tmp, 'w')
+    json.dump(versions, f, ensure_ascii=True)
+    f.close()
+    shutil.move(filename_tmp, filename)
+
+def create_dockerfile(image_name, dockerfile_template, versions):
+    fd, path = tempfile.mkstemp(suffix='.bi', prefix='__%s_' % image_name, dir='.', text=True)
+    for line in [line.strip() for line in file(dockerfile_template).readlines()]:
+        for key in versions:
+            pat = '%s:latest' % key
+            repl = '%s/%s:%s' % (registry, key, versions[key])
+            line = re.sub(pat, repl, line)
+        os.write(fd, '%s\n' % line)
+    os.close(fd)
+    return path
+
+def create_version_str():
+    # Example: 2015-12-21-1440438708
+    ts = int(time.time())
+    return '%s-%s' % (datetime.date.fromtimestamp(ts), ts)
+
+def main():
+    if len(sys.argv) == 1:
+        print __doc__
+        sys.exit(1)
+
+    basedir = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(sys.argv[0])), '../..'))
+    image_name = sys.argv[1]
+
+    dockerfile_paths = {
+        'wi_base': os.path.join(basedir, 'server/docker/wi_base.df'),
+        'wi_build': os.path.join(basedir, 'server/docker/wi_build.df'),
+        'wi_server': os.path.join(basedir, 'server/docker/wi_server.df')
+    }
+
+    # One of the dockerfiles we recognize?
+    if not dockerfile_paths.has_key(image_name):
+        print 'Image %s doesn\'t exist.' % image_name
+        sys.exit(1)
+
+    # Make sure this template exists
+    dockerfile_template = dockerfile_paths[image_name]
+    if not os.path.exists(dockerfile_template):
+        print 'Dockerfile template %s doesn\'t exist.' % dockerfile_template
+        sys.exit(1)
+
+    # Insert the version into this dockerfile before using
+    versions = load_versions(os.path.join(basedir, 'server/docker/image_versions.json'))
+    dockerfile_tempfile = create_dockerfile(image_name, dockerfile_template, versions)
+   
+    # Create a new version number for this image
+    version_str = create_version_str()
+ 
+    # Build the image
+    print 'Building %s/%s:%s' % (registry, image_name, version_str)
+    s = 'docker build --rm=true -f %s -t %s/%s:%s %s'
+    args = shlex.split(s % (dockerfile_tempfile, registry, image_name, version_str, basedir))
+    return_code = subprocess.call(args)
+    os.remove(dockerfile_tempfile)
+
+    if return_code != 0:
+        print 'docker build returned error %d' % return_code
+        sys.exit(1)
+
+    # This image has a new version. Write new version file.
+    versions[image_name] = version_str
+    save_versions(os.path.join(basedir, 'server/docker/image_versions.json'), versions)
+
+    # Print out created with tag
+    print 'Image tag %s/%s:%s' % (registry, image_name, version_str)
+
+if __name__ == '__main__':
+    main()

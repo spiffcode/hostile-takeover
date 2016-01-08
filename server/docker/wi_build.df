@@ -1,0 +1,5 @@
+FROM wi_base:latest
+
+RUN apt-get update -y \
+    && apt-get install --no-install-recommends -y -q net-tools build-essential gdb cgdb \
+    && rm -rf /var/lib/apt/lists/*

@@ -1,0 +1,153 @@
+#!/bin/bash
+
+set -e
+
+usage() {
+    echo Usage: `basename "$0"` "runwis [args] --args <wis args>"
+    echo "--args: All parameters after this point get passed to wis"
+    echo "--public_ip: The public ip address that users will connect to."
+    echo "--public_listen_port: The public port that users will connect to."
+    echo "--instance_name: Name of the VM instance this server is running on."
+    echo "--image_tag: The tag of the docker image being used, if known."
+    echo "--build_type: release or debug."
+    echo "--gce_metadata: Query Google GCE metadata for public ip and instance name."
+    echo "--help: Displays this usage information."
+}
+
+function download_content() {
+    local WICONTENT_URL="${1}"
+    local WICONTENT_DIR=/wi/server/docker/wicontent
+    local ETAG_FILEPATH="${WICONTENT_DIR}/wicontent.tar.gz-etag"
+    local TARBALL_FILEPATH="${WICONTENT_DIR}/wicontent.tar.gz"
+    local LAST_ETAG="force"
+
+    # No url? Don't attempt download.
+    if [ -z "$WICONTENT_URL" ]; then
+        return
+    fi
+
+    # Grab the last ETag if it exists
+    if [ -f "${ETAG_FILEPATH}" ]; then
+        LAST_ETAG=$(cat "${ETAG_FILEPATH}")
+    fi
+
+    # Request the file with If-None-Match
+    local ETAG=$(curl -s -D - "${WICONTENT_URL}" -H 'If-None-Match: "'${LAST_ETAG}'"' -o /tmp/out.bin | grep ETag | cut -d: -f2 | cut -d\" -f2)
+
+    # If we have an ETag there was a response. If it doesn't match last one
+    # then there is a file change
+    if [[ ! -z "${ETAG}" ]] && [[ "${ETAG}" != "${LAST_ETAG}" ]]; then
+        mv /tmp/out.bin "${TARBALL_FILEPATH}"
+        tar -xf "${TARBALL_FILEPATH}" -C "${WICONTENT_DIR}"
+        echo -n "${ETAG}" > "${ETAG_FILEPATH}" 
+    fi
+}
+
+# Run normally if not runwis
+if [ "$1" != "runwis" ]; then
+    exec "$@"
+fi
+
+# Need to be user wi
+if [ "$(whoami)" != "wi" ]; then
+    exec gosu wi "$0" "$@"
+fi
+shift
+
+# Poll for content?
+if [ "${1}" == "--poll-content" ]; then
+    while true; do
+        sleep 300
+        download_content "${2}"
+    done
+fi
+
+# Parse parameters
+until [ -z "$1" ]; do
+    case "$1" in
+    --args)
+        shift
+        break
+        ;;
+
+    --debugger)
+        shift
+        DEBUGGER="$1 --args"
+        ;;
+
+    --public_ip)
+        shift
+        PUBLIC_IP="$1"
+        ;;
+
+    --public_listen_port)
+        shift
+        PUBLIC_LISTEN_PORT="$1"
+        ;;
+
+    --instance_name)
+        shift
+        INSTANCE_NAME="$1"
+        ;;
+
+    --image_tag)
+        shift
+        IMAGE_TAG="$1"
+        ;;
+
+    --build_type)
+        shift
+        BUILD_TYPE="$1"
+        ;;
+
+    --gce_metadata)
+        QUERY_GCE_METADATA="1"
+        ;;
+
+    --wicontent_url)
+        shift
+        WICONTENT_URL="$1"
+        ;;
+
+    --help)
+        usage
+        exit 0
+        ;;
+
+    *)
+        echo Unknown argument \'$1\'
+        usage
+        exit 1
+        ;;
+
+    esac
+    shift
+done
+
+if [ ! -z $QUERY_GCE_METADATA ]; then
+    INSTANCE_NAME=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/hostname" -H "Metadata-Flavor: Google" | cut -d. -f1)
+    PUBLIC_IP=$(curl -s "http://metadata.google.internal/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip" -H "Metadata-Flavor: Google")
+fi
+
+# This is the full public address        
+PUBLIC_ADDRESS=$PUBLIC_IP:$PUBLIC_LISTEN_PORT
+
+# Tie together instance name and image tag for convenient querying
+EXTRA_INFO='{"instance_name":"'${INSTANCE_NAME}'","image_tag":"'${IMAGE_TAG}'"}'
+
+# Download content before running server
+download_content "${WICONTENT_URL}"
+
+# Poll for new content in the background 
+"$0" runwis --poll-content "${WICONTENT_URL}" &
+
+# Run the server and restart if it crashes
+while [ 1 ]; do
+    ${DEBUGGER} /wi/server/docker/${BUILD_TYPE}/wis --missionpack_dir /wi/server/docker/wicontent/wi --htdata /wi/game/htdata832.pdb --stats_path /api/addgamestats --server_info_path /api/serverinfo --server_info_expires 60 --public_address "$PUBLIC_ADDRESS" --server_info_extra "$EXTRA_INFO" "$@"
+
+    if [ ! -z "${DEBUGGER}" ]; then
+        exit 0
+    fi
+
+    sleep 1
+done

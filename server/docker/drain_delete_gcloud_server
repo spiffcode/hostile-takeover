@@ -1,0 +1,219 @@
+#!/usr/bin/python2.7
+
+import md5
+import os
+import urllib2
+import json
+import sys
+import time
+import config
+
+DRAIN = True
+TERMINATE = True
+
+SHUTDOWN_MINUTES = 5
+sendcommand_secret = config.get('SENDCOMMAND_SECRET')
+leaderboard_address = config.get('LEADERBOARD_ADDRESS_AND_PORT')
+sendcommand_url = 'http://%s/api/sendcommand' % leaderboard_address
+serverinfo_url = 'http://%s/api/leaderboard' % leaderboard_address
+project_name = config.get('PROJECT_NAME')
+
+#SHUTDOWN_MINUTES = 5
+#sendcommand_url = 'http://localhost:8080/api/sendcommand'
+#serverinfo_url = 'http://localhost:8080/api/serverinfo'
+
+def get_serverinfo():
+    opener = urllib2.build_opener(urllib2.HTTPHandler)
+    request = urllib2.Request(serverinfo_url)
+    request.get_method = lambda: 'GET'
+    try:
+        response = opener.open(request).read()
+    except urllib2.HTTPError, e:
+        print 'Error %d, %s' % (e.code, e.read())
+        return None
+    return json.loads(response)
+
+def get_updated_info(info):
+    serverinfo = get_serverinfo()
+    for i in serverinfo['infos']:
+        if i['name'] == info['name'] and i['start_utc'] == info['start_utc']:
+            return i
+    return None
+
+def which_servers(serverinfo):
+    if len(serverinfo['infos']) == 0:
+        return None
+    index = 0
+    for info in serverinfo['infos']:
+        print 'Server #%d. Name: %s' % (index, info['name'])
+        for key in sorted(info.keys()):
+            if key == 'name':
+                continue
+            print '    %s: %s' % (key, info[key])
+        index = index + 1
+
+    info = None
+    while True:
+        try:
+            ans = raw_input('Which server number to drain and delete? ')
+            index = int(ans)
+            if index >= 0 and index < len(serverinfo['infos']):
+                info = serverinfo['infos'][index]
+                break
+            print 'Incorrect server number. Try again.'
+        except ValueError:
+            print 'Not a number. Try again.'
+
+    join_info = None
+    while True:
+        try:
+            ans = raw_input('Which server number should players join (-1 for none)? ')
+            index = int(ans)
+            if index >= 0 and index < len(serverinfo['infos']):
+                join_info = serverinfo['infos'][index]
+                break
+            if index == -1:
+                join_info = None
+                break
+            print 'Incorrect server number. Try again.'
+        except ValueError:
+            print 'Not a number. Try again.'
+
+    return info, join_info
+
+def ask_continue(server_name, join_server, shutdown_count, player_count):
+    print 'PLEASE VERIFY:'
+    print '1. You wish to drain and delete server %s.' % server_name
+    print '2. You wish to start this process once the player count reaches <= %d.' % player_count
+    if join_server:
+        print '3. Once reached, remaining players will receive a message to join server %s.' % join_server
+    else:
+        print '3. Once reached, remaining players will receive a warning message every minute.'
+    print '4. The server will be deleted when the user count goes to zero or after %d minutes.' % shutdown_count
+
+    while True:
+        yesno = raw_input('Would you like to continue? (y/n) ')
+        if len(yesno) < 1:
+            continue
+        if yesno[0] == 'n' or yesno[0] == 'N':
+            return False
+        if yesno[0] == 'y' or yesno[0] == 'Y':
+            return True
+
+def ask_player_count(server_name, info):
+    print '%s currently has a player count of %d.' % (server_name, info['player_count'])
+    while True:
+        s = raw_input('What player count should trigger the drain-delete process? ')
+        try:
+            return int(s)
+        except ValueError:
+            print '%s is not a number. Try again.' % s
+
+def wait_player_count(server_name, info, player_count):
+    while True:
+        print '%s current player count: %d. Trigger: %d' % \
+                (server_name, info['player_count'], player_count)
+        if info['player_count'] <= player_count:
+            return
+        time.sleep(60)
+        info = get_updated_info(info)
+
+def send_command(o):
+    j = json.dumps(o)
+    m = md5.new(j + sendcommand_secret)
+    body = m.hexdigest() + j
+    opener = urllib2.build_opener(urllib2.HTTPHandler)
+    request = urllib2.Request(sendcommand_url, data=body)
+    request.add_header('Content-Type', 'binary/octet-stream')
+    request.add_header('Content-Length', len(body))
+    request.get_method = lambda: 'POST'
+    try:
+        response = opener.open(request).read()
+        return True
+    except urllib2.HTTPError, e:
+        print 'error %d, %s' % (e.code, e.read())
+        return False
+
+def drain_wait(info):
+    o = dict(info=dict(name=info['name'], start_utc=info['start_utc']),
+            command=dict(command='drain'))
+    print 'Sending drain command.'
+    if not send_command(o):
+        return False
+    while True:
+        print 'Waiting for drain confirmation.'
+        new_info = get_updated_info(info)
+        if not new_info:
+            return False
+        if new_info['status'] == 'drain':
+            print 'Drain confirmed.'
+            return True
+        time.sleep(30)
+
+def send_shutdown_message(info, join_server, shutdown_count):
+    if join_server:
+        message = 'Shutdown in %d minutes. Join server %s now!' % \
+                (shutdown_count, join_server)
+    else:
+        message = 'Shutdown in %d minutes.' % shutdown_count
+    o = dict(info=dict(name=info['name'], start_utc=info['start_utc']),
+            command=dict(command='chat', name='Admin', message=message))
+    print 'Sending: %s: %s' %  (o['command']['name'],
+            o['command']['message'])
+    return send_command(o)
+
+def main():
+    print "NOTE: Before continuing ensure these steps have been taken:"
+    print "1. Install gcloud from here if not already installed:"
+    print "   https://cloud.google.com/sdk/"
+    print "2. If already installed ensure it is up to date:"
+    print "   $ gcloud components update"
+    print "3. Authenicate:"
+    print "   $ gcloud auth login"
+    print "4. Select the proper project:"
+    print "   $ gcloud config set project %s" % project_name
+
+    serverinfo = get_serverinfo()
+    if not serverinfo:
+        print 'could not get serverinfo.'
+        sys.exit(1)
+
+    info, join_info = which_servers(serverinfo)
+    if not info:
+        print 'no server selected.'
+        sys.exit(1)
+    server_name = '%s (start_utc: %s)' % (info['name'], info['start_utc'])
+    join_server = join_info['name'] if join_info else None
+
+    player_count = ask_player_count(server_name, info)
+    shutdown_count = SHUTDOWN_MINUTES
+    if not ask_continue(server_name, join_server, shutdown_count, player_count):
+        print 'no action taken.'
+        sys.exit(1)
+  
+    wait_player_count(server_name, info, player_count)
+
+    if DRAIN: 
+        print 'Setting %s to drain mode. Waiting for confirmation.' % server_name
+        if not drain_wait(info):
+            print 'could not set %s into drain mode. no action taken.' % server_name
+            sys.exit(1)
+
+    while shutdown_count != -1:
+        new_info = get_updated_info(info)
+        print 'players: %d' % new_info['player_count']
+        if new_info['player_count'] == 0:
+            break
+        send_shutdown_message(info, join_server, shutdown_count)
+        shutdown_count = shutdown_count - 1
+        time.sleep(60)
+
+    print 'deleting: %s instance name: %s' % (server_name, info['instance_name'])
+
+    if TERMINATE:
+        sys.exit(os.system('gcloud compute instances delete "%s" --quiet --zone us-central1-a' % (info['instance_name'])))
+
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main()

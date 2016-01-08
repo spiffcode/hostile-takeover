@@ -1,0 +1,64 @@
+#!/bin/bash
+
+BINDIR="$(cd "${0%/*}" && echo $PWD)"
+IMAGE_TAG=$(${BINDIR}/image_version wi_server)
+WICONTENT_URL="$(${BINDIR}/config WICONTENT_URL)"
+PROJECT_NAME="$(${BINDIR}/config PROJECT_NAME)"
+IMAGE="$(${BINDIR}/config REGISTRY_PREFIX)/wi_server"
+WICONTENT_URL="$(${BINDIR}/config WICONTENT_URL)"
+LEADERBOARD_ADDRESS_AND_PORT="$(${BINDIR}/config LEADERBOARD_ADDRESS_AND_PORT)"
+INSTANCE_NAME="i-${IMAGE_TAG}"
+TEMP_FILENAME=$(mktemp)
+
+echo "NOTE: This script assumes use of Google Compute Engine."
+echo "Before continuing ensure these steps have been taken:"
+echo "1. Install gcloud from here if not already installed:"
+echo "   https://cloud.google.com/sdk/"
+echo "2. If already installed ensure it is up to date:"
+echo "   $ gcloud components update"
+echo "3. Authenicate:"
+echo "   $ gcloud auth login"
+echo "4. Select the proper project:"
+echo "   $ gcloud config set project ${PROJECT_NAME}"
+echo -n "Unique numeric server id (used for sorting): "
+read SERVER_ID
+echo -n "Server name (appears in-game): "
+read SERVER_NAME
+echo -n "Server location (appears in-game): "
+read SERVER_LOCATION
+echo -n "Type yes to create new public server: "
+read YES
+if [ "$YES" != "yes" ]; then
+    exit 1;
+fi
+
+cat > ${TEMP_FILENAME} <<xyzzy
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ${PROJECT_NAME}
+spec:
+  containers:
+    - name: ${PROJECT_NAME}
+      image: ${IMAGE}:${IMAGE_TAG}
+      args: ['runwis', '--build_type', 'release', '--public_listen_port', '22221', '--image_tag', '${IMAGE_TAG}', '--gce_metadata', '--wicontent_url', '${WICONTENT_URL}', '--args', '--server_id', '${SERVER_ID}', '--server_name', '${SERVER_NAME}', '--server_location', '${SERVER_LOCATION}', '--server_type', 'production', '--listen_address', '0.0.0.0', '--listen_port', '22221', '--stats_address', '${LEADERBOARD_ADDRESS_AND_PORT}', '--checksync']
+      imagePullPolicy: Always
+      ports:
+        - containerPort: 22221
+          hostPort: 22221
+xyzzy
+
+echo Launching instance ${INSTANCE_NAME}...
+gcloud compute instances create "${INSTANCE_NAME}" \
+    --image container-vm \
+    --metadata-from-file google-container-manifest=${TEMP_FILENAME} \
+    --zone us-central1-a \
+    --machine-type g1-small
+
+if [ $? -eq 0 ]; then
+    echo Success.
+else
+    echo Error code $?
+fi
+
+rm -f ${TEMP_FILENAME}
