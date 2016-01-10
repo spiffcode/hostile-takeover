@@ -38,7 +38,7 @@ Game::Game(Endpoint *endpoint, const GameParams& params, const LevelInfo& info,
 }
 
 Game::~Game() {
-    LOG() << base::Log::Format("0x%08lx", this);
+    LOG() << base::Log::Format("0x%p", this);
     if (advertiser_ != NULL) {
         advertiser_->SignalOnDelete.disconnect(this);
         advertiser_ = NULL;
@@ -131,13 +131,13 @@ void Game::AddPlayer(Endpoint *endpoint) {
 }
 
 void Game::RemovePlayer(Endpoint *endpoint, int reason, bool disconnect) {
-    LOG() << base::Log::Format("0x%08lx ", endpoint)
+    LOG() << base::Log::Format("0x%p ", endpoint)
             << "endpoint disconnecting, reason:" << reason;
 
     if (endpoint->id() == advertiserId_) {
         // If this game hasn't started yet, dispose the game
         if (!playing_) {
-            LOG() << base::Log::Format("0x%08lx ", this)
+            LOG() << base::Log::Format("0x%p ", this)
                     << "advertiser leaving game, auto disposing!";
             Dispose();
         }
@@ -183,7 +183,7 @@ void Game::RemovePlayer(Endpoint *endpoint, int reason, bool disconnect) {
         endpoint->SignalOnDelete.disconnect(this);
     }
     if (connected_.size() == 0) {
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "no endpoints connected - auto disposing!";
         Dispose();
     }
@@ -224,7 +224,7 @@ void Game::OnNetMessage(Endpoint *endpoint, NetMessage *pnm) {
         break;
 
     case knmidCsConnect:
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "Received knmidCsConnect unexpectedly!";
         break;
 
@@ -261,7 +261,7 @@ void Game::OnNetMessage(Endpoint *endpoint, NetMessage *pnm) {
 void Game::OnPlayerJoin(Endpoint *endpoint, PlayerJoinNetMessage *ppjnm) {
     // If already playing, this message means nothing
     if (playing_) {
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "received PlayerJoin while playing.";
         NetMessage nmsg(knmidScCantAcceptMoreConnections);
         endpoint->xpump().Send(XMsgGameNetMessage::ToBuffer(&nmsg));
@@ -307,7 +307,7 @@ void Game::OnPlayerJoin(Endpoint *endpoint, PlayerJoinNetMessage *ppjnm) {
 void Game::OnClientReady(Endpoint *endpoint, NetMessage *pnm) {
     // If already playing, this message means nothing
     if (playing_) {
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "received ClientReady while playing.";
         return;
     }
@@ -315,7 +315,7 @@ void Game::OnClientReady(Endpoint *endpoint, NetMessage *pnm) {
     // Update this player's state in the master list and let all players know
     Player *pplr = playerMgr_.GetPlayer(endpoint);
     if (pplr == NULL) {
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "has no player.";
         return;
     }
@@ -330,7 +330,7 @@ void Game::OnRequestBeginGame(Endpoint *endpoint, NetMessage *pnm) {
     NetMessage nmFail(knmidScBeginGameFail);
     if (playing_) {
         endpoint->xpump().Send(XMsgGameNetMessage::ToBuffer(&nmFail));
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "received RequestBeginGame while playing.";
         return;
     }
@@ -620,7 +620,7 @@ void Game::OnWinStats(Endpoint *endpoint, WinStatsNetMessage *pnm) {
     LOG() << endpoint->name();
     Player *pplrEndpoint = playerMgr_.GetPlayer(endpoint);
     if (pplrEndpoint == NULL) {
-        LOG() << base::Log::Format("0x%08lx ", endpoint)
+        LOG() << base::Log::Format("0x%p ", endpoint)
                 << "Could not find player!";
         return;
     }
@@ -635,11 +635,11 @@ void Game::OnWinStats(Endpoint *endpoint, WinStatsNetMessage *pnm) {
     // as possible, so clever updating is required.
     if (!ValidateWinStats(endpoint, pnm)) {
 #ifdef DEBUG_LOGGING
-        LOG() << base::Log::Format("0x%08lx ", endpoint)
+        LOG() << base::Log::Format("0x%p ", endpoint)
                 << "WinStats are invalid! " << PszFromNetMessage(pnm);
 #endif
 #ifdef RELEASE_LOGGING
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "WinStats are invalid! username: " << endpoint->name()
                 << " ip address: "
                 << endpoint->xpump().socket()->GetRemoteAddress().ToString();
@@ -686,12 +686,12 @@ void Game::OnWinStats(Endpoint *endpoint, WinStatsNetMessage *pnm) {
 }
 
 void Game::OnChallengeWin(Endpoint *endpoint) {
-    LOG() << base::Log::Format("0x%08lx ", endpoint)
+    LOG() << base::Log::Format("0x%p ", endpoint)
             << endpoint->name() << " challenges the win!";
 
     Player *pplr = playerMgr_.GetPlayer(endpoint);
     if (pplr == NULL) {
-        LOG() << base::Log::Format("0x%08lx ", endpoint)
+        LOG() << base::Log::Format("0x%p ", endpoint)
                 << "Could not find player!";
         return;
     }
@@ -728,7 +728,7 @@ void Game::SendClientCommands() {
     int cbUnm = sizeof(UpdateNetMessage) + ((cmsg - 1) * sizeof(Message));
     UpdateNetMessage *punm = (UpdateNetMessage *)new byte[cbUnm];
     if (punm == NULL) {
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "Allocation Error!";
         Dispose();
         return;
@@ -780,7 +780,7 @@ void Game::OnKillLaggingPlayer(Endpoint *endpoint,
 void Game::OnClientCommands(Endpoint *endpoint, ClientCommandsNetMessage *pnm) {
     // If not yet playing, this message means nothing
     if (!playing_) {
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "ClientCommands received while not in game";
         return;
     }
@@ -791,7 +791,7 @@ void Game::OnClientCommands(Endpoint *endpoint, ClientCommandsNetMessage *pnm) {
         cmds_.push_back(pnm->amsgCommands[i]);
     }
 
-    LOG() << base::Log::Format("0x%08lx ccmds:%d", endpoint, pnm->cmsgCommands);
+    LOG() << base::Log::Format("0x%p ccmds:%d", endpoint, pnm->cmsgCommands);
 
     // TODO: Validation
 }
@@ -804,14 +804,14 @@ void Game::OnUpdateResult(Endpoint *endpoint, UpdateResultNetMessage *pnm) {
 
     // If not yet playing, this message means nothing
     if (!playing_) {
-        RLOG() << base::Log::Format("0x%08lx ", endpoint)
+        RLOG() << base::Log::Format("0x%p ", endpoint)
                 << "UpdateResult received while not in game";
         return;
     }
 
     Player *pplr = playerMgr_.GetPlayer(endpoint);
     if (pplr == NULL) {
-        LOG() << base::Log::Format("0x%08lx ", endpoint)
+        LOG() << base::Log::Format("0x%p ", endpoint)
                 << "Could not find player!";
         return;
     }

@@ -76,7 +76,7 @@ bool TriggerMgr::Init(IniReader *pini)
 
 		// Remember per-side assignments and indexes
 
-		int cArgs = pini->GetPropertyValue(&find, "%s", &szProp);
+		int cArgs = pini->GetPropertyValue(&find, "%s", szProp);
 		if (cArgs != 1)
 			return false;
 		if (!AssignTriggerSides(ntgr, szProp))
@@ -681,7 +681,7 @@ bool ParseUnitMask(char **ppsz, UnitMask *pum)
 {
 	*pum = 0;
 	int nch = 0;
-	int cArgs = IniScanf(*ppsz, "%ld,%+", pum, &nch);
+	int cArgs = IniScanf(*ppsz, "%d,%+", pum, &nch);
 	*ppsz += nch;
 	return cArgs >= 1;
 }

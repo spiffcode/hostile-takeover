@@ -5,6 +5,18 @@
 #include "mpshared/packfile.h"
 #include <stdarg.h>
 
+// Don't leave this on all the time because IniScanf uses
+// some non-standard format strings.
+#if 0 // defined(__GNUC__) || defined(__clang__)
+#define scanfFormat23 __attribute__((format(scanf, 2, 3)))
+#define scanfFormat34 __attribute__((format(scanf, 3, 4)))
+#define scanfFormat45 __attribute__((format(scanf, 4, 5)))
+#else
+#define scanfFormat23
+#define scanfFormat34
+#define scanfFormat45
+#endif
+
 namespace wi {
 
 struct IniSection // sec
@@ -45,9 +57,9 @@ public:
 
 	bool Init(const char *psz);
 	bool GetPropertyValue(char *pszSec, char *pszProp, char *pszValue, int cbValue);
-	int GetPropertyValue(char *pszSec, char *pszProp, char *pszFmt, ...);
 	bool FindNextProperty(FindProp *pfind, char *pszSec, char *pszProp, int cbProp);
-	int GetPropertyValue(FindProp *pfind, char *pszFmt, ...);
+	int GetPropertyValue(char *pszSec, char *pszProp, char *pszFmt, ...) scanfFormat45;
+	int GetPropertyValue(FindProp *pfind, char *pszFmt, ...) scanfFormat34;
 
 private:
 	IniSection *FindSection(char *pszSec);
@@ -58,9 +70,9 @@ private:
 	IniSection *m_psecFirst;
 	FileMap m_fmap;
 };
+
 IniReader *LoadIniFile(PackFileReader& pak, const char *pszFn);
-int IniScanf(char *pszBuff, char *pszFmt, ...);
-int VIniScanf(char *pszBuff, char *pszFmt, va_list va);
+int IniScanf(char *pszBuff, char *pszFmt, ...) scanfFormat23;
 
 } // namespace wi;
 

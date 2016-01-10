@@ -31,15 +31,6 @@ namespace wi {
 #endif
 #define IsDigit(ch) ((ch) >= '0' && (ch) <= '9')
 
-int IniScanf(char *pszBuff, char *pszFmt, ...)
-{
-	va_list va;
-	va_start(va, pszFmt);
-	int c = VIniScanf(pszBuff, pszFmt, va);
-	va_end(va);
-	return c;
-}
-
 int VIniScanf(char *pszBuff, char *pszFmt, va_list va)
 {
 	bool fLong;
@@ -251,6 +242,15 @@ int VIniScanf(char *pszBuff, char *pszFmt, va_list va)
 	}
 
 	return cArgs;
+}
+
+int IniScanf(char *pszBuff, char *pszFmt, ...)
+{
+	va_list va;
+	va_start(va, pszFmt);
+	int c = VIniScanf(pszBuff, pszFmt, va);
+	va_end(va);
+	return c;
 }
 
 IniReader *LoadIniFile(PackFileReader& pak, const char *pszFn)

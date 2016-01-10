@@ -11,7 +11,7 @@ JsonObject::~JsonObject() {
 
 #ifdef RELEASE_LOGGING
 std::string JsonObject::ToString() const {
-    return base::Log::Format("JsonObject <0x%08lx>", this);
+    return base::Log::Format("JsonObject <0x%p>", this);
 }
 #endif
 

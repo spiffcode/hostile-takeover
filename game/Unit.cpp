@@ -110,7 +110,7 @@ bool UnitGob::InitClass(UnitConsts *puntc, IniReader *pini)
 	if (pini->GetPropertyValue(szTemplate, "SortOffset", "%d", &puntc->wdySortOffset) != 1)
 		return false;
 	puntc->wdySortOffset *= 16;		// HACK: so we can keep existing GobTemplate sort offsets
-	if (pini->GetPropertyValue(szTemplate, "Animation", "%s", &puntc->szAniName) != 1)
+	if (pini->GetPropertyValue(szTemplate, "Animation", "%s", puntc->szAniName) != 1)
 		return false;
 	if (pini->GetPropertyValue(szTemplate, "Name", "%s", puntc->szName) != 1) {
 		Assert("Struct/Unit must have 'Name' property");

@@ -6,7 +6,7 @@
 
 namespace wi {
 
-const dword kdwProtocolCurrent = 0x485407d4;
+const dword kdwProtocolCurrent = 0x485407d5;
 
 const byte XMSG_NONE = 0x00;
 const byte XMSG_HANDSHAKE = 0x81;

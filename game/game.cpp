@@ -128,7 +128,7 @@ void GameMain(char *pszCmds)
 		// -l %s (level: level.lvl)
 
 		} else if (strcmp(szT, "-l") == 0) {
-			c = IniScanf(&pszCmds[nchAbs], "%s", szLevel, &nchRel);
+			c = IniScanf(&pszCmds[nchAbs], "%s%+", szLevel, &nchRel);
 			nchAbs += nchRel;
 			if (c == 0)
 				return;

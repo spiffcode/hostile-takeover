@@ -66,7 +66,7 @@ bool XPump::Send(base::ByteBuffer *pbb) {
 #ifdef LOGGING
     base::ByteBuffer *pbbT = pbb->Clone();
     XMsg *pmsg = XMsgFromBuffer(*pbbT, pbbT->Length());
-    LOG() << base::Log::Format("0x%08lx", notify_) << ": " << pmsg->ToString()
+    LOG() << base::Log::Format("0x%p", notify_) << ": " << pmsg->ToString()
             << ", " << pbb->Length() << " bytes";
     delete pmsg;
     delete pbbT;
@@ -155,7 +155,7 @@ bool XPump::Dispatch() {
     }
 
 #ifdef LOGGING
-    LOG() << base::Log::Format("0x%08lx", notify_) << ": "
+    LOG() << base::Log::Format("0x%p", notify_) << ": "
             << pmsg->ToString() << ", " << cbMsg << " bytes.";
 #endif
 

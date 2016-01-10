@@ -29,14 +29,14 @@ Endpoint::Endpoint(Server& server, base::Socket *socket, dword id,
 }
 
 Endpoint::~Endpoint() {
-    LOG() << base::Log::Format("0x%08lx", this);
+    LOG() << base::Log::Format("0x%p", this);
     SignalOnDelete(this);
     delete name_;
 }
 
 void Endpoint::SetState(State state)
 {
-    LOG() << base::Log::Format("0x%08lx ", this)
+    LOG() << base::Log::Format("0x%p ", this)
             << "From: " << EsLabels.Find(state_)
             << " To: " << EsLabels.Find(state);
     state_ = state;
@@ -48,13 +48,13 @@ bool Endpoint::CheckState(State state0, State state1)
     Assert(state0 == state_ || state1 == state_);
 #endif
     if (state0 != state_ && state1 != state_) {
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "Warning! Current: " << EsLabels.Find(state_);
         if (state1 == (State)-1) {
-            LOG() << base::Log::Format("0x%08lx ", this)
+            LOG() << base::Log::Format("0x%p ", this)
                     << " Expected: " << EsLabels.Find(state0);
         } else {
-            LOG() << base::Log::Format("0x%08lx ", this)
+            LOG() << base::Log::Format("0x%p ", this)
                     << " Expected: " << EsLabels.Find(state0)
                     << " or " << EsLabels.Find(state1);
         }
@@ -76,7 +76,7 @@ void Endpoint::OnHandshake(dword clientid, dword protocolid) {
     // The server and client need to support the same protocol.
     if (protocolid != kdwProtocolCurrent) {
         xpump_.Send(XMsgHandshakeResult::ToBuffer(knHandshakeResultFail, 0));
-        RLOG() << base::Log::Format("0x%08lx ", this)
+        RLOG() << base::Log::Format("0x%p ", this)
                 << "wrong protocolid: " << protocolid
                 << " clientid: " << clientid;
         return;
@@ -84,7 +84,7 @@ void Endpoint::OnHandshake(dword clientid, dword protocolid) {
 
     if (clientid != kdwClientID) {
         xpump_.Send(XMsgHandshakeResult::ToBuffer(knHandshakeResultFail, 0));
-        RLOG() << base::Log::Format("0x%08lx ", this)
+        RLOG() << base::Log::Format("0x%p ", this)
                 << "wrong clientid: " << clientid;
         return;
     }
@@ -92,7 +92,7 @@ void Endpoint::OnHandshake(dword clientid, dword protocolid) {
     if (serverfull_) {
         xpump_.Send(XMsgHandshakeResult::ToBuffer(knHandshakeResultServerFull,
                 0));
-        RLOG() << base::Log::Format("0x%08lx ", this) << "server is full.";
+        RLOG() << base::Log::Format("0x%p ", this) << "server is full.";
         return;
     }
 
@@ -405,7 +405,7 @@ void Endpoint::OnRoomCreateGame(const GameParams& params) {
     if (!ValidateGameParams(params)) { 
         xpump_.Send(XMsgRoomCreateGameResult::ToBuffer(0,
                 knRoomCreateGameResultFail, NULL));
-        RLOG() << base::Log::Format("0x%08lx ", this)
+        RLOG() << base::Log::Format("0x%p ", this)
                 << "game params invalid";
 #ifdef RELEASE_LOGGING
         LogGameParams(params);
@@ -421,7 +421,7 @@ void Endpoint::OnRoomCreateGame(const GameParams& params) {
         // Don't know about this pack at all
         xpump_.Send(XMsgRoomCreateGameResult::ToBuffer(0,
                 knRoomCreateGameResultUnknownMissionPack, NULL));
-        RLOG() << base::Log::Format("0x%08lx ", this)
+        RLOG() << base::Log::Format("0x%p ", this)
                 << "packid not found";
 #ifdef RELEASE_LOGGING
         LogGameParams(params);
@@ -436,7 +436,7 @@ void Endpoint::OnRoomCreateGame(const GameParams& params) {
         // Know about this pack, but client has wrong version
         xpump_.Send(XMsgRoomCreateGameResult::ToBuffer(0,
                 knRoomCreateGameResultUpgradeMissionPack, &packidUpgrade));
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "client needs packid upgrade";
 #ifdef LOGGING
         LogGameParams(params);
@@ -449,7 +449,7 @@ void Endpoint::OnRoomCreateGame(const GameParams& params) {
     if (!room->CanAddGame(this)) {
         xpump_.Send(XMsgRoomCreateGameResult::ToBuffer(0,
                 knRoomCreateGameResultRoomFull, NULL));
-        RLOG() << base::Log::Format("0x%08lx ", this)
+        RLOG() << base::Log::Format("0x%p ", this)
                 << "room full: " << room->name();
         return;
     }
@@ -1332,7 +1332,7 @@ void Endpoint::OnGameLeave() {
     if (game_ == NULL) {
         xpump_.Send(XMsgGameLeaveResult::ToBuffer(
                 knGameLeaveResultNotFound));
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "No game to disconnect from. "
                 << "Can happen when the server disconnects first";
         return;
@@ -1341,7 +1341,7 @@ void Endpoint::OnGameLeave() {
     if (!CheckState(ES_GAME)) {
         xpump_.Send(XMsgGameLeaveResult::ToBuffer(
                 knGameLeaveResultFail));
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "Not in ES_GAME state.";
         return;
     }
@@ -1364,14 +1364,14 @@ void Endpoint::OnGameNetMessage(NetMessage **ppnm) {
     // Check game_ for NULL first, before state_ is checked,
     // since the server can force game_ to NULL legally.
     if (game_ == NULL) {
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "No game for NetMessage. "
                 << "Can happen when the server disconnects first";
         return;
     }
 
     if (!CheckState(ES_GAME)) {
-        LOG() << base::Log::Format("0x%08lx ", this) << "Not in ES_GAME!";
+        LOG() << base::Log::Format("0x%p ", this) << "Not in ES_GAME!";
         return;
     }
     game_->OnNetMessage(this, *ppnm);
@@ -1384,7 +1384,7 @@ void Endpoint::OnGameDelete(Game *game) {
 }
 
 void Endpoint::DropGame(Game *game, int reason) {
-    LOG() << base::Log::Format("0x%08lx ", this)
+    LOG() << base::Log::Format("0x%p ", this)
             << "Dropping game, reason: " << reason;
 
     Assert(game == game_);
@@ -1399,17 +1399,17 @@ void Endpoint::DropGame(Game *game, int reason) {
 }
 
 void Endpoint::OnError(int error) {
-    LOG() << base::Log::Format("0x%08lx ", this) << error;
+    LOG() << base::Log::Format("0x%p ", this) << error;
     Dispose();
 }
 
 void Endpoint::OnClose(int error) {
-    LOG() << base::Log::Format("0x%08lx ", this) << error;
+    LOG() << base::Log::Format("0x%p ", this) << error;
     Dispose();
 }
 
 void Endpoint::OnCloseOk() {
-    LOG() << base::Log::Format("0x%08lx ", this);
+    LOG() << base::Log::Format("0x%p ", this);
     Dispose();
 }
 
@@ -1420,7 +1420,7 @@ void Endpoint::OnHeartbeat() {
     }
 
     if (!echo_) {
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "client ping timeout";
 #ifndef DEV_BUILD
         // When a user brings up audio controls (double click home), or

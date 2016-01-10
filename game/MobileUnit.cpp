@@ -417,7 +417,7 @@ void MobileUnitGob::PerformAction(char *szAction)
 	case knHuntEnemiesUnitAction:
 		{
 			UnitMask um;
-			if (IniScanf(szAction, "%*d ,%ld", &um) == 0) {
+			if (IniScanf(szAction, "%*d ,%d", &um) == 0) {
 				Assert(false);
 				return;
 			}

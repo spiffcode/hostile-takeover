@@ -65,7 +65,7 @@ bool Level::LoadLevelInfo(const char *pszLevelName, IniReader *piniLoaded)
 
 	// Get revision #
 
-	if (pini->GetPropertyValue("General", "Revision", "%ld", &m_dwRevision) == 0)
+	if (pini->GetPropertyValue("General", "Revision", "%d", &m_dwRevision) == 0)
 		m_dwRevision = 0;
 
 	// Can't run if the level version is newer than what the game supports
@@ -138,7 +138,7 @@ bool Level::LoadSideInfo(IniReader *pini, char *pszSideName, SideInfo *psidi)
 	// Include some good defaults in case this level contains no SideInfo for this side
 
 	psidi->nInitialCredits = 5000;
-	pini->GetPropertyValue(pszSideName, "InitialCredits", "%ld", &psidi->nInitialCredits);
+	pini->GetPropertyValue(pszSideName, "InitialCredits", "%d", &psidi->nInitialCredits);
 
 	int tx = 0;
 	int ty = 0;

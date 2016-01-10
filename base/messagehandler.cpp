@@ -22,9 +22,9 @@ void MessageHandler::Dispose() {
     if (!disposed_) {
         disposed_ = true;
         thread_.Dispose(this);
-        LOG() << base::Log::Format("0x%08lx ", this) << "disposing";
+        LOG() << base::Log::Format("0x%p ", this) << "disposing";
     } else {
-        LOG() << base::Log::Format("0x%08lx ", this)
+        LOG() << base::Log::Format("0x%p ", this)
                 << "tried to dispose but already disposed";
     }
 }

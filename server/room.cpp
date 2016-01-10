@@ -36,7 +36,7 @@ Room::Room(Server *server, Endpoint *creator, const char *name,
 }
 
 Room::~Room() {
-    LOG() << base::Log::Format("0x%08lx", this);
+    LOG() << base::Log::Format("0x%p", this);
     Assert(endpointmap_.size() == 0);
     SignalOnDelete(this);
     delete creator_;

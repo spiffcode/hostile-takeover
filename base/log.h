@@ -62,6 +62,13 @@
 #define RLOGX() while(false) base::EmptyLog()
 #endif
 
+// Format string compile time check
+#if defined(__GNUC__) || defined(__clang__)
+#define printfFormat12 __attribute__((format(printf, 1, 2)))
+#else
+#define printfFormat12
+#endif
+
 // Log string formatting class (for legacy reasons called Log)
 
 #if defined(CONSOLE_LOGGING)
@@ -73,7 +80,7 @@
 namespace base {
 class Log {
 public:
-    static std::string Format(const char *format, ...) {
+    static std::string Format(const char *format, ...) printfFormat12 {
         va_list va;
         va_start(va, format);
         std::string str = vFormat(format, va);
@@ -94,7 +101,7 @@ private:
 namespace base {
 class Log {
 public:
-    static int Format(const char *format, ...) { return 0; }
+    static int Format(const char *format, ...) printfFormat12 { return 0; }
 };
 } // namespace base
 

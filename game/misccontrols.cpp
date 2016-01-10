@@ -381,7 +381,7 @@ bool CheckBoxControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	char szChecked[64];
 	szChecked[0] = 0;
 	int cArgs = pini->GetPropertyValue(pfind, "%*d (%*d %*d %*d %*d) \"%s\" %d %s",
-			m_szLabel, &m_ifnt, &szChecked);
+			m_szLabel, &m_ifnt, szChecked);
 	if (cArgs == 2)
 		return Init(m_szLabel, m_ifnt, false);
 	if (cArgs != 3)
