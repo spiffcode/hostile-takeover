@@ -337,7 +337,11 @@ void IPhone::Log(char *pszFormat, va_list va)
 #endif
 
     char sz[512];
-    vsnprintf(sz, sizeof(sz), pszFormat, va);
+	if (va != NULL) {
+		vsnprintf(sz, sizeof(sz), pszFormat, va);
+	} else {
+		strncpyz(sz, pszFormat, sizeof(sz));
+	}
 
 #ifdef SIMULATOR
     printf("%s\n", sz);
