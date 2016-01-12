@@ -7,6 +7,8 @@
         return nil;
     }
 
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+
     chatLabel_ = [[UILabel alloc] initWithFrame:CGRectZero];
     chatLabel_.backgroundColor = [UIColor whiteColor];
     chatLabel_.opaque = YES;

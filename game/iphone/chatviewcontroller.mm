@@ -423,7 +423,7 @@
     ChatCell *cell = (ChatCell *)[tableView_
             dequeueReusableCellWithIdentifier:@"chatcell"];
     if (cell == nil) {
-        cell = [[[ChatCell alloc] initWithStyle:UITableViewCellSelectionStyleNone
+        cell = [[[ChatCell alloc] initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:@"chatcell"] autorelease];
     }
     [self initializeChatCell:(int)indexPath.row cell:cell];

@@ -2649,7 +2649,7 @@ bool MiniMapControl::CalcPoweredRadar()
 #pragma clang diagnostic ignored "-Wtautological-undefined-compare"
 #endif
 
-	if (gpmm == NULL)
+	if (this == NULL)
 		return false;
 
 #ifdef __clang__
@@ -2689,7 +2689,7 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 #pragma clang diagnostic ignored "-Wtautological-undefined-compare"
 #endif
 
-	if (gpmm == NULL)
+	if (this == NULL)
 		return;
 
 #ifdef __clang__
