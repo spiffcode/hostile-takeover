@@ -25,7 +25,6 @@ class ChatController;
     UITableView *tableView_;
     UIToolbar *toolbar_;
     UITextField *textField_;
-    bool keyboardShown_;
     NSMutableArray *chatEntries_;
     UIFont *entryFont_;
     CGFloat width10Spaces_;

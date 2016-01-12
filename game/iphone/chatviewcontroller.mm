@@ -26,7 +26,6 @@
     tableView_ = nil;
     toolbar_ = nil;
     textField_ = nil;
-    keyboardShown_ = false;
     chatQueue_ = [[NSMutableArray alloc] initWithCapacity:CHAT_QUEUE];
     suspended_ = NO;
     chatEntries_ = [[NSMutableArray alloc] initWithCapacity:CHAT_HISTORY];
@@ -79,13 +78,18 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
             selector:@selector(onKeyboardShown:)
-            name:UIKeyboardDidShowNotification object:nil];
+            name:UIKeyboardDidShowNotification
+            object:nil];
  
     [[NSNotificationCenter defaultCenter] addObserver:self
             selector:@selector(onKeyboardHidden:)
-            name:UIKeyboardDidHideNotification object:nil];
+            name:UIKeyboardDidHideNotification
+            object:nil];
 
-    keyboardShown_ = false;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+            selector:@selector(keyboardWillChangeFrame:)
+            name:UIKeyboardWillChangeFrameNotification
+            object:nil];
 }
 
 - (void)loadView
@@ -340,57 +344,39 @@
 
 - (void)onKeyboardShown:(NSNotification *)notification
 {
-    if (keyboardShown_) {
-        return;
-    }
-    keyboardShown_ = true;
-
-    NSDictionary *info = [notification userInfo];
-
-    CGRect rectKeyboard;
-    [[info objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&rectKeyboard];
-    CGSize sizeKeyboard = rectKeyboard.size;
-
-    CGRect rcToolbar = toolbar_.frame;
-    rcToolbar = CGRectOffset(rcToolbar, 0, -sizeKeyboard.height);
-    toolbar_.frame = rcToolbar;
-
-    CGRect rcTableView = tableView_.frame;
-    rcTableView.size.height -= sizeKeyboard.height;
-    tableView_.frame = rcTableView;
-
     [self scrollToBottom];
 }
 
 - (void)onKeyboardHidden:(NSNotification *)notification
 {
-    if (!keyboardShown_) {
-        return;
-    }
-    keyboardShown_ = false;
-
-    NSDictionary *info = [notification userInfo];
-
-    CGRect rectKeyboard;
-    [[info objectForKey:UIKeyboardFrameEndUserInfoKey] getValue:&rectKeyboard];
-    CGSize sizeKeyboard = rectKeyboard.size;
-
-    CGRect rcToolbar = toolbar_.frame;
-    rcToolbar = CGRectOffset(rcToolbar, 0, sizeKeyboard.height);
-    toolbar_.frame = rcToolbar;
-
-    CGRect rcTableView = tableView_.frame;
-    rcTableView.size.height += sizeKeyboard.height;
-    tableView_.frame = rcTableView;
-}
-
-#if 0
-// Fires on the simulator, but not the device. Go figure.
-- (void)viewDidAppear:(BOOL)animated
-{
     [self scrollToBottom];
 }
-#endif
+
+- (void)keyboardWillChangeFrame:(NSNotification *)notification {
+    NSDictionary *info = [notification userInfo];
+    UIApplication *app = [UIApplication sharedApplication];
+    CGRect rcEnd = [[info objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    CGRect rcToolbar = [toolbar_ frame];
+    int nMajorOSVersion = [[[UIDevice currentDevice] systemVersion] intValue];
+
+    if (nMajorOSVersion <= 7) {
+        // The rcEnd rect is based on portrait, but self.frame and its
+        // subviews' frames are landscape.
+        if ([app statusBarOrientation] == UIDeviceOrientationLandscapeRight) {
+            rcToolbar.origin.y = rcEnd.origin.x - toolbar_.frame.size.height;
+        }
+        if ([app statusBarOrientation] == UIDeviceOrientationLandscapeLeft) {
+            rcToolbar.origin.y = view_.frame.size.height - rcEnd.origin.x - rcEnd.size.width - toolbar_.frame.size.height;
+        }
+    } else {
+        rcToolbar.origin.y = rcEnd.origin.y - rcToolbar.size.height;
+    }
+    [toolbar_ setFrame:rcToolbar];
+    [view_ bringSubviewToFront:toolbar_];
+
+    // Resize the table view
+    [self layoutTableView];
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
