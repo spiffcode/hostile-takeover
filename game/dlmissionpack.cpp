@@ -172,11 +172,10 @@ void DownloadMissionPackForm::PositionColumns() {
     Rect rcList;
     plstc->GetRect(&rcList);
 
-    int xStatus = rcList.left + 2;
-    int xTitle = rcList.left + (rcList.Width() / 4 - cxTitle) / 2;
-    int xNumMissions = m_rc.Width() - cxAsterisk - cxNumMissions;
-    int xNumPlayers = xNumMissions - 10 - cxNumPlayers;
-
+    int xStatus = 2;
+    int xTitle = (rcList.Width() / 4 - cxTitle) / 2;
+    int xNumMissions = rcList.Width() - cxAsterisk - cxNumMissions;
+    int xNumPlayers = xNumMissions - 10 - cxNumPlayers; 
     // Calc the top of the list (past the arrow) for better column
     // label hittesting
     Size sizArrow;
@@ -189,7 +188,7 @@ void DownloadMissionPackForm::PositionColumns() {
     Rect rc;
     plbl = (LabelControl *)GetControlPtr(kidcStatus);
     plbl->GetRect(&rc);
-    rc.left = xStatus;
+    rc.left = rcList.left + xStatus;
     rc.right = xTitle;
     rc.bottom += (yListTop - rc.bottom) / 2;
     plbl->SetRect(&rc);
@@ -198,7 +197,7 @@ void DownloadMissionPackForm::PositionColumns() {
 
     plbl = (LabelControl *)GetControlPtr(kidcTitle);
     plbl->GetRect(&rc);
-    rc.Offset(xTitle - rc.left, 0);
+    rc.Offset(rcList.left + xTitle - rc.left, 0);
     rc.right += rc.Width();
     rc.bottom += (yListTop - rc.bottom) / 2;
     plbl->SetRect(&rc);
@@ -207,7 +206,7 @@ void DownloadMissionPackForm::PositionColumns() {
     
     plbl = (LabelControl *)GetControlPtr(kidcNumPlayers);
     plbl->GetRect(&rc);
-    rc.Offset(xNumPlayers - rc.left, 0);
+    rc.Offset(rcList.left + xNumPlayers - rc.left, 0);
     rc.bottom += (yListTop - rc.bottom) / 2;
     plbl->SetRect(&rc);
     plbl->SetFlags(plbl->GetFlags() | kfLblHitTest);
@@ -215,7 +214,7 @@ void DownloadMissionPackForm::PositionColumns() {
 
     plbl = (LabelControl *)GetControlPtr(kidcNumMissions);
     plbl->GetRect(&rc);
-    rc.Offset(xNumMissions - rc.left, 0);
+    rc.Offset(rcList.left + xNumMissions - rc.left, 0);
     rc.bottom += (yListTop - rc.bottom) / 2;
     plbl->SetRect(&rc);
     plbl->SetFlags(plbl->GetFlags() | kfLblHitTest);
