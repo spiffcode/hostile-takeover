@@ -15,7 +15,7 @@ SHUTDOWN_MINUTES = 5
 sendcommand_secret = config.get('SENDCOMMAND_SECRET')
 leaderboard_address = config.get('LEADERBOARD_ADDRESS_AND_PORT')
 sendcommand_url = 'http://%s/api/sendcommand' % leaderboard_address
-serverinfo_url = 'http://%s/api/leaderboard' % leaderboard_address
+serverinfo_url = 'http://%s/api/serverinfo' % leaderboard_address
 project_name = config.get('PROJECT_NAME')
 
 #SHUTDOWN_MINUTES = 5
