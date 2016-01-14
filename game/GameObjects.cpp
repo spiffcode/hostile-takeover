@@ -1281,8 +1281,8 @@ Direction16 CalcDir16(int dx, int dy)
 // GobMgr implementation
 //
 
-#define PpgobFromGid(gid)	((Gob **)((byte *)m_apgobMaster + (gid)))
-#define GidFromPpgob(ppgob) ((byte *)(ppgob) - (byte *)m_apgobMaster)
+#define PpgobFromGid(gid)	(&m_apgobMaster[gid])
+#define GidFromPpgob(ppgob) ((ppgob) - m_apgobMaster)
 #define MakeUsedEntry(pw)	(Gob **)((pword)(pw) & ~1)
 #define MakeFreeEntry(pw)	(Gob *)((pword)(pw) | 1)
 #define IsFreeEntry(pw)		((pword)(pw) & 1)
