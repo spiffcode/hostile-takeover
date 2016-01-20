@@ -8,10 +8,15 @@ namespace wi {
 
 class IPhoneHttpService : public HttpService {
 public:
+    IPhoneHttpService();
+
     // HttpService methods
     virtual HttpRequest *NewRequest(HttpResponseHandler *phandler);
     virtual void SubmitRequest(HttpRequest *preq);
     virtual void ReleaseRequest(HttpRequest *preq);
+
+private:
+    void *delegate_;
 };
 
 } // namespace wi

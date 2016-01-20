@@ -6,89 +6,25 @@
 // Requests come in from the game thread; NS* api calls occur on main
 // thread.
 
-@implementation ConnectionDelegate
-
-- (id)initWithRequest:(wi::IPhoneHttpRequest *)req {
-    self = [super init];
-    if (self != nil) {
-        req_ = req;
-        conn_ = nil;
-    }
-    return self;
-}
-    
-- (void)dealloc {
-    [conn_ release];
-    [super dealloc];
-}
-
-- (void)submit {
-    NSURLRequest *req = req_->CreateNSURLRequest();
-    conn_ = [NSURLConnection
-            connectionWithRequest:req
-            delegate:self];
-    [conn_ retain];
-    [req release];
-}
-
-- (void)cancel {
-    [conn_ cancel];
-    [conn_ release];
-    conn_ = nil;
-}
-
-- (void)connection:(NSURLConnection *)conn
-        didReceiveResponse:(NSURLResponse *)resp {
-    req_->OnReceivedResponse((NSHTTPURLResponse *)resp);
-}
-
-- (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data {
-    req_->OnReceivedData(data);
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)conn {
-    req_->OnFinishedLoading();
-}
-
-- (void)connection:(NSURLConnection *)conn
-        didFailWithError:(NSError *)error {
-    NSLog(@"error: %@", error);
-    req_->OnError(error);
-}
-@end
 
 // C++ implementation of HttpRequest interface for iPhone
 
 namespace wi {
 
-IPhoneHttpRequest::IPhoneHttpRequest(HttpResponseHandler *handler) :
-        handler_(handler), delegate_(nil) {
+IPhoneHttpRequest::IPhoneHttpRequest(HttpResponseHandler *handler) : handler_(handler) {
 }
 
 IPhoneHttpRequest::~IPhoneHttpRequest() {
 }
 
-void IPhoneHttpRequest::Submit() {
-    delegate_ = [[ConnectionDelegate alloc] initWithRequest:this];
-    [delegate_ performSelectorOnMainThread:@selector(submit)
-            withObject:nil waitUntilDone: NO];
-}
-
-void IPhoneHttpRequest::Release() {
-    // This can cause a deadlock when exiting because of how the main thread
-    // is synchronizing with the game thread to exit before it does
-
-    if (!IPhone::IsExiting()) {
-        [delegate_ performSelectorOnMainThread:@selector(cancel)
-                withObject:nil waitUntilDone: YES];
-        [delegate_ release];
-    }
-    delegate_ = nil;
+void IPhoneHttpRequest::Dispose() {
+    // Called on game thread
     thread_.Clear(this);
-    Dispose();
+    MessageHandler::Dispose();
 }
 
 NSURLRequest *IPhoneHttpRequest::CreateNSURLRequest() {
+    // Called on main thread
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
 
