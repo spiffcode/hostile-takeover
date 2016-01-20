@@ -132,20 +132,6 @@ IPhoneAppDelegate *g_appDelegate;
     [m_vcwi initiateWebView:title withUrl:url];
 }
 
-#if 0
-- (void)application:(UIApplication *)app
-        willChangeStatusBarOrientation:(UIInterfaceOrientation)orientation
-        duration:(NSTimeInterval)duration
-{
-    // This prevents the view from autorotating to portrait in the simulator
-    if ((orientation == UIInterfaceOrientationPortrait) ||
-            (orientation== UIInterfaceOrientationPortraitUpsideDown)) {
-        [app setStatusBarOrientation:
-                UIInterfaceOrientationLandscapeRight animated:NO];
-    }
-}
-#endif
-
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
     // Create the window and view
@@ -171,10 +157,6 @@ IPhoneAppDelegate *g_appDelegate;
     // Show the window with table view
 	[m_window addSubview:m_view];
     [m_window makeKeyAndVisible];
-
-    // Must do this after makeKeyAndVisible, in order for it all to rotate
-    [application setStatusBarOrientation:UIInterfaceOrientationLandscapeRight
-            animated:NO];
 
     // Alloc the key directories
     [self allocPaths];
