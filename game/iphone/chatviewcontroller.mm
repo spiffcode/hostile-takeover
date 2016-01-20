@@ -199,7 +199,7 @@
     UIBarButtonItem *textFieldButton = [[[UIBarButtonItem alloc]
             initWithCustomView:textField_] autorelease];
     UIBarButtonItem *sendButton = [[[UIBarButtonItem alloc]
-            initWithTitle:@"Send" style:UIBarButtonItemStyleBordered
+            initWithTitle:@"Send" style:UIBarButtonItemStyleDone
             target:self action:@selector(onSend)] autorelease];
     NSArray *array = [NSArray arrayWithObjects: textFieldButton, sendButton,
             (char *)NULL];
