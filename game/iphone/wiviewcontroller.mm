@@ -128,7 +128,7 @@
 
     InputController *input_controller = [[InputController alloc]
             init:title default:def keyboardType:keyboardType
-            delegate:self maxChars:maxAsk_ secure:secureAsk_];
+            delegate:self maxChars:maxAsk_ secure:secureAsk_ controller:self];
     input_controller_ = input_controller;
 }
 

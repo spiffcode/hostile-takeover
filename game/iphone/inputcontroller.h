@@ -19,14 +19,13 @@
     NSString *default_string_;
     UIKeyboardType keyboard_type_;
     BOOL secure_;
-    UIAlertView *alert_view_;
     int cchMax_;
     id<InputDelegate> delegate_;
 }
 - (id)init:(NSString *)title default:(NSString *)default_string
         keyboardType:(UIKeyboardType)keyboard_type delegate:(id)delegate
-        maxChars:(int)cchMax secure:(BOOL)secure;
-- (void)loadView;
+        maxChars:(int)cchMax secure:(BOOL)secure controller:(UIViewController *)controller;
+- (void)loadAlert:(UIViewController *)controller;
 @end
 
 #endif // __INPUTCONTROLLER_H__
