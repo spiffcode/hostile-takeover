@@ -4,7 +4,7 @@
 
 MONO=mono
 #CPP=gcc -E -P -x c -Wno-trigraphs
-CPP=cpp -P
+CPP=cpp -P -Wno-invalid-pp-token -Wno-trigraphs
 INICRUNCH=inicrunch
 
 HELPFILE=help.txt

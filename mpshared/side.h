@@ -53,4 +53,4 @@
 
 #define kutMax 23
 
-#endif // __SIDE_H__
+#endif
