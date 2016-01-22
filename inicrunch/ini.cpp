@@ -204,7 +204,7 @@ IniSection *LoadIniFile(char *pszFn, int *pcSections)
 
 	FILE *pf = fopen(pszFn, "rb");
 	if (pf == NULL)
-		return false;
+		return NULL;
 
 	while (true) {
 		// Get the next line

@@ -40,58 +40,58 @@
 <FileName id="ref-31">replicator\icon.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-6" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-32">replicator\replicatorOn_04.png</FileName>
+<FileName id="ref-32">replicator\replicatoron_04.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-7" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-33">replicator\replicatorOff_01.png</FileName>
+<FileName id="ref-33">replicator\replicatoroff_01.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-8" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-34">replicator\replicatorOff_02.png</FileName>
+<FileName id="ref-34">replicator\replicatoroff_02.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-9" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-35">replicator\replicatorOff_03.png</FileName>
+<FileName id="ref-35">replicator\replicatoroff_03.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-10" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-36">replicator\replicatorOff_04.png</FileName>
+<FileName id="ref-36">replicator\replicatoroff_04.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-11" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-37">replicator\replicatorOn_01.png</FileName>
+<FileName id="ref-37">replicator\replicatoron_01.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-12" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-38">replicator\replicatorOn_02.png</FileName>
+<FileName id="ref-38">replicator\replicatoron_02.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-13" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-39">replicator\replicatorOn_03.png</FileName>
+<FileName id="ref-39">replicator\replicatoron_03.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-14" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-40">replicator\replicatorLightsA_01.png</FileName>
+<FileName id="ref-40">replicator\replicatorlightsa_01.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-15" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-41">replicator\replicatorLightsB_01.png</FileName>
+<FileName id="ref-41">replicator\replicatorlightsb_01.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-16" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-42">replicator\replicatorLightsB_05.png</FileName>
+<FileName id="ref-42">replicator\replicatorlightsb_05.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-17" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-43">replicator\replicatorLightsA_02.png</FileName>
+<FileName id="ref-43">replicator\replicatorlightsa_02.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-18" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-44">replicator\replicatorLightsA_03.png</FileName>
+<FileName id="ref-44">replicator\replicatorlightsa_03.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-19" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-45">replicator\replicatorLightsA_04.png</FileName>
+<FileName id="ref-45">replicator\replicatorlightsa_04.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-20" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-46">replicator\replicatorLightsA_05.png</FileName>
+<FileName id="ref-46">replicator\replicatorlightsa_05.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-21" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-47">replicator\replicatorLightsB_02.png</FileName>
+<FileName id="ref-47">replicator\replicatorlightsb_02.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-22" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-48">replicator\replicatorLightsB_03.png</FileName>
+<FileName id="ref-48">replicator\replicatorlightsb_03.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-23" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-49">replicator\replicatorLightsB_04.png</FileName>
+<FileName id="ref-49">replicator\replicatorlightsb_04.png</FileName>
 </a1:XBitmap>
 <a1:Strip id="ref-24" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
 <Name id="ref-50">a 0a</Name>

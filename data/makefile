@@ -1,11 +1,14 @@
-#
-# Depth related settings, default 8
-#
-
 MONO=mono
-#CPP=gcc -E -P -x c -Wno-trigraphs
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Darwin)
+INICRUNCH=inicrunch_osx
 CPP=cpp -P -Wno-invalid-pp-token -Wno-trigraphs
-INICRUNCH=inicrunch
+endif
+ifeq ($(UNAME), Linux)
+INICRUNCH=inicrunch_linux
+CPP=cpp -P -Wno-trigraphs
+endif
 
 HELPFILE=help.txt
 
@@ -171,16 +174,16 @@ $(ARTDIR)/bitmaps/galax2c.bmp \
 $(ARTDIR)/bitmaps/galax3a.bmp \
 $(ARTDIR)/bitmaps/galax3b.bmp \
 $(ARTDIR)/bitmaps/galax3c.bmp \
-$(ARTDIR)/bitmaps/placementBad.bmp \
-$(ARTDIR)/bitmaps/placementGood.bmp \
+$(ARTDIR)/bitmaps/placementbad.bmp \
+$(ARTDIR)/bitmaps/placementgood.bmp \
 $(ARTDIR)/bitmaps/plant.bmp \
 $(ARTDIR)/bitmaps/plant1.bmp \
 $(ARTDIR)/bitmaps/plant2.bmp \
 $(ARTDIR)/bitmaps/plant3.bmp \
 $(ARTDIR)/bitmaps/plant4.bmp \
 $(ARTDIR)/bitmaps/plant5.bmp \
-$(ARTDIR)/bitmaps/RocketArtifact.bmp \
-$(ARTDIR)/bitmaps/Rocks.bmp \
+$(ARTDIR)/bitmaps/rocketartifact.bmp \
+$(ARTDIR)/bitmaps/rocks.bmp \
 $(ARTDIR)/bitmaps/tree.bmp \
 $(ARTDIR)/bitmaps/tree1.bmp \
 $(ARTDIR)/bitmaps/tree2.bmp \

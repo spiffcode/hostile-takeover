@@ -26,25 +26,25 @@
 <_x0037_ href="#ref-19"/>
 </a1:StripSet>
 <a1:XBitmap id="ref-5" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-20">VTS\vts_b_0_0.png</FileName>
+<FileName id="ref-20">vts\vts_b_0_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-6" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-21">VTS\vts_b_1_0.png</FileName>
+<FileName id="ref-21">vts\vts_b_1_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-7" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-22">VTS\vts_b_2_0.png</FileName>
+<FileName id="ref-22">vts\vts_b_2_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-8" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-23">VTS\vts_a_2_0.png</FileName>
+<FileName id="ref-23">vts\vts_a_2_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-9" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-24">VTS\vts_a_1_0.png</FileName>
+<FileName id="ref-24">vts\vts_a_1_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-10" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-25">VTS\vts_a_0_0.png</FileName>
+<FileName id="ref-25">vts\vts_a_0_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-11" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-26">VTS\icon.png</FileName>
+<FileName id="ref-26">vts\icon.png</FileName>
 </a1:XBitmap>
 <a1:Strip id="ref-12" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
 <Name id="ref-27">a 0</Name>

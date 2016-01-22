@@ -28,40 +28,40 @@
 <_x0034_ href="#ref-21"/>
 </a1:StripSet>
 <a1:XBitmap id="ref-5" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-22">HQ\hq_a_0_0.png</FileName>
+<FileName id="ref-22">hq\hq_a_0_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-6" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-23">HQ\hq_a_0_1.png</FileName>
+<FileName id="ref-23">hq\hq_a_0_1.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-7" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-24">HQ\hq_a_0_2.png</FileName>
+<FileName id="ref-24">hq\hq_a_0_2.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-8" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-25">HQ\hq_a_0_3.png</FileName>
+<FileName id="ref-25">hq\hq_a_0_3.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-9" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-26">HQ\Hq_a_1_0.png</FileName>
+<FileName id="ref-26">hq\hq_a_1_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-10" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-27">HQ\hq_a_1_1.png</FileName>
+<FileName id="ref-27">hq\hq_a_1_1.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-11" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-28">HQ\hq_a_1_2.png</FileName>
+<FileName id="ref-28">hq\hq_a_1_2.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-12" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-29">HQ\hq_a_1_3.png</FileName>
+<FileName id="ref-29">hq\hq_a_1_3.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-13" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-30">HQ\Hq_a_2_0.png</FileName>
+<FileName id="ref-30">hq\hq_a_2_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-14" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-31">HQ\hq_a_0_4.png</FileName>
+<FileName id="ref-31">hq\hq_a_0_4.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-15" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-32">HQ\hq_a_1_4.png</FileName>
+<FileName id="ref-32">hq\hq_a_1_4.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-16" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-33">HQ\icon.png</FileName>
+<FileName id="ref-33">hq\icon.png</FileName>
 </a1:XBitmap>
 <a1:Strip id="ref-17" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
 <Name id="ref-34">a 0</Name>

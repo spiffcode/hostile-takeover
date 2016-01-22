@@ -1,7 +1,10 @@
-typedef unsigned long dword;
+typedef unsigned int dword;
 typedef unsigned char byte;
 typedef unsigned short word;
+
+#ifndef NULL
 #define NULL 0
+#endif
 
 #include <stdarg.h>
 

@@ -29,7 +29,7 @@
 <_x0039_ href="#ref-22"/>
 </a1:StripSet>
 <a1:XBitmap id="ref-5" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-23">mobilehq\mobilehq_run_0_0.PNG</FileName>
+<FileName id="ref-23">mobilehq\mobilehq_run_0_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-6" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
 <FileName id="ref-24">mobilehq\mobilehq_run_2_0.png</FileName>
@@ -50,7 +50,7 @@
 <FileName id="ref-29">mobilehq\mobilehq_run_7_0.png</FileName>
 </a1:XBitmap>
 <a1:XBitmap id="ref-12" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
-<FileName id="ref-30">mobilehq\mobilehq_run_1_0.PNG</FileName>
+<FileName id="ref-30">mobilehq\mobilehq_run_1_0.png</FileName>
 </a1:XBitmap>
 <a1:Strip id="ref-13" xmlns:a1="http://schemas.microsoft.com/clr/nsassem/SpiffCode/AniMax">
 <Name id="ref-31">run 0</Name>
