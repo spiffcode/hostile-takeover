@@ -2165,6 +2165,14 @@ bool Game::FilterEvent(Event *pevt)
     case mpShowObjectivesEvent:
         ShowObjectivesAction::OnMPShowObjectivesEvent(pevt->dw);
         break;
+
+    case disableSoundEvent:
+        gsndm.SaveStateAndClear();
+        break;
+
+    case enableSoundEvent:
+        gsndm.RestoreState();
+        break;
 	}
 
 	return false;
@@ -2201,7 +2209,9 @@ void Game::Suspend()
 	// Call host. This is a modal loop. When it returns, the game isn't
 	// paused anymore
 
+	gsndm.SaveStateAndClear();
 	HostSuspendModalLoop(pbmBack);
+	gsndm.RestoreState();
 
 	// Ok, invalidate everything so it all redraws
 

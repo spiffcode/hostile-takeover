@@ -1789,6 +1789,8 @@ struct Event { // evt
 #define checkGameOverEvent 0x6011
 #define connectionCloseEvent 0x6012
 #define showMessageEvent 0x6013
+#define enableSoundEvent 0x6014
+#define disableSoundEvent 0x6015
 
 // gameOverEvent constants (placed in Event::dw)
 

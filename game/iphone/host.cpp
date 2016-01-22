@@ -156,6 +156,16 @@ bool ProcessMessage(base::Message *pmsg, Event *pevt)
         pevt->ff = 0;
         break;
 
+    case kidmDisableSound:
+        pevt->eType = disableSoundEvent;
+        pevt->ff = 0;
+        break;
+
+    case kidmEnableSound:
+        pevt->eType = enableSoundEvent;
+        pevt->ff = 0;
+        break;
+
     default:
         return false;
     }

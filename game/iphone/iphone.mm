@@ -1,5 +1,6 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
 #import <UIKit/UIKit.h>
 #import <UIKit/UIWindow.h>
 #import <UIKit/UIApplication.h>
@@ -44,6 +45,27 @@ IPhoneAppDelegate *g_appDelegate;
 
 + (void)initialize
 {
+}
+
+- (void)handleAudioInterruption:(NSNotification *)notification
+{
+    UInt8 type = [[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue];
+    if (type == AVAudioSessionInterruptionTypeBegan) {
+        if (m_game_thread != NULL) {
+            m_game_thread->Post(kidmDisableSound, NULL);
+        }
+    }
+    if (type == AVAudioSessionInterruptionTypeEnded) {
+        NSError *error = nil;
+        BOOL success = [[AVAudioSession sharedInstance] setActive:YES error:&error];
+        if (success) {
+            if (m_game_thread != NULL) {
+                m_game_thread->Post(kidmEnableSound, NULL);
+            }
+        } else {
+            NSLog(@"AVAudioSession setActive error %@", error);
+        }
+    }
 }
 
 - (void)allocPath:(char **)ppsz baseDir:(const char *)baseDir
@@ -170,6 +192,12 @@ IPhoneAppDelegate *g_appDelegate;
     m_pszUUID = (char *)malloc(strlen(pszUUID) + 1);
     strcpy(m_pszUUID, pszUUID);
     CFRelease(strUUID);
+
+    // Set up a notification to restore sound when interrupted
+    [[NSNotificationCenter defaultCenter] addObserver: self
+            selector: @selector(handleAudioInterruption:)
+            name: AVAudioSessionInterruptionNotification
+            object: nil];
 
     // Spin off a thread to run the game
     m_game_thread = new base::Thread();

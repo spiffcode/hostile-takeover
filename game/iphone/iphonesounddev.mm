@@ -7,25 +7,6 @@
 #include "criticalsection.h"
 #include "iphone.h"
 
-@interface AudioInterruptionHandler : NSObject
-{
-}
-@end
-
-@implementation AudioInterruptionHandler
-- (void)handleInterruption:(NSNotification *)notification
-{
-    UInt8 type = [[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey] intValue];
-    if (type == AVAudioSessionInterruptionTypeEnded) {
-        NSError *error = nil;
-        BOOL success = [[AVAudioSession sharedInstance] setActive:YES error:&error];
-        if (!success) {
-            NSLog(@"AVAudioSession setActive error %@", error);
-        }
-    }
-}
-@end
-
 namespace wi {
 
 #define kcBuffers 4
@@ -91,9 +72,11 @@ IPhoneSoundDevice::IPhoneSoundDevice()
 
 IPhoneSoundDevice::~IPhoneSoundDevice()
 {
+    // This api deletes buffers too
     if (m_haq != NULL) {
         AudioQueueDispose(m_haq, true);
     }
+    SetSoundServiceDevice(NULL);
 }
 
 bool IPhoneSoundDevice::Init()
@@ -117,14 +100,6 @@ bool IPhoneSoundDevice::Init()
         NSLog(@"AVAudioSession setCategory error %@", sessionError);
         return false;
     }
-
-    // Set up callback for turning on audio when an interruption ends
-    AudioInterruptionHandler *handler = [AudioInterruptionHandler alloc];
-    [[NSNotificationCenter defaultCenter] addObserver: handler
-            selector: @selector(handleInterruption:)
-            name: AVAudioSessionInterruptionNotification
-            object: session];
-    [handler release];
 
     success = [session setActive:YES error:nil];
     if (!success) {

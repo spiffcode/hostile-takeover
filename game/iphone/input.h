@@ -23,6 +23,8 @@ const int kidmAppSetFocus = 17;
 const int kidmAppKillFocus = 18;
 const int kidmAskStringEvent = 19;
 const int kidmKeyDown = 20;
+const int kidmEnableSound = 21;
+const int kidmDisableSound = 22;
 
 extern base::MessageQueue gmq;
 

@@ -122,9 +122,6 @@ bool SoundMgr::IsEnabled()
 	return false;
 }
 
-// Our game conflicts with OS audio on some devices like Clie. We try to detect these cases and turn audio
-// completely off
-
 void SoundMgr::RestoreState()
 {
 	if (m_fStateSaved) {
