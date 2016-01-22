@@ -1732,8 +1732,10 @@ bool GobMgr::MoveGob(Gob *pgob, WCoord wxOld, WCoord wyOld, WCoord wxNew, WCoord
 {
 	Assert(wxOld >= -1 && TcFromWc(wxOld) < m_ctx && wyOld >= -1 && TcFromWc(wyOld) < m_cty);
 	Assert(wxNew >= -1 && TcFromWc(wxNew) < m_ctx && wyNew >= -1 && TcFromWc(wyNew) < m_cty);
-	Assert(pgob->m_gid < (m_cpgobMax + 1) * sizeof(Gob *));
-	Assert((pgob->m_gid & 3) == 0);
+	Assert(pgob->m_gid < (m_cpgobMax + 1));
+
+	// Doesn't look like the bottom 2 bits are being used anymore
+	// Assert((pgob->m_gid & 3) == 0);
 
 	int igidOld = -1;
 	if (wxOld != -1 && wyOld != -1)
