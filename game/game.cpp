@@ -429,7 +429,7 @@ bool Game::Init(int imm)
 	gsndm.Init();
 	if (gprefsInit.nVolume != (word)-1)
 		gsndm.SetVolume(gprefsInit.nVolume);
-	gsndm.Enable((gprefsInit.wfPrefs & kfPrefSoundMuted) == 0);
+	gsndm.Enable(true);
 
 	// Clear out stale save games
 
@@ -2559,8 +2559,7 @@ void Game::SavePreferences()
 	prefs.nMonthLastRun = BigWord(date.nMonth);
 	prefs.nDayLastRun = BigWord(date.nDay);
 	prefs.nVolume = BigWord(gsndm.GetVolume());
-	word wfPrefs = gsndm.IsEnabled() ? 0 : kfPrefSoundMuted;
-	wfPrefs |= gfIgnoreBluetoothWarning ? kfPrefIgnoreBluetoothWarning : 0;
+	word wfPrefs = gfIgnoreBluetoothWarning ? kfPrefIgnoreBluetoothWarning : 0;
 	prefs.wfPrefs = BigWord(wfPrefs);
 	prefs.wfPerfOptions = BigWord((gwfPerfOptions & kfPerfAll) | (kfPerfMax & ~kfPerfAll));
 	prefs.ctGameSpeed = BigDword((dword)gtGameSpeed);
