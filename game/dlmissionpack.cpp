@@ -574,6 +574,10 @@ void DownloadMissionPackForm::HideShow() {
     // Get the pack info for this pack
        
     IndexEntry *entry = (IndexEntry *)plstc->GetSelectedItemData();
+    if (entry == NULL) {
+        return;
+    }
+        
     char *psz = NULL;
     switch (gppackm->IsInstalled(&entry->packid)) {
     case 0:
