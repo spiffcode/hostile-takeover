@@ -142,8 +142,8 @@ void RawBitmap::BltTo(DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
 {
 	// Src rect to blt from
 
+    Rect rcSrcT;
 	if (prcSrc == NULL) {
-		Rect rcSrcT;
 		rcSrcT.Set(0, 0, m_cx, m_cy);
 		prcSrc = &rcSrcT;
 	}
