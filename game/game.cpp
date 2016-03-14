@@ -2432,7 +2432,7 @@ void Game::LoadPreferences()
 		gprefsInit.nDayLastRun = date.nDay;
 		gprefsInit.nVolume = (word)-1;
 		gprefsInit.wfPerfOptions = kfPerfMax;
-		gprefsInit.ctGameSpeed = kctUpdate;
+		gprefsInit.ctGameSpeed = kctUpdate / 2;
 		gprefsInit.wfHandicap = kfHcapDefault;
 #if defined(WIN) && !defined(CE)
 		gprefsInit.nScale = -1;

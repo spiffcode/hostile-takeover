@@ -469,7 +469,7 @@ void InGameOptionsForm::OnControlSelected(word idc)
 
 	case kidcDefault:
 		m_fLassoSelection = false;
-		m_tGameSpeed = kcmsUpdate / 10;
+		m_tGameSpeed = kcmsUpdate / 20;
         m_nScrollSpeed = 1.0;
 		m_wfHandicap = kfHcapDefault;
 		InitResettableControls();
