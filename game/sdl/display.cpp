@@ -1,8 +1,11 @@
 #include "../ht.h"
 #include "game/sdl/sdlspritemgr.h"
-#include "hosthelpers.h"
+#include "game/sdl/hosthelpers.h"
+#include "game/sdl/sdlspritemgr.h"
 
 namespace wi {
+
+static SdlSpriteManager *s_psprm;
 
 Display *HostCreateDisplay() {
 	// Create a display
@@ -27,6 +30,11 @@ Display::Display()
 	m_pbmBack = NULL;
 	m_pbmFront = NULL;
 	m_pbmClip = NULL;
+    
+    m_gameDisplay = NULL;
+    m_gameSurfacePixels = NULL;
+    m_gameSurface = NULL;
+    m_pixelCount = 0;
 }
 
 Display::~Display()
@@ -37,13 +45,19 @@ Display::~Display()
 	m_pbmFront = NULL;
 	delete m_pbmClip;
 	m_pbmClip = NULL;
+    
+    delete m_gameDisplay;
+    m_gameDisplay = NULL;
+    
+    m_pixelCount = 0;
+    m_gameSurfacePixels = NULL;
+    SDL_FreeSurface(m_gameSurface);
+    m_gameSurface = NULL;
+    SDL_DestroyWindow(window);
+    window = NULL;
+    SDL_DestroyTexture(texture);
+    texture = NULL;
 }
-
-// TODO(darrinm): horrible hack to see if it works (screen->map->dst = NULL)
-// Alternatively:
-// { SDL_SetSurfaceRLE(surface, 1); SDL_SetSurfaceRLE(surface, 0); }
-#define SDL_InvalidateMap(surface) *(void **)surface->map = NULL;
-
 
 bool Display::Init()
 {
@@ -59,29 +73,25 @@ bool Display::Init()
 	// Absolutely do not mess with SDL_FULLSCREEN if there is any chance the app
 	// will crash or stop at a breakpoint. If it does you will be lost in full
 	// screen mode! (ssh from another machine and kill the Xcode process)
-    videoflags = SDL_SWSURFACE;
+    videoflags = SDL_SWSURFACE | SDL_WINDOW_ALLOW_HIGHDPI;
 
-#ifdef __IPHONEOS__
-    cxScreen = 320;
-    cyScreen = 480;
-#else
-    cxScreen = 800;
-    cyScreen = 600;
-#endif
-
-    /* Set 640x480 video mode */
-    if ((screen =
-         SDL_SetVideoMode(cxScreen, cyScreen, 8, videoflags)) == NULL) {
-        LOG() << "Couldn't set " << cxScreen << "x" << cyScreen << " 8 video mode: " << SDL_GetError();
+    SurfaceProperties props;
+    HostHelpers::GetSurfaceProperties(&props);
+    cxScreen = props.cxWidth;
+    cyScreen = props.cyHeight;
+    
+    // Create window
+    if ((window = SDL_CreateWindow("Hostile Takeover", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, cxScreen, cyScreen, videoflags)) == NULL) {
+        LOG() << "Couldn't create window: " << cxScreen << "x" << cyScreen << " \nError: " << SDL_GetError();
         return false;
     }
 
-    SurfaceProperties props;
-    props.cxWidth = cxScreen;
-    props.cyHeight = cyScreen;
-    props.cbxPitch = 1;
-    props.cbyPitch = props.cxWidth;
-    props.ffFormat = wi::kfDirect8;
+    renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_TARGETTEXTURE);
+
+    m_gameSurface = SDL_CreateRGBSurface(videoflags, cxScreen, cyScreen, 32, 0, 0, 0, 0);
+    m_pixelCount = cxScreen * cyScreen;
+    m_gameDisplay = (byte *)malloc(m_pixelCount);
+    m_gameSurfacePixels = (Uint32 *)m_gameSurface->pixels;
 
     ModeInfo *pmode = m_amodeInfo;
     
@@ -103,7 +113,9 @@ bool Display::Init()
     pmode->fNative = true;
     pmode->nDegreeOrientation = 90; // leftie controls
     pmode++;
+#endif
 
+#if 0
     pmode->nDepth = 8;
     pmode->cx = props.cxWidth;
     pmode->cy = props.cyHeight;
@@ -127,6 +139,7 @@ bool Display::Init()
 
     HostOutputDebugString("Display::Init %d", pmode - m_amodeInfo);
     HostOutputDebugString("Display::Init %d modes", m_cmodes);
+
     return true;
 }
 
@@ -143,10 +156,11 @@ void Display::SetPalette(Palette *ppal)
 		pclr->b = *pb++;
 		pclr++;
 	}
-
-	SDL_SetColors(screen, aclr, 0, cEntries);
-	SDL_InvalidateMap(screen);
-//    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    
+    for (int i = 0; i < cEntries; i++) {
+        m_32bppColors[i] = ((Uint8)aclr[i].r << 16) | ((Uint8)aclr[i].g << 8) | ((Uint8)aclr[i].b << 0);
+    }
+    
 }
 
 int Display::GetModeCount()
@@ -175,7 +189,7 @@ int Display::GetMode(ModeInfo *pmode)
 
 bool Display::SetMode(int imode)
 {
-	// Allocate dib
+    // Allocate dib
 
 	ModeInfo *pmode = &m_amodeInfo[imode];
 
@@ -183,8 +197,7 @@ bool Display::SetMode(int imode)
 	if (pbmBack == NULL)
 		return false;
 
-	// TODO(darrinm): uh, locking, unlocking pixels?
-	DibBitmap *pbmFront = CreateDibBitmap((byte *)screen->pixels, pmode->cx, pmode->cy);
+    DibBitmap *pbmFront = CreateDibBitmap(m_gameDisplay, pmode->cx, pmode->cy);
 	if (pbmFront == NULL) {
 		delete pbmBack;
 		return NULL;
@@ -218,8 +231,8 @@ DibBitmap *Display::GetFrontDib()
 
 DibBitmap *Display::GetClippingDib()
 {
-	DibBitmap *pbm = CreateDibBitmap(NULL, kcCopyBy4Procs * 4, kcCopyBy4Procs * 4);
-	if (pbm == NULL)
+    DibBitmap *pbm = CreateDibBitmap(NULL, kcCopyBy4Procs * 4, kcCopyBy4Procs * 4);
+    if (pbm == NULL)
 		return NULL;
 	m_pbmClip = pbm;
 	return pbm;
@@ -234,18 +247,34 @@ void Display::GetHslAdjustments(short *pnHueOffset, short *pnSatMultiplier, shor
 
 void Display::FrameStart()
 {
-	SDL_LockSurface(screen);
-	
-	// screen->pixels can change every time the surface is locked.
+    // surface->pixels can change every time the surface is locked.
 	// TODO(darrinm): problem for, e.g. scrolling optimizations?
-	m_pbmFront->Init((byte *)screen->pixels, screen->w, screen->h);
+    m_pbmFront->Init(m_gameDisplay, m_gameSurface->w, m_gameSurface->h);
 }
 
 void Display::FrameComplete(int cfrmm, UpdateMap **apupd, Rect *arc,
         bool fScrolled)
 {
-	SDL_UnlockSurface(screen);
-    SDL_UpdateRect(screen, 0, 0, 0, 0);
+    for (int i = 0; i < m_pixelCount; i++) {
+        m_gameSurfacePixels[i] = m_32bppColors[m_gameDisplay[i]];
+    }
+
+    RenderGameSurface();
+}
+
+void Display::RenderGameSurface() {
+    // Create the texture
+    texture = SDL_CreateTextureFromSurface(renderer, m_gameSurface);
+
+    // Prepare the renderer
+    SDL_RenderClear(renderer);
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
+
+    // Present the renderer
+    SDL_RenderPresent(renderer);
+
+    // Free memory from the created texture
+    SDL_DestroyTexture(texture);
 }
 
 void Display::ResetScrollOffset()
@@ -254,8 +283,6 @@ void Display::ResetScrollOffset()
     IPhone::ResetScrollOffset();
 #endif
 }
-
-static SdlSpriteManager *s_psprm;
 
 SpriteManager *Display::GetSpriteManager()
 {

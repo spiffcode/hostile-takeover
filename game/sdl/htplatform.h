@@ -121,6 +121,7 @@ public:
     void ResetScrollOffset();
     SpriteManager *GetSpriteManager();
     void SetFormMgrs(FormMgr *pfrmmSim, FormMgr *pfrmmInput);
+    void RenderGameSurface();
 
 private:
     int m_imode;
@@ -133,7 +134,15 @@ private:
     DibBitmap *m_pbmFront;
     DibBitmap *m_pbmClip;
 
-    SDL_Surface *screen;
+    SDL_Window *window;
+    SDL_Renderer *renderer;
+    SDL_Texture *texture;
+
+    byte *m_gameDisplay;
+    SDL_Surface *m_gameSurface;
+    Uint32 *m_gameSurfacePixels;
+    Uint32 m_32bppColors[256];
+    int m_pixelCount;
 };
 
 #define kfDtClearLine 1
