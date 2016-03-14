@@ -696,7 +696,7 @@ void PlaceStructureForm::GetSubRects(WCoord wx, WCoord wy, Rect *prcInside,
     wrcInside.bottom = WcFromTc(m_ty + m_pstruc->ctyReserve);
     WRect wrcOutside = wrcInside;
 
-#ifdef IPHONE
+#if defined(IPHONE) || defined(SDL)
     if (wrcOutside.Width() < WcFromTc(3)) {
         wrcOutside.Inflate((WcFromTc(3) - wrcOutside.Width()) / 2, 0);
     }

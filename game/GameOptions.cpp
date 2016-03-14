@@ -138,7 +138,7 @@ private:
 
 bool DoModalGameOptionsForm(Palette *ppal, bool fInGame)
 {
-#ifndef IPHONE
+#if !defined(IPHONE) && !defined(SDL)
 	ShellForm *pfrm = (ShellForm *)gpmfrmm->LoadForm(gpiniForms, kidfGameOptions, new GameOptionsForm());
 	if (pfrm == NULL)
 		return false;
@@ -160,8 +160,7 @@ bool DoModalGameOptionsForm(Palette *ppal, bool fInGame)
 	pfrm->Show(false);
 	delete pfrm;
 #else
-
-    // iPhone only has InGameOptions
+    // iPhone and SDL builds only have InGameOptions
     ShellForm *pfrm = (ShellForm *)gpmfrmm->LoadForm(gpiniForms,
             kidfInGameOptions, new InGameOptionsForm());
     if (pfrm == NULL) {
@@ -334,7 +333,7 @@ bool InGameOptionsForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 	m_wfHandicap = gwfHandicap;
     m_nScrollSpeed = gnScrollSpeed;
 
-#ifdef IPHONE
+#if defined(IPHONE) || defined(SDL)
     GetControlPtr(kidcLassoSelection)->Show(false);
 #endif
 

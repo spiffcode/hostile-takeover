@@ -78,7 +78,7 @@ long gtStressTimeout;
 #endif
 
 #ifndef PIL
-#if defined(IPHONE) && !defined(DEV_BUILD) && !defined(BETA_TIMEOUT)
+#if (defined(IPHONE) || defined(SDL)) && (!defined(DEV_BUILD) && !defined(BETA_TIMEOUT))
 char *gszVersion = "1.6";
 #else
 char *gszVersion = "+++VERSION+++";
@@ -1721,9 +1721,9 @@ bool Game::AskResignGame(bool fTellHost)
 {
 	bool fAppStopping = gevm.IsAppStopping();
     bool fAsk = true;
-#ifdef IPHONE
-    // When an iPhone game exits, it exits without the opportunity to
-    // confirm with the user. So if Iphone and the app is stopping, just
+#if defined(IPHONE) || defined(__IPHONEOS__) || defined (__ANDROID__)
+    // When an iPhone or Android game exits, it exits without the opportunity to
+    // confirm with the user. So if iPhone and the app is stopping, just
     // resign.
     if (fAppStopping) {
         fAsk = false;
@@ -2631,7 +2631,7 @@ bool Game::GetVar(const char *pszName, char *pszBuff, int cbBuff)
 			strncpyz(pszBuff, gfGrayscale ? "1" : "0", cbBuff);
 
         } else if (stricmp(pszName, "$iphone") == 0) {
-#ifdef IPHONE
+#if defined(IPHONE) || defined(__IPHONEOS__)
 			strncpyz(pszBuff, "1", cbBuff);
 #else
 			strncpyz(pszBuff, "0", cbBuff);

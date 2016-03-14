@@ -13,10 +13,11 @@
 
 // To determine if running on simulator, the sdk sets TARGET_IPHONE_SIMULATOR
 // to 0 or 1.
-
+#if defined(IPHONE) || defined(__IPHONEOS__)
 #include <TargetConditionals.h>
 #if TARGET_IPHONE_SIMULATOR == 1
 #define SIMULATOR
+#endif
 #endif
 
 namespace wi {

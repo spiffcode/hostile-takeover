@@ -927,7 +927,7 @@ bool ListControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	m_cyItem = pfnt->GetHeight() + kcyListLineSpace - pfnt->GetLineOverlap();
     m_cxEllipsis = pfnt->GetTextExtent("...");
 
-#ifdef IPHONE
+#if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
     m_wf |= kfLstcScrollPosition;
 #endif
 

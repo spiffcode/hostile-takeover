@@ -50,7 +50,7 @@ bool HelpControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 
 	m_cyPageAmount = (int)((long)m_rc.Height() * 85 / 100);
 
-#ifdef IPHONE
+#if defined(IPHONE) || defined(SDL)
     m_wf |= kfHelpScrollPosition;
 #endif
 
@@ -729,7 +729,7 @@ int HelpControl::FindNextPosition(int nchFrom, int cyAmount, bool *pfLargeFont, 
 	fph.nDistY = cyAmount;
 	fph.cySpan = cyAmount;
 	fph.cyControl = m_rc.Height();
-#ifdef IPHONE
+#if defined(IPHONE) || defined(SDL)
     fph.nCondition = knFindPosFingerScroll;
 #else
 	fph.nCondition = fCondition ? knFindPosAtLeastY : knFindPosAtMostY;
@@ -1054,12 +1054,12 @@ bool HelpForm::DoModal(const char *pszLink, const char *pszFile)
 	if (pszLink != NULL)
 		pctl->FollowLink(pszLink);
 
-#ifdef IPHONE
     Control *pctlT = GetControlPtr(kidcNextPage);
-    pctlT->Show(false);
+    pctlT->Show(true);
     pctlT = GetControlPtr(kidcPrevPage);
-    pctlT->Show(false);
-#endif
+    pctlT->Show(true);
+    pctlT = GetControlPtr(kidcBack);
+    pctlT->Show(true);
 
 	int idc;
 	ShellForm::DoModal(&idc, false);

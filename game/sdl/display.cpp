@@ -74,12 +74,10 @@ bool Display::Init()
 	// Absolutely do not mess with SDL_FULLSCREEN if there is any chance the app
 	// will crash or stop at a breakpoint. If it does you will be lost in full
 	// screen mode! (ssh from another machine and kill the Xcode process)
-    videoflags = SDL_SWSURFACE | SDL_WINDOW_ALLOW_HIGHDPI;
+    videoflags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN;
     #if defined(__IPHONEOS__) || defined(__ANDROID__)
     videoflags = videoflags | SDL_WINDOW_BORDERLESS;
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
-    #else
-    videoflags = SDL_SWSURFACE | SDL_WINDOW_ALLOW_HIGHDPI;
     #endif
 
     // The host wants to process mouse and touch events separately

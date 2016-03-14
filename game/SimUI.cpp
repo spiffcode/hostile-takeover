@@ -167,7 +167,7 @@ SimUIForm::SimUIForm(word wfRole, dword gameid, Chatter *chatter)
 	m_nStateMoveTarget = 0;
 
     m_ppenh = NULL;
-#ifdef IPHONE
+#if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
     SetUIType(kuitFinger);
 #else
     SetUIType(kuitStylus);
@@ -2539,7 +2539,7 @@ void MiniMapControl::OnPenEvent(Event *pevt)
 		return;
     }
 
-#ifdef IPHONE
+#if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
     // If already waiting for pen down timeout, then just update the x,y
 
     if (m_wfMm & kfMmPenDownTimeout) {

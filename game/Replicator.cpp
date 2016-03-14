@@ -147,7 +147,7 @@ void ReplicatorGob::Draw(DibBitmap *pbm, int xViewOrigin, int yViewOrigin, int n
 		m_ani.SetStrip(m_fEnabled ? 2 : 0);
 		m_ani.Draw(pbm, x, y, side);
 		m_ani.SetStrip(m_fEnabled ? 3 : 1);
-#ifdef IPHONE
+#if defined(IPHONE) || defined(SDL)
         // When this is scaled up by 1 1/3 (scaling 24 art to 32),
         // the upper right quadrant piece is 55 high, which translates after
         // rounding to 73, yet the lower right quad piece wants to go at

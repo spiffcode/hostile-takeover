@@ -315,7 +315,7 @@ void InputUIForm::InGameMenu()
 
 	ShellForm *pfrm = (ShellForm *)gpmfrmm->LoadForm(gpiniForms, kidfInGameMenu, new ShellForm());
 
-#ifdef IPHONE
+#if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
     pfrm->GetControlPtr(kidcExitGame)->Show(false);
 #endif
 

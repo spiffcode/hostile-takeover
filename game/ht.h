@@ -1822,7 +1822,7 @@ struct FlickVector {
     dword cms;
 };
 #define kcevtPenHistory 32 // keep power of 2
-#define kcmsFlickQuantum 100
+#define kcmsFlickQuantum 150
     
 class EventMgr // evm
 {
