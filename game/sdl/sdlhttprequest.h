@@ -8,40 +8,53 @@
 
 namespace wi {
 
+class SdlHttpRequest;
+
+struct MemoryStruct {
+	SdlHttpRequest *cls;
+	int what;
+	char *memory;
+	size_t size;
+};
+
+
 class SdlHttpRequest : public HttpRequest, base::MessageHandler {
 public:
-    SdlHttpRequest(HttpResponseHandler *phandler);
-    ~SdlHttpRequest();
+	SdlHttpRequest(HttpResponseHandler *phandler);
+	~SdlHttpRequest();
 
-    void Submit();
-    void Release();
-// TODO(darrinm):
-//    NSURLRequest *CreateNSURLRequest();
-//    void OnReceivedResponse(NSHTTPURLResponse *resp);
-//    void OnReceivedData(NSData *data);
-    void OnFinishedLoading();
-// TODO(darrinm):
-//    void OnError(NSError *error);
+	void Submit();
+	void Release();
+	void OnFinishedLoading();
 
 private:
-    virtual void OnMessage(base::Message *pmsg);
-
     HttpResponseHandler *handler_;
-// TODO(darrinm):
-//    ConnectionDelegate *delegate_;
+
+    void *doAccess(void *arg);
+    virtual void OnMessage(base::Message *pmsg);
+    size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
+
+	static void *doAccess_helper(void *context) {
+		return ((SdlHttpRequest *)context)->doAccess(0);
+	}
+
+	static size_t WriteMemoryCallback_helper(void *contents, size_t size, size_t nmemb, void *userp)
+	{
+		return (((MemoryStruct *)userp)->cls)->WriteMemoryCallback(contents,size,nmemb,userp);
+	}
 };
 
 struct ReceivedResponseParams : base::MessageData {
-    int code;
-    Map headers;
+	int code;
+	Map headers;
 };
 
 struct ReceivedDataParams : base::MessageData {
-    base::ByteBuffer bb;
+	base::ByteBuffer bb;
 };
 
 struct ErrorParams : base::MessageData {
-    char szError[80];
+	char szError[80];
 };
 
 } // namespace wi

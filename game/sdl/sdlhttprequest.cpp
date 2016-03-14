@@ -2,178 +2,199 @@
 #include "game/sdl/hosthelpers.h"
 #include "base/thread.h"
 
-// C++ implementation of HttpRequest interface for SDL
+#include <curl/curl.h>
+#include <pthread.h>
 
+// Curl implementation of HttpRequest for SDL
 namespace wi {
 
-#if 0 // TODO(darrinm)
-SdlHttpRequest::SdlHttpRequest(HttpResponseHandler *handler) :
-        handler_(handler), delegate_(nil) {
-#else
-SdlHttpRequest::SdlHttpRequest(HttpResponseHandler *handler) {
-    LOG() << "SdlHttpRequest constructor not implemented yet";
-#endif
+size_t SdlHttpRequest::WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
+{
+	LOG() << "WriteMemoryCallback";
+
+	size_t realsize = size * nmemb;
+	struct MemoryStruct *mem = (struct MemoryStruct *)userp;
+
+	if (mem->what == CURLOPT_WRITEDATA)
+	{
+		LOG() << "Data size: " << realsize;
+		ReceivedDataParams *pparams = new ReceivedDataParams;
+		pparams->bb.WriteBytes((const byte*)contents,realsize);
+		thread_.Post(kidmReceivedData, this, pparams);
+	}
+	else if (mem->what == CURLOPT_HEADERDATA)
+	{
+		LOG() << "Header";
+		ReceivedResponseParams *pparams = new ReceivedResponseParams;
+		pparams->code = 200;
+		thread_.Post(kidmReceivedResponse, this, pparams);
+	}
+
+	mem->memory = (char*)realloc(mem->memory, mem->size + realsize + 1);
+	if(mem->memory == NULL) {
+		/* out of memory! */
+		LOG() << "not enough memory (realloc returned NULL)";
+		return 0;
+	}
+
+	memcpy(&(mem->memory[mem->size]), contents, realsize);
+	mem->size += realsize;
+	mem->memory[mem->size] = 0;
+
+	return realsize;
+}
+
+SdlHttpRequest::SdlHttpRequest(HttpResponseHandler *handler) : handler_(handler) {
+	LOG() << "SdlHttpRequest::SdlHttpRequest";
 }
 
 SdlHttpRequest::~SdlHttpRequest() {
 }
 
+void *SdlHttpRequest::doAccess(void *arg)
+{
+
+	CURL *curl_handle;
+	CURLcode res;
+	/* init the curl session */
+	curl_handle = curl_easy_init();
+
+	struct MemoryStruct chunk;
+	struct MemoryStruct chunkHeader;
+
+	chunk.cls = this;
+	chunk.memory = (char*)malloc(1);  /* will be grown as needed by the realloc above */
+	chunk.size = 0;    /* no data at this point */
+	chunk.what = CURLOPT_WRITEDATA;
+
+	chunkHeader.cls = this;
+	chunkHeader.memory = (char*)malloc(1);  /* will be grown as needed by the realloc above */
+	chunkHeader.what = CURLOPT_HEADERDATA;
+	chunkHeader.size = 0;    /* no data at this point */
+
+	curl_global_init(CURL_GLOBAL_ALL);
+
+	/* specify URL to get */
+	curl_easy_setopt(curl_handle, CURLOPT_URL, url_.c_str());
+
+	/* send all data to this function  */
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEFUNCTION, SdlHttpRequest::WriteMemoryCallback_helper);
+
+	/* we pass our 'chunk' struct to the callback function */
+	curl_easy_setopt(curl_handle, CURLOPT_WRITEDATA, (void *)&chunk);
+	/* we pass our 'chunk' struct to the callback function */
+	curl_easy_setopt(curl_handle,  CURLOPT_HEADERDATA, (void *)&chunkHeader);
+
+	curl_easy_setopt(curl_handle, CURLOPT_CONNECTTIMEOUT,10);
+
+	/* some servers don't like requests that are made without a user-agent
+		      field, so we provide one */
+	curl_easy_setopt(curl_handle, CURLOPT_USERAGENT, "libcurl-agent/1.0");
+
+    curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYPEER, 0L);
+    curl_easy_setopt(curl_handle, CURLOPT_SSL_VERIFYHOST, 0L);
+
+	res = curl_easy_perform(curl_handle);
+
+	long http_code = 0;
+
+	/* check for errors */
+	if(res != CURLE_OK) {
+		LOG() << "curl_easy_perform() failed: " << curl_easy_strerror(res);
+		ErrorParams *pparams = new ErrorParams;
+		strncpyz(pparams->szError, curl_easy_strerror(res), sizeof(pparams->szError));
+
+		// Called on main thread. Post this to game thread.
+		thread_.Post(kidmError, this, pparams);
+	}
+	else {
+        curl_easy_getinfo(curl_handle, CURLINFO_RESPONSE_CODE, &http_code);
+
+		LOG() << "Resp code = " << http_code;
+
+		//base::ByteBuffer bb;
+		//bb.WriteBytes((const byte*)chunkHeader.memory,chunkHeader.size);
+
+		//ReceivedResponseParams *pparams = new ReceivedResponseParams;
+		//pparams->code = http_code;
+		//thread_.Post(kidmReceivedResponse, this, pparams);
+
+		if (http_code == 200)
+		{
+			LOG() << "Data length: " << chunk.size;
+			//ReceivedDataParams *pparams = new ReceivedDataParams;
+			//pparams->bb.WriteBytes((const byte*)chunk.memory,chunk.size);
+			//thread_.Post(kidmReceivedData, this, pparams);
+		}
+
+		LOG() << "%lu bytes retrieved" << (long)chunk.size;
+		LOG() << "got: " << chunk.memory;
+	}
+
+	/* cleanup curl stuff */
+	curl_easy_cleanup(curl_handle);
+
+	if(chunk.memory)
+		free(chunk.memory);
+
+	if(chunkHeader.memory)
+		free(chunkHeader.memory);
+
+	thread_.Post(kidmFinishedLoading, this);
+
+	return 0;
+}
+
 void SdlHttpRequest::Submit() {
-#if 0
-    delegate_ = [[ConnectionDelegate alloc] initWithRequest:this];
-    [delegate_ performSelectorOnMainThread:@selector(submit)
-            withObject:nil waitUntilDone: NO];
-#else
-    LOG() << "SdlHttpRequest::Submit not implemented yet";
-#endif
+	LOG() << "SdlHttpRequest::SdlHttpRequest, URL = " << url_.c_str();
+
+	pthread_t pth; // this is our thread identifier
+	pthread_create(&pth,NULL, SdlHttpRequest::doAccess_helper,this);
+
 }
 
 void SdlHttpRequest::Release() {
-#if 0
-    // This can cause a deadlock when exiting because of how the main thread
-    // is synchronizing with the game thread to exit before it does
-
-    if (!Sdl::IsExiting()) {
-        [delegate_ performSelectorOnMainThread:@selector(cancel)
-                withObject:nil waitUntilDone: YES];
-        [delegate_ release];
-    }
-    delegate_ = nil;
-    thread_.Clear(this);
-    Dispose();
-#else
-    LOG() << "SdlHttpRequest::Release not implemented yet";
-#endif
+	LOG() << "SdlHttpRequest::Release";
+	// TODO: need to abort thread..
+	thread_.Clear(this);
 }
-
-#if 0 // TODO(darrinm)
-NSURLRequest *SdlHttpRequest::CreateNSURLRequest() {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
-
-    // Set the url
-    NSString *s = [NSString stringWithCString:url_.c_str()
-            encoding:[NSString defaultCStringEncoding]];
-    [req setURL:[NSURL URLWithString:s]];
-
-    // Set the method
-    s = [NSString stringWithCString:method_.c_str()
-            encoding:[NSString defaultCStringEncoding]];
-    [req setHTTPMethod:s];
-
-    // Set the body
-    if (pbb_ != NULL) {
-        int cb;
-        void *pv = pbb_->Strip(&cb);
-        NSData *data = [NSData dataWithBytesNoCopy:(void *)pv length:cb];
-        [req setHTTPBody:data];
-    }
-
-    // Set timeout
-    [req setTimeoutInterval:timeout_];
-
-    // Set cache policy
-    [req setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-
-    // Set headers
-    Enum enm;
-    char szKey[128];
-    while (headers_.EnumKeys(&enm, szKey, sizeof(szKey))) {
-        char szValue[256];
-        if (headers_.GetValue(szKey, szValue, sizeof(szValue))) {
-            NSString *key = [NSString stringWithCString:szKey
-                    encoding:[NSString defaultCStringEncoding]];
-            NSString *value = [NSString stringWithCString:szValue
-                    encoding:[NSString defaultCStringEncoding]];
-            [req setValue:value forHTTPHeaderField:key];
-        }
-    }
-
-    // Done
-    [pool release];
-}
-#endif
 
 void SdlHttpRequest::OnMessage(base::Message *pmsg) {
-#if 0 // TODO(darrinm)
-    switch (pmsg->id) {
-    case kidmReceivedResponse:
-        {
-            ReceivedResponseParams *pparams =
-                    (ReceivedResponseParams *)pmsg->data;
-            handler_->OnReceivedResponse(this, pparams->code,
-                    &pparams->headers);
-            delete pparams;
-        }
+	LOG() << "SdlHttpRequest::OnMessage";
+
+	switch (pmsg->id) {
+	case kidmReceivedResponse:
+	{
+		ReceivedResponseParams *pparams =
+				(ReceivedResponseParams *)pmsg->data;
+		handler_->OnReceivedResponse(this, pparams->code,
+				&pparams->headers);
+		delete pparams;
         break;
+	}
 
-    case kidmReceivedData:
-        {
-            ReceivedDataParams *pparams =
-                    (ReceivedDataParams *)pmsg->data;
-            handler_->OnReceivedData(this, &pparams->bb);
-            delete pparams;
-        }
+	case kidmReceivedData:
+	{
+		ReceivedDataParams *pparams =
+				(ReceivedDataParams *)pmsg->data;
+		handler_->OnReceivedData(this, &pparams->bb);
+		delete pparams;
         break;
+	}
 
-    case kidmFinishedLoading:
-        handler_->OnFinishedLoading(this);
+	case kidmFinishedLoading:
+		handler_->OnFinishedLoading(this);
+		break;
+
+	case kidmError:
+	{
+		ErrorParams *pparams = (ErrorParams *)pmsg->data;
+		handler_->OnError(this, pparams->szError);
+		delete pparams;
         break;
+	}
 
-    case kidmError:
-        {
-            ErrorParams *pparams = (ErrorParams *)pmsg->data;
-            handler_->OnError(this, pparams->szError);
-            delete pparams;
-        }
-        break;
-    }
-#endif
+	} // switch
 }
-
-#if 0 // TODO(darrinm)
-void SdlHttpRequest::OnReceivedResponse(NSHTTPURLResponse *resp) {
-    // Called on main thread. Populate ReceivedResponseParams
-    ReceivedResponseParams *pparams = new ReceivedResponseParams;
-    NSDictionary *dict = [resp allHeaderFields];
-    for (NSString *k in dict) {
-        NSString *v = [dict objectForKey:k];
-        pparams->headers.SetValue(
-            [k cStringUsingEncoding:[NSString defaultCStringEncoding]],
-            [v cStringUsingEncoding:[NSString defaultCStringEncoding]]);
-    }
-    pparams->code = [resp statusCode];
-
-    // Post this to the game thread
-    thread_.Post(kidmReceivedResponse, this, pparams);
-}
-
-void SdlHttpRequest::OnReceivedData(NSData *data) {
-    // Called on main thread. Populate ReceivedDataParams
-    ReceivedDataParams *pparams = new ReceivedDataParams;
-    pparams->bb.WriteBytes((const byte *)[data bytes], [data length]);
-
-     // Post this to the game thread
-    thread_.Post(kidmReceivedData, this, pparams);
-}
-
-void SdlHttpRequest::OnFinishedLoading() {
-    // Called on main thread. Post this to game thread.
-    thread_.Post(kidmFinishedLoading, this);
-}
-
-void SdlHttpRequest::OnError(NSError *error) {
-    // Called on main thread. Populate ErrorParams. Use
-    // localizedDescription. Note there is also localizedFailureReason;
-    // not sure which is better at the moment
-    const char *psz = [[error localizedDescription] cStringUsingEncoding:
-            [NSString defaultCStringEncoding]];
-    ErrorParams *pparams = new ErrorParams;
-    strncpyz(pparams->szError, psz, sizeof(pparams->szError));
-
-    // Called on main thread. Post this to game thread.
-    thread_.Post(kidmError, this, pparams);
-}
-#endif
 
 } // namespace wi
