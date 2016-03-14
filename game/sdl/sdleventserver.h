@@ -15,7 +15,7 @@ public:
         // Map ctWait (100th's sec) to timeout (milliseconds)
         int timeout = -1;
         if (ctWait != base::kctForever) {
-            timeout = ctWait * 10;
+            timeout = (int)ctWait * 10;
         }
 
         // SDL_WaitEventTimeout(), with the addition of socket i/o
@@ -41,8 +41,13 @@ public:
                 base::Thread::current().Post(kidmSdlEvent, NULL);
                 return true;
             case 0:
-                // No SDL event. poll for and dispatch network events, if any
+                // No SDL event. poll for and dispatch network events, if any.
+                // Be careful with wait_ - it might of been set to false via
+                // callback in SDL_PumpEvents, yet SelectServer::Wait() sets
+                // it back to true.
+                bool wait = wait_;
                 SelectServer::Wait(0, fProcessIO);
+                wait_ &= wait;
 
                 // Polling and no events?
                 if (timeout == 0) {
@@ -60,6 +65,7 @@ public:
                 break;
             }
         }
+        return true;
     }
     virtual void WakeUp() { wait_ = false; }
 };
