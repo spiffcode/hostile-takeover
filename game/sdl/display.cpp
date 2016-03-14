@@ -89,6 +89,7 @@ bool Display::Init()
     }
 
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_TARGETTEXTURE);
+    this->SetShouldRender(true);
 
     // Keep the screen size around
     s_siz.cx = cxScreen;
@@ -269,6 +270,9 @@ void Display::FrameComplete(int cfrmm, UpdateMap **apupd, Rect *arc,
 }
 
 void Display::RenderGameSurface() {
+    if (!m_fshouldRender)
+        return;
+
     // Create the texture
     texture = SDL_CreateTextureFromSurface(renderer, m_gameSurface);
 
@@ -309,6 +313,10 @@ void Display::SetFormMgrs(FormMgr *pfrmmSimUI, FormMgr *pfrmmInput)
 
 float Display::Density() {
     return m_density;
+}
+
+void Display::SetShouldRender(bool fsr) {
+    m_fshouldRender = fsr;
 }
 
 } // namespace wi

@@ -220,6 +220,25 @@ bool ProcessSdlEvent(Event *pevt)
         }
         break;
 
+    case SDL_APP_DIDENTERFOREGROUND:
+        // Allow the display to render
+        gpdisp->SetShouldRender(true);
+
+        // SDL may have released its graphics context if the app was previously
+        // backgrounded. This leaves the screen black when the user returns.
+        // Hack: Draw dib and render
+        gpmfrmm->DrawFrame(true);
+        gpdisp->RenderGameSurface();
+
+        break;
+
+    case SDL_APP_WILLENTERBACKGROUND:
+        // Stop display rendering; SDL may release its graphics context when
+        // backgrounded, so we don't want to try to render to a non-existant context.
+        gpdisp->SetShouldRender(false);
+
+        break;
+
 	case SDL_QUIT:
         pevt->eType = appStopEvent;
         break;

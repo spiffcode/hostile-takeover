@@ -31,11 +31,11 @@
 // as they do something else.
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification {
-    // See host.cpp case SDL_APP_DIDENTERFOREGROUND
+    wi::HostAppDidEnterForeground();
 }
 
 - (void)applicationWillResignActive:(NSNotification *)notification {
-    // See host.cpp case SDL_APP_WILLENTERBACKGROUND
+    wi::HostAppWillEnterBackground();
 }
 #endif
 

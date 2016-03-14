@@ -123,6 +123,7 @@ public:
     void SetFormMgrs(FormMgr *pfrmmSim, FormMgr *pfrmmInput);
     void RenderGameSurface();
     float Density();
+    void SetShouldRender(bool fsr);
 
 private:
     int m_imode;
@@ -145,6 +146,7 @@ private:
     Uint32 m_32bppColors[256];
     int m_pixelCount;
     float m_density;
+    bool m_fshouldRender;
 };
 
 #define kfDtClearLine 1
