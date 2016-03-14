@@ -38,37 +38,32 @@ void SdlSelectionSprite::Draw(void *pv, Size *psiz) {
 
     crit_.Enter();
 
-#if 0 // TODO(darrinm)
     DPoint apt[4];
     drc_.GetPoints(apt);
 
-    // x/y are swapped, and y needs to be origin adjusted
+    float density = gpdisp->Density();
 
-    CGContextRef ctx = (CGContextRef)pv;
-    CGContextSetRGBStrokeColor(ctx, 1.0, 1.0, 1.0, 1.0);
-    CGContextSetLineWidth(ctx, 2.0);
-    CGContextBeginPath(ctx);
-    CGContextMoveToPoint(ctx, apt[0].y, psiz->cy - apt[0].x);
-    for (int i = 1; i < ARRAYSIZE(apt); i++) {
-        CGContextAddLineToPoint(ctx, apt[i].y, psiz->cy - apt[i].x);
-    }
-    CGContextAddLineToPoint(ctx, apt[0].y, psiz->cy - apt[0].x);
-    CGContextStrokePath(ctx);
-
-    // Draw circles at rect corners for "grabbies". White stroked,
-    // black filled.
-    CGContextSetRGBFillColor(ctx, 0.0, 0.0, 0.0, 1.0);
-
-#define kcpRectHalf 4
-
+    #define renderer (SDL_Renderer *)pv
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (int i = 0; i < ARRAYSIZE(apt); i++) {
-        CGRect rc = CGRectMake(apt[i].y - kcpRectHalf,
-                psiz->cy - (apt[i].x + kcpRectHalf),
-                kcpRectHalf * 2, kcpRectHalf * 2);
-        CGContextFillEllipseInRect(ctx, rc);
-        CGContextStrokeEllipseInRect(ctx, rc);
+        int next = i + 1 == ARRAYSIZE(apt) ? 0 : i + 1;
+
+        // x/y points for point a/b of the selection sprite line
+        int x1 = roundf(apt[i].y * density);
+        int y1 = roundf(apt[i].x * density);
+        int x2 = roundf(apt[next].y * density);
+        int y2 = roundf(apt[next].x * density);
+
+        // draw the selection sprite line
+        SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
+
+        int gs = 20;        // grabbie size
+        int gsh = gs / 2;   // grabbie size half
+
+        // create and draw a grabbie rect
+        SDL_Rect rect = {x1 - gsh, y1 - gsh , gs, gs};
+        SDL_RenderFillRect(renderer, &rect);
     }
-#endif
 
     crit_.Leave();
 }

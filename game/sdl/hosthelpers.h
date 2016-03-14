@@ -12,6 +12,7 @@ struct SurfaceProperties {
     int cyHeight;
     int cbxPitch;
     int cbyPitch;
+    float density;
     unsigned short ffFormat;
 };
 

@@ -6,6 +6,7 @@
 namespace wi {
 
 static SdlSpriteManager *s_psprm;
+static Size s_siz;
 
 Display *HostCreateDisplay() {
 	// Create a display
@@ -79,6 +80,7 @@ bool Display::Init()
     HostHelpers::GetSurfaceProperties(&props);
     cxScreen = props.cxWidth;
     cyScreen = props.cyHeight;
+    m_density = props.density;
     
     // Create window
     if ((window = SDL_CreateWindow("Hostile Takeover", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, cxScreen, cyScreen, videoflags)) == NULL) {
@@ -87,6 +89,10 @@ bool Display::Init()
     }
 
     renderer = SDL_CreateRenderer(window, 0, SDL_RENDERER_TARGETTEXTURE);
+
+    // Keep the screen size around
+    s_siz.cx = cxScreen;
+    s_siz.cy = cyScreen;
 
     m_gameSurface = SDL_CreateRGBSurface(videoflags, cxScreen, cyScreen, 32, 0, 0, 0, 0);
     m_pixelCount = cxScreen * cyScreen;
@@ -270,6 +276,9 @@ void Display::RenderGameSurface() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, texture, NULL, NULL);
 
+    // Draw on any sprites
+    s_psprm->DrawSprites(renderer, s_siz);
+
     // Present the renderer
     SDL_RenderPresent(renderer);
 
@@ -296,6 +305,10 @@ void Display::SetFormMgrs(FormMgr *pfrmmSimUI, FormMgr *pfrmmInput)
 #if 0 // TODO(darrinm): SDL-ify
     IPhone::SetFormMgrs(pfrmmSimUI, pfrmmInput);
 #endif
+}
+
+float Display::Density() {
+    return m_density;
 }
 
 } // namespace wi

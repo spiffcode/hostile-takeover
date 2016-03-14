@@ -122,6 +122,7 @@ public:
     SpriteManager *GetSpriteManager();
     void SetFormMgrs(FormMgr *pfrmmSim, FormMgr *pfrmmInput);
     void RenderGameSurface();
+    float Density();
 
 private:
     int m_imode;
@@ -143,6 +144,7 @@ private:
     Uint32 *m_gameSurfacePixels;
     Uint32 m_32bppColors[256];
     int m_pixelCount;
+    float m_density;
 };
 
 #define kfDtClearLine 1
