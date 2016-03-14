@@ -75,7 +75,19 @@ bool Display::Init()
 	// will crash or stop at a breakpoint. If it does you will be lost in full
 	// screen mode! (ssh from another machine and kill the Xcode process)
     videoflags = SDL_SWSURFACE | SDL_WINDOW_ALLOW_HIGHDPI;
+    #if defined(__IPHONEOS__) || defined(__ANDROID__)
+    videoflags = videoflags | SDL_WINDOW_BORDERLESS;
+    SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
+    #else
+    videoflags = SDL_SWSURFACE | SDL_WINDOW_ALLOW_HIGHDPI;
+    #endif
 
+    // The host wants to process mouse and touch events separately
+    #if defined(__ANDROID__)
+    SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1");
+    #endif
+
+    // Get surface properties
     SurfaceProperties props;
     HostHelpers::GetSurfaceProperties(&props);
     cxScreen = props.cxWidth;
