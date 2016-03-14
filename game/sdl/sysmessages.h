@@ -6,8 +6,6 @@ namespace wi {
 enum {
     kidmAppTerminate = 1,
     kidmBreakEvent,
-    kidmNullEvent,
-    kidmTransportEvent,
     kidmAnimationTimer,
     kidmDestroyAfterAnimation,
     kidmAppSetFocus,

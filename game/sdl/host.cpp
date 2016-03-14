@@ -286,11 +286,11 @@ bool ProcessMessage(base::Message *pmsg, Event *pevt)
 {
     memset(pevt, sizeof(*pevt), 0);
     switch (pmsg->id) {
-    case kidmNullEvent:
+    case base::kidmNullEvent:
         pevt->eType = nullEvent;
         break;
 
-    case kidmTransportEvent:
+    case base::kidmTransportEvent:
         pevt->eType = transportEvent;
         break;
 
