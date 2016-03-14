@@ -16,6 +16,9 @@
 #include <string>
 #include <vector>
 
+// Main server thread
+base::Thread main_thread;
+
 // These are defaults that can be overridden
 const dword kcRoomsMax = 200;
 const dword kcGamesPerRoomMax = 100;

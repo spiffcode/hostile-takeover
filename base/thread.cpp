@@ -3,14 +3,15 @@
 
 namespace base {
 
-Thread g_main_thread;
 pthread_key_t Thread::s_key_;
 
 Thread::Thread(SocketServer *ss) : start_routine_(NULL), start_pv_(NULL),
         MessageQueue(ss) {
-    if (&g_main_thread == this) {
+    static bool s_first_thread;
+    if (!s_first_thread) {
         pthread_key_create(&s_key_, NULL);
         pthread_setspecific(s_key_, this);
+        s_first_thread = true;
     }
 }
 

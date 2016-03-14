@@ -22,10 +22,17 @@ static void quit(int rc)
 #ifdef __cplusplus
 extern "C"
 #endif
+
 int SDL_main(int argc, char *argv[])
 {
+    // Create the main thread
+    base::Thread *main_thread = new base::Thread();
+
     // Set up the main thread as the SDL event thread.
     base::Thread::current().set_ss(new wi::SdlEventServer());
+
+    // Let the host have a pointer to the thread
+    wi::HostSetGameThread(main_thread);
 
     // TODO(darrinm): pass args through
     wi::GameMain((char *)"");

@@ -117,6 +117,7 @@ class CommandQueueViewer;
 #include "game/missionlist.h"
 #include "mpshared/netmessage.h"
 #include "game/dragrect.h"
+#include "base/thread.h"
 //#include "yajl/wrapper/jsontypes.h"
 
 namespace wi {
@@ -8800,6 +8801,9 @@ void HostGetUserName(char *pszBuff, int cbMax) secHost;
 SoundDevice *HostOpenSoundDevice() secSoundDevice;
 bool HostSoundServiceProc() secSoundDevice;
 void HostSleep(dword ct) secHost;
+void HostSetGameThread(base::Thread *thread);
+base::Thread& HostGetGameThread();
+base::Thread *HostGetGameThreadPointer();
 
 const int knKeyboardAskDefault = 0;
 const int knKeyboardAskURL = 1;

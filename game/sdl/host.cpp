@@ -18,6 +18,7 @@ SdlPackFileReader gpakr;
 HttpPackManager *gppackm;
 HttpPackInfoManager *gppim;
 CompleteManager *gpcptm;
+base::Thread *gpgt;
 
 char *gpszUdid;
 
@@ -509,6 +510,18 @@ bool HostEnumAddonFiles(Enum *penm, char *pszAddonDir, int cbDir,
 {
     // PackManager is the way to do this now
     return false;
+}
+
+void HostSetGameThread(base::Thread *thread) {
+    gpgt = thread;
+}
+
+base::Thread& HostGetGameThread() {
+    return *gpgt;
+}
+
+base::Thread *HostGetGameThreadPointer() {
+    return gpgt;
 }
 
 } // namespace wi
