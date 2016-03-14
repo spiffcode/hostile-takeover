@@ -45,7 +45,7 @@ void HostExit()
     HostHelpers::Cleanup();
 }
 
-const char *HostGetDeviceId() {
+const char *HostGenerateDeviceId() {
     // Hash it so query params aren't obnoxious                                 
     MD5_CTX md5;
     MD5Init(&md5);
