@@ -2426,7 +2426,7 @@ void Game::LoadPreferences()
 		memset(&gprefsInit, 0, sizeof(gprefsInit));
 		Date date;
 		HostGetCurrentDate(&date);
-        gprefsInit.fAnonymous = 1;
+        gprefsInit.fAnonymous = 0;
 		gprefsInit.nYearLastRun = date.nYear;
 		gprefsInit.nMonthLastRun = date.nMonth;
 		gprefsInit.nDayLastRun = date.nDay;
