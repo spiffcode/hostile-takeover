@@ -36,9 +36,9 @@ bool HttpPackInfoManager::Start(const PackId *ppackid, void *ctx,
     // Create a temp filename for the temp file
     char szTemp[256];
     strncpyz(szTemp,
-            base::Format::ToString("%s/packinfodl.XXXXX", tempdir_.c_str()),
+            base::Format::ToString("%s/packinfodl.XXXXXX", tempdir_.c_str()),
             sizeof(szTemp));
-    if (mktemp(szTemp) == NULL) {
+    if (mkstemp(szTemp) == -1) {
         return false;
     }
     tempfilename_ = szTemp;
