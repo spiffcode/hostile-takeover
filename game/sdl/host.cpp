@@ -183,7 +183,7 @@ void CheckTouchTracking() {
     }
 }
 
-bool ProcessSdlEvent(Event *pevt)
+bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 {
     memset(pevt, 0, sizeof(*pevt));
     SDL_Event event;
@@ -471,6 +471,10 @@ bool ProcessSdlEvent(Event *pevt)
     }
 #endif
 
+    pevt->ms = pmsg->ms;
+    if (pevt->ms == 0)
+        pevt->ms = HostGetMillisecondCount();
+
     return true;
 }
 
@@ -543,7 +547,7 @@ bool HostGetEvent(Event *pevt, long ctWait)
         }
 
         if (msg.id == kidmSdlEvent) {
-            if (ProcessSdlEvent(pevt)) {
+            if (ProcessSdlEvent(&msg, pevt)) {
                 return true;
             }
             continue;
