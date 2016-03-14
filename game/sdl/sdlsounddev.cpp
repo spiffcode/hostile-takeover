@@ -31,7 +31,7 @@ public:
     virtual int GetVolume();
 
 private:
-    void InitAudioBuffer(byte *pbBuffer);
+    void InitAudioBuffer(byte *pbBuffer, int len);
 
     bool m_fEnable;
     long m_tSilence;
@@ -77,6 +77,7 @@ bool SdlSoundDevice::Init()
 	m_spec.format = AUDIO_U8;
 	m_spec.channels = 1;
 	m_spec.samples = kcbBuffer;
+    m_spec.size = kcbBuffer;
 	m_spec.callback = AudioCallback;
 	m_spec.userdata = this;
 	
@@ -203,11 +204,12 @@ int SdlSoundDevice::GetVolume()
 
 void AudioCallback(void *pvUser, Uint8* stream, int len)
 {
+    SDL_memset(stream, 0, len);
     SdlSoundDevice *psndd = (SdlSoundDevice *)pvUser;
-    psndd->InitAudioBuffer(stream);
+    psndd->InitAudioBuffer(stream, len);
 }
 
-void SdlSoundDevice::InitAudioBuffer(byte *pbBuffer)
+void SdlSoundDevice::InitAudioBuffer(byte *pbBuffer, int len)
 {
     // Don't send buffers to the device if not enabled
 
@@ -218,7 +220,7 @@ void SdlSoundDevice::InitAudioBuffer(byte *pbBuffer)
 
     // Fill the buffer and queue it for playing
 
-    MixChannels(m_achnl, ARRAYSIZE(m_achnl), pbBuffer, m_spec.size);
+    MixChannels(m_achnl, ARRAYSIZE(m_achnl), pbBuffer, len);
 
 	SDL_UnlockAudio();
 }
