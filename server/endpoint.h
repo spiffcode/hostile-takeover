@@ -30,7 +30,8 @@ enum ModeratorCommand {
     kModeratorCommandSee, kModeratorCommandKill, kModeratorCommandPermanent,
     kModeratorCommandMods, kModeratorCommandWhisper, kModeratorCommandTitle,
     kModeratorCommandRegisteredOnly, kModeratorCommandAnonBlock,
-    kModeratorCommandSwap, kModeratorCommandFlag, kModeratorCommandHelp
+    kModeratorCommandSwap, kModeratorCommandFlag, kModeratorCommandHelp,
+    kModeratorCommandAnnouncements
 };
 
 class Endpoint : public base::MessageHandler, XPumpNotify,

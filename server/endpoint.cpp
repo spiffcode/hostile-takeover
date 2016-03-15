@@ -302,8 +302,6 @@ void Endpoint::OnRoomJoin(dword roomid, const char *password) {
     xpump_.Send(XMsgRoomStatusComplete::ToBuffer());
 
 #if 0
-// This causes the chat button to flash immediately, not good
-
     // If this room is being logged, tell the user
     if (room->password()[0] == 0) {
         const char *pszMsg = "Chat is subject to being logged.";
@@ -311,6 +309,14 @@ void Endpoint::OnRoomJoin(dword roomid, const char *password) {
         server_.logger().LogSystemMsg(this, pszMsg);
     }
 #endif
+
+    // Broadcast server announcements to the player if they entered a server room.
+    if (room->creator_id() == 0) {
+        if (!server().GetAnnouncements().empty()) {
+            xpump_.Send(XMsgRoomReceiveChat::ToBuffer("",
+                server().GetAnnouncements().c_str()));
+        }
+    }
 }
 
 void Endpoint::OnRoomSendChat(const char *chat) {
@@ -698,6 +704,9 @@ ModeratorCommand Endpoint::GetModeratorCommand(const char *chat) {
     if (strcmp(arg.c_str(), "/flag") == 0) {
         return kModeratorCommandFlag;
     }
+    if (strcmp(arg.c_str(), "/ann") == 0) {
+        return kModeratorCommandAnnouncements;
+    }
     return kModeratorCommandUnknown;
 }
 
@@ -794,6 +803,7 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
     case kModeratorCommandClear:
     case kModeratorCommandPermanent:
     case kModeratorCommandRegisteredOnly:
+    case kModeratorCommandAnnouncements:
         if (!IsAdmin()) {
             *response = "You need to be an admin to use this command.";
             return true;
@@ -1304,6 +1314,26 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
                 return true;
             }
             *response = "Success";
+        }
+        break;
+        
+    case kModeratorCommandAnnouncements:
+        {
+            std::string dummy;
+            const char *rest;
+            std::string announcements;
+            if (GetArgument(chat, 0, &dummy, &rest) && *rest != 0) {
+                announcements.append(rest);
+                server().SetAnnouncements(announcements);
+
+                const char *s = base::Format::ToString("Announcements have been set to: %s", rest);
+                *response = s;
+            } else {
+                announcements.clear();
+                server().SetAnnouncements(announcements);
+                *response = "Announcements have been cleared.";
+            }
+            return true;
         }
         break;
 

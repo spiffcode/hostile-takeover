@@ -47,6 +47,8 @@ public:
     dword GetChatterId(Endpoint *endpointAsker, Endpoint *endpoint);
     Endpoint *GetEndpointFromChatterId(dword id);
     const char *GetChatRules();
+    std::string GetAnnouncements();
+    void SetAnnouncements(std::string announcements);
 
     ChatLimiter& chatlimiter() { return chatlimiter_; }
     LevelInfoCache& cache() { return cache_; }
@@ -105,6 +107,7 @@ private:
     std::vector<std::string> admin_names_;
     Tracker tracker_;
     BadWords badwords_;
+    std::string announcements_;
 };
 
 } // namespace wi

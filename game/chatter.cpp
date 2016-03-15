@@ -24,8 +24,11 @@ void Chatter::AddChat(const char *player, const char *chat, bool system) {
             char name[kcbPlayerName];
             handler_.GetPlayerName(name, sizeof(name));
             if (strcmp(name, player) != 0) {
-                gsndm.PlaySfx(ksfxGuiCheckBoxTap);
-                StartBlinking();
+                // Blink for player chats but not server messages
+                if (strcmp(player, "") != 0) {
+                    gsndm.PlaySfx(ksfxGuiCheckBoxTap);
+                    StartBlinking();
+                }
             }
         }
     }

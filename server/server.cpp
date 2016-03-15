@@ -200,6 +200,14 @@ const char *Server::GetChatRules() {
     return "RULES: No swearing, name calling, sexism, racism, offensive language, or offensive symbolism allowed. No spamming allowed. Repeat offenders may be muted, kicked, banned, and reported to the admin.";
 }
 
+std::string Server::GetAnnouncements() {
+    return announcements_;
+}
+
+void Server::SetAnnouncements(std::string announcements) {
+    announcements_ = announcements;
+}
+
 dword Server::GetChatterId(Endpoint *endpointAsker, Endpoint *endpoint) {
     dword shifted = (endpoint->id() << kcBitsFreeShiftEndpointId);
     dword h = 0;
