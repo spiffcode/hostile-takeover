@@ -1060,11 +1060,14 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
             Game *game = game_;
 
             bool lobby = false;
+            bool all = false;
             dword roomid = roomid_;
             std::string roomid_str;
             if (GetArgument(chat, 1, &roomid_str)) {
                 if (strcmp(roomid_str.c_str(), "lobby") == 0) {
                     lobby = true;
+                } else if (strcmp(roomid_str.c_str(), "all") == 0) {
+                    all = true;
                 } else {
                     base::Format::ToDword(roomid_str.c_str(), 10, &roomid);
                     room = server_.lobby().FindRoom(roomid);
@@ -1090,11 +1093,57 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
             std::vector<std::string> responses;
             if (lobby) {
                 responses = server_.lobby().GetIdsString(this);
+                if (responses.empty()) {
+                    *response = "There are no players in the lobby.";
+                    return true;
+                }
+            } else if (all) {
+                // Vector for saving temp info
+                std::vector<std::string> r;
+
+                // Add lobby players to responses
+                r = server_.lobby().GetIdsString(this);
+                responses.insert(responses.end(), r.begin(), r.end());
+
+                // Iterate over all the rooms
+                std::vector<dword> roomIds = server_.lobby().GetRoomIds();
+                std::vector<dword>::iterator itRooms = roomIds.begin();
+                for (; itRooms != roomIds.end(); itRooms++) {
+                    // Add the room's players to responses
+                    room = server_.lobby().FindRoom((*itRooms));
+                    r = room->GetIdsString(this);
+                    responses.insert(responses.end(), r.begin(), r.end());
+
+                    // Iteratre over all the room's games
+                    std::vector<dword> gameIds = room->GetGameIds();
+                    std::vector<dword>::iterator itGame = gameIds.begin();
+                    for (; itGame != gameIds.end(); itGame++) {
+                        // Add the game's players to responses
+                        game = room->FindGame((*itGame));
+                        r = game->GetIdsString(this);
+                        responses.insert(responses.end(), r.begin(), r.end());
+                    }
+                }
+
+                // This shouldn't happen
+                if (responses.empty()) {
+                    *response = "There are no players on the server.";
+                    return true;
+                }
+
             } else {
                 if (game != NULL) {
                     responses = game->GetIdsString(this);
+                    if (responses.empty()) {
+                        *response = "There are no players in that game.";
+                        return true;
+                    }
                 } else if (room != NULL) {
                     responses = room->GetIdsString(this);
+                    if (responses.empty()) {
+                        *response = "There are no players in that room.";
+                        return true;
+                    }
                 }
             }
 
@@ -1253,15 +1302,15 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
     case kModeratorCommandHelp:
         if (IsAdmin()) {
             if (state_ == ES_GAME) {
-                *response = "/ids [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg <roomid>, /swap, /anon, /rules, /flag [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg <roomid>, /swap, /anon, /rules, /flag [msg], /ann [msg], /help.";
             } else {
-                *response = "/ids [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg <roomid>, /rules, /flag [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg <roomid>, /rules, /flag [msg], /ann [msg], /help.";
             }
         } else {
             if (state_ == ES_GAME) {
-                *response = "/ids [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /swap, /anon, /rules, /flag [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /swap, /anon, /rules, /flag [msg], /help.";
             } else {
-                *response = "/ids [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /rules, /flag [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /rules, /flag [msg], /help.";
             }
         }
         break;

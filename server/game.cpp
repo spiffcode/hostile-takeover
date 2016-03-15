@@ -891,10 +891,10 @@ std::vector<std::string> Game::GetIdsString(Endpoint *endpoint) {
             char ip[32];
             (*it)->xpump().socket()->GetRemoteAddress().IPAsString(ip,
                     sizeof(ip));
-            responses.push_back(base::Format::ToString("%s: id %d ip %s\n",
+            responses.push_back(base::Format::ToString("%s: id %d ip %s",
                     (*it)->name(), server_.GetChatterId(endpoint, *it), ip));
         } else {
-            responses.push_back(base::Format::ToString("%s: id %d\n",
+            responses.push_back(base::Format::ToString("%s: id %d",
                     (*it)->name(), server_.GetChatterId(endpoint, *it)));
         }
     }
