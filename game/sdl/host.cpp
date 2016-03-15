@@ -23,6 +23,7 @@ base::Thread *gpgt;
 SurfaceProperties gprops;
 SDL_FingerID gtouches[2];
 wi::Point gaptLast[2];
+bool gfWasBackgrounded;
 
 char *gpszUdid;
 
@@ -396,19 +397,57 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
         // Allow the display to render
         gpdisp->SetShouldRender(true);
 
+        // Unpause simulation
+        ggame.GamePause(false);
+
+        // The client was disconected in SDL_APP_DIDENTERBACKGROUND.
+        // Notify the callbacks about this to present the user with a message.
+        if (gfWasBackgrounded && gptra != NULL) {
+            if (gptra->GetGameCallback() != NULL) {
+                gptra->GetGameCallback()->OnGameDisconnect();
+            }
+
+            if (gptra->GetCallback() != NULL) {
+                gptra->GetCallback()->OnConnectionClose();
+            }
+
+            // This should already be closed from SDL_APP_DIDENTERBACKGROUND
+            gptra->Close();
+        }
+
         // SDL may have released its graphics context if the app was previously
         // backgrounded. This leaves the screen black when the user returns.
         // Hack: Draw dib and render
         gpmfrmm->DrawFrame(true);
         gpdisp->RenderGameSurface();
-
         break;
 
-    case SDL_APP_WILLENTERBACKGROUND:
+    case SDL_APP_DIDENTERBACKGROUND:
+        gfWasBackgrounded = true;
+
+        // Pause simulation
+        ggame.GamePause(true);
+
+        // Close the connection to the server. If the user returns to the app,
+        // SDL_APP_DIDENTERFOREGROUND will notify gptra's callbacks.
+        if (gptra != NULL) {
+            gptra->Close();
+        }
+
         // Stop display rendering; SDL may release its graphics context when
         // backgrounded, so we don't want to try to render to a non-existant context.
         gpdisp->SetShouldRender(false);
+        break;
 
+    case SDL_APP_WILLENTERFOREGROUND:
+        break;
+
+    case SDL_APP_WILLENTERBACKGROUND:
+        break;
+
+    case SDL_APP_TERMINATING:
+        // NOTE: The app seems to terminate before the code in this
+        // case can be executed (iOS and Android).
         break;
 
 	case SDL_QUIT:

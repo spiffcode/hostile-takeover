@@ -2686,4 +2686,9 @@ bool Game::SetVar(const char *pszName, const char *pszValue)
 	return m_dictPvars.Set(pszName, pszValue);
 }
 
+void Game::GamePause(bool fpause) {
+    if (!gfMultiplayer)
+        gsim.Pause(fpause);
+}
+
 } // namespace wi
