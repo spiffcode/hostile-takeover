@@ -1237,9 +1237,9 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
             std::string dummy;
             const char *rest;
             if (GetArgument(chat, 0, &dummy, &rest) && *rest != 0) {
-                const char *s = base::Format::ToString("%s to mods: %s",
-                        name_, rest);
-                server_.lobby().SendAdminChat("", s, true);
+                const char *s = base::Format::ToString("%s to mods",
+                        name_);
+                server_.lobby().SendAdminChat(s, rest, true);
             }
         }
         *response = "";
@@ -1254,23 +1254,31 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
             std::string dummy;
             const char *rest;
             if (GetArgument(chat, 1, &dummy, &rest) && *rest != 0) {
-                const char *s = base::Format::ToString("%s to %s: %s",
-                        name_, endpoint->name(), rest);
+                const char *s = base::Format::ToString("%s to %s",
+                        name_, endpoint->name());
                 if (endpoint->state_ == ES_GAME) {
                     endpoint->xpump().Send(
-                            XMsgGameReceiveChat::ToBuffer("", s));
+                            XMsgGameReceiveChat::ToBuffer(s, rest));
                 }
                 if (endpoint->state_ == ES_ROOM) {
                     endpoint->xpump().Send(
-                            XMsgRoomReceiveChat::ToBuffer("", s));
+                            XMsgRoomReceiveChat::ToBuffer(s, rest));
                 }
-                server_.logger().LogSystemMsg(this, s);
                 if (endpoint != this) {
-                    *response = s;
-                    return true;
+                    if (this->state_ == ES_GAME) {
+                        this->xpump().Send(
+                            XMsgGameReceiveChat::ToBuffer(s, rest));
+                    }
+                    if (this->state_ == ES_ROOM) {
+                        this->xpump().Send(
+                            XMsgRoomReceiveChat::ToBuffer(s, rest));
+                    }
                 }
+                server_.logger().LogSystemMsg(this, base::Format::ToString(
+                    "%s: %s", s, rest));
             }
             *response = "";
+            return true;
         }
         break;
 
