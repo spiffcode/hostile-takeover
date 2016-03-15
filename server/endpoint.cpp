@@ -117,8 +117,13 @@ void Endpoint::OnLogin(const char *username, const char *token, const char *did)
         return;
     }
 
-    // Anonymous login always works, if that's what the user wants
+    // Try anonymous login if that's what the user wants
     if (TokenAuth::IsAnonymous(username, token)) {
+        if (!server_.AnonsAllowed() && !admin_) {
+            LOG() << "FAILED LOGIN: Server doesn't allow anon logins: " << username << ", " << token << ", " << did;
+            xpump_.Send(XMsgLoginResult::ToBuffer(knLoginResultNoAnons));
+            return;
+        }
         RememberName(name_);
         delete name_;
         name_ = AllocString(base::Format::ToString("anon%d", id_));
@@ -1044,6 +1049,19 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
                 *response = "Room id not found.";
                 return true;
             }
+
+            if (roomid_str == "server" && IsAdmin()) {
+                bool anonsAllowed = server().AnonsAllowed();
+                if (anonsAllowed) {
+                    server().SetAnonsAllowed(false);
+                    *response = "The server is now closed to anons.";
+                } else {
+                    server().SetAnonsAllowed(true);
+                    *response = "The server is now open to everyone.";
+                }
+                return true;
+            }
+
             dword roomid = 0;
             base::Format::ToDword(roomid_str.c_str(), 10, &roomid);
             room = server_.lobby().FindRoom(roomid);
@@ -1340,9 +1358,9 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
     case kModeratorCommandHelp:
         if (IsAdmin()) {
             if (state_ == ES_GAME) {
-                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg <roomid>, /swap, /anon, /rules, /flag [msg], /ann [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg [server] [roomid], /swap, /anon, /rules, /flag [msg], /ann [msg], /help.";
             } else {
-                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg <roomid>, /rules, /flag [msg], /ann [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg [server] [roomid], /rules, /flag [msg], /ann [msg], /help.";
             }
         } else {
             if (state_ == ES_GAME) {

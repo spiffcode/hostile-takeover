@@ -78,6 +78,7 @@ const dword knLoginResultFail = 2;
 const dword knLoginResultStaleToken = 3;
 const dword knLoginResultAuthDown = 4;
 const dword knLoginResultNoPassword = 5;
+const dword knLoginResultNoAnons = 6;
 
 STARTLABEL(LoginResults)
     LABEL(knLoginResultSuccess)
@@ -86,6 +87,7 @@ STARTLABEL(LoginResults)
     LABEL(knLoginResultStaleToken)
     LABEL(knLoginResultAuthDown)
     LABEL(knLoginResultNoPassword)
+    LABEL(knLoginResultNoAnons)
 ENDLABEL(LoginResults)
 
 const dword knSignOutResultSuccess = 0;

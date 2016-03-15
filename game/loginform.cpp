@@ -209,6 +209,11 @@ bool LoginForm::AttemptLogin() {
                 "The player authentication server is not responding. Please try to login as an anonymous player.");
         return false;
 
+    case knLoginResultNoAnons:
+        HtMessageBox(kfMbWhiteBorder, "Login Failure",
+                "This server does not allow anonymous logins. Please login with an account.");
+        return false;
+
     case knLoginResultFail:
     default:
         if (!handler_.anonymous()) {

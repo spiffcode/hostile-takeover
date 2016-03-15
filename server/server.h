@@ -44,6 +44,8 @@ public:
     Endpoint *GetEndpoint(dword id);
     bool IsModerator(const char *name);
     bool IsAdmin(const char *name);
+    bool AnonsAllowed();
+    void SetAnonsAllowed(bool anons_allowed);
     dword GetChatterId(Endpoint *endpointAsker, Endpoint *endpoint);
     Endpoint *GetEndpointFromChatterId(dword id);
     const char *GetChatRules();
@@ -86,6 +88,7 @@ private:
     base::Socket *listener_;
     LevelInfoCache& cache_;
     bool checksync_;
+    bool anons_allowed_;
     dword gameidCounter_;
     dword endpointidCounter_;
     dword start_time_;

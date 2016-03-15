@@ -30,7 +30,7 @@ Server::Server(StatsPoster& poster, XMsgLog *log, LevelInfoCache& cache,
         modlist_watcher_(modlist_path), badwords_(badwords_path),
         listener_(NULL), gameidCounter_(1), endpointidCounter_(1),
         endpoint_count_thread_safe_(0), updater_(NULL),
-        logger_("log", id) {
+        logger_("log", id), anons_allowed_(true) {
 
     start_time_ = base::GetSecondsUnixEpocUTC();
 
@@ -362,6 +362,14 @@ bool Server::IsAdmin(const char *name) {
         }
     }
     return false;
+}
+
+bool Server::AnonsAllowed() {
+    return anons_allowed_;
+}
+
+void Server::SetAnonsAllowed(bool anons_allowed) {
+    anons_allowed_ = anons_allowed;
 }
 
 } // namespace wi
