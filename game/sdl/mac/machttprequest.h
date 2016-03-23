@@ -10,30 +10,13 @@
 #include "base/bytebuffer.h"
 
 namespace wi {
-class MacHttpRequest;
-}
-
-@interface ConnectionDelegate : NSObject {
-    NSURLConnection *conn_;
-    wi::MacHttpRequest *req_;
-}
-- (void)submit;
-- (void)cancel;
-- (void)connection:(NSURLConnection *)conn
-        didFailWithError:(NSError *)error;
-- (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data;
-- (void)connectionDidFinishLoading:(NSURLConnection *)conn;
-@end
-
-namespace wi {
 
 class MacHttpRequest : public HttpRequest, base::MessageHandler {
 public:
     MacHttpRequest(HttpResponseHandler *phandler);
     ~MacHttpRequest();
 
-    void Submit();
-    void Release();
+    void Dispose();
     NSURLRequest *CreateNSURLRequest();
     void OnReceivedResponse(NSHTTPURLResponse *resp);
     void OnReceivedData(NSData *data);
@@ -41,8 +24,22 @@ public:
     void OnError(NSError *error);
 
 private:
+    virtual void OnMessage(base::Message *pmsg);
+
     HttpResponseHandler *handler_;
-    ConnectionDelegate *delegate_;
+};
+
+struct ReceivedResponseParams : base::MessageData {
+    int code;
+    Map headers;
+};
+
+struct ReceivedDataParams : base::MessageData {
+    base::ByteBuffer bb;
+};
+
+struct ErrorParams : base::MessageData {
+    char szError[80];
 };
 
 } // namespace wi

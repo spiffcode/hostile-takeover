@@ -1,148 +1,151 @@
 #include "game/sdl/mac/machttprequest.h"
+#include "game/sdl/sysmessages.h"
 #include "base/thread.h"
 
-@implementation ConnectionDelegate
+// Requests come in from the game thread; NS* api calls occur on main
+// thread.
 
-- (id)initWithRequest:(wi::MacHttpRequest *)req {
-    self = [super init];
-    if (self != nil) {
-        req_ = req;
-        conn_ = nil;
-    }
-    return self;
-}
-    
 
-- (void)submit {
-    NSURLRequest *req = req_->CreateNSURLRequest();
-    conn_ = [NSURLConnection
-            connectionWithRequest:req
-            delegate:self];
-}
-
-- (void)cancel {
-    [conn_ cancel];
-    conn_ = nil;
-}
-
-- (void)connection:(NSURLConnection *)conn
-        didReceiveResponse:(NSURLResponse *)resp {
-    req_->OnReceivedResponse((NSHTTPURLResponse *)resp);
-}
-
-- (void)connection:(NSURLConnection *)conn didReceiveData:(NSData *)data {
-    req_->OnReceivedData(data);
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)conn {
-    req_->OnFinishedLoading();
-}
-
-- (void)connection:(NSURLConnection *)conn
-        didFailWithError:(NSError *)error {
-    NSLog(@"error: %@", error);
-    req_->OnError(error);
-}
-@end
-
-// C++ implementation of HttpRequest interface for Mac
+// C++ implementation of HttpRequest interface for iPhone
 
 namespace wi {
 
-MacHttpRequest::MacHttpRequest(HttpResponseHandler *handler) :
-        handler_(handler), delegate_(nil) {
+MacHttpRequest::MacHttpRequest(HttpResponseHandler *handler) : handler_(handler) {
 }
 
 MacHttpRequest::~MacHttpRequest() {
 }
 
-void MacHttpRequest::Submit() {
-    delegate_ = [[ConnectionDelegate alloc] initWithRequest:this];
-    [delegate_ submit];
-}
-
-void MacHttpRequest::Release() {
-    [delegate_ cancel];
-    delegate_ = nil;
-    Dispose();
+void MacHttpRequest::Dispose() {
+    // Called on game thread
+    thread_.Clear(this);
+    MessageHandler::Dispose();
 }
 
 NSURLRequest *MacHttpRequest::CreateNSURLRequest() {
-    @autoreleasepool {
-        NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
+    // Called on main thread
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
 
-        // Set the url
-        NSString *s = [NSString stringWithCString:url_.c_str()
-                encoding:[NSString defaultCStringEncoding]];
-        [req setURL:[NSURL URLWithString:s]];
+    // Set the url
+    NSString *s = [NSString stringWithCString:url_.c_str()
+            encoding:[NSString defaultCStringEncoding]];
+    [req setURL:[NSURL URLWithString:s]];
 
-        // Set the method
-        s = [NSString stringWithCString:method_.c_str()
-                encoding:[NSString defaultCStringEncoding]];
-        [req setHTTPMethod:s];
+    // Set the method
+    s = [NSString stringWithCString:method_.c_str()
+            encoding:[NSString defaultCStringEncoding]];
+    [req setHTTPMethod:s];
 
-        // Set the body
-        if (pbb_ != NULL) {
-            int cb;
-            void *pv = pbb_->Strip(&cb);
-            NSData *data = [NSData dataWithBytesNoCopy:(void *)pv length:cb];
-            [req setHTTPBody:data];
+    // Set the body
+    if (pbb_ != NULL) {
+        int cb;
+        void *pv = pbb_->Strip(&cb);
+        NSData *data = [NSData dataWithBytesNoCopy:(void *)pv length:cb];
+        [req setHTTPBody:data];
+    }
+
+    // Set timeout
+    [req setTimeoutInterval:timeout_];
+
+    // Set cache policy
+    [req setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+
+    // Set headers
+    Enum enm;
+    char szKey[128];
+    while (headers_.EnumKeys(&enm, szKey, sizeof(szKey))) {
+        char szValue[256];
+        if (headers_.GetValue(szKey, szValue, sizeof(szValue))) {
+            NSString *key = [NSString stringWithCString:szKey
+                    encoding:[NSString defaultCStringEncoding]];
+            NSString *value = [NSString stringWithCString:szValue
+                    encoding:[NSString defaultCStringEncoding]];
+            [req setValue:value forHTTPHeaderField:key];
         }
+    }
 
-        // Set timeout
-        [req setTimeoutInterval:timeout_];
+    // Done
+    [pool release];
+    return req;
+}
 
-        // Set cache policy
-        [req setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-
-        // Set headers
-        Enum enm;
-        char szKey[128];
-        while (headers_.EnumKeys(&enm, szKey, sizeof(szKey))) {
-            char szValue[256];
-            if (headers_.GetValue(szKey, szValue, sizeof(szValue))) {
-                NSString *key = [NSString stringWithCString:szKey
-                        encoding:[NSString defaultCStringEncoding]];
-                NSString *value = [NSString stringWithCString:szValue
-                        encoding:[NSString defaultCStringEncoding]];
-                [req setValue:value forHTTPHeaderField:key];
-            }
+void MacHttpRequest::OnMessage(base::Message *pmsg) {
+    switch (pmsg->id) {
+    case kidmReceivedResponse:
+        {
+            ReceivedResponseParams *pparams =
+                    (ReceivedResponseParams *)pmsg->data;
+            handler_->OnReceivedResponse(this, pparams->code,
+                    &pparams->headers);
+            delete pparams;
         }
+        break;
 
-        // Done
-        return req;
+    case kidmReceivedData:
+        {
+            ReceivedDataParams *pparams =
+                    (ReceivedDataParams *)pmsg->data;
+            handler_->OnReceivedData(this, &pparams->bb);
+            delete pparams;
+        }
+        break;
+
+    case kidmFinishedLoading:
+        handler_->OnFinishedLoading(this);
+        break;
+
+    case kidmError:
+        {
+            ErrorParams *pparams = (ErrorParams *)pmsg->data;
+            handler_->OnError(this, pparams->szError);
+            delete pparams;
+        }
+        break;
     }
 }
 
 void MacHttpRequest::OnReceivedResponse(NSHTTPURLResponse *resp) {
-    Map headers;
+    // Called on main thread. Populate ReceivedResponseParams
+    ReceivedResponseParams *pparams = new ReceivedResponseParams;
     NSDictionary *dict = [resp allHeaderFields];
     for (NSString *k in dict) {
         NSString *v = [dict objectForKey:k];
-        headers.SetValue(
+        pparams->headers.SetValue(
             [k cStringUsingEncoding:[NSString defaultCStringEncoding]],
             [v cStringUsingEncoding:[NSString defaultCStringEncoding]]);
     }
-    int code = [resp statusCode];
-    handler_->OnReceivedResponse(this, code, &headers);
+    pparams->code = (int)[resp statusCode];
+
+    // Post this to the game thread
+    thread_.Post(kidmReceivedResponse, this, pparams);
 }
 
 void MacHttpRequest::OnReceivedData(NSData *data) {
-    base::ByteBuffer bb;
-    bb.WriteBytes((const byte *)[data bytes], [data length]);
-    handler_->OnReceivedData(this, &bb);
+    // Called on main thread. Populate ReceivedDataParams
+    ReceivedDataParams *pparams = new ReceivedDataParams;
+    pparams->bb.WriteBytes((const byte *)[data bytes], (int)[data length]);
+
+     // Post this to the game thread
+    thread_.Post(kidmReceivedData, this, pparams);
 }
 
 void MacHttpRequest::OnFinishedLoading() {
-    handler_->OnFinishedLoading(this);
+    // Called on main thread. Post this to game thread.
+    thread_.Post(kidmFinishedLoading, this);
 }
 
 void MacHttpRequest::OnError(NSError *error) {
+    // Called on main thread. Populate ErrorParams. Use
+    // localizedDescription. Note there is also localizedFailureReason;
+    // not sure which is better at the moment
     const char *psz = [[error localizedDescription] cStringUsingEncoding:
             [NSString defaultCStringEncoding]];
-    char szError[80];
-    strncpyz(szError, psz, sizeof(szError));
-    handler_->OnError(this, szError);
+    ErrorParams *pparams = new ErrorParams;
+    strncpyz(pparams->szError, psz, sizeof(pparams->szError));
+
+    // Called on main thread. Post this to game thread.
+    thread_.Post(kidmError, this, pparams);
 }
             
 } // namespace wi
