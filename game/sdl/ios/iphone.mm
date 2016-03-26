@@ -1,3 +1,19 @@
+#import "game/sdl/ios/SDL_uikitappdelegate.h"
+
+// Catigorize the SDLUIKitDelegate class and override the method that
+// loads the SDL_AppDelegate to load the subclassed IPhone class instead.
+
+@implementation SDLUIKitDelegate (LoadIPhoneAppDelegate)
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-protocol-method-implementation"
++ (NSString *)getAppDelegateClassName {
+    return @"IPhone";
+}
+#pragma clang diagnostic pop
+
+@end
+
 #include <sys/types.h>
 #include <dirent.h>
 #include <sys/stat.h>
@@ -24,6 +40,9 @@
 @implementation IPhone
 
 - (id)init {
+    if (![super init])
+        return NULL;
+
     m_pchat = NULL;
     
     self.webView = [[Webview alloc] init];
@@ -31,6 +50,15 @@
     self.chatView = [[ChatView alloc] init];
 
     return self;
+}
+
++ (NSString *)getAppDelegateClassName {
+    return @"IPhoneAppDelegate";
+}
+
+- (void)applicationWillTerminate:(UIApplication *)application {
+    [super applicationWillTerminate:application];
+    wi::HostAppStop();
 }
 
 + (void)presentViewController:(UIViewController* )viewController animated:(BOOL)animated completion:(void (^)(void))completion {

@@ -1,11 +1,13 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "game/sdl/ios/SDL_uikitappdelegate.h"
+
 @class Webview;
 @class InputController;
 @class ChatView;
 
-@interface IPhone : NSObject <UIApplicationDelegate>
+@interface IPhone : SDLUIKitDelegate
 @property (strong, nonatomic) Webview *webView;
 @property (strong, nonatomic) InputController *inputController;
 @property (strong, nonatomic) ChatView *chatView;

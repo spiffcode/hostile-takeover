@@ -789,4 +789,12 @@ base::Thread *HostGetGameThreadPointer() {
     return gpgt;
 }
 
+void HostAppStop() {
+    // Only use this function for when you can't post an appStopEvent
+
+    ggame.SaveReinitializeGame();
+    gevm.SetAppStopping();
+    ggame.AskResignGame();
+}
+
 } // namespace wi

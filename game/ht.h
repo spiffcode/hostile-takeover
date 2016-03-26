@@ -8808,6 +8808,7 @@ void HostSleep(dword ct) secHost;
 void HostSetGameThread(base::Thread *thread);
 base::Thread& HostGetGameThread();
 base::Thread *HostGetGameThreadPointer();
+void HostAppStop();
 
 const int knKeyboardAskDefault = 0;
 const int knKeyboardAskURL = 1;

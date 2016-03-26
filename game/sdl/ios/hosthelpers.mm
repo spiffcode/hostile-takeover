@@ -53,7 +53,7 @@ bool HostHelpers::Init() {
     gphttp = (HttpService *)new IPhoneHttpService();
     
     // iPhone controller
-    iphone = [[IPhone alloc] init];
+    iphone = [IPhone sharedAppDelegate];
     [[UIApplication sharedApplication] setIdleTimerDisabled:YES];
     [iphone forceDeviceIntoLandscape];
 
