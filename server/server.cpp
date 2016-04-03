@@ -289,6 +289,22 @@ void Server::OnCommand(const std::string command, const json::JsonMap *map) {
         json::JsonString *name = (json::JsonString *)objN;
         json::JsonString *message = (json::JsonString *)objM;
         lobby_.SendAdminChat(name->GetString(), message->GetString());
+    } else if (command == "setinfo") {
+        const json::JsonObject *objK = map->GetObject("key");
+        if (objK == NULL || objK->type() != json::JSONTYPE_STRING) {
+            return;
+        }
+        const json::JsonObject *objV = map->GetObject("value");
+        if (objV == NULL || objV->type() != json::JSONTYPE_STRING) {
+            return;
+        }
+
+        json::JsonString *key = (json::JsonString *)objK;
+        json::JsonString *value = (json::JsonString *)objV;
+
+        if (updater_ != NULL) {
+            updater_->SetInfo(key->GetString(), value->GetString());
+        }
     }
 }
 

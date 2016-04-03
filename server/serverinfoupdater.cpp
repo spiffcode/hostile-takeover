@@ -185,4 +185,31 @@ void ServerInfoUpdater::ParseExtra(const std::string& extra_json) {
     delete map;
 }
 
+void ServerInfoUpdater::SetInfo(const std::string key, const std::string value) {
+    if (key == "sort") {
+        int n = 0;
+        base::Format::ToInteger(value.c_str(), 10, &n);
+        sort_key_ = n;
+    } else if (key == "status") {
+        if (value == "drain") {
+            drain_ = true;
+        }
+        if (value == "undrain" || value == "ok") {
+            drain_ = false;
+        }
+    } else if (key == "name") {
+        server_name_ = value;
+    } else if (key == "location") {
+        server_location_ = value;
+    } else if (key == "type") {
+        server_type_ = value;
+    } else {
+        if (value.empty()) {
+            extra_.erase(key);
+        } else {
+            extra_[key] = value;
+        }
+    }
+}
+
 } // namespace wi

@@ -33,6 +33,7 @@ public:
     ~ServerInfoUpdater();
 
     void Start();
+    void SetInfo(const std::string key, const std::string value);
 
     void set_drain() { drain_ = true; }
     void clear_drain() { drain_ = false; }
