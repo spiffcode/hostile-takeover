@@ -18,6 +18,7 @@ struct ServerInfo {
     std::string status;
     int player_count;
     std::string type;
+    std::string disallow;
 };
 
 const dword knChooseServerResultConnect = 0;

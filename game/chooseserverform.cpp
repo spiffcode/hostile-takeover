@@ -281,6 +281,7 @@ bool ChooseServerForm::RequestInfos() {
         info.status = GetStringFromMap(json_map, "status");
         info.player_count = GetIntegerFromMap(json_map, "player_count");
         info.type = GetStringFromMap(json_map, "type");
+        info.disallow = GetStringFromMap(json_map, "disallow");
 
         // If production client, only show production servers.
 #if !defined(DEBUG) && !defined(BETA_TIMEOUT)
@@ -293,6 +294,23 @@ bool ChooseServerForm::RequestInfos() {
         if (info.protocol < kdwProtocolCurrent) {
             continue;
         }
+
+        // Don't show servers to disallowed client platforms
+        #if defined(__MACOSX__)
+        if (info.disallow.find("mac") != std::string::npos) {
+            continue;
+        }
+        #endif
+        #if defined(__ANDROID__)
+        if (info.disallow.find("android") != std::string::npos) {
+            continue;
+        }
+        #endif
+        #if defined(IPHONE) || defined(__IPHONEOS__)
+        if (info.disallow.find("iphone") != std::string::npos) {
+            continue;
+        }
+        #endif
 
         // If there is an info with this name that matches the protocol,
         // keep it and discard the new info
