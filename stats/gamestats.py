@@ -428,8 +428,7 @@ class GameStats(wrap.DictWrap):
             did = dids[player_name] if player_name in dids else ''
             ip = player_stat.ip if 'ip' in player_stat.__dict__ else ''
             action = dict(action='game', key=self.get_game_key_name())
-            utc = self.end_utc
-            playerdetail.save(player_name, anonymous, did, ip, action, utc)
+            playerdetail.save(player_name, anonymous, did, ip, action)
 
     def save(self, update_player_stats=True, lookup_dids=True, save_actions=True):
         try:

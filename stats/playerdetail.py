@@ -268,7 +268,7 @@ class PlayerDetail(basehandler.BaseHandler):
                 url = '%s?g=%s' % (config.GAMEDETAIL_URL, a['key'])
         return a['action'], url
 
-def save(player_name, anonymous, did, ip, action, utc=int(time.time())):
+def save(player_name, anonymous, did, ip, action):
     try:
         a = models.PlayerActionModel()
         a.player_name = player_name.lower()
@@ -276,7 +276,7 @@ def save(player_name, anonymous, did, ip, action, utc=int(time.time())):
         a.did = did
         a.ip_address = ip
         a.action = json.dumps(action)
-        a.time_utc = utc
+        a.time_utc = int(time.time())
         a.put()
     except:
         pass
