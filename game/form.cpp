@@ -393,6 +393,12 @@ bool Form::EventProc(Event *pevt)
     case penUpEvent2:            
 		return OnPenEvent(pevt);
 	}
+    if (pevt->eType == keyDownEvent) {
+		switch (pevt->chr) {
+		case vchrBack:
+            OnControlSelected(kidcCancel);
+        }
+    }
 	return false;
 }
 

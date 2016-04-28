@@ -170,6 +170,8 @@ bool InputUIForm::EventProc(Event *pevt)
 	if (pevt->eType == keyDownEvent) {
 		switch (pevt->chr) {
 		case vchrMenu:
+        case vchrBack:
+        case 'm':
 			OnControlSelected(kidcMenuButton);
 			break;
 

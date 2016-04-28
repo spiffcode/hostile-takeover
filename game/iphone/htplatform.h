@@ -38,6 +38,7 @@ typedef char TCHAR;
 #define vchrMenu 0x105
 #define vchrFind 0x10a
 #define vchrCalc 0x10b
+#define vchrBack 0x10c
 #define penDownEvent 1
 #define penUpEvent 2
 #define penMoveEvent 3

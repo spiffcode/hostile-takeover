@@ -1107,6 +1107,10 @@ bool HelpForm::EventProc(Event *pevt)
 		case chrDown:
 			OnControlSelected(kidcNextPage);
 			return true;
+
+        case vchrBack:
+            OnControlSelected(kidcOk);
+            return true;
 		}
 	default:
 		return Form::EventProc(pevt);

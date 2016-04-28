@@ -339,6 +339,10 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 			pevt->chr = chrDelete;
 			break;
 
+        case SDLK_AC_BACK:
+            pevt->chr = vchrBack;
+            break;
+
 #if 0			
 		case SDLK_F7:
 			if (gpavir == NULL) {
