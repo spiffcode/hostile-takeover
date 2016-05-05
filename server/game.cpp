@@ -1190,13 +1190,15 @@ void Game::SetAllies(SideMask side, SideMask sidmAllies) {
 }
 
 Player *Game::HumanPlayerFromEndpoint(Endpoint *endpoint) {
-    Player *pplr;
+    Player *pplr = NULL;
     for (int i = 0; i < kcPlayersMax; i++) {
         pplr = playerMgr_.GetPlayer(i);
+
+        if (pplr == NULL)
+            continue;
+
         if (pplr->endpoint() == endpoint) {
             break;
-        } else {
-            pplr = NULL;
         }
 	}
 
@@ -1301,6 +1303,9 @@ void Game::SendTeamChat(Endpoint *endpoint, const char *chat, const char *unfilt
 }
 
 bool Game::CanSendTeamChat(Endpoint *endpoint, bool broadcast) {
+    if (endpoint == NULL)
+        return false;
+
     // Game not started yet
     if (!playing()) {
         if (broadcast) {

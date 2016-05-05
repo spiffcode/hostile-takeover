@@ -374,19 +374,25 @@ void Server::SetAnonsAllowed(bool anons_allowed) {
 }
 
 bool Server::SharedAccountExists(Endpoint *endpointAsker, const char *name) {
+    if (endpointAsker == NULL)
+        return false;
+
     EndpointMap::iterator it = endpointmap_.begin();
-    if (it->second->name() != NULL) {
-        for (; it != endpointmap_.end(); it++) {
+    for (; it != endpointmap_.end(); it++) {
+        if (it->second == NULL)
+            continue;
 
-            // Do the names match?
-            if (strcmp(name, it->second->name()) == 0) {
+        if (it->second->name() == NULL)
+            continue;
 
-                // Don't count endpointAsker
-                if (endpointAsker->id() != it->second->id()) {
+        // Do the names match?
+        if (strcmp(name, it->second->name()) == 0) {
 
-                    // We found a shared account
-                    return true;
-                }
+            // Don't count endpointAsker
+            if (endpointAsker->id() != it->second->id()) {
+
+                // We found a shared account
+                return true;
             }
         }
     }
@@ -394,19 +400,25 @@ bool Server::SharedAccountExists(Endpoint *endpointAsker, const char *name) {
 }
 
 void Server::DisconnectSharedAccounts(Endpoint *endpointAsker, const char *name) {
+    if (endpointAsker == NULL)
+        return;
+
     EndpointMap::iterator it = endpointmap_.begin();
-    if (it->second->name() != NULL) {
-        for (; it != endpointmap_.end(); it++) {
+    for (; it != endpointmap_.end(); it++) {
+        if (it->second == NULL)
+            continue;
 
-            // Do the names match?
-            if (strcmp(name, it->second->name()) == 0) {
+        if (it->second->name() == NULL)
+            continue;
 
-                // Son't disconnect the asker, only other endpoints
-                if (endpointAsker->id() != it->second->id()) {
+        // Do the names match?
+        if (strcmp(name, it->second->name()) == 0) {
 
-                    // We found a shared account, dispose of it
-                    it->second->Dispose();
-                }
+            // Son't disconnect the asker, only other endpoints
+            if (endpointAsker->id() != it->second->id()) {
+
+                // We found a shared account, dispose of it
+                it->second->Dispose();
             }
         }
     }

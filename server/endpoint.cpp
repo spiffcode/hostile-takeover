@@ -25,6 +25,7 @@ Endpoint::Endpoint(Server& server, base::Socket *socket, dword id,
         admin_(false), muted_(false), sigvisible_(false), seechat_(false),
         roomlimiter_(2, 120), teamchat_(false) {
     did_[0] = 0;
+    platform_[0] = 0;
     xpump_.Attach(socket, this, server.log());
 }
 
