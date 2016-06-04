@@ -69,14 +69,14 @@ LINUX_FILES := $(basename $(LINUX_FILES))
 all: before_make $(OUTDIR)/$(BINARY)
 
 before_make: 
-	test -d $(OUTDIR) || mkdir -p $(OUTDIR)
-	test -d $(OUTDIR)/game || mkdir -p $(OUTDIR)/game
-	test -d $(OUTDIR)/base || mkdir -p $(OUTDIR)/base
-	test -d $(OUTDIR)/mpshared || mkdir -p $(OUTDIR)/mpshared
-	test -d $(OUTDIR)/inc || mkdir -p $(OUTDIR)/inc
-	test -d $(OUTDIR)/yajl || mkdir -p $(OUTDIR)/yajl
-	test -d $(OUTDIR)/sdl || mkdir -p $(OUTDIR)/sdl
-	test -d $(OUTDIR)/linux || mkdir -p $(OUTDIR)/linux
+	@test -d $(OUTDIR) || mkdir -p $(OUTDIR)
+	@test -d $(OUTDIR)/game || mkdir -p $(OUTDIR)/game
+	@test -d $(OUTDIR)/base || mkdir -p $(OUTDIR)/base
+	@test -d $(OUTDIR)/mpshared || mkdir -p $(OUTDIR)/mpshared
+	@test -d $(OUTDIR)/inc || mkdir -p $(OUTDIR)/inc
+	@test -d $(OUTDIR)/yajl || mkdir -p $(OUTDIR)/yajl
+	@test -d $(OUTDIR)/sdl || mkdir -p $(OUTDIR)/sdl
+	@test -d $(OUTDIR)/linux || mkdir -p $(OUTDIR)/linux
 
 clean:
 	rm -rf $(OUTDIR)/*
