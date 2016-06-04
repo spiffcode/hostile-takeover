@@ -17,6 +17,6 @@ if [ "$(uname -s)" == "Darwin" ]; then
 else
     if ! dpkg -l | grep libsdl2-dev > /dev/null ; then
         echo "sudo password may be required to download and install the SDL2 library..."
-        sudo apt-get install libsdl2-dev
+        sudo apt-get install libsdl2-dev libcurl4-openssl-dev
     fi
 fi
