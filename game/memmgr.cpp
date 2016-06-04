@@ -1041,7 +1041,11 @@ void MemMgr::WriteHeader(Heap *pheap, MemHeader *pmhdrDst, MemHeader *pmhdrSrc, 
 		memcpy(pmhdrDst, pmhdrSrc, cb);
 	}
 #else
-	memcpy(pmhdrDst, pmhdrSrc, cb);
+	if (pmhdrSrc + cb <= pmhdrDst || pmhdrDst + cb <= pmhdrSrc) {
+		memcpy(pmhdrDst, pmhdrSrc, cb);
+	} else {
+		memmove(pmhdrDst, pmhdrSrc, cb);
+	}
 #endif
 }
 
