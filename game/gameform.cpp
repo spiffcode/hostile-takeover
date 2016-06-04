@@ -1,7 +1,7 @@
 #include "ht.h"
 
 #include "game/gameform.h"
-#include "game/multiplayer.h"
+#include "game/Multiplayer.h"
 #include "mpshared/messages.h"
 #include "game/httppackmanager.h"
 #include "base/format.h"
