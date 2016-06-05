@@ -4,6 +4,10 @@
 # sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 # sudo apt-get update
 # sudo apt-get install gcc-5 g++-5
+# 
+# then run like this:
+#
+# debug/HostileTakeover 2>&1 | asan_symbolize-3.5 -d
 
 BINARY = HostileTakeover
 HTROOT := ../../..
