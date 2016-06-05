@@ -50,6 +50,7 @@ private:
     pthread_t thread_;
     void (*start_routine_)(void *);
     void *start_pv_;
+    bool started_;
 };
 
 } // namespace base
