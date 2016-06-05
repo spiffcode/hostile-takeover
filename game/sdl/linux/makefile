@@ -1,9 +1,17 @@
+# Use address sanitizer to find memory usage bugs.
+# Install gcc-5/g++-5. To install on Ubuntu trusty:
+#
+# sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+# sudo apt-get update
+# sudo apt-get install gcc-5 g++-5
+
 BINARY = HostileTakeover
 HTROOT := ../../..
-CC = gcc
-CXX = g++
-LD = g++
+CC = gcc-5
+CXX = g++-5
+LD = g++-5
 
+LDFLAGS=
 CPPFLAGS += -w -Wno-write-strings -fsigned-char \
 -I../../../base -I../../../mpshared -I../../../inc \
 -I../SDL2/include -I../curl/include -I../../../ -I../../ -I../ \
@@ -13,8 +21,16 @@ ifeq ($(REL),1)
 OUTDIR = release
 CPPFLAGS += -O2
 else
-CPPFLAGS += -g -O0 -DDEV_BUILD -DDEBUG_LOGGING -DDEBUG
 OUTDIR = debug
+ASAN_FLAGS=-fno-omit-frame-pointer -fno-optimize-sibling-calls
+ASAN_FLAGS+=-fsanitize=address # fast mem error detector (heap, stack, global buffer overflow, and use-after free)
+#ASAN_FLAGS+=-fsanitize=leak # detect leaks
+#ASAN_FLAGS+=-fsanitize=undefined # fast undefined behavior detector
+#ASAN_FLAGS+=-fsanitize=float-divide-by-zero # detect floating-point division by zero;
+#ASAN_FLAGS+=-fsanitize=bounds # enable instrumentation of array bounds and detect out-of-bounds accesses;
+#ASAN_FLAGS+=-fsanitize=object-size # enable object size checking, detect various out-of-bounds accesses.
+CPPFLAGS += -g -O0 -DDEV_BUILD -DDEBUG_LOGGING -DDEBUG ${ASAN_FLAGS}
+LDFLAGS += ${ASAN_FLAGS}
 endif
 
 ifeq ($(shell uname), Darwin)
