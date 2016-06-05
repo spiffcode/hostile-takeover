@@ -62,9 +62,9 @@ Display::~Display()
     SDL_DestroyTexture(m_texture);
     m_texture = NULL;
 
-    delete m_gamePixels;
+    free(m_gamePixels);
     m_gamePixels = NULL;
-    delete m_gamePixels32;
+    free(m_gamePixels32);
     m_gamePixels32 = NULL;
 }
 
