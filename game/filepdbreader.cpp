@@ -82,7 +82,7 @@ void FilePdbReader::Close()
 	Assert(m_pfil != NULL);
 	fclose(m_pfil);
 	m_pfil = NULL;
-	delete m_aphcRecordData;
+	delete[] m_aphcRecordData;
 }
 
 bool FilePdbReader::GetRecordSize(word nRec, word *pcb)

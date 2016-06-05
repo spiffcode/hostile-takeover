@@ -28,7 +28,7 @@ void CacheMgr::Exit()
 
 	// Free CacheEntry list
 
-	delete m_pceList;
+	delete[] m_pceList;
 	m_pceList = NULL;
 	m_pceFree = NULL;
 }

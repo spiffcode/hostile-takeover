@@ -37,7 +37,7 @@ bool UnitGroupMgr::Init(IniReader *pini)
 
 	for (int iug = 0; iug < m_cug; iug++) {
 		if (!m_aug[iug].Init(pini, iug)) {
-			delete m_aug;
+			delete[] m_aug;
 			m_aug = NULL;
 			return false;
 		}
@@ -199,7 +199,7 @@ UnitGroup::UnitGroup()
 
 UnitGroup::~UnitGroup()
 {
-	delete m_aule;
+	delete[] m_aule;
 
 	// Delete Actions
 
@@ -238,7 +238,7 @@ bool UnitGroup::LoadState(Stream *pstm)
 		UnitListEntry *aule = new UnitListEntry[cule];
 		Assert(aule != NULL, "out of memory!");
 		if (aule != NULL) {
-			delete m_aule;
+			delete[] m_aule;
 			m_aule = aule;
 			m_cule = cule;
 		}
@@ -494,7 +494,7 @@ void UnitGroup::AddUnit(UnitGob *punt, bool fReplicant)
 		return;
 
 	memcpy(auleNew, m_aule, sizeof(UnitListEntry) * m_cule);
-	delete m_aule;
+	delete[] m_aule;
 	m_aule = auleNew;
 	m_aule[m_cule].gid = punt->GetId();
 	m_aule[m_cule].ut = punt->GetConsts()->ut;

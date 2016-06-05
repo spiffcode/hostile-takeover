@@ -19,8 +19,8 @@ UpdateMap::UpdateMap()
 
 UpdateMap::~UpdateMap()
 {
-	delete m_afInvalid;
-	delete m_afInvalidDamage;
+	delete[] m_afInvalid;
+	delete[] m_afInvalidDamage;
 }
 
 bool UpdateMap::Init(Size *psiz)
@@ -29,8 +29,8 @@ bool UpdateMap::Init(Size *psiz)
 	m_ctx = (psiz->cx + (gcxTile - 1)) / gcxTile + 1;
 	m_cty = (psiz->cy + (gcyTile - 1)) / gcyTile + 1;
 	int cb = m_ctx * m_cty;
-	delete m_afInvalid;
-	delete m_afInvalidDamage;
+	delete[] m_afInvalid;
+	delete[] m_afInvalidDamage;
 	m_afInvalid = new bool[cb];
 	if (m_afInvalid == NULL)
 		return false;
@@ -606,7 +606,7 @@ bool UpdateMap::Scroll(int dx, int dy)
 
 			// Now scrolled. Cleanup
 
-			delete pfT;
+			delete[] pfT;
 		} else {
 			// Couldn't alloc temp buffer, so invalidate everything
 

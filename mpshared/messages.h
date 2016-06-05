@@ -195,7 +195,7 @@ struct XMsgShowMessage : public XMsg {
         disconnect_ = disconnect;
     }
     ~XMsgShowMessage() {
-        delete message_;
+        delete[] message_;
     }
     const char *message_;
     dword ipRedirect_;
@@ -219,7 +219,7 @@ struct XMsgLobbyAddRoom : public XMsg {
         cGames_ = cGames;
     }
     ~XMsgLobbyAddRoom() {
-        delete room_;
+        delete[] room_;
     }
     const char *room_;
     dword roomid_;
@@ -268,7 +268,7 @@ struct XMsgRoomGamePlayerNames : public XMsg
     XMsgRoomGamePlayerNames(dword gameid, dword cnames,
             PlayerName *anames) : XMsg(XMSG_ROOMGAMEPLAYERNAMES),
             gameid_(gameid), cnames_(cnames), anames_(anames) { }
-    virtual ~XMsgRoomGamePlayerNames() { delete anames_; }
+    virtual ~XMsgRoomGamePlayerNames() { delete[] anames_; }
     dword gameid_;
     dword cnames_;
     PlayerName *anames_;

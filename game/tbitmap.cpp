@@ -47,7 +47,7 @@ void FreeSharedTBitmaps()
 		delete pshr->ptbm;
 		gmmgr.FreePtr(pshr);
 	}
-	delete gapshr;
+	delete[] gapshr;
 	gapshr = NULL;
 	gcshr = 0;
 	gcshrAlloc = 0;
@@ -91,7 +91,7 @@ TBitmap *GetSharedTBitmap(char *pszFn)
 			return NULL;
 		if (gapshr != NULL) {
 			memcpy(ppshr, gapshr, sizeof(SharedRecord *) * gcshr);
-			delete gapshr;
+			delete[] gapshr;
 		}
 		gapshr = ppshr;
 		gcshrAlloc += kcshrGrow;
@@ -166,14 +166,14 @@ bool TBitmap::InitClass()
 		else
 			s_ampscaiclrSide[i] = (dword *)gmmgr.AllocPtr(cbAlloc);
 		if (s_ampscaiclrSide[i] == NULL) {
-			delete mpscaiclrSideT;
+			delete[] mpscaiclrSideT;
 			return false;
 		}
 		gmmgr.WritePtr(s_ampscaiclrSide[i], 0, mpscaiclrSideT, cbAlloc);
 		if (iclrFirst == iclrLast && gcxTile >= 24)
 			gmmgr.WritePtr(s_ampscaiclrSide[i], cbAlloc, mpscaiclrSideT, cbAlloc);
 	}
-	delete mpscaiclrSideT;
+	delete[] mpscaiclrSideT;
 
 	// Done
 
@@ -221,7 +221,7 @@ TBitmap::~TBitmap()
 {
 	Assert(!(m_wf & kfTbShared));
 
-	delete m_ahc;
+	delete[] m_ahc;
 	m_ahc = NULL;
 	if (m_atbe != NULL) {
 		gmmgr.FreePtr(m_atbe);
@@ -290,12 +290,12 @@ bool TBitmap::Init(File *pfil, word ib)
 	word cbAlloc = sizeof(TBitmapEntry) * m_ctbm;
 	TBitmapEntry *ptbeT = (TBitmapEntry *)gmmgr.AllocPtr(cbAlloc);
 	if (ptbeT == NULL) {
-		delete ptbe;
+		delete[] ptbe;
 		return false;
 	}
 	gmmgr.WritePtr(ptbeT, 0, ptbe, cbAlloc);
 	m_atbe = ptbeT;
-	delete ptbe;
+	delete[] ptbe;
 
 	// Remember file and offset
 

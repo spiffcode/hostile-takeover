@@ -16,6 +16,7 @@ Player gplrDummy;
 
 PlayerMgr::PlayerMgr()
 {
+	m_aplr = NULL;
 	Reset();
 }
 

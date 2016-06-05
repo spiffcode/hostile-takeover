@@ -34,7 +34,7 @@ TileMap::~TileMap()
 		gpakr.UnmapFile(&m_fmapMiniTset);
 	if (m_apbTileData != NULL)
 		gmmgr.FreePtr(m_apbTileData);
-	delete m_apbDrawMap;
+	delete[] m_apbDrawMap;
 }
 
 bool TileMap::Load(char *psz, Size *psizPlayfield)
@@ -105,11 +105,11 @@ bool TileMap::Load(char *psz, Size *psizPlayfield)
 	int cbT = sizeof(byte *) * m_cTiles;
 	m_apbTileData = (byte **)gmmgr.AllocPtr(cbT);
 	if (m_apbTileData == NULL) {
-		delete apbTileData;
+		delete[] apbTileData;
 		return false;
 	}
 	gmmgr.WritePtr(m_apbTileData, 0, apbTileData, cbT);
-	delete apbTileData;
+	delete[] apbTileData;
 
 	// Load mini tset
 

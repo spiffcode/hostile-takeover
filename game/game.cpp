@@ -625,7 +625,7 @@ bool Game::LoadGameData()
 
 	if (gcxTile > 16) {
 		if (gcbScratch <= 10 * 1024) {
-			delete gpbScratch;
+			delete[] gpbScratch;
             if (gcxTile == 32) {
                 gcbScratch = 35 * 1024;
             } else {
@@ -820,7 +820,7 @@ void Game::AddModeMatches(int nDepthData, int nSizeData, int nDepthOrGreater, in
 				continue;
 			if (m_amm != NULL) {
 				memcpy(pmm, m_amm, sizeof(ModeMatch) * m_cmm);
-				delete m_amm;
+				delete[] m_amm;
 			}
 			m_amm = pmm;
 			m_cmmAlloc += kcmmGrow;
@@ -2066,7 +2066,7 @@ void Game::Exit()
 	delete gpdisp;
 	gpdisp = NULL;
 
-	delete m_amm;
+	delete[] m_amm;
 	m_amm = NULL;
 	m_cmm = 0;
 	m_cmmAlloc = 0;
@@ -2082,7 +2082,7 @@ void Game::Exit()
 	DbLogExit();
 #endif
 
-	delete gpbScratch;
+	delete[] gpbScratch;
 	gpbScratch = NULL;
 
 	m_fSimUninitialized = true;

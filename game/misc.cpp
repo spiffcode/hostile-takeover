@@ -788,7 +788,7 @@ void SetHslAdjustedPalette(Palette *ppal, short nHueOffset, short nSatMultiplier
 	}
 
 	gpdisp->SetPalette(ppalMod);
-	delete ppalMod;
+	delete[] ppalMod;
 }
 
 // Takes byte-sized RGB values in the range from 0-255 and returns

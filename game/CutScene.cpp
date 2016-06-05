@@ -212,7 +212,7 @@ void CutSceneForm::More()
 		// Start from the break next time around
 
 		m_pszText += pchBreak - pszT;
-		delete pszT;
+		delete[] pszT;
 	}
 	gpmfrmm->DrawFrame(false);
 }

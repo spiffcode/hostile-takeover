@@ -97,9 +97,9 @@ void SoundMgr::Exit()
 			m_apcmh[n].pb = NULL;
 		}
 	}
-	delete m_apcmh;
+	delete[] m_apcmh;
 	m_apcmh = NULL;
-	delete m_afmap;
+	delete[] m_afmap;
 	m_afmap = NULL;
 	m_cpcmh = 0;
 

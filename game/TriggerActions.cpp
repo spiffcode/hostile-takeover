@@ -466,7 +466,7 @@ void EndMissionAction::OnMPEndMissionActionEvent(int nWinLose, Side side) {
 
 EcomAction::~EcomAction()
 {
-	delete m_pszMessage;
+	delete[] m_pszMessage;
 }
 
 bool EcomAction::Init(char *psz)

@@ -54,7 +54,7 @@ const char *StringEncoder::QueryEncode(const char *s) {
     }
     *out = 0;
     const char *result = base::Format::ToString("%s", buf);
-    delete buf;
+    delete[] buf;
     return result;
 }
 

@@ -152,7 +152,7 @@ EcomForm::EcomForm()
 EcomForm::~EcomForm()
 {
 	if (m_pszText != NULL)
-		delete m_pszText;
+		delete[] m_pszText;
 }
 
 bool EcomForm::DoModal(char *pszMessage, int *pnResult, Sfx sfxShow, Sfx sfxHide)
@@ -217,7 +217,7 @@ void EcomForm::More()
 	// Start from the break next time around
 
 	m_pszNext += pchBreak - pszT;
-	delete pszT;
+	delete[] pszT;
 
 	bool fMore = (*m_pszNext != 0);
 	if (fMore) {

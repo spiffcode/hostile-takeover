@@ -30,10 +30,10 @@ MissionList::~MissionList() {
         while (ppdbiT->plvliFirst != NULL) {
             LvlItem *plvliT = ppdbiT->plvliFirst;
             ppdbiT->plvliFirst = ppdbiT->plvliFirst->plvliNext;
-            delete plvliT->pszFilename;
+            delete[] plvliT->pszFilename;
             delete plvliT;
         }
-        delete ppdbiT->pszTitle;
+        delete[] ppdbiT->pszTitle;
         delete ppdbiT;
     }
 }

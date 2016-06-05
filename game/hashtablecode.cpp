@@ -38,7 +38,7 @@ bool HashTableCode::Init()
 void HashTableCode::Exit()
 {
 	DiscardHashEntries();
-	delete m_aphec;
+	delete[] m_aphec;
 	m_aphec = NULL;
 
 	// Free free list entries

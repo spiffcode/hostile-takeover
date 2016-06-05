@@ -775,7 +775,7 @@ void SimUIForm::OnTimer(long tCurrent) {
             memcpy(&pcc->amsgCommands, gcmdq.GetFirst(),
                     cmsg * sizeof(Message));
             gptra->SendNetMessage(pcc);
-            delete pcc;
+            delete[] pcc;
         }
         gcmdq.Clear();
     }

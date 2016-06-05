@@ -186,7 +186,7 @@ void MemMgr::Init(dword cbDynReserve, dword cbMaxNeeded, dword *pcbTotal)
 
 		Heap *pheap = NewHeap(pv, (word)cbAlloc, false, 0, NULL);
 		if (pheap == NULL) {
-			delete (byte *)pv;
+			delete[] (byte *)pv;
 			break;
 		}
 		m_apheap[m_cheap++] = pheap;
@@ -273,7 +273,7 @@ void MemMgr::Exit()
 		} else {
 			// Free the dyn chunk
 
-			delete pheap->pbHeap;
+			delete[] pheap->pbHeap;
 		}
 		delete pheap;
 	}
@@ -295,7 +295,7 @@ void MemMgr::Exit()
 
 	for (int ihtab = 0; ihtab < m_chtab; ihtab++)
 		delete m_aphtab[ihtab];
-	delete m_aphtab;
+	delete[] m_aphtab;
 	m_chtab = 0;
 	m_chtabAlloced = 0;
 	m_aphtab = NULL;
@@ -337,7 +337,7 @@ HandleTable *MemMgr::NewHandleTable()
 			return NULL;
 		if (m_aphtab != NULL) {
 			memcpy(aphtabT, m_aphtab, sizeof(HandleTable *) * m_chtabAlloced);
-			delete m_aphtab;
+			delete[] m_aphtab;
 		}
 		m_aphtab = aphtabT;
 		m_chtabAlloced += kchtabGrow;

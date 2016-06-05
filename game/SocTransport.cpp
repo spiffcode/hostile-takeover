@@ -687,7 +687,7 @@ bool SocConnection::Poll()
 			if (cbT == SOCKET_ERROR) {
 				int err = WSAGetLastError();
 				if (err != WSAEWOULDBLOCK) {
-					delete pnm;
+					delete[] pnm;
 					HandleRecvError();
 					return false;
 				}
@@ -704,7 +704,7 @@ bool SocConnection::Poll()
 			MpTrace("< %s", PszFromNetMessage(pnm));
 			m_pccb->OnReceive(this, pnm);
 		}
-		delete pnm;
+		delete[] pnm;
 	}
 
 	return true;

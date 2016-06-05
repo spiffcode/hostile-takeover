@@ -1923,7 +1923,7 @@ RadioButtonBarControl::RadioButtonBarControl()
 RadioButtonBarControl::~RadioButtonBarControl()
 {
     for (int i = 0; i < m_cLabels; i++) {
-        delete m_apszLabels[i];
+        delete[] m_apszLabels[i];
     }
 }
 

@@ -234,7 +234,7 @@ void UnitGob::ExitClass(UnitConsts *puntc)
 	delete puntc->pfrmMenu;
 	puntc->pfrmMenu = NULL;
 
-	delete puntc->szDescription;
+	delete[] puntc->szDescription;
 	puntc->szDescription = NULL;
 }
 

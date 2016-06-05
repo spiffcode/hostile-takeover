@@ -56,7 +56,7 @@ TerrainMap::~TerrainMap()
 {
 	if (m_ptrmaph != NULL)
 		gpakr.UnmapFile(&m_fmap);
-	delete m_abBuffer;
+	delete[] m_abBuffer;
 	while (m_ppathhList != NULL)
 		RemovePathHead(m_ppathhList);
 	for (PathHead *ppathh = m_ppathhFreeList; ppathh != NULL; ) {
@@ -801,7 +801,7 @@ Path::Path()
 
 Path::~Path()
 {
-	delete m_adir;
+	delete[] m_adir;
 }
 
 bool Path::Init(TerrainMap *ptrmap, TCoord txStart, TCoord tyStart, Direction *adir, int cdir)
@@ -948,7 +948,7 @@ bool Path::Append(Path *ppath)
 		return false;
 	memcpy(adirNew, m_adir, m_cdirs);
 	memcpy(&adirNew[m_cdirs], ppath->m_adir, ppath->m_cdirs);
-	delete m_adir;
+	delete[] m_adir;
 	m_adir = adirNew;
 	m_cdirs += ppath->m_cdirs;
 	return true;
@@ -963,7 +963,7 @@ bool Path::TrimEnd(int itptStart)
 	if (adirNew == NULL)
 		return false;
 	memcpy(adirNew, m_adir, cdirsNew);
-	delete m_adir;
+	delete[] m_adir;
 	m_adir = adirNew;
 	m_cdirs = cdirsNew;
 	return true;

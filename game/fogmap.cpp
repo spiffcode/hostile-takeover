@@ -30,7 +30,7 @@ FogMap::FogMap()
 FogMap::~FogMap()
 {
 	delete m_panidWalls;
-	delete m_pbMap;
+	delete[] m_pbMap;
 	int n;
 	for (n = 0; n < 16; n++)
 		delete m_aptbm[n];

@@ -279,7 +279,7 @@ XMsgGameNetMessage *XMsgGameNetMessage::FromBuffer(base::ByteBuffer& bb,
 
     Assert(cbSav - bb.Length() == cbMsg);
     if (cbSav - bb.Length() != cbMsg) {
-        delete pb;
+        delete[] pb;
         return NULL;
     }
 
@@ -516,7 +516,7 @@ XMsgRoomGamePlayerNames *XMsgRoomGamePlayerNames::FromBuffer(
 
     if (cbSav - bb.Length() != w) {
         Assert();
-        delete anames;
+        delete[] anames;
         return NULL;
     }
 

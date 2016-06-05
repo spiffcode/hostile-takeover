@@ -30,7 +30,7 @@ DibBitmap::DibBitmap()
 DibBitmap::~DibBitmap()
 {
 	if (m_wf & kfDibFreeMem)
-		delete m_pb;
+		delete[] m_pb;
 	m_pb = NULL;
 }
 
