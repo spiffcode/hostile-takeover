@@ -931,6 +931,24 @@ void Simulation::Draw(UpdateMap *pupd, DibBitmap *pbm)
 
     pupd->SetViewOrigin(0, 0);
     HostSoundServiceProc();
+
+	// If the screen is larger than the map size we clear those areas to black color
+
+	Size sizDib;
+    pbm->GetSize(&sizDib);
+    Size sizMap;
+    m_plvl->GetTileMap()->GetMapSize(&sizMap);
+
+    if (sizMap.cx < sizDib.cx) {
+		Rect rc;
+		rc.Set(sizMap.cx, 0, sizDib.cx, sizMap.cy);
+		FillHelper(pbm, pupd, &rc, GetColor(kiclrBlack));
+	}
+    if (sizMap.cy < sizDib.cy) {
+		Rect rc;
+		rc.Set(0, sizMap.cy, sizDib.cx, sizDib.cy);
+		FillHelper(pbm, pupd, &rc, GetColor(kiclrBlack));
+	}
 }
 
 void Simulation::DrawFog(UpdateMap *pupd, DibBitmap *pbm)
@@ -953,8 +971,19 @@ bool Simulation::SetViewPos(WCoord wx, WCoord wy, bool fInit)
     Size sizPlayfield;
     ggame.GetPlayfieldSize(&sizPlayfield);
 
-    WCoord wcxMax = WcFromUpc(sizMap.cx - sizPlayfield.cx);
-    WCoord wcyMax = WcFromUpc(sizMap.cy - sizPlayfield.cy);
+    WCoord wcxMax, wcyMax;
+    int cxMax = sizMap.cx - sizPlayfield.cx;
+    int cyyMax = sizMap.cy - sizPlayfield.cy;
+
+    if (cxMax <= 0 || cxMax > kpcMax)
+        wcxMax = 0;
+    else
+        wcxMax = WcFromUpc(cxMax);
+
+    if (cyyMax <= 0 || cyyMax > kpcMax)
+        wcyMax = 0;
+    else
+        wcyMax = WcFromUpc(cyyMax);
 
     if (wx < 0)
         wx = 0;

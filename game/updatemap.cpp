@@ -470,6 +470,14 @@ void UpdateMap::SetMapOffset(int xMapOffset, int yMapOffset, bool fInvalidate)
 	m_yMapOffset = yMapOffset;
 	int cxDib = m_rcDib.Width();
 	int cyDib = m_rcDib.Height();
+	if (gsim.GetLevel() != NULL) {
+		Size sizTMap;
+		gsim.GetLevel()->GetTileMap()->GetMapSize(&sizTMap);
+		if (sizTMap.cx < cxDib)
+			cxDib = sizTMap.cx;
+		if (sizTMap.cy < cyDib)
+			cyDib = sizTMap.cy;
+	}
 	m_mnfo.cxLeftTile = PcFracFromUpc(gcxTile - m_xMapOffset);
 	if (cyDib < gcyTile - m_yMapOffset) {
 		m_mnfo.cyTopTile = cyDib;

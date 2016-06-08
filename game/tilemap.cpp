@@ -170,6 +170,20 @@ void TileMap::Draw(DibBitmap *pbm, int x, int y, int cx, int cy, int xMap, int y
 	int cty = TcFromPc(cy - pmnfo->cyTopTile + gcyTile - 1) + TcFromPc(pmnfo->cyTopTile + gcyTile - 1);
 	int ctxMap = BigWord(m_ptmaph->ctx);
 
+	// Deal with case of map being smaller than the screen
+
+	Size sizMap;
+	GetMapSize(&sizMap);
+	
+	if (sizMap.cx < cx) {
+		Assert(xMap == 0);
+		ctx = TcFromPc(sizMap.cx);
+	}
+	if (sizMap.cy < cy) {
+		Assert(yMap == 0);
+		cty = TcFromPc(sizMap.cy);
+	}
+
 #ifdef DEBUG
 	Assert(ctx <= m_ctx);
 	Assert(cty <= m_cty);
