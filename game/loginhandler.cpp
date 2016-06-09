@@ -25,7 +25,11 @@ void LoginHandler::InitFromGlobals() {
     strncpyz(token_, gszToken, sizeof(token_));
     strncpyz(password_, gszPassword, sizeof(password_));
     strncpyz(username_, gszUsername, sizeof(username_));
+#if 1 // Always show non-anonymous login
+    SetAnonymous(0);
+#else
     SetAnonymous(gfAnonymous);
+#endif
 }
 
 void LoginHandler::SaveToGlobals() {
