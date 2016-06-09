@@ -200,7 +200,7 @@ int main(int argc, char **argv)
             &result);
     server.lobby().NewRoom(NULL, "Main / Unmoderated", "",
             wi::kroomidUnmoderated,
-            wi::kfRmPermanent | wi::kfRmLocked | wi::kfRmUnmoderated,
+            wi::kfRmPermanent | wi::kfRmLocked | wi::kfRmUnmoderated | wi::kfRmRegisteredOnly,
             &result);
 
     // Get the public_address. This is the address that gets sent in
