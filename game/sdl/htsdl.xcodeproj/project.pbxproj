@@ -11,7 +11,6 @@
 		5501E62E139079710048AAFE /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 5501E61C139079710048AAFE /* Credits.rtf */; };
 		5501E62F139079710048AAFE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 5501E61E139079710048AAFE /* InfoPlist.strings */; };
 		5501E630139079710048AAFE /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5501E620139079710048AAFE /* MainMenu.xib */; };
-		5501E632139079710048AAFE /* SDLMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 5501E624139079710048AAFE /* SDLMain.m */; };
 		551C90DA1390A1860018ECBA /* alertcontrol.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C5AA6E1390627C003B15C5 /* alertcontrol.cpp */; };
 		551C90DB1390A1860018ECBA /* Andy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C5AA6F1390627C003B15C5 /* Andy.cpp */; };
 		551C90DC1390A1860018ECBA /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C5AA701390627C003B15C5 /* Animation.cpp */; };
@@ -151,13 +150,11 @@
 		551C91D21390A9960018ECBA /* stringtable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C5ACD31390627C003B15C5 /* stringtable.cpp */; };
 		551C91D31390AA050018ECBA /* selectmission.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C5ACBA1390627C003B15C5 /* selectmission.cpp */; };
 		551C91D41390AA6F0018ECBA /* thunks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55C5ACDB1390627C003B15C5 /* thunks.cpp */; };
-		551C91EB1390BC570018ECBA /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 551C91EA1390BC570018ECBA /* SDL.framework */; };
 		5595A9701392DCCE00988594 /* sdlselectionsprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5595A96E1392DCCD00988594 /* sdlselectionsprite.cpp */; };
 		55BAE1D8139074B40046D160 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BAE1D7139074B40046D160 /* Cocoa.framework */; };
 		55D1DC5A1393FAE50035F179 /* sdlsounddev.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 55D1DC591393FAE50035F179 /* sdlsounddev.cpp */; };
 		55D1DC6513940F830035F179 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 55D1DC6413940F830035F179 /* icon.png */; };
 		55D1DC67139414500035F179 /* wi.icns in Resources */ = {isa = PBXBuildFile; fileRef = 55D1DC66139414500035F179 /* wi.icns */; };
-		55D631D11390C105002061DF /* SDL.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 551C91EA1390BC570018ECBA /* SDL.framework */; };
 		55D631DA13918313002061DF /* htdata832.pdb in Resources */ = {isa = PBXBuildFile; fileRef = 55C5AAA41390627C003B15C5 /* htdata832.pdb */; };
 		55D631DB13918313002061DF /* htsfx.pdb in Resources */ = {isa = PBXBuildFile; fileRef = 55C5AAA61390627C003B15C5 /* htsfx.pdb */; };
 		55D631DF13919455002061DF /* hosthelpers.mm in Sources */ = {isa = PBXBuildFile; fileRef = 55D631DE13919455002061DF /* hosthelpers.mm */; };
@@ -165,6 +162,16 @@
 		C169F5AE139C972D00B4491D /* transportmgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C169F5AD139C972D00B4491D /* transportmgr.cpp */; };
 		C1C82A1F13A57D6C009071DC /* machttprequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1C82A1C13A57D6C009071DC /* machttprequest.mm */; };
 		C1C82A2013A57D6C009071DC /* machttpservice.mm in Sources */ = {isa = PBXBuildFile; fileRef = C1C82A1E13A57D6C009071DC /* machttpservice.mm */; };
+		D813BF821D6E3102007132EE /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D813BF801D6E30FA007132EE /* SDL2.framework */; };
+		D813BF831D6E3102007132EE /* SDL2.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = D813BF801D6E30FA007132EE /* SDL2.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D813BF841D6E3109007132EE /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 55BAE1DC139074B40046D160 /* Foundation.framework */; };
+		D813BF901D6E3157007132EE /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = D813BF861D6E3157007132EE /* AppDelegate.mm */; };
+		D813BF911D6E3157007132EE /* chatcell.mm in Sources */ = {isa = PBXBuildFile; fileRef = D813BF881D6E3157007132EE /* chatcell.mm */; };
+		D813BF921D6E3157007132EE /* chatviewcontroller.mm in Sources */ = {isa = PBXBuildFile; fileRef = D813BF8A1D6E3157007132EE /* chatviewcontroller.mm */; };
+		D813BF931D6E3157007132EE /* inputcontroller.m in Sources */ = {isa = PBXBuildFile; fileRef = D813BF8C1D6E3157007132EE /* inputcontroller.m */; };
+		D813BF941D6E3157007132EE /* mac.mm in Sources */ = {isa = PBXBuildFile; fileRef = D813BF8E1D6E3157007132EE /* mac.mm */; };
+		D813BF951D6E3157007132EE /* SDLMain.mm in Sources */ = {isa = PBXBuildFile; fileRef = D813BF8F1D6E3157007132EE /* SDLMain.mm */; };
+		D813BF971D6E3480007132EE /* sdlspritemgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D813BF961D6E3480007132EE /* sdlspritemgr.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -174,7 +181,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				55D631D11390C105002061DF /* SDL.framework in CopyFiles */,
+				D813BF831D6E3102007132EE /* SDL2.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -184,9 +191,7 @@
 		5501E61D139079710048AAFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
 		5501E61F139079710048AAFE /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		5501E621139079710048AAFE /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
-		5501E622139079710048AAFE /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL.framework; sourceTree = "<group>"; };
 		5501E623139079710048AAFE /* SDLMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDLMain.h; sourceTree = "<group>"; };
-		5501E624139079710048AAFE /* SDLMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLMain.m; sourceTree = "<group>"; };
 		5501E625139079710048AAFE /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5501E626139079710048AAFE /* Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Prefix.pch; sourceTree = "<group>"; };
 		551C91451390A40F0018ECBA /* yajl_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = yajl_common.h; sourceTree = "<group>"; };
@@ -268,11 +273,10 @@
 		551C91C21390A43E0018ECBA /* xpump.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = xpump.cpp; sourceTree = "<group>"; };
 		551C91C31390A43E0018ECBA /* xpump.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xpump.h; sourceTree = "<group>"; };
 		551C91D01390A90D0018ECBA /* rip.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = rip.cpp; path = ../../inc/rip.cpp; sourceTree = "<group>"; };
-		551C91EA1390BC570018ECBA /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = sdl/mac/SDL.framework; sourceTree = "<group>"; };
 		5595A96C1392DA6900988594 /* sdlspritemgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdlspritemgr.h; sourceTree = "<group>"; };
 		5595A96E1392DCCD00988594 /* sdlselectionsprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdlselectionsprite.cpp; sourceTree = "<group>"; };
 		5595A96F1392DCCE00988594 /* sdlselectionsprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdlselectionsprite.h; sourceTree = "<group>"; };
-		55BAE1D3139074B40046D160 /* Warfare Incorporated.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Warfare Incorporated.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		55BAE1D3139074B40046D160 /* Hostile Takeover.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Hostile Takeover.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55BAE1D7139074B40046D160 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		55BAE1DA139074B40046D160 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		55BAE1DB139074B40046D160 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
@@ -452,6 +456,19 @@
 		C1C82A1C13A57D6C009071DC /* machttprequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = machttprequest.mm; sourceTree = "<group>"; };
 		C1C82A1D13A57D6C009071DC /* machttpservice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = machttpservice.h; sourceTree = "<group>"; };
 		C1C82A1E13A57D6C009071DC /* machttpservice.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = machttpservice.mm; sourceTree = "<group>"; };
+		D813BF801D6E30FA007132EE /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = SDL2/osx/SDL2.framework; sourceTree = "<group>"; };
+		D813BF851D6E3157007132EE /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		D813BF861D6E3157007132EE /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		D813BF871D6E3157007132EE /* chatcell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chatcell.h; sourceTree = "<group>"; };
+		D813BF881D6E3157007132EE /* chatcell.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = chatcell.mm; sourceTree = "<group>"; };
+		D813BF891D6E3157007132EE /* chatviewcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = chatviewcontroller.h; sourceTree = "<group>"; };
+		D813BF8A1D6E3157007132EE /* chatviewcontroller.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = chatviewcontroller.mm; sourceTree = "<group>"; };
+		D813BF8B1D6E3157007132EE /* inputcontroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inputcontroller.h; sourceTree = "<group>"; };
+		D813BF8C1D6E3157007132EE /* inputcontroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = inputcontroller.m; sourceTree = "<group>"; };
+		D813BF8D1D6E3157007132EE /* mac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mac.h; sourceTree = "<group>"; };
+		D813BF8E1D6E3157007132EE /* mac.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = mac.mm; sourceTree = "<group>"; };
+		D813BF8F1D6E3157007132EE /* SDLMain.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SDLMain.mm; sourceTree = "<group>"; };
+		D813BF961D6E3480007132EE /* sdlspritemgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdlspritemgr.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -459,8 +476,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				551C91EB1390BC570018ECBA /* SDL.framework in Frameworks */,
+				D813BF841D6E3109007132EE /* Foundation.framework in Frameworks */,
 				55BAE1D8139074B40046D160 /* Cocoa.framework in Frameworks */,
+				D813BF821D6E3102007132EE /* SDL2.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,21 +488,30 @@
 		5501E61B139079710048AAFE /* mac */ = {
 			isa = PBXGroup;
 			children = (
+				D813BF851D6E3157007132EE /* AppDelegate.h */,
+				D813BF861D6E3157007132EE /* AppDelegate.mm */,
+				D813BF871D6E3157007132EE /* chatcell.h */,
+				D813BF881D6E3157007132EE /* chatcell.mm */,
+				D813BF891D6E3157007132EE /* chatviewcontroller.h */,
+				D813BF8A1D6E3157007132EE /* chatviewcontroller.mm */,
 				5501E61C139079710048AAFE /* Credits.rtf */,
-				55D1DC6413940F830035F179 /* icon.png */,
-				5501E61E139079710048AAFE /* InfoPlist.strings */,
 				55D631DE13919455002061DF /* hosthelpers.mm */,
+				55D1DC6413940F830035F179 /* icon.png */,
+				5501E625139079710048AAFE /* Info.plist */,
+				5501E61E139079710048AAFE /* InfoPlist.strings */,
+				D813BF8B1D6E3157007132EE /* inputcontroller.h */,
+				D813BF8C1D6E3157007132EE /* inputcontroller.m */,
+				D813BF8D1D6E3157007132EE /* mac.h */,
+				D813BF8E1D6E3157007132EE /* mac.mm */,
 				C1C82A1C13A57D6C009071DC /* machttprequest.mm */,
 				C1C82A1B13A57D6C009071DC /* machttprequest.h */,
 				C1C82A1E13A57D6C009071DC /* machttpservice.mm */,
 				C1C82A1D13A57D6C009071DC /* machttpservice.h */,
 				5501E620139079710048AAFE /* MainMenu.xib */,
-				5501E622139079710048AAFE /* SDL.framework */,
-				5501E623139079710048AAFE /* SDLMain.h */,
-				5501E624139079710048AAFE /* SDLMain.m */,
-				5501E625139079710048AAFE /* Info.plist */,
-				55D1DC66139414500035F179 /* wi.icns */,
 				5501E626139079710048AAFE /* Prefix.pch */,
+				D813BF8F1D6E3157007132EE /* SDLMain.mm */,
+				5501E623139079710048AAFE /* SDLMain.h */,
+				55D1DC66139414500035F179 /* wi.icns */,
 			);
 			path = mac;
 			sourceTree = "<group>";
@@ -618,7 +645,7 @@
 		55BAE1D4139074B40046D160 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				55BAE1D3139074B40046D160 /* Warfare Incorporated.app */,
+				55BAE1D3139074B40046D160 /* Hostile Takeover.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -626,7 +653,7 @@
 		55BAE1D6139074B40046D160 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				551C91EA1390BC570018ECBA /* SDL.framework */,
+				D813BF801D6E30FA007132EE /* SDL2.framework */,
 				55BAE1D7139074B40046D160 /* Cocoa.framework */,
 				55BAE1D9139074B40046D160 /* Other Frameworks */,
 			);
@@ -836,6 +863,7 @@
 				55C5AC7F1390627C003B15C5 /* sdlpackfile.h */,
 				5595A96E1392DCCD00988594 /* sdlselectionsprite.cpp */,
 				5595A96F1392DCCE00988594 /* sdlselectionsprite.h */,
+				D813BF961D6E3480007132EE /* sdlspritemgr.cpp */,
 				5595A96C1392DA6900988594 /* sdlspritemgr.h */,
 				55D1DC591393FAE50035F179 /* sdlsounddev.cpp */,
 				C11151EE13A5317B005A3273 /* sysmessages.h */,
@@ -847,9 +875,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		55BAE1D2139074B40046D160 /* Warfare Incorporated */ = {
+		55BAE1D2139074B40046D160 /* HT - Desktop */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 55BAE1F1139074B40046D160 /* Build configuration list for PBXNativeTarget "Warfare Incorporated" */;
+			buildConfigurationList = 55BAE1F1139074B40046D160 /* Build configuration list for PBXNativeTarget "HT - Desktop" */;
 			buildPhases = (
 				55BAE1CF139074B40046D160 /* Sources */,
 				55BAE1D0139074B40046D160 /* Frameworks */,
@@ -860,9 +888,9 @@
 			);
 			dependencies = (
 			);
-			name = "Warfare Incorporated";
+			name = "HT - Desktop";
 			productName = "Warfare Incorporated";
-			productReference = 55BAE1D3139074B40046D160 /* Warfare Incorporated.app */;
+			productReference = 55BAE1D3139074B40046D160 /* Hostile Takeover.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -884,7 +912,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				55BAE1D2139074B40046D160 /* Warfare Incorporated */,
+				55BAE1D2139074B40046D160 /* HT - Desktop */,
 			);
 		};
 /* End PBXProject section */
@@ -936,6 +964,7 @@
 				551C912B1390A2F00018ECBA /* httprequest.cpp in Sources */,
 				551C912C1390A2F00018ECBA /* lobby.cpp in Sources */,
 				551C912D1390A2F00018ECBA /* lobbyform.cpp in Sources */,
+				D813BF971D6E3480007132EE /* sdlspritemgr.cpp in Sources */,
 				551C912E1390A2F00018ECBA /* loginform.cpp in Sources */,
 				551C912F1390A2F00018ECBA /* loginhandler.cpp in Sources */,
 				551C91301390A2F00018ECBA /* map.cpp in Sources */,
@@ -943,6 +972,7 @@
 				551C91321390A2F10018ECBA /* missionlist.cpp in Sources */,
 				551C91331390A2F10018ECBA /* Multiplayer.cpp in Sources */,
 				551C91341390A2F10018ECBA /* picktransportform.cpp in Sources */,
+				D813BF901D6E3157007132EE /* AppDelegate.mm in Sources */,
 				551C91351390A2F10018ECBA /* roomform.cpp in Sources */,
 				551C91361390A2F10018ECBA /* display.cpp in Sources */,
 				551C91371390A2F10018ECBA /* host.cpp in Sources */,
@@ -967,10 +997,12 @@
 				551C90E61390A1860018ECBA /* event.cpp in Sources */,
 				551C90E71390A1860018ECBA /* fogmap.cpp in Sources */,
 				551C90E81390A1860018ECBA /* font.cpp in Sources */,
+				D813BF911D6E3157007132EE /* chatcell.mm in Sources */,
 				551C90E91390A1860018ECBA /* form.cpp in Sources */,
 				551C90EA1390A1860018ECBA /* formmgr.cpp in Sources */,
 				551C90EB1390A1860018ECBA /* game.cpp in Sources */,
 				551C90EC1390A1860018ECBA /* GameObjects.cpp in Sources */,
+				D813BF921D6E3157007132EE /* chatviewcontroller.mm in Sources */,
 				551C90ED1390A1860018ECBA /* GameOptions.cpp in Sources */,
 				551C90EE1390A1860018ECBA /* Headquarters.cpp in Sources */,
 				551C90EF1390A1860018ECBA /* Help.cpp in Sources */,
@@ -984,6 +1016,7 @@
 				551C90F71390A1860018ECBA /* misc.cpp in Sources */,
 				551C90F81390A1860018ECBA /* misccontrols.cpp in Sources */,
 				551C90F91390A1860018ECBA /* mixer.cpp in Sources */,
+				D813BF951D6E3157007132EE /* SDLMain.mm in Sources */,
 				551C90FA1390A1860018ECBA /* MobileBuilder.cpp in Sources */,
 				551C90FB1390A1860018ECBA /* MobileHQ.cpp in Sources */,
 				551C90FC1390A1860018ECBA /* MobileUnit.cpp in Sources */,
@@ -996,6 +1029,7 @@
 				551C91031390A1860018ECBA /* Replicator.cpp in Sources */,
 				551C91041390A1860018ECBA /* Research.cpp in Sources */,
 				551C91051390A1860018ECBA /* Shell.cpp in Sources */,
+				D813BF931D6E3157007132EE /* inputcontroller.m in Sources */,
 				551C91061390A1860018ECBA /* SimUI.cpp in Sources */,
 				551C91071390A1860018ECBA /* Simulation.cpp in Sources */,
 				551C91081390A1860018ECBA /* soundmgr.cpp in Sources */,
@@ -1011,6 +1045,7 @@
 				551C91121390A1860018ECBA /* Tower.cpp in Sources */,
 				551C91131390A1860018ECBA /* TriggerActions.cpp in Sources */,
 				551C91141390A1860018ECBA /* TriggerConditions.cpp in Sources */,
+				D813BF941D6E3157007132EE /* mac.mm in Sources */,
 				551C91151390A1860018ECBA /* triggermgr.cpp in Sources */,
 				551C91161390A1860018ECBA /* Unit.cpp in Sources */,
 				551C91171390A1860018ECBA /* UnitGroupMgr.cpp in Sources */,
@@ -1018,7 +1053,6 @@
 				551C91191390A1860018ECBA /* VTS.cpp in Sources */,
 				551C911A1390A1860018ECBA /* Warehouse.cpp in Sources */,
 				5501E616139076E20048AAFE /* main.cpp in Sources */,
-				5501E632139079710048AAFE /* SDLMain.m in Sources */,
 				551C91601390A40F0018ECBA /* yajl.c in Sources */,
 				551C91611390A40F0018ECBA /* yajl_buf.c in Sources */,
 				551C91621390A40F0018ECBA /* yajl_encode.c in Sources */,
@@ -1100,22 +1134,24 @@
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/sdl/mac\"",
+					"$(PROJECT_DIR)/SDL2/osx",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = sdl/mac/Prefix.pch;
+				GCC_PREFIX_HEADER = mac/Prefix.pch;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
 				GCC_REUSE_STRINGS = YES;
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = sdl/mac/Info.plist;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
+				INFOPLIST_FILE = "$(SRCROOT)/mac/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "";
@@ -1127,9 +1163,10 @@
 					"-DDEV_BUILD",
 					"-DDEBUG_LOGGING",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
+				PRODUCT_NAME = "Hostile Takeover";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = ".. ../inc sdl ../SDL/include";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../.. $(PROJECT_DIR)/SDL2/include";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1143,18 +1180,20 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/sdl/mac\"",
+					"$(PROJECT_DIR)/SDL2/osx",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = sdl/mac/Prefix.pch;
+				GCC_PREFIX_HEADER = mac/Prefix.pch;
 				GCC_REUSE_STRINGS = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = sdl/mac/Info.plist;
+				HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
+				INFOPLIST_FILE = "$(SRCROOT)/mac/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_CFLAGS = "";
@@ -1165,9 +1204,10 @@
 					"-DMULTIPLAYER",
 					"-DTRACKSTATE",
 				);
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.spiffcode.ht;
+				PRODUCT_NAME = "Hostile Takeover";
 				SDKROOT = macosx;
-				USER_HEADER_SEARCH_PATHS = ".. ../inc sdl ../SDL/include";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/../.. $(PROJECT_DIR)/SDL2/include";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1187,7 +1227,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		55BAE1F1139074B40046D160 /* Build configuration list for PBXNativeTarget "Warfare Incorporated" */ = {
+		55BAE1F1139074B40046D160 /* Build configuration list for PBXNativeTarget "HT - Desktop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55BAE1EF139074B40046D160 /* Debug */,

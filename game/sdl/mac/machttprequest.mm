@@ -12,23 +12,16 @@
     return self;
 }
     
-- (void)dealloc {
-    [conn_ release];
-    [super dealloc];
-}
 
 - (void)submit {
     NSURLRequest *req = req_->CreateNSURLRequest();
     conn_ = [NSURLConnection
             connectionWithRequest:req
             delegate:self];
-    [conn_ retain];
-    [req release];
 }
 
 - (void)cancel {
     [conn_ cancel];
-    [conn_ release];
     conn_ = nil;
 }
 
@@ -70,56 +63,55 @@ void MacHttpRequest::Submit() {
 
 void MacHttpRequest::Release() {
     [delegate_ cancel];
-    [delegate_ release];
     delegate_ = nil;
     Dispose();
 }
 
 NSURLRequest *MacHttpRequest::CreateNSURLRequest() {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
+    @autoreleasepool {
+        NSMutableURLRequest *req = [[NSMutableURLRequest alloc] init];
 
-    // Set the url
-    NSString *s = [NSString stringWithCString:url_.c_str()
-            encoding:[NSString defaultCStringEncoding]];
-    [req setURL:[NSURL URLWithString:s]];
+        // Set the url
+        NSString *s = [NSString stringWithCString:url_.c_str()
+                encoding:[NSString defaultCStringEncoding]];
+        [req setURL:[NSURL URLWithString:s]];
 
-    // Set the method
-    s = [NSString stringWithCString:method_.c_str()
-            encoding:[NSString defaultCStringEncoding]];
-    [req setHTTPMethod:s];
+        // Set the method
+        s = [NSString stringWithCString:method_.c_str()
+                encoding:[NSString defaultCStringEncoding]];
+        [req setHTTPMethod:s];
 
-    // Set the body
-    if (pbb_ != NULL) {
-        int cb;
-        void *pv = pbb_->Strip(&cb);
-        NSData *data = [NSData dataWithBytesNoCopy:(void *)pv length:cb];
-        [req setHTTPBody:data];
-    }
-
-    // Set timeout
-    [req setTimeoutInterval:timeout_];
-
-    // Set cache policy
-    [req setCachePolicy:NSURLRequestReloadIgnoringCacheData];
-
-    // Set headers
-    Enum enm;
-    char szKey[128];
-    while (headers_.EnumKeys(&enm, szKey, sizeof(szKey))) {
-        char szValue[256];
-        if (headers_.GetValue(szKey, szValue, sizeof(szValue))) {
-            NSString *key = [NSString stringWithCString:szKey
-                    encoding:[NSString defaultCStringEncoding]];
-            NSString *value = [NSString stringWithCString:szValue
-                    encoding:[NSString defaultCStringEncoding]];
-            [req setValue:value forHTTPHeaderField:key];
+        // Set the body
+        if (pbb_ != NULL) {
+            int cb;
+            void *pv = pbb_->Strip(&cb);
+            NSData *data = [NSData dataWithBytesNoCopy:(void *)pv length:cb];
+            [req setHTTPBody:data];
         }
-    }
 
-    // Done
-    [pool release];
-    return req;
+        // Set timeout
+        [req setTimeoutInterval:timeout_];
+
+        // Set cache policy
+        [req setCachePolicy:NSURLRequestReloadIgnoringCacheData];
+
+        // Set headers
+        Enum enm;
+        char szKey[128];
+        while (headers_.EnumKeys(&enm, szKey, sizeof(szKey))) {
+            char szValue[256];
+            if (headers_.GetValue(szKey, szValue, sizeof(szValue))) {
+                NSString *key = [NSString stringWithCString:szKey
+                        encoding:[NSString defaultCStringEncoding]];
+                NSString *value = [NSString stringWithCString:szValue
+                        encoding:[NSString defaultCStringEncoding]];
+                [req setValue:value forHTTPHeaderField:key];
+            }
+        }
+
+        // Done
+        return req;
+    }
 }
 
 void MacHttpRequest::OnReceivedResponse(NSHTTPURLResponse *resp) {
