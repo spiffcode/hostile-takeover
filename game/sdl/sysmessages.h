@@ -12,6 +12,10 @@ enum {
     kidmAppKillFocus,
     kidmAskStringEvent,
     kidmSdlEvent,
+    kidmReceivedResponse,
+    kidmReceivedData,
+    kidmFinishedLoading,
+    kidmError,
     kidmUser = 0x400
 };
 

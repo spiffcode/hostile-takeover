@@ -46,6 +46,7 @@ public:
     static void InitiateWebView(const char *title, const char *url);
     static bool IsExiting();
     static void GameThreadStart(void *pv);
+    static void DisplayInitComplete();
 
     // TODO(darrinm): unused?
     static int main(int argc, char **argv);

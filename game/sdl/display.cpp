@@ -147,6 +147,9 @@ bool Display::Init()
     HostOutputDebugString("Display::Init %d", pmode - m_amodeInfo);
     HostOutputDebugString("Display::Init %d modes", m_cmodes);
 
+#if defined(__IPHONEOS__)
+    HostHelpers::DisplayInitComplete();
+#endif
     return true;
 }
 
