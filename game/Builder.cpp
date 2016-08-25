@@ -774,6 +774,9 @@ void MobileUnitBuildForm::OnControlSelected(word idc)
 
 			m_fOrderValid = true;
 			m_fLimitReached = false;
+			ListItem *pli = plstc->GetSelectedItem();
+			if (pli != NULL)
+                m_fOrderValid = !pli->fDisabled;
 			UpdateOrderButton(false);
 
 			if (m_bqPrivate.GetUnitCount(ut) == 0) {
