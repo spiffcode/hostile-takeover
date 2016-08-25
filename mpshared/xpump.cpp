@@ -242,6 +242,9 @@ XMsg *XPump::XMsgFromBuffer(base::ByteBuffer& bb, dword cb) {
     case XMSG_LOBBYLEAVERESULT:
         return XMsgLobbyLeaveResult::FromBuffer(bb, cb);
 
+    case XMSG_LOBBYRECEIVECHAT:
+        return XMsgLobbyReceiveChat::FromBuffer(bb, cb);
+
     case XMSG_ROOMJOIN:
         return XMsgRoomJoin::FromBuffer(bb, cb);
 
@@ -495,6 +498,14 @@ void XPump::DispatchXMsg(XMsg *pmsg) {
             XMsgLobbyLeaveResult *pmsgT = (XMsgLobbyLeaveResult *)pmsg;
             // result
             notify_->OnLobbyLeaveResult(pmsgT->dw0_);
+        }
+        break;
+
+    case XMSG_LOBBYRECEIVECHAT:
+        {
+            XMsgLobbyReceiveChat *pmsgT = (XMsgLobbyReceiveChat *)pmsg;
+            // player, chat
+            notify_->OnLobbyReceiveChat(pmsgT->s0_, pmsgT->s1_);
         }
         break;
 

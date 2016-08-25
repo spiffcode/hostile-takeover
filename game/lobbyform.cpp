@@ -380,4 +380,9 @@ bool LobbyForm::OnFilterEvent(Event *pevt) {
     return false;
 }
 
+void LobbyForm::OnReceiveChat(const char *player, const char *chat) {
+    const char *s = base::Format::ToString("%s: %s", player, chat);
+    HtMessageBox(kfMbWhiteBorder | kfMbKeepTimersEnabled, player, s);
+}
+
 } // namespace wi

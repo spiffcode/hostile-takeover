@@ -41,6 +41,8 @@ public:
             { Assert(); }
     virtual void OnLobbyLeave() { Assert(); }
     virtual void OnLobbyLeaveResult(dword result) { Assert(); }
+    virtual void OnLobbyReceiveChat(const char *player, const char *chat)
+            { Assert(); }
     virtual void OnRoomJoin(dword roomid, const char *password) { Assert(); }
     virtual void OnRoomJoinResult(dword result) { Assert(); }
     virtual void OnRoomAddPlayer(const char *player) { Assert(); }

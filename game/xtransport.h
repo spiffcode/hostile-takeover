@@ -99,6 +99,7 @@ private:
             dword cPlayers, dword cGames);
     virtual void OnLobbyRemoveRoom(dword idRoom);
     virtual void OnLobbyUpdateRoom(dword idRoom, dword cPlayers, dword cGames);
+    virtual void OnLobbyReceiveChat(const char *player, const char *chat);
     virtual void OnRoomJoinResult(dword result);
     virtual void OnRoomAddPlayer(const char *player);
     virtual void OnRoomRemovePlayer(dword hint, const char *player);

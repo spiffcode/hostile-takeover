@@ -163,6 +163,7 @@ typedef XMsg1<XMSG_LOBBYREMOVEROOM> XMsgLobbyRemoveRoom;
 typedef XMsg3<XMSG_LOBBYUPDATEROOM> XMsgLobbyUpdateRoom;
 typedef XMsg0<XMSG_LOBBYLEAVE> XMsgLobbyLeave;
 typedef XMsg1<XMSG_LOBBYLEAVERESULT> XMsgLobbyLeaveResult;
+typedef XMsgS2<XMSG_LOBBYRECEIVECHAT, kcbPlayerName, kcbChatMax> XMsgLobbyReceiveChat;
 typedef XMsgDS<XMSG_ROOMJOIN, kcbPassword> XMsgRoomJoin;
 typedef XMsg1<XMSG_ROOMJOINRESULT> XMsgRoomJoinResult;
 typedef XMsgS1<XMSG_ROOMADDPLAYER, kcbPlayerName> XMsgRoomAddPlayer;

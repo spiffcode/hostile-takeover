@@ -471,6 +471,7 @@ public:
             dword cPlayers, dword cGames) = 0;
     virtual void OnRemoveRoom(dword roomid) = 0;
     virtual void OnUpdateRoom(dword roomid, dword cPlayers, dword cGames) = 0;
+    virtual void OnReceiveChat(const char *player, const char *chat) = 0;
 };
 
 class ITransportCallback {

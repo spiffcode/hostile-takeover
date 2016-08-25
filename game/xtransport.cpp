@@ -522,6 +522,12 @@ void XTransport::OnLobbyLurkerCount(dword count) {
     }
 }
 
+void XTransport::OnLobbyReceiveChat(const char *player, const char *chat) {
+    if (m_plcb != NULL) {
+        m_plcb->OnReceiveChat(player, chat);
+    }
+}
+
 dword XTransport::JoinRoom(dword roomid, const char *password,
         IRoomCallback *prcb) {
     // Synchronously join a room. It may fail.

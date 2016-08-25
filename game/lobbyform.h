@@ -69,6 +69,7 @@ private:
             dword cPlayers, dword cGames);
     virtual void OnRemoveRoom(dword roomid);
     virtual void OnUpdateRoom(dword roomid, dword cPlayers, dword cGames);
+    virtual void OnReceiveChat(const char *player, const char *chat);
 
     // ITransportCallback
     virtual void OnStatusUpdate(char *pszStatus);
