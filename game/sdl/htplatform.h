@@ -137,17 +137,18 @@ private:
     DibBitmap *m_pbmFront;
     DibBitmap *m_pbmClip;
 
-    SDL_Window *window;
-    SDL_Renderer *renderer;
-    SDL_Texture *texture;
+    SDL_Window *m_window;
+    SDL_Renderer *m_renderer;
+    SDL_Texture *m_texture;
 
-    byte *m_gameDisplay;
-    SDL_Surface *m_gameSurface;
-    Uint32 *m_gameSurfacePixels;
-    Uint32 m_32bppColors[256];
+    byte *m_gamePixels;
+    Uint32 *m_gamePixels32;
+    Uint32 m_palette[256];
+    int m_pitch32;
     int m_pixelCount;
+
     float m_density;
-    bool m_fshouldRender;
+    bool m_fShouldRender;
 };
 
 #define kfDtClearLine 1

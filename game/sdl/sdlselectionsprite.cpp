@@ -1,5 +1,8 @@
 #include "game/sdl/sdlselectionsprite.h"
 
+#define GRABBIE_SIZE 10
+#define GRABBIE_SIZE_HALF GRABBIE_SIZE/2
+
 namespace wi {
 
 SdlSelectionSprite::SdlSelectionSprite(SpriteManager *psprm) {
@@ -41,27 +44,21 @@ void SdlSelectionSprite::Draw(void *pv, Size *psiz) {
     DPoint apt[4];
     drc_.GetPoints(apt);
 
-    float density = gpdisp->Density();
-
     #define renderer (SDL_Renderer *)pv
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     for (int i = 0; i < ARRAYSIZE(apt); i++) {
         int next = i + 1 == ARRAYSIZE(apt) ? 0 : i + 1;
 
-        // x/y points for point a/b of the selection sprite line
-        int x1 = roundf(apt[i].y * density);
-        int y1 = roundf(apt[i].x * density);
-        int x2 = roundf(apt[next].y * density);
-        int y2 = roundf(apt[next].x * density);
+        // x/y are swapped
+        Point pt1 = {apt[i].y, apt[i].x};
+        Point pt2 = {apt[next].y, apt[next].x};
 
         // draw the selection sprite line
-        SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
-
-        int gs = 20;        // grabbie size
-        int gsh = gs / 2;   // grabbie size half
+        SDL_RenderDrawLine(renderer, pt1.x, pt1.y, pt2.x, pt2.y);
 
         // create and draw a grabbie rect
-        SDL_Rect rect = {x1 - gsh, y1 - gsh , gs, gs};
+        SDL_Rect rect = {pt1.x - GRABBIE_SIZE_HALF, pt1.y - GRABBIE_SIZE_HALF,
+            GRABBIE_SIZE, GRABBIE_SIZE};
         SDL_RenderFillRect(renderer, &rect);
     }
 

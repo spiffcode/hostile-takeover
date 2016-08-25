@@ -11,10 +11,7 @@ public:
     SdlSpriteManager();
     ~SdlSpriteManager();
 
-    virtual void SetClipRects(wi::Rect *prc1, wi::Rect *prc2) {
-        LOG() << "SdlSpriteManager::SetClipRects not implemented yet";
-        return;
-    }
+    virtual void SetClipRects(wi::Rect *prc1, wi::Rect *prc2);
     virtual wi::AnimSprite *CreateAnimSprite() {
         LOG() << "SdlSpriteManager::CreateAnimSprite not implemented yet";
         return NULL;
@@ -32,6 +29,8 @@ private:
     int cpspr_;
     wi::Sprite *apspr_[16];
     bool fSpriteDirty_;
+    SDL_Rect rcClip1_;
+    SDL_Rect rcClip2_;
 };
 
 } // namespace wi

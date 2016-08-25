@@ -8,6 +8,8 @@ SdlSpriteManager::SdlSpriteManager() {
     pcrit_ = new base::CriticalSection();
     cpspr_ = 0;
     fSpriteDirty_ = false;
+    memset(&rcClip1_, 0, sizeof(rcClip1_));
+    memset(&rcClip2_, 0, sizeof(rcClip2_));
 }
 
 SdlSpriteManager::~SdlSpriteManager() {
@@ -64,8 +66,28 @@ void SdlSpriteManager::DrawSprites(SDL_Renderer *renderer, Size siz) {
     }
 
     for (int i = 0; i < cpspr_; i++) {
+        // Draw clipped to rcClip1
+        SDL_RenderSetClipRect(renderer, &rcClip1_);
+        apspr_[i]->Draw(renderer, &siz);
+
+        // Draw clipped to rcClip2
+        SDL_RenderSetClipRect(renderer, &rcClip2_);
         apspr_[i]->Draw(renderer, &siz);
     }
+
+    SDL_RenderSetClipRect(renderer, NULL);
+}
+
+void SdlSpriteManager::SetClipRects(wi::Rect *prc1, wi::Rect *prc2) {
+    rcClip1_.x = prc1->left;
+    rcClip1_.y = prc1->top;
+    rcClip1_.w = prc1->Width();
+    rcClip1_.h = prc1->Height();
+
+    rcClip2_.x = prc2->left;
+    rcClip2_.y = prc2->top;
+    rcClip2_.w = prc2->Width();
+    rcClip2_.h = prc2->Height();
 }
 
 

@@ -454,6 +454,11 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
         pevt->eType = appStopEvent;
         break;
 
+    case SDL_WINDOWEVENT:
+        gpmfrmm->DrawFrame(true);
+        gpdisp->RenderGameSurface();
+        break;
+
     default:
         return false;
     }    
