@@ -244,8 +244,8 @@ void Shell::Launch(bool fLoadReinitializeSave, MissionIdentifier *pmiid)
 			DoModalGameOptionsForm(m_ppal, false);
             continue;
 	
-        case kidcForums:	
-            HostOpenUrl("<TODO: replace with link to forums>");
+        case kidcForums:
+            HostOpenUrl(kszForumUrl);
             continue;
 
 		case kidcHelp:

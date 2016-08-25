@@ -12,6 +12,7 @@ extern const char *kszUpdateAccountUrl;
 extern const char *kszLeaderboardUrl;
 extern const char *kszServerInfoUrl;
 extern const char *kszSyncErrorUploadUrl;
+extern const char *kszForumUrl;
 
 };
 

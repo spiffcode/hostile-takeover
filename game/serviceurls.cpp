@@ -12,6 +12,7 @@ const char *kszUpdateAccountUrl = "http://localhost:8080/accounts/updateaccount"
 const char *kszLeaderboardUrl = "http://localhost:8080/stats/leaderboard";
 const char *kszServerInfoUrl = "http://localhost:8080/api/serverinfo";
 const char *kszSyncErrorUploadUrl = "<REPLACE ME: sync error upload test URL>";
+const char *kszForumUrl = "<TODO: replace with link to forums>";
 #else
 // TODO: Hostile Takeover should have its own server hosting its Mission Packs.
 // In the meantime grab them from the Warfare Incorporated server.
@@ -26,6 +27,7 @@ const char *kszUpdateAccountUrl = "https://<GAE APPNAME>.appspot.com/accounts/up
 const char *kszLeaderboardUrl = "http://<GAE APPNAME>.appspot.com/stats/leaderboard";
 const char *kszServerInfoUrl = "http://<GAE APPNAME>.appspot.com/api/serverinfo";
 const char *kszSyncErrorUploadUrl = "http://<GAE APPNAME>.appspot.com/api/syncerror";
+const char *kszForumUrl = "<TODO: replace with link to forums>";
 #endif
 
 } // namespace wi
