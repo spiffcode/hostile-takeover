@@ -383,11 +383,15 @@ void DoRip(char *psz, va_list va)
 {
     printf("Assert:\n");
     printf("File: %s, Line: %d\n", gpszRipFile, giRipLine);
+#ifdef __ANDROID__
+    printf("%s", psz);
+#else
     if (va == NULL) {
-        printf(psz);
+        printf("%s", psz);
     } else {
         vprintf(psz, va);
     }
+#endif
     Break();
 }
 
@@ -405,7 +409,8 @@ void DoAssertRip(int fNoAssert)
 {
 	if (fNoAssert)
 		return;
-	DoRip("", 0);
+    va_list empty_va_list;
+	DoRip("", empty_va_list);
 }
 
 void DoAssertRip(char *psz, ...)

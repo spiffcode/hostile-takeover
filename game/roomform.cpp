@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "game/ht.h"
 #include "game/gameform.h"
 #include "game/creategameform.h"

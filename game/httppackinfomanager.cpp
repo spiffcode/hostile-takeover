@@ -2,6 +2,7 @@
 #include "game/serviceurls.h"
 #include "base/format.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 namespace wi {
 

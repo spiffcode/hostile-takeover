@@ -1,6 +1,7 @@
 #include "game/ht.h"
 #include "game/httpindexloader.h"
 #include "game/serviceurls.h"
+#include <algorithm>
 #include <map>
 
 namespace wi {

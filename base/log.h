@@ -77,6 +77,14 @@
 #include <stdarg.h>
 #include <stdio.h>
 
+#ifdef __ANDROID__
+#include <android/log.h>
+#define LOG_TAG "HT"
+#define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#endif
+
 namespace base {
 class Log {
 public:
@@ -176,7 +184,11 @@ public:
     }
 
     ~ConsoleLog() {
-        std::cout << stream_.str() << std::endl;   
+        #ifdef __ANDROID__
+        LOGD("%s\n", stream_.str().c_str());
+        #else
+        std::cout << stream_.str() << std::endl;
+        #endif
     }
 
     std::ostringstream& stream() { return stream_; }

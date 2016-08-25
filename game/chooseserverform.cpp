@@ -8,6 +8,7 @@
 #include "base/misc.h"
 #include "yajl/wrapper/jsonbuilder.h"
 #include "game/xtransport.h"
+#include <algorithm>
 #include <map>
 
 namespace wi {

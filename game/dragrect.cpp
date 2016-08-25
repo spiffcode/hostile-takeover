@@ -1,3 +1,4 @@
+#include <float.h>
 #include "game/dragrect.h"
 #include "game/ht.h"
 
@@ -111,7 +112,7 @@ dword DragRect::HitTest(const DPoint& pt, Vec2d *pvOffset) const {
     GetPoints(apt);
 
     int iBest = -1;
-    double magBest = MAXFLOAT;
+    double magBest = FLT_MAX;
     for (int i = 0; i < ARRAYSIZE(apt); i++) {
         double mag = Vec2d(pt, apt[i]).mag();
         if (mag < magBest) {

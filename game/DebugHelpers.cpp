@@ -1,4 +1,4 @@
-#include "..\ht.h"
+#include "ht.h"
 
 #ifdef DEBUG_HELPERS
 

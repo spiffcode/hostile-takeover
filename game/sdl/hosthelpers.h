@@ -5,6 +5,10 @@
 #include "game/ht.h"
 #include "game/chatcontroller.h"
 
+#ifdef __ANDROID__
+#include <jni.h>
+#endif
+
 namespace wi {
 
 struct SurfaceProperties {
@@ -60,6 +64,11 @@ public:
     static const char *GetCompletesDir();
     static const char *GetSaveGamesDir();
     static const char *GetPrefsFilename();
+
+    #ifdef __ANDROID__
+    static JavaVM *GetJavaVM();
+    static JNIEnv *GetJNIEnv();
+    #endif
 };
 
 } // namespace wi
