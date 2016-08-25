@@ -601,7 +601,7 @@
 		55C5ACCF1390627C003B15C5 /* StateMachine.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cpp; sourceTree = "<group>"; };
 		55C5ACD01390627C003B15C5 /* statetracker.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = statetracker.cpp; sourceTree = "<group>"; };
 		55C5ACD11390627C003B15C5 /* statetracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = statetracker.h; sourceTree = "<group>"; };
-		55C5ACD21390627C003B15C5 /* strings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = strings.h; sourceTree = "<group>"; };
+		55C5ACD21390627C003B15C5 /* wistrings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = wistrings.h; sourceTree = "<group>"; };
 		55C5ACD31390627C003B15C5 /* stringtable.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stringtable.cpp; sourceTree = "<group>"; };
 		55C5ACD41390627C003B15C5 /* Struct.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Struct.cpp; sourceTree = "<group>"; };
 		55C5ACD51390627C003B15C5 /* stylushandler.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = stylushandler.cpp; sourceTree = "<group>"; };
@@ -1062,7 +1062,7 @@
 				55C5ACCF1390627C003B15C5 /* StateMachine.cpp */,
 				55C5ACD01390627C003B15C5 /* statetracker.cpp */,
 				55C5ACD11390627C003B15C5 /* statetracker.h */,
-				55C5ACD21390627C003B15C5 /* strings.h */,
+				55C5ACD21390627C003B15C5 /* wistrings.h */,
 				55C5ACD31390627C003B15C5 /* stringtable.cpp */,
 				55C5ACD41390627C003B15C5 /* Struct.cpp */,
 				55C5ACD51390627C003B15C5 /* stylushandler.cpp */,

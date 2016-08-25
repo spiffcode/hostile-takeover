@@ -1,6 +1,6 @@
 #include "game/ht.h"
 #include "mpshared/netmessage.h"
-#include "game/strings.h"
+#include "game/wistrings.h"
 #include "game/statetracker.h"
 #include "game/stateframe.h"
 #include "game/uploader.h"

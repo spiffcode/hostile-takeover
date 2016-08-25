@@ -1,5 +1,5 @@
 #include "game/ht.h"
-#include "game/strings.h"
+#include "game/wistrings.h"
 #include "game/stateframe.h"
 
 namespace wi {

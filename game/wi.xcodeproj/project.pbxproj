@@ -387,7 +387,7 @@
 		C17D66480D9E15BE00CB9F01 /* SpInfantry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SpInfantry.cpp; sourceTree = SOURCE_ROOT; };
 		C17D66490D9E15BE00CB9F01 /* SRInfantry.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SRInfantry.cpp; sourceTree = SOURCE_ROOT; };
 		C17D664A0D9E15BE00CB9F01 /* StateMachine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StateMachine.cpp; sourceTree = SOURCE_ROOT; };
-		C17D664B0D9E15BE00CB9F01 /* strings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = strings.h; sourceTree = SOURCE_ROOT; };
+		C17D664B0D9E15BE00CB9F01 /* wistrings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wistrings.h; sourceTree = SOURCE_ROOT; };
 		C17D664C0D9E15BE00CB9F01 /* stringtable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = stringtable.cpp; sourceTree = SOURCE_ROOT; };
 		C17D664D0D9E15BE00CB9F01 /* Struct.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Struct.cpp; sourceTree = SOURCE_ROOT; };
 		C17D664E0D9E15BE00CB9F01 /* Tank.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Tank.cpp; sourceTree = SOURCE_ROOT; };
@@ -651,7 +651,7 @@
 				C17D66480D9E15BE00CB9F01 /* SpInfantry.cpp */,
 				C17D66490D9E15BE00CB9F01 /* SRInfantry.cpp */,
 				C17D664A0D9E15BE00CB9F01 /* StateMachine.cpp */,
-				C17D664B0D9E15BE00CB9F01 /* strings.h */,
+				C17D664B0D9E15BE00CB9F01 /* wistrings.h */,
 				C17D664C0D9E15BE00CB9F01 /* stringtable.cpp */,
 				C17D664D0D9E15BE00CB9F01 /* Struct.cpp */,
 				C17D664E0D9E15BE00CB9F01 /* Tank.cpp */,

@@ -307,8 +307,8 @@ trg/help_$(DT).trg: $(HELPFILE)
 # StringTable
 #
 
-trg/strings_$(DT).trg: ../game/strings.h
-	$(MONO) $(TOOLDIR)/stringtable.exe ../game/strings.h $(OUTDIR)/strings.bin
+trg/strings_$(DT).trg: ../game/wistrings.h
+	$(MONO) $(TOOLDIR)/stringtable.exe ../game/wistrings.h $(OUTDIR)/strings.bin
 	@echo x > trg/strings_$(DT).trg
 
 #

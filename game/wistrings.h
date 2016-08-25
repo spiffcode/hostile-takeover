@@ -1,7 +1,5 @@
-#ifndef __STRINGS_H__
-#define __STRINGS_H__
-
-#ifndef __OBJC__ // SDL.h ends up including this when it is trying to include the CRT strings.h
+#ifndef __WISTRINGS_H__
+#define __WISTRINGS_H__
 
 namespace wi {
 
@@ -48,5 +46,4 @@ enum Strings {
 
 } // namespace wi
 
-#endif // ndef __OBJC__
-#endif // ndef __STRINGS_H__
+#endif // ndef __WISTRINGS_H__

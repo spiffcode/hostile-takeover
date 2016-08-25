@@ -1,5 +1,5 @@
 #include "ht.h"
-#include "strings.h"
+#include "wistrings.h"
 
 namespace wi {
 
