@@ -69,10 +69,12 @@ public:
     virtual void OnGameSendChat(const char *chat) { Assert(); }
     virtual void OnGameReceiveChat(const char *player, const char *chat)
             { Assert(); }
+    virtual void OnUpdateAllies(dword side, dword sidmAllies) { Assert(); }
     virtual void OnGameNetMessage(NetMessage **ppnm) { Assert(); }
     virtual void OnGameKilled(dword gameid) { Assert(); }
     virtual void OnGameLeave() { Assert(); }
     virtual void OnGameLeaveResult(dword result) { Assert(); }
+    virtual void OnDisconnectSharedAccounts() { Assert(); }
     virtual bool OnMessages() { return false; }
     virtual void OnCloseOk() { return; }
     virtual void OnError(int error) { Assert(); }

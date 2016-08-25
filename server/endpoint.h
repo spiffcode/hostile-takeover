@@ -8,6 +8,7 @@
 #include "base/messagequeue.h"
 #include "inc/basictypes.h"
 #include "mpshared/xpump.h"
+#include "mpshared/mpht.h"
 #include "server/levelinfo.h"
 #include "server/lobby.h"
 #include "server/tokenbucket.h"
@@ -31,7 +32,7 @@ enum ModeratorCommand {
     kModeratorCommandMods, kModeratorCommandWhisper, kModeratorCommandTitle,
     kModeratorCommandRegisteredOnly, kModeratorCommandAnonBlock,
     kModeratorCommandSwap, kModeratorCommandFlag, kModeratorCommandHelp,
-    kModeratorCommandAnnouncements
+    kModeratorCommandAnnouncements, kModeratorCommandTeam
 };
 
 class Endpoint : public base::MessageHandler, XPumpNotify,
@@ -105,6 +106,8 @@ private:
     virtual void OnError(int error);
     virtual void OnClose(int error);
     virtual void OnCloseOk();
+    virtual void OnUpdateAllies(dword side, dword sidmAllies);
+    virtual void OnDisconnectSharedAccounts();
 
     XPump xpump_;
     State state_;
@@ -126,6 +129,7 @@ private:
     bool muted_;
     bool sigvisible_;
     bool seechat_;
+    bool teamchat_;
     std::vector<std::string> old_names_;
     std::string chat_fragment_;
     TokenBucket roomlimiter_;

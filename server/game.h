@@ -54,6 +54,8 @@ public:
     void RemovePlayer(Endpoint *endpoint, int nReason, bool disconnect = true);
     void SendChat(Endpoint *endpoint, const char *chat,
             const char *unfiltered = NULL);
+    void SendTeamChat(Endpoint *endpoint, const char *chat,
+            const char *unfiltered = NULL);
     void SendAdminChat(const char *name, const char *chat,
             bool mods_only = false);
     void OnNetMessage(Endpoint *endpoint, NetMessage *pnm);
@@ -63,6 +65,8 @@ public:
     void OnHeartbeat();
     std::vector<std::string> GetIdsString(Endpoint *endpoint);
     void KickPlayers();
+    void SetAllies(SideMask side, SideMask sidmAllies);
+    bool CanSendTeamChat(Endpoint *endpoint, bool broadcast);
 
     base::signal1<Game *> SignalOnDelete;
     base::signal1<Game *> SignalOnInProgress;
@@ -96,6 +100,8 @@ private:
             std::string *response, bool *broadcast);
     const char *ColorFromSide(int side);
     Player *HumanPlayerFromColorChar(const char *psz);
+    Player *HumanPlayerFromEndpoint(Endpoint *endpoint);
+    const char *ColorCharFromSide(int side);
     void SwapPlayersCommand(Endpoint *endpoint, const char *chat,
             std::string *response);
 

@@ -40,6 +40,8 @@ public:
             dword *gameid);
     virtual dword CanJoinGame(dword gameid);
     virtual void LeaveRoom(dword hint);
+    virtual void UpdateAllies(Side side, SideMask sidmAllies);
+    virtual void DisconnectSharedAccounts();
 
     virtual dword JoinGame(dword gameid, dword roomid);
     virtual bool SendNetMessage(NetMessage *pnm);

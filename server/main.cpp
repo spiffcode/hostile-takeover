@@ -163,6 +163,9 @@ int main(int argc, char **argv)
     bool checksync = FindArg(argc, argv, "--checksync");
     RLOG() << "Sync checking turned " << (checksync ?  "ON." : "OFF.");
 
+    bool accountsharing = FindArg(argc, argv, "--accountsharing");
+    RLOG() << "Account sharing turned " << (accountsharing ?  "ON." : "OFF.");
+
     std::string log_file = ParseString(argc, argv, "--log_file");
     wi::XMsgLog *xmsglog = NULL;
     if (log_file.size() != 0) {
@@ -179,7 +182,7 @@ int main(int argc, char **argv)
 
     wi::Server server(stats, xmsglog, cache, server_id, checksync,
             max_rooms, max_games_per_room, max_players_per_room,
-            max_players, modfile, badwordsfile);
+            max_players, modfile, badwordsfile, accountsharing);
 
     base::SocketAddress listen_address = GetListenAddress(argc, argv);
     if (!server.Listen(listen_address)) {

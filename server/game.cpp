@@ -945,6 +945,17 @@ const char *Game::ColorFromSide(int side) {
     return s_colors[side];
 }
 
+const char *Game::ColorCharFromSide(int side) {
+    // 0: gray, 1: blue, 2: red, 3: yellow, 4: cyan
+    static const char *s_colors[] = {
+        "g", "b", "r", "y", "c"
+    };
+    if (side < 0 || side >= ARRAYSIZE(s_colors)) {
+        return "unknown";
+    }
+    return s_colors[side];
+}
+
 bool Game::IsSwapAllowed(Endpoint *endpoint) {
     if (playing_) {
         return false;
@@ -1165,6 +1176,147 @@ bool Game::IsAnonBlockAllowed(Endpoint *endpoint) {
 
     // For now don't allow toggling. Only set once to prevent abuse
     if ((ff_ & kfGameAnonBlock) != 0) {
+        return false;
+    }
+
+    return true;
+}
+
+void Game::SetAllies(SideMask side, SideMask sidmAllies) {
+    Player *player = HumanPlayerFromColorChar(ColorCharFromSide(side));
+    if (player != NULL)
+        player->SetAllies(sidmAllies);
+}
+
+Player *Game::HumanPlayerFromEndpoint(Endpoint *endpoint) {
+    Player *pplr;
+    for (int i = 0; i < kcPlayersMax; i++) {
+        pplr = playerMgr_.GetPlayer(i);
+        if (pplr->endpoint() == endpoint) {
+            break;
+        } else {
+            pplr = NULL;
+        }
+	}
+
+    if (pplr == NULL) {
+        return NULL;
+    }
+    if (pplr->endpoint() == NULL) {
+        return NULL;
+    }
+    if (pplr->flags() & (kfPlrComputer | kfPlrComputerOvermind |
+            kfPlrUnfulfilled | kfPlrObserver | kfPlrDisconnectBroadcasted)) {
+        return NULL;
+    }
+    if ((pplr->flags() & kfPlrInUse) == 0) {
+        return NULL;
+    }
+
+    return pplr;
+}
+
+void Game::SendTeamChat(Endpoint *endpoint, const char *chat, const char *unfiltered) {
+    if (endpoint == NULL) {
+        return;
+    }
+    if (!CanSendTeamChat(endpoint, true)) {
+        return;
+    }
+
+    // This won't include observing players
+    Player *pendplr = HumanPlayerFromEndpoint(endpoint);
+    if (pendplr == NULL) {
+        return;
+    }
+
+    // Player name
+    const char *name = base::Format::ToString("%s to team", endpoint->GetChatName().c_str());
+
+    // Players
+    Player *playerBlue, *playerRed, *playerYellow, *playerCyan;
+    std::vector<Player *> players;
+    players.push_back(playerBlue);
+    players.push_back(playerRed);
+    players.push_back(playerYellow);
+    players.push_back(playerCyan);
+
+    // The endpoint sending the chat sees it regardless of the value in pendplr->allies()
+    endpoint->xpump().Send(XMsgGameReceiveChat::ToBuffer(name, chat));
+
+    // If this endpoint is a mod, send unfiltered chat too
+    if (unfiltered != NULL && endpoint->seechat()) {
+        endpoint->xpump().Send(XMsgGameReceiveChat::ToBuffer("", unfiltered));
+    }
+
+    SideMask sides[kcPlayersMax] = {ksideNeutral, ksidmSide1, ksidmSide2, ksidmSide3, ksidmSide4};
+
+    // Loop through the four human sides
+    for (int i = 1; i < kcPlayersMax; i++) {
+
+        // Is this an ally?
+        if (pendplr->allies() & sides[i]) {
+
+            // Skip if this ally is the sending player
+            if (pendplr->side() == i)
+                continue;
+
+            // This won't include observing players
+            players[i] = HumanPlayerFromColorChar(ColorCharFromSide(i));
+            if (players[i] == NULL)
+                continue;
+
+            // Is this ally muted?
+            if (players[i]->endpoint()->muted())
+                continue;
+
+            // Send the message to the ally
+            players[i]->endpoint()->xpump().Send(
+                XMsgGameReceiveChat::ToBuffer(name, chat));
+
+            // Send the unfiltered version if the ally is a mod
+            if (unfiltered != NULL && players[i]->endpoint()->seechat()) {
+                players[i]->endpoint()->xpump().Send(
+                    XMsgGameReceiveChat::ToBuffer("", unfiltered));
+            }
+
+            // Log the chat
+            Room *room = server_.lobby().FindRoom(roomid_);
+            const char *pszRoomName = NULL;
+            bool private_room = false;
+            if (room != NULL) {
+                pszRoomName = room->name();
+                private_room = (room->password()[0] != 0);
+            }
+            if (unfiltered != NULL) {
+                server_.logger().LogGameChat(endpoint, roomid_, pszRoomName,
+                        private_room, id(), info().title(), unfiltered);
+            } else {
+                server_.logger().LogGameChat(endpoint, roomid_, pszRoomName,
+                        private_room, id(), info().title(), chat);
+            }
+        }
+    }
+}
+
+bool Game::CanSendTeamChat(Endpoint *endpoint, bool broadcast) {
+    // Game not started yet
+    if (!playing()) {
+        if (broadcast) {
+            endpoint->xpump().Send(XMsgGameReceiveChat::ToBuffer("",
+                "You cannot use team chat until the game starts."));
+        }
+        return false;
+    }
+
+    Player *pplr = HumanPlayerFromEndpoint(endpoint);
+    if (pplr == NULL) {
+
+        // If pplr is NULL, assume it's because the player is observing
+        if (broadcast) {
+        endpoint->xpump().Send(XMsgGameReceiveChat::ToBuffer("",
+            "You cannot use team chat while in observe mode."));
+        }
         return false;
     }
 

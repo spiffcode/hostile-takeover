@@ -33,7 +33,8 @@ public:
     Server(StatsPoster& stats, XMsgLog *log, LevelInfoCache& cache,
             dword id, bool checksync, int max_rooms, int max_games_per_room,
             int max_players_per_room, int max_players,
-            const std::string& modlist_path, const std::string& badwords_path);
+            const std::string& modlist_path, const std::string& badwords_path,
+            bool account_sharing);
     ~Server();
 
     bool Listen(const base::SocketAddress& addr);
@@ -45,12 +46,15 @@ public:
     bool IsModerator(const char *name);
     bool IsAdmin(const char *name);
     bool AnonsAllowed();
+    bool AccountSharing();
     void SetAnonsAllowed(bool anons_allowed);
     dword GetChatterId(Endpoint *endpointAsker, Endpoint *endpoint);
     Endpoint *GetEndpointFromChatterId(dword id);
     const char *GetChatRules();
     std::string GetAnnouncements();
     void SetAnnouncements(std::string announcements);
+    bool SharedAccountExists(Endpoint *endpointAsker, const char *name);
+    void DisconnectSharedAccounts(Endpoint *endpointAsker, const char *name);
 
     ChatLimiter& chatlimiter() { return chatlimiter_; }
     LevelInfoCache& cache() { return cache_; }
@@ -89,6 +93,7 @@ private:
     LevelInfoCache& cache_;
     bool checksync_;
     bool anons_allowed_;
+    bool account_sharing_;
     dword gameidCounter_;
     dword endpointidCounter_;
     dword start_time_;

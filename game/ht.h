@@ -421,6 +421,8 @@ public:
     virtual bool SendNetMessage(NetMessage *pnm) = 0;
     virtual void LeaveGame() = 0;
     virtual void OnEvent(Event *pevt) = 0;
+    virtual void UpdateAllies(Side side, SideMask sidmAllies) = 0;
+    virtual void DisconnectSharedAccounts() = 0;
 	virtual ITransportCallback *SetCallback(ITransportCallback *ptcb);
     virtual ITransportCallback *GetCallback();
 	virtual IGameCallback *SetGameCallback(IGameCallback *pgcb);

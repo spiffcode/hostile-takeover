@@ -214,6 +214,22 @@ bool LoginForm::AttemptLogin() {
                 "This server does not allow anonymous logins. Please login with an account.");
         return false;
 
+    case knLoginResultAccountInUse:
+        {
+            bool fYes = false;
+            fYes = HtMessageBox(kidfMessageBoxQuery, kfMbKeepTimersEnabled | kfMbWhiteBorder, 
+                    "Login Failure", "Your account is already logged in to this server with another device. Would you like to disconnect that device and then login?");
+
+            // Does the user want to disconnect logged in devices?
+            if (fYes && gptra != NULL) {
+                gptra->DisconnectSharedAccounts();
+
+                // Try to login again
+                return AttemptLogin();
+            }
+            return false;
+        }
+
     case knLoginResultFail:
     default:
         if (!handler_.anonymous()) {

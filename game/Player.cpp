@@ -260,8 +260,14 @@ void PlayerMgr::SetAllies(Player **applr, int cplrs, SideMask sidmAllies)
 {
 	// Set allies
 
-	for (int n = 0; n < cplrs; n++)
+	for (int n = 0; n < cplrs; n++) {
 		applr[n]->SetAllies(sidmAllies);
+
+        // Send this to the server so it can use it for ally chat
+        if (gptra != NULL) {
+            gptra->UpdateAllies(applr[n]->GetSide(), sidmAllies);
+        }
+    }
 
 	// Recalc enemies. Clear first
 

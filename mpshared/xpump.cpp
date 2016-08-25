@@ -323,6 +323,12 @@ XMsg *XPump::XMsgFromBuffer(base::ByteBuffer& bb, dword cb) {
     case XMSG_GAMELEAVERESULT:
         return XMsgGameLeaveResult::FromBuffer(bb, cb);
 
+    case XMSG_GAMEUPDATEALLIES:
+        return XMsgGameUpdateAllies::FromBuffer(bb, cb);
+
+    case XMSG_DISCONNECTSHAREDACCOUNTS:
+        return XMsgDisconnectSharedAccounts::FromBuffer(bb, cb);
+
     default:
         return NULL;
     }
@@ -678,6 +684,20 @@ void XPump::DispatchXMsg(XMsg *pmsg) {
             XMsgGameLeaveResult *pmsgT = (XMsgGameLeaveResult *)pmsg;
             // result
             notify_->OnGameLeaveResult(pmsgT->dw0_);
+        }
+        break;
+
+    case XMSG_GAMEUPDATEALLIES:
+        {
+            XMsgGameUpdateAllies *pmsgT = (XMsgGameUpdateAllies *)pmsg;
+            // side, allies
+            notify_->OnUpdateAllies(pmsgT->dw0_, pmsgT->dw1_);
+        }
+        break;
+
+    case XMSG_DISCONNECTSHAREDACCOUNTS:
+        {
+            notify_->OnDisconnectSharedAccounts();
         }
         break;
 

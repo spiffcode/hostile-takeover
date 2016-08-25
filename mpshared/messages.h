@@ -79,6 +79,7 @@ const dword knLoginResultStaleToken = 3;
 const dword knLoginResultAuthDown = 4;
 const dword knLoginResultNoPassword = 5;
 const dword knLoginResultNoAnons = 6;
+const dword knLoginResultAccountInUse = 7;
 
 STARTLABEL(LoginResults)
     LABEL(knLoginResultSuccess)
@@ -88,6 +89,7 @@ STARTLABEL(LoginResults)
     LABEL(knLoginResultAuthDown)
     LABEL(knLoginResultNoPassword)
     LABEL(knLoginResultNoAnons)
+    LABEL(knLoginResultAccountInUse)
 ENDLABEL(LoginResults)
 
 const dword knSignOutResultSuccess = 0;
@@ -181,6 +183,8 @@ typedef XMsgS2<XMSG_GAMERECEIVECHAT, kcbPlayerName, kcbChatMax> XMsgGameReceiveC
 typedef XMsg1<XMSG_GAMEKILLED> XMsgGameKilled;
 typedef XMsg0<XMSG_GAMELEAVE> XMsgGameLeave;
 typedef XMsg1<XMSG_GAMELEAVERESULT> XMsgGameLeaveResult;
+typedef XMsg2<XMSG_GAMEUPDATEALLIES> XMsgGameUpdateAllies;
+typedef XMsg0<XMSG_DISCONNECTSHAREDACCOUNTS> XMsgDisconnectSharedAccounts;
 
 struct XMsgShowMessage : public XMsg {
     XMsgShowMessage(const char *message, dword ipRedirect, bool disconnect) :

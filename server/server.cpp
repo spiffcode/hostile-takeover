@@ -23,14 +23,15 @@ const dword kffEndpointIdFreeMaskAfterShift = 0x1f;
 Server::Server(StatsPoster& poster, XMsgLog *log, LevelInfoCache& cache,
         dword id, bool checksync, int max_rooms, int max_games_per_room,
         int max_players_per_room, int max_players,
-        const std::string& modlist_path, const std::string& badwords_path) :
+        const std::string& modlist_path, const std::string& badwords_path,
+        bool account_sharing) :
         poster_(poster), log_(log), cache_(cache),
         lobby_(this, max_rooms, max_games_per_room, max_players_per_room),
         id_(id), checksync_(checksync), max_players_(max_players),
         modlist_watcher_(modlist_path), badwords_(badwords_path),
         listener_(NULL), gameidCounter_(1), endpointidCounter_(1),
         endpoint_count_thread_safe_(0), updater_(NULL),
-        logger_("log", id), anons_allowed_(true) {
+        logger_("log", id), anons_allowed_(true), account_sharing_(account_sharing) {
 
     start_time_ = base::GetSecondsUnixEpocUTC();
 
@@ -370,6 +371,49 @@ bool Server::AnonsAllowed() {
 
 void Server::SetAnonsAllowed(bool anons_allowed) {
     anons_allowed_ = anons_allowed;
+}
+
+bool Server::SharedAccountExists(Endpoint *endpointAsker, const char *name) {
+    EndpointMap::iterator it = endpointmap_.begin();
+    if (it->second->name() != NULL) {
+        for (; it != endpointmap_.end(); it++) {
+
+            // Do the names match?
+            if (strcmp(name, it->second->name()) == 0) {
+
+                // Don't count endpointAsker
+                if (endpointAsker->id() != it->second->id()) {
+
+                    // We found a shared account
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void Server::DisconnectSharedAccounts(Endpoint *endpointAsker, const char *name) {
+    EndpointMap::iterator it = endpointmap_.begin();
+    if (it->second->name() != NULL) {
+        for (; it != endpointmap_.end(); it++) {
+
+            // Do the names match?
+            if (strcmp(name, it->second->name()) == 0) {
+
+                // Son't disconnect the asker, only other endpoints
+                if (endpointAsker->id() != it->second->id()) {
+
+                    // We found a shared account, dispose of it
+                    it->second->Dispose();
+                }
+            }
+        }
+    }
+}
+
+bool Server::AccountSharing() {
+    return account_sharing_;
 }
 
 } // namespace wi

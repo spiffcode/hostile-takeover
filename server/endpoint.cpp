@@ -23,7 +23,7 @@ Endpoint::Endpoint(Server& server, base::Socket *socket, dword id,
         protocolid_(0), state_(ES_HANDSHAKE), game_(NULL), echo_(true),
         roomid_(0), name_(NULL), anonymous_(true), missed_(0), okecho_(false),
         admin_(false), muted_(false), sigvisible_(false), seechat_(false),
-        roomlimiter_(2, 120) {
+        roomlimiter_(2, 120), teamchat_(false) {
     did_[0] = 0;
     xpump_.Attach(socket, this, server.log());
 }
@@ -156,10 +156,20 @@ void Endpoint::OnLogin(const char *username, const char *token, const char *did)
         return;
     }
 
-    // Success. Take in the new name, transition to ES_READY
+    // Endpoint has been authed, so take in the new name
     RememberName(name_);
     delete name_;
     name_ = AllocString(base::Format::ToString(username, id_));
+
+    // Moderators are allowed to login with multiple devices
+    if (!server_.AccountSharing() && !IsModerator()) {
+        if (server_.SharedAccountExists(this, username)) {
+            xpump_.Send(XMsgLoginResult::ToBuffer(knLoginResultAccountInUse));
+            return;
+        }
+    }
+
+    // Success. Transition to ES_READY
     xpump_.Send(XMsgLoginResult::ToBuffer(knLoginResultSuccess));
     anonymous_ = false;
     SetState(ES_READY);
@@ -556,6 +566,9 @@ void Endpoint::OnGameJoin(dword gameid, dword roomid) {
     game_->SignalOnDelete.connect(this, &Endpoint::OnGameDelete);
     game->AddPlayer(this);
 
+    // Team chat should be turned off by default
+    teamchat_ = false;
+
     SetState(ES_GAME);
 }
 
@@ -712,6 +725,9 @@ ModeratorCommand Endpoint::GetModeratorCommand(const char *chat) {
     if (strcmp(arg.c_str(), "/ann") == 0) {
         return kModeratorCommandAnnouncements;
     }
+    if (strcmp(arg.c_str(), "/t") == 0) {
+        return kModeratorCommandTeam;
+    }
     return kModeratorCommandUnknown;
 }
 
@@ -750,6 +766,51 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
         // This will get processed by the game.
         return false;
 
+    case kModeratorCommandTeam:
+        {
+            // Player not in game
+            if (state_ != ES_GAME || game_ == NULL) {
+                *response = "Command not available.";
+                return true;
+            }
+
+            if (!game_->CanSendTeamChat(this, true)) {
+                teamchat_ = false;
+                return false;
+            }
+
+            std::string dummy;
+            std::string msg;
+            const char *rest;
+            GetArgument(chat, 0, &dummy, &rest);
+            msg = rest;
+
+            if (msg.empty()) {
+                // Toggle team chat
+                teamchat_ = !teamchat_;
+                if (teamchat_) {
+                    this->xpump().Send(XMsgGameReceiveChat::ToBuffer("",
+                        "Team chat has been toggled ON."));
+                } else {
+                    this->xpump().Send(XMsgGameReceiveChat::ToBuffer("",
+                        "Team chat has been toggled OFF."));
+                }
+            } else {
+                if (!teamchat_) {
+                    // Turn on team chat so OnGameSendChat() will process
+                    // it as a team chat then turn it back off.
+                    teamchat_ = true;
+                    this->OnGameSendChat(msg.c_str());
+                    teamchat_ = false;
+                } else {
+                    this->OnGameSendChat(msg.c_str());
+                }
+            }
+
+            *response = "";
+            return true;
+        }
+
     case kModeratorCommandFlag:
         // Write an entry into the log
         {
@@ -779,17 +840,17 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
                 bool swap = game_->IsSwapAllowed(this);
                 if (anon) {
                     if (swap) {
-                        *response = "/mute, /unmute, /anon, /swap, /kick, /flag [msg], /help.";
+                        *response = "/mute, /unmute, /anon, /swap, /kick, /flag [msg], /t [msg], /help.";
                     } else {
-                        *response = "/mute, /unmute, /anon, /kick, /flag [msg], /help.";
+                        *response = "/mute, /unmute, /anon, /kick, /flag [msg], /t [msg], /help.";
                     }
                 } else if (swap) {
-                    *response = "/mute, /unmute, /swap, /kick, /flag [msg], /help.";
+                    *response = "/mute, /unmute, /swap, /kick, /flag [msg], /t [msg], /help.";
                 } else {
-                    *response = "/mute, /unmute, /kick, /flag [msg], /help.";
+                    *response = "/mute, /unmute, /kick, /flag [msg], /t [msg], /help.";
                 }
             } else {
-                *response = "/mute, /unmute, /kick, /flag [msg], /help.";
+                *response = "/mute, /unmute, /kick, /flag [msg], /t [msg], /help.";
             }
             break;
 
@@ -1358,13 +1419,13 @@ bool Endpoint::ProcessCommand(const char *chat, std::string *response) {
     case kModeratorCommandHelp:
         if (IsAdmin()) {
             if (state_ == ES_GAME) {
-                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg [server] [roomid], /swap, /anon, /rules, /flag [msg], /ann [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg [server] [roomid], /swap, /anon, /rules, /flag [msg], /ann [msg], /t [msg], /help.";
             } else {
                 *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /ban <id> [minutes], /rooms, /kill <roomid>, /games <roomid>, /names <id>, /w <id>, /m, /title <roomid>, /clear, /filter, /sig, /see, /perm <roomid>, /reg [server] [roomid], /rules, /flag [msg], /ann [msg], /help.";
             }
         } else {
             if (state_ == ES_GAME) {
-                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /swap, /anon, /rules, /flag [msg], /help.";
+                *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /swap, /anon, /rules, /flag [msg], /t [msg], /help.";
             } else {
                 *response = "/ids [all] [lobby] [roomid] [gameid], /mute <id> [minutes], /unmute <id>, /kick <id> [minutes], /rooms, /games <roomid>, /w <id>, /m, /title <roomid>, /sig, /see, /rules, /flag [msg], /help.";
             }
@@ -1416,14 +1477,26 @@ void Endpoint::OnGameSendChat(const char *chat) {
             Room *room = server_.lobby().FindRoom(roomid_);
             if (room != NULL && !room->moderated()) {
                 // Unmoderated rooms aren't filtered
-                game_->SendChat(this, chat, NULL);
+                if (teamchat_) {
+                    game_->SendTeamChat(this, chat, NULL);
+                } else {
+                    game_->SendChat(this, chat, NULL);
+                }
             } else {
                 // Moderated rooms are filtered
                 const char *filtered;
                 if (FilterChat(chat, &filtered)) {
-                    game_->SendChat(this, filtered, chat);
+                    if (teamchat_) {
+                        game_->SendTeamChat(this, filtered, chat);
+                    } else {
+                        game_->SendChat(this, filtered, chat);
+                    }
                 } else {
-                    game_->SendChat(this, filtered, NULL);
+                    if (teamchat_) {
+                        game_->SendTeamChat(this, filtered, NULL);
+                    } else {
+                        game_->SendChat(this, filtered, NULL);
+                    }
                 }
             }
         }
@@ -1454,6 +1527,8 @@ void Endpoint::OnGameLeave() {
     game_->SignalOnDelete.disconnect(this);
     game_->RemovePlayer(this, knDisconnectReasonLeftGame);
     game_ = NULL;
+
+    teamchat_ = false;
 
     // Stop logging with the game id
     xpump_.SetLogId(0);
@@ -1516,6 +1591,12 @@ void Endpoint::OnClose(int error) {
 void Endpoint::OnCloseOk() {
     LOG() << base::Log::Format("0x%p ", this);
     Dispose();
+}
+
+void Endpoint::OnUpdateAllies(dword side, dword sidmAllies) {
+    if (state_ == ES_GAME && game_ != NULL) {
+        game_->SetAllies((SideMask)side, (SideMask)sidmAllies);
+    }
 }
 
 void Endpoint::OnHeartbeat() {
@@ -1628,6 +1709,10 @@ std::string Endpoint::GetGameName()
 
 dword Endpoint::gameid() {
     return game_ == NULL ? 0 : game_->id();
+}
+
+void Endpoint::OnDisconnectSharedAccounts() {
+    server_.DisconnectSharedAccounts(this, name_);
 }
 
 } // namespace wi

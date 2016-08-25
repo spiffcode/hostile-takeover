@@ -59,6 +59,8 @@ public:
     bool statslocked() { return havestats_ && (ws_.ff & kfwsLocked) != 0; }
     const base::SocketAddress& address() { return address_; }
     const char *did() { return did_; }
+    SideMask allies() { return allies_; }
+    void SetAllies(SideMask sm) { allies_ = sm; }
     
 private:
     base::SocketAddress address_;
@@ -80,6 +82,7 @@ private:
     bool havestats_;
     bool anonymous_;
     char did_[64];
+    SideMask allies_;
 };
 
 } // namespace wi

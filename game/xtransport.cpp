@@ -4,6 +4,7 @@
 #include "game/serviceurls.h"
 #include "game/chooseserverform.h"
 #include "mpshared/xpump.h"
+#include "mpshared/mpht.h"
 
 namespace wi {
     
@@ -943,4 +944,20 @@ void XTransport::OnWriteEvent(base::Socket *socket) {
 void XTransport::OnCloseEvent(base::Socket *socket) {
 }
 
+void XTransport::UpdateAllies(Side side, SideMask sidmAllies) {
+    if (error_ || xpump_.IsClosed()) {
+        return;
+    }
+    if (state_ == XTS_ROOM) {
+        return;
+    }
+    if (state_ == XTS_GAME) {
+        xpump_.Send(XMsgGameUpdateAllies::ToBuffer(dword(side), dword(sidmAllies)));
+        return;
+    }
+}
+
+void XTransport::DisconnectSharedAccounts() {
+    xpump_.Send(XMsgDisconnectSharedAccounts::ToBuffer());
+}
 } // namespace wi
