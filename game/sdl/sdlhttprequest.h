@@ -6,6 +6,8 @@
 #include "base/thread.h"
 #include "base/bytebuffer.h"
 
+#include <curl/curl.h>
+
 namespace wi {
 
 class SdlHttpRequest;
@@ -16,7 +18,6 @@ struct MemoryStruct {
 	char *memory;
 	size_t size;
 };
-
 
 class SdlHttpRequest : public HttpRequest, base::MessageHandler {
 public:
@@ -29,15 +30,15 @@ public:
 
 private:
     HttpResponseHandler *handler_;
+    CURL *curl_handle_;
+    struct MemoryStruct chunk_;
+	struct MemoryStruct chunkHeader_;
 
-    void *doAccess(void *arg);
     virtual void OnMessage(base::Message *pmsg);
+    static void SubmitCurlRequest(void *pv);
+    void CreateCurlRequest();
+
     size_t WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp);
-
-	static void *doAccess_helper(void *context) {
-		return ((SdlHttpRequest *)context)->doAccess(0);
-	}
-
 	static size_t WriteMemoryCallback_helper(void *contents, size_t size, size_t nmemb, void *userp)
 	{
 		return (((MemoryStruct *)userp)->cls)->WriteMemoryCallback(contents,size,nmemb,userp);
