@@ -297,21 +297,27 @@ bool ChooseServerForm::RequestInfos() {
         }
 
         // Don't show servers to disallowed client platforms
-        #if defined(__MACOSX__)
+#if defined(__MACOSX__)
         if (info.disallow.find("mac") != std::string::npos) {
             continue;
         }
-        #endif
-        #if defined(__ANDROID__)
+#elif defined(DARWIN)
+        if (info.disallow.find("darwin") != std::string::npos) {
+            continue;
+        }
+#elif defined(__LINUX__)
+        if (info.disallow.find("linux") != std::string::npos) {
+            continue;
+        }
+#elif defined(__ANDROID__)
         if (info.disallow.find("android") != std::string::npos) {
             continue;
         }
-        #endif
-        #if defined(IPHONE) || defined(__IPHONEOS__)
+#elif defined(IPHONE) || defined(__IPHONEOS__)
         if (info.disallow.find("iphone") != std::string::npos) {
             continue;
         }
-        #endif
+#endif
 
         // If there is an info with this name that matches the protocol,
         // keep it and discard the new info

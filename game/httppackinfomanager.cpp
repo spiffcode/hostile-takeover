@@ -3,6 +3,7 @@
 #include "base/format.h"
 #include <unistd.h>
 #include <stdlib.h>
+#include <cstring>
 
 namespace wi {
 
@@ -173,7 +174,7 @@ void HttpPackInfoManager::OnError(HttpRequest *preq, const char *pszError) {
     }
 }
 
-bool HttpPackInfoManager::FinishInstall() {    
+bool HttpPackInfoManager::FinishInstall() {
     if (tempfile_ == NULL) {
         return false;
     }

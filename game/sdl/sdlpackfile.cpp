@@ -2,7 +2,7 @@
 #include "game/mempdbreader.h"
 #include "inc/rip.h"
 #include <string.h>
-#include <sys/syslimits.h>
+#include <limits.h>
 
 namespace wi {
 

@@ -218,6 +218,7 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
     SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH can be used to process mouse events
     separately from touch events (it's a shame a similar hint doesn't exist for
     other platforms). Thus, Android can process both input event types.
+    - Linux... We'll try only processing SDL_MOUSE events for now.
     */
 
 #if defined(__IPHONEOS__) || defined(__ANDROID__)
@@ -292,7 +293,7 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
         break;
 #endif
 
-#if defined(__MACOSX__) || defined(__ANDROID__)
+#if defined(__MACOSX__) || defined(__ANDROID__) || defined(__LINUX__)
 	case SDL_MOUSEBUTTONDOWN:
         pevt->eType = penDownEvent;
         pevt->x = event.button.x;

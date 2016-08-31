@@ -1,6 +1,7 @@
 #include "base/misc.h"
 #include <ctype.h>
 #include <string>
+#include <cstring>
 
 namespace base {
 

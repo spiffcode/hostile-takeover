@@ -4,7 +4,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <sys/syslimits.h>
+#include <limits.h>
 #include <sys/time.h>
 #include <stdio.h>
 #include <SDL.h>
