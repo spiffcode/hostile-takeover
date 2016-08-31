@@ -537,14 +537,17 @@ bool ProcessMessage(base::Message *pmsg, Event *pevt)
     switch (pmsg->id) {
     case base::kidmNullEvent:
         pevt->eType = nullEvent;
+        pevt->ff = 0;
         break;
 
     case base::kidmTransportEvent:
         pevt->eType = transportEvent;
+        pevt->ff = 0;
         break;
 
     case kidmAskStringEvent:
         pevt->eType = askStringEvent;
+        pevt->ff = 0;
         break;
 
     case kidmFingerMoveEvent:
