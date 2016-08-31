@@ -346,6 +346,8 @@
 		D813C0A01D6E3CDF007132EE /* NavBackSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = D813C0591D6E3B2F007132EE /* NavBackSmall.png */; };
 		D813C0A11D6E3CDF007132EE /* NavForwardSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = D813C05A1D6E3B2F007132EE /* NavForwardSmall.png */; };
 		D813C0A21D6E3CDF007132EE /* webview.mm in Sources */ = {isa = PBXBuildFile; fileRef = D813C05C1D6E3B2F007132EE /* webview.mm */; };
+		D8408C041D770C0900304E05 /* sdlanimsprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8408C021D770C0900304E05 /* sdlanimsprite.cpp */; };
+		D8408C051D770C2D00304E05 /* sdlanimsprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D8408C021D770C0900304E05 /* sdlanimsprite.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -685,6 +687,8 @@
 		D813C08A1D6E3C30007132EE /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/CoreAudio.framework; sourceTree = DEVELOPER_DIR; };
 		D813C08C1D6E3C46007132EE /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		D813C08E1D6E3C4E007132EE /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		D8408C021D770C0900304E05 /* sdlanimsprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdlanimsprite.cpp; sourceTree = "<group>"; };
+		D8408C031D770C0900304E05 /* sdlanimsprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sdlanimsprite.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1105,6 +1109,8 @@
 				55C5AC511390627C003B15C5 /* htplatform.h */,
 				55C5AC651390627C003B15C5 /* main.cpp */,
 				55C5AC791390627C003B15C5 /* savegame.cpp */,
+				D8408C021D770C0900304E05 /* sdlanimsprite.cpp */,
+				D8408C031D770C0900304E05 /* sdlanimsprite.h */,
 				C169F5B013A43CD800B4491D /* sdleventserver.h */,
 				55C5AC7E1390627C003B15C5 /* sdlpackfile.cpp */,
 				55C5AC7F1390627C003B15C5 /* sdlpackfile.h */,
@@ -1374,6 +1380,7 @@
 				5501E616139076E20048AAFE /* main.cpp in Sources */,
 				551C91601390A40F0018ECBA /* yajl.c in Sources */,
 				551C91611390A40F0018ECBA /* yajl_buf.c in Sources */,
+				D8408C041D770C0900304E05 /* sdlanimsprite.cpp in Sources */,
 				551C91621390A40F0018ECBA /* yajl_encode.c in Sources */,
 				551C91641390A40F0018ECBA /* yajl_lex.c in Sources */,
 				551C91651390A40F0018ECBA /* yajl_parser.c in Sources */,
@@ -1552,6 +1559,7 @@
 				D813C01C1D6E3A5E007132EE /* selectserver.cpp in Sources */,
 				D813C01D1D6E3A5E007132EE /* socket.cpp in Sources */,
 				D813C01E1D6E3A5E007132EE /* socketaddress.cpp in Sources */,
+				D8408C051D770C2D00304E05 /* sdlanimsprite.cpp in Sources */,
 				D813C01F1D6E3A5E007132EE /* socketserver.cpp in Sources */,
 				D813C0201D6E3A5E007132EE /* thread.cpp in Sources */,
 				D813C0211D6E3A5E007132EE /* tick.cpp in Sources */,

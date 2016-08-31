@@ -3,6 +3,7 @@
 
 #include "game/sprite.h"
 #include "game/sdl/sdlselectionsprite.h"
+#include "game/sdl/sdlanimsprite.h"
 
 namespace wi {
 
@@ -12,9 +13,8 @@ public:
     ~SdlSpriteManager();
 
     virtual void SetClipRects(wi::Rect *prc1, wi::Rect *prc2);
-    virtual wi::AnimSprite *CreateAnimSprite() {
-        LOG() << "SdlSpriteManager::CreateAnimSprite not implemented yet";
-        return NULL;
+    virtual wi::SdlAnimSprite *CreateAnimSprite() {
+        return new SdlAnimSprite(this);
     }
     virtual wi::SelectionSprite *CreateSelectionSprite() {
         return new SdlSelectionSprite(this);
