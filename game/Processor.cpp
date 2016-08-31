@@ -350,6 +350,11 @@ BeginStateMachine
 				SetState(kstProcessorPutMiner);
 			} else {
 lbError:
+                // The miner spot was reserved while the gob was being built. Since the new
+                // miner wasn't created, clear the spot so other miners can use the processor.
+
+                Assert(m_pstruc->ctx == 3 && m_pstruc->cty == 2);
+                gsim.GetLevel()->GetTerrainMap()->ClearFlags(TcFromWc(m_wx) + 1, TcFromWc(m_wy) + m_pstruc->cty, 1, 1, kbfStructure);
 				SetState(kstIdle);
 			}
 			Activate();
