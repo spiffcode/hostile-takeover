@@ -55,7 +55,7 @@ struct ReceivedDataParams : base::MessageData {
 };
 
 struct ErrorParams : base::MessageData {
-	char szError[80];
+	char szError[CURL_ERROR_SIZE];
 };
 
 } // namespace wi

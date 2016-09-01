@@ -120,12 +120,25 @@ void SdlHttpRequest::CreateCurlRequest() {
 void SdlHttpRequest::SubmitCurlRequest(void *pv) {
     SdlHttpRequest *req = (SdlHttpRequest *)pv;
 
+    // provide a buffer to store errors in
+    char error[CURL_ERROR_SIZE];
+    curl_easy_setopt(req->curl_handle_, CURLOPT_ERRORBUFFER, error);
+
+    // submit
     CURLcode res = curl_easy_perform(req->curl_handle_);
 
     // check for errors
 	if(res != CURLE_OK) {
 		ErrorParams *pparams = new ErrorParams;
-		strncpyz(pparams->szError, curl_easy_strerror(res), CURL_ERROR_SIZE);
+
+        if (strlen(error)) {
+            // CURLOPT_ERRORBUFFER messages should be more helpful than curl_easy_strerror
+            strncpyz(pparams->szError, error, CURL_ERROR_SIZE);
+        } else {
+            // Use curl_easy_strerror if CURLOPT_ERRORBUFFER not available
+            strncpyz(pparams->szError, curl_easy_strerror(res), CURL_ERROR_SIZE);
+        }
+
         req->thread().Post(kidmError, req, pparams);
     } else {
         req->thread().Post(kidmFinishedLoading, req);
