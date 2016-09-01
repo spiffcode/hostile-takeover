@@ -51,6 +51,7 @@ public:
     static bool IsExiting();
     static void GameThreadStart(void *pv);
     static void DisplayInitComplete();
+    static const char *GetPlatformString();
 
     // TODO(darrinm): unused?
     static int main(int argc, char **argv);

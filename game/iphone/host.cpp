@@ -54,6 +54,10 @@ const char *HostGenerateDeviceId() {
     return base::Format::ToHex(hash, 16);
 }
 
+const char *HostGetPlatformString() {
+    return IPhone::GetPlatformString();
+}
+
 void HostInitiateWebView(const char *title, const char *url) {
     return IPhone::InitiateWebView(title, url);
 }

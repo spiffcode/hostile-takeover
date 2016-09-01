@@ -268,7 +268,7 @@ dword XTransport::Login(const char *username, const char *token) {
 
     // Login and wait synchronously for reply.
     SetState(XTS_LOGGINGIN);
-    xpump_.Send(XMsgLogin::ToBuffer(username, token, gszDeviceId));
+    xpump_.Send(XMsgLogin::ToBuffer(username, token, gszDeviceId, HostGetPlatformString()));
 
     if (!WaitForStateChange()) {
         LOG() << "Timed out waiting for Login";

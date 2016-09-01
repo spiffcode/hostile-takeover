@@ -39,17 +39,18 @@ class ServerInfo(webapp.RequestHandler):
         # Get did, check for banned dids
         ip = self.request.remote_addr
         did = self.request.get('d')
+        platform = self.request.get('o')
         if did and self.is_banned_did(did):
-            self.save_action(did, ip, True)
+            self.save_action(did, ip, True, platform)
             return
 
         # Check for banned ips
         if ip and self.is_banned_ip(ip):
-            self.save_action(did, ip, True)
+            self.save_action(did, ip, True, platform)
             return
 
         # Not banned
-        self.save_action(did, ip, False)
+        self.save_action(did, ip, False, platform)
 
         # Attempt to retrieve serverinfo from cache
         j = memcache.get(SERVERINFO_KEY)
@@ -120,12 +121,12 @@ class ServerInfo(webapp.RequestHandler):
         memcache.set(SERVERINFO_KEY, j, info['expires_utc'])
         return j
 
-    def save_action(self, did, ip, banned):
+    def save_action(self, did, ip, banned, platform):
         try:
             p = self.request.get('p')
             anon = False if p else True
             d = dict(action='serverinfo', banned=banned)
-            playerdetail.save(p, anon, did, ip, d)
+            playerdetail.save(p, anon, did, ip, d, platform)
         except:
             pass
 

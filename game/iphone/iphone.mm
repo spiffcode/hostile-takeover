@@ -34,6 +34,7 @@
     char *m_pszTempDir;
     char *m_pszCompletesDir;
     char *m_pszUUID;
+	char *m_pszPlatform;
 }
 @end
 
@@ -193,6 +194,15 @@ IPhoneAppDelegate *g_appDelegate;
     strcpy(m_pszUUID, pszUUID);
     CFRelease(strUUID);
 
+	// Get the device platform string
+	NSString *strPlatform = [NSString stringWithFormat:@"iOS %@",
+		[[UIDevice currentDevice] systemVersion]];
+	const char *pszPlatform = [strPlatform cStringUsingEncoding:
+            [NSString defaultCStringEncoding]];
+    m_pszPlatform = (char *)malloc(strlen(pszPlatform) + 1);
+    strcpy(m_pszPlatform, pszPlatform);
+	CFRelease(strPlatform);
+
     // Set up a notification to restore sound when interrupted
     [[NSNotificationCenter defaultCenter] addObserver: self
             selector: @selector(handleAudioInterruption:)
@@ -253,6 +263,11 @@ IPhoneAppDelegate *g_appDelegate;
 - (const char *)staticUUID
 {
     return m_pszUUID;
+}
+
+- (const char *)platformString
+{
+    return m_pszPlatform;
 }
 
 - (bool)isExiting
@@ -461,6 +476,11 @@ const char *IPhone::GetCompletesDir()
 const char *IPhone::GetStaticUUID()
 {
     return [g_appDelegate staticUUID];
+}
+
+const char *IPhone::GetPlatformString()
+{
+	return [g_appDelegate platformString];
 }
 
 bool IPhone::IsExiting()

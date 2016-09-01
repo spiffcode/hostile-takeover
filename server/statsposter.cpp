@@ -180,6 +180,7 @@ std::string StatsPoster::ToJson(const GameStats& s) {
         GenNum(g, "pid", s.player_stats[i].pid);
         GenString(g, "ip", s.player_stats[i].ip);
         GenString(g, "did", s.player_stats[i].did);
+        GenString(g, "platform", s.player_stats[i].platform);
         
         str = "winstats";
         yajl_gen_string(g, (const unsigned char *)str, strlen(str));

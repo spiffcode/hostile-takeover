@@ -103,8 +103,10 @@ void Endpoint::OnHandshake(dword clientid, dword protocolid) {
     okecho_ = true;
 }
 
-void Endpoint::OnLogin(const char *username, const char *token, const char *did) {
-    LOG() << "username: " << username << " token: " << token << " did: " << did;
+void Endpoint::OnLogin(const char *username, const char *token,
+        const char *did, const char *platform) {
+    LOG() << "username: " << username << " token: " << token << " did: " << did
+        << " platform: " << platform;
 
     if (!CheckState(ES_HANDSHAKESUCCESS)) {
         xpump_.Send(XMsgLoginResult::ToBuffer(knLoginResultFail));
@@ -130,6 +132,7 @@ void Endpoint::OnLogin(const char *username, const char *token, const char *did)
         UpdateDid(did);
         xpump_.Send(XMsgLoginResult::ToBuffer(knLoginResultAnonymousSuccess));
         anonymous_ = true;
+        strncpyz(platform_, platform, sizeof(platform_));
         SetState(ES_READY);
         return;
     }
@@ -172,6 +175,7 @@ void Endpoint::OnLogin(const char *username, const char *token, const char *did)
     // Success. Transition to ES_READY
     xpump_.Send(XMsgLoginResult::ToBuffer(knLoginResultSuccess));
     anonymous_ = false;
+    strncpyz(platform_, platform, sizeof(platform_));
     SetState(ES_READY);
 
     // Moderators see unfiltered chat by default

@@ -8822,6 +8822,7 @@ IChatController *HostGetChatController();
 
 void HostInitiateWebView(const char *title, const char *url);
 const char *HostGenerateDeviceId();
+const char *HostGetPlatformString();
 
 // Date
 

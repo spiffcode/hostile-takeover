@@ -23,6 +23,7 @@ static jmethodID getAndroidIDMethod;
 static jmethodID initiateAskMethod;
 static jmethodID initiateWebViewMethod;
 static jmethodID getAskStringMethod;
+static jmethodID getPlatformStringMethod;
 
 namespace wi {
 
@@ -71,6 +72,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     initiateWebViewMethod = env->GetStaticMethodID(NativeLibClass, "initiateWebView", "(Ljava/lang/String;)V");
     getAskStringMethod = env->GetStaticMethodID(NativeLibClass, "getAskString", "()Ljava/lang/String;");
     initiateAskMethod = env->GetStaticMethodID(NativeLibClass, "initiateAsk", "(Ljava/lang/String;ILjava/lang/String;II)V");
+    getPlatformStringMethod = env->GetStaticMethodID(NativeLibClass, "getPlatformString", "()Ljava/lang/String;");
 
     return JNI_VERSION_1_4;
 }
@@ -333,6 +335,11 @@ IChatController *HostHelpers::GetChatController()
 void HostHelpers::InitiateWebView(const char *title, const char *url) {
     jstring jstrUrl = g_env->NewStringUTF(url);
     g_env->CallStaticVoidMethod(NativeLibClass, initiateWebViewMethod, jstrUrl);
+}
+
+const char *HostHelpers::GetPlatformString() {
+    jobject jstr = g_env->CallStaticObjectMethod(NativeLibClass, getPlatformStringMethod);
+    return g_env->GetStringUTFChars((jstring)jstr, NULL);
 }
 
 /*

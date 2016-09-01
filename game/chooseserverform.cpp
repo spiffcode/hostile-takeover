@@ -370,17 +370,18 @@ std::string ChooseServerForm::GetServiceUrl() {
     // protocol version
 
     std::string deviceid(base::StringEncoder::QueryEncode(gszDeviceId));
+    std::string os(base::StringEncoder::QueryEncode(HostGetPlatformString()));
 
     const char *url;
     LoginHandler handler;
     if (handler.anonymous()) {
-        url = base::Format::ToString("%s?x=%d&d=%s", kszServerInfoUrl,
-                kdwProtocolCurrent, deviceid.c_str());
+        url = base::Format::ToString("%s?x=%d&d=%s&o=%s", kszServerInfoUrl,
+                kdwProtocolCurrent, deviceid.c_str(), os.c_str());
     } else {
         std::string player(base::StringEncoder::QueryEncode(
                 handler.username()));
-        url = base::Format::ToString("%s?x=%d&p=%s&d=%s", kszServerInfoUrl,
-                kdwProtocolCurrent, player.c_str(), deviceid.c_str());
+        url = base::Format::ToString("%s?x=%d&p=%s&d=%s&o=%s", kszServerInfoUrl,
+                kdwProtocolCurrent, player.c_str(), deviceid.c_str(), os.c_str());
     }
 
     return url;

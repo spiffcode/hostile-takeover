@@ -17,15 +17,16 @@ public:
         if (idc == kidcLeaderboard) {
             LoginHandler handler;
             std::string d = base::StringEncoder::QueryEncode(gszDeviceId);
+            std::string o(base::StringEncoder::QueryEncode(HostGetPlatformString()));
             const char *url; 
             if (strlen(handler.StatsUsername()) == 0) {
-                url = base::Format::ToString("%s?d=%s", kszLeaderboardUrl,
-                        d.c_str());
+                url = base::Format::ToString("%s?d=%s&o=%s", kszLeaderboardUrl,
+                        d.c_str(), o.c_str());
             } else {
                 std::string q = base::StringEncoder::QueryEncode(
                         handler.StatsUsername());
-                url = base::Format::ToString("%s?p=%s&d=%s", kszLeaderboardUrl,
-                        q.c_str(), d.c_str());
+                url = base::Format::ToString("%s?p=%s&d=%s&o=%s", kszLeaderboardUrl,
+                        q.c_str(), d.c_str(), o.c_str());
             }
             HostInitiateWebView("Hostile Takeover Statistics", url);
             return;

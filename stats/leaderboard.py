@@ -102,6 +102,7 @@ class Leaderboard(basehandler.BaseHandler):
             anon = False if p else True
             did = self.request.get('d')
             ip = self.request.remote_addr
-            playerdetail.save(p, anon, did, ip, dict(action='leaderboard'))
+            platform = self.request.get('o')
+            playerdetail.save(p, anon, did, ip, dict(action='leaderboard'), platform)
         except:
             pass

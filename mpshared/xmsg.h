@@ -610,6 +610,150 @@ struct XMsgS3 : public XMsg
     }
 };
 
+const dword XMSGSIZE_STRING4_FIXED = XMSGSIZE_FIXED + sizeof(word) * 4;
+
+template <dword ID, int SIZE0, int SIZE1, int SIZE2, int SIZE3>
+struct XMsgS4 : public XMsg
+{
+    XMsgS4(const char *s0, const char *s1, const char *s2, const char *s3) : XMsg(ID) {
+        strncpyz(s0_, s0, sizeof(s0_));
+        strncpyz(s1_, s1, sizeof(s1_));
+        strncpyz(s2_, s2, sizeof(s2_));
+        strncpyz(s3_, s3, sizeof(s3_));
+    }
+    char s0_[SIZE0];
+    char s1_[SIZE1];
+    char s2_[SIZE2];
+    char s3_[SIZE3];
+
+#ifdef LOGGING
+    virtual std::string ToString() {
+        std::ostringstream ss;
+        ss << XMsgLabels.Find(id_) << ", s0: " << s0_ << ", s1: " << s1_ <<
+                ", s2: " << s2_ << ", s3: " << s3_ << std::endl;
+        return ss.str();
+    }
+#endif
+
+    static base::ByteBuffer *ToBuffer(const char *s0, const char *s1,
+            const char *s2, const char *s3) {
+        word cbS0 = strlen(s0) + 1;
+        char s0T[SIZE0];
+        if (cbS0 > sizeof(s0T)) {
+            strncpyz(s0T, s0, sizeof(s0T));
+            s0 = s0T;
+            cbS0 = sizeof(s0T);
+        }
+        word cbS1 = strlen(s1) + 1;
+        char s1T[SIZE1];
+        if (cbS1 > sizeof(s1T)) {
+            strncpyz(s1T, s1, sizeof(s1T));
+            s1 = s1T;
+            cbS1 = sizeof(s1T);
+        }
+        word cbS2 = strlen(s2) + 1;
+        char s2T[SIZE2];
+        if (cbS2 > sizeof(s2T)) {
+            strncpyz(s2T, s2, sizeof(s2T));
+            s2 = s2T;
+            cbS2 = sizeof(s2T);
+        }
+        word cbS3 = strlen(s3) + 1;
+        char s3T[SIZE3];
+        if (cbS3 > sizeof(s3T)) {
+            strncpyz(s3T, s3, sizeof(s3T));
+            s3 = s3T;
+            cbS3 = sizeof(s3T);
+        }
+        dword cb = XMSGSIZE_STRING4_FIXED + cbS0 + cbS1 + cbS2 + cbS3;
+        base::ByteBuffer *bb = new base::ByteBuffer(cb);
+        bb->WriteWord(cb);
+        bb->WriteByte(ID);
+        bb->WriteWord(cbS0);
+        bb->WriteBytes((const byte *)s0, cbS0);
+        bb->WriteWord(cbS1);
+        bb->WriteBytes((const byte *)s1, cbS1);
+        bb->WriteWord(cbS2);
+        bb->WriteBytes((const byte *)s2, cbS2);
+        bb->WriteWord(cbS3);
+        bb->WriteBytes((const byte *)s3, cbS3);
+        if (bb->Length() != cb) {
+            delete bb;
+            return NULL;
+        }
+        return bb;
+    }
+
+    static XMsgS4<ID, SIZE0, SIZE1, SIZE2, SIZE3> *FromBuffer(base::ByteBuffer& bb,
+            dword cb) {
+        dword cbSav = bb.Length();
+        word w;
+        if (!bb.ReadWord(&w)) {
+            return NULL;
+        }
+        if (cb != (dword)w || w < XMSGSIZE_STRING4_FIXED ||
+                w > XMSGSIZE_STRING4_FIXED + SIZE0 + SIZE1 + SIZE2 + SIZE3) {
+            Assert();
+            return NULL;
+        }
+        if (w - sizeof(word) > bb.Length()) {
+            return NULL;
+        }
+        byte id = 0;
+        bb.ReadByte(&id);
+        if (id != ID) {
+            return NULL;
+        }
+
+        word cbS0 = 0;
+        bb.ReadWord(&cbS0);
+        if (cbS0 > SIZE0) {
+            Assert();
+            return NULL;
+        }
+        char s0[SIZE0];
+        bb.ReadBytes((byte *)s0, cbS0);
+        s0[cbS0 - 1] = 0;
+
+        word cbS1 = 0;
+        bb.ReadWord(&cbS1);
+        if (cbS1 > SIZE1) {
+            Assert();
+            return NULL;
+        }
+        char s1[SIZE1];
+        bb.ReadBytes((byte *)s1, cbS1);
+        s1[cbS1 - 1] = 0;
+
+        word cbS2 = 0;
+        bb.ReadWord(&cbS2);
+        if (cbS2 > SIZE2) {
+            Assert();
+            return NULL;
+        }
+        char s2[SIZE2];
+        bb.ReadBytes((byte *)s2, cbS2);
+        s2[cbS2 - 1] = 0;
+
+        word cbS3 = 0;
+        bb.ReadWord(&cbS3);
+        if (cbS3 > SIZE3) {
+            Assert();
+            return NULL;
+        }
+        char s3[SIZE3];
+        bb.ReadBytes((byte *)s3, cbS3);
+        s3[cbS3 - 1] = 0;
+
+        if (cbSav - bb.Length() != w) {
+            Assert();
+            return NULL;
+        }
+
+        return new XMsgS4<ID, SIZE0, SIZE1, SIZE2, SIZE3>(s0, s1, s2, s3);
+    }
+};
+
 const dword XMSGSIZE_DWORDSTRING_FIXED = XMSGSIZE_FIXED + sizeof(dword) +
         sizeof(word);
 

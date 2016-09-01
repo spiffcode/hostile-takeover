@@ -50,6 +50,7 @@ const int kcbTokenMax = 256;
 const int kcbDidMax = 34;
 const int kcbChatMax = 1024;
 const int kcbShowMessageMax = 512;
+const int kcbPlatformMax = 32;
 
 // Side masks
 

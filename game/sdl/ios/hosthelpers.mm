@@ -261,6 +261,10 @@ void HostHelpers::InitiateWebView(const char *title, const char *url) {
     [iphone initiateWebView:[NSString stringWithUTF8String:url] title:[NSString stringWithUTF8String:title]];
 }
 
+const char *HostHelpers::GetPlatformString() {
+    return [[iphone getPlatformString] cStringUsingEncoding:NSASCIIStringEncoding];
+}
+
 void HostHelpers::GameThreadStart(void *pv) {
     Log("Starting game...");
     wi::GameMain((char *)""); 

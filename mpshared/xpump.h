@@ -20,7 +20,8 @@ public:
         bool disconnect) { Assert(); }
     virtual void OnEcho() { Assert(); }
     virtual void OnProtocolError(dword error) { Assert(); }
-    virtual void OnLogin(const char *username, const char *token, const char *did) { Assert(); }
+    virtual void OnLogin(const char *username, const char *token, const char *did,
+        const char *platform) { Assert(); }
     virtual void OnLoginResult(dword loginResult) { Assert(); }
     virtual void OnSignOut() { Assert(); }
     virtual void OnSignOutResult(dword result) { Assert(); }

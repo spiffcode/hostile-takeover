@@ -67,6 +67,10 @@ const char *HostGenerateDeviceId() {
     return base::Format::ToHex(hash, 16);
 }
 
+const char *HostGetPlatformString() {
+    return HostHelpers::GetPlatformString();
+}
+
 void HostInitiateWebView(const char *title, const char *url) {
     return HostHelpers::InitiateWebView(title, url);
 }

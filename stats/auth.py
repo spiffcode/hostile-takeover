@@ -23,22 +23,23 @@ class AuthUser(webapp.RequestHandler):
         password = ''
         t = None
         try:
-            username,password,did = self.get_username_password_did()
+            username,password,did,platform = self.get_username_password_did_platform()
             if self.authenticate(username, password, did):
                 t = self.generate_token(username, config.AUTH_GOOD_SECRET)
-                self.save_action(username, did)
+                self.save_action(username, did, platform)
             else:
                 t = self.generate_token(username, config.AUTH_BAD_SECRET)
         except:
             t = self.generate_token(username, config.AUTH_BAD_SECRET)
         self.response.out.write(t)
 
-    def get_username_password_did(self):
+    def get_username_password_did_platform(self):
         d = base64.b64decode(self.request.get('a'))
         username = d[0:d.find('\0')]
         password = d[d.find('\0')+1:]
         did = self.request.get('d')
-        return username,password,did
+        platform = self.request.get('o')
+        return username,password,did,platform
 
     def generate_token(self, username, secret):
         a = {}
@@ -55,12 +56,12 @@ class AuthUser(webapp.RequestHandler):
             return False
         return m.password.lower() == md5(password).hexdigest().lower()
 
-    def save_action(self, username, did):
+    def save_action(self, username, did, platform):
         try:
             player_name = username
             anonymous = False
             ip = self.request.remote_addr
             action = dict(action='auth')
-            playerdetail.save(player_name, anonymous, did, ip, action)
+            playerdetail.save(player_name, anonymous, did, ip, action, platform)
         except:
             pass

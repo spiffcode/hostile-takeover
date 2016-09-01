@@ -106,6 +106,7 @@ class PlayerActionModel(db.Model):
     ip_address = db.StringProperty()
     action = db.StringProperty()
     time_utc = db.IntegerProperty()
+    platform = db.StringProperty()
 
 # +++
 

@@ -46,6 +46,7 @@ public:
     static const char *GetTempDir();
     static const char *GetCompletesDir();
     static const char *GetStaticUUID();
+	static const char *GetPlatformString();
     static void InitiateAsk(const char *title, int max, const char *def,
             int keyboard, bool secure);
     static void GetAskString(char *psz, int cb);

@@ -33,6 +33,9 @@ AddGameStat json:
         {
             "name": "<string>",
             "pid": <integer>,
+            "ip": "<string>",
+            "did": "<string>",
+            "platform": "<string>",
             "winstats": {
                 "side_mask": <integer>,
                 "side_mask_allies": <integer>,
@@ -418,7 +421,16 @@ class GameStats(wrap.DictWrap):
             dids[player_stat.name] = ''
         return dids
 
-    def save_actions(self, dids):
+    def lookup_platforms(self):
+        platforms = {}
+        for player_stat in self.player_stats:
+            if 'platform' in player_stat.__dict__ and len(player_stat.platform) != 0:
+                platforms[player_stat.name] = player_stat.platform
+                continue
+            platforms[player_stat.name] = ''
+        return platforms
+
+    def save_actions(self, dids, platforms):
         # For every legit player, add a player action
         for player_stat in self.player_stats:
             if player_stat.winstats.ff & kfwsComputer:
@@ -428,12 +440,16 @@ class GameStats(wrap.DictWrap):
             did = dids[player_name] if player_name in dids else ''
             ip = player_stat.ip if 'ip' in player_stat.__dict__ else ''
             action = dict(action='game', key=self.get_game_key_name())
-            playerdetail.save(player_name, anonymous, did, ip, action)
+            platform = platforms[player_name] if player_name in platforms else ''
+            playerdetail.save(player_name, anonymous, did, ip, action, platform)
 
     def save(self, update_player_stats=True, lookup_dids=True, save_actions=True):
         try:
             # Lookup dids if asked
             dids = self.lookup_dids() if lookup_dids else {}
+
+            # Lookup platforms
+            platforms = self.lookup_platforms()
             
             # If not saved, it's already in the db.
             if not db.run_in_transaction(self.add_txn, dids):
@@ -441,7 +457,7 @@ class GameStats(wrap.DictWrap):
             if update_player_stats:
                 self.update_player_stats()
             if save_actions:
-                self.save_actions(dids)
+                self.save_actions(dids, platforms)
             return True
         except:
             # Save game in a special place for later analysis

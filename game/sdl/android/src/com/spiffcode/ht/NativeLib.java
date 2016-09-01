@@ -118,4 +118,8 @@ public class NativeLib {
 	static String getAskString() {
 		return askString;
 	}
+	
+	static String getPlatformString() {
+		return "Android " + android.os.Build.VERSION.RELEASE;
+	}
 }

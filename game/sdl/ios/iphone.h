@@ -20,4 +20,5 @@
 + (void)presentView:(UIView *)view;
 - (void)forceDeviceIntoLandscape;
 - (int)deviceOS;
+- (NSString *)getPlatformString;
 @end

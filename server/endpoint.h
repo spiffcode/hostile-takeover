@@ -68,6 +68,7 @@ public:
     const char *did() { return did_; }
     dword roomid() { return roomid_; }
     dword gameid();
+    const char *platform() { return platform_; }
 
     std::vector<std::string>& old_names() { return old_names_; }
 
@@ -88,7 +89,8 @@ private:
     // XPumpNotify overrides
     virtual void OnHandshake(dword clientid, dword protocolid);
     virtual void OnEcho();
-    virtual void OnLogin(const char *username, const char *token, const char *did);
+    virtual void OnLogin(const char *username, const char *token,
+        const char *did, const char *platform);
     virtual void OnSignOut();
     virtual void OnLobbyJoin();
     virtual void OnLobbyCreateRoom(const char *name, const char *password);
@@ -134,6 +136,7 @@ private:
     std::string chat_fragment_;
     TokenBucket roomlimiter_;
     char did_[64];
+    char platform_[32];
 };
 
 STARTLABEL(EsLabels)

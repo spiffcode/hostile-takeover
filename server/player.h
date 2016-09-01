@@ -15,6 +15,7 @@ struct PlayerStats {
     Pid pid;
     char ip[32];
     char did[64];
+    char platform[32];
     WinStats ws;
 };
 
@@ -53,6 +54,7 @@ public:
     void ClearLatencyRecords() { clatr_ = 0; }
     const LatencyRecord *GetLatencyRecord(int i);
     void SetDid(const char *did) { strncpyz(did_, did, sizeof(did_)); }
+    void SetPlatform(const char *platform) { strncpyz(platform_, platform, sizeof(platform_)); }
 
     long updates() { return updates_; }
     bool havestats() { return havestats_; }
@@ -83,6 +85,7 @@ private:
     bool anonymous_;
     char did_[64];
     SideMask allies_;
+    char platform_[32];
 };
 
 } // namespace wi

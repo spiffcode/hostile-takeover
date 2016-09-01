@@ -199,7 +199,7 @@ class PlayerDetail(basehandler.BaseHandler):
 
         history_table = {}
         history_table['title'] = 'History Table'
-        history_table['columns'] = ['Time', 'Player', 'Did', 'Ip', 'Action']
+        history_table['columns'] = ['Time', 'Player', 'Did', 'Ip', 'Platform', 'Action']
         history_table['rows'] = []
         for r in results:
             row = []
@@ -207,6 +207,7 @@ class PlayerDetail(basehandler.BaseHandler):
             row.append([(r.player_name, self.get_url(r.player_name))])
             row.append([(r.did, self.get_url(r.did))])
             row.append([(r.ip_address, self.get_url(r.ip_address))])
+            row.append([(r.platform, '')])
             row.append([self.get_action_field(r)])
             history_table['rows'].append(row)
         tables.append(history_table)
@@ -268,7 +269,7 @@ class PlayerDetail(basehandler.BaseHandler):
                 url = '%s?g=%s' % (config.GAMEDETAIL_URL, a['key'])
         return a['action'], url
 
-def save(player_name, anonymous, did, ip, action):
+def save(player_name, anonymous, did, ip, action, platform):
     try:
         a = models.PlayerActionModel()
         a.player_name = player_name.lower()
@@ -277,6 +278,7 @@ def save(player_name, anonymous, did, ip, action):
         a.ip_address = ip
         a.action = json.dumps(action)
         a.time_utc = int(time.time())
+        a.platform = platform
         a.put()
     except:
         pass

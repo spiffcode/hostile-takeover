@@ -378,8 +378,8 @@ void XPump::DispatchXMsg(XMsg *pmsg) {
     case XMSG_LOGIN:
         {
             XMsgLogin *pmsgT = (XMsgLogin *)pmsg;
-            // username, token, did
-            notify_->OnLogin(pmsgT->s0_, pmsgT->s1_, pmsgT->s2_);
+            // username, token, did, platform
+            notify_->OnLogin(pmsgT->s0_, pmsgT->s1_, pmsgT->s2_, pmsgT->s3_);
         }
         break;
 

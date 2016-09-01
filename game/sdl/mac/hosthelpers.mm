@@ -246,6 +246,14 @@ void HostHelpers::InitiateWebView(const char *title, const char *url) {
     HostHelpers::OpenUrl(url);
 }
 
+const char *HostHelpers::GetPlatformString() {
+    NSOperatingSystemVersion version = [[NSProcessInfo processInfo] operatingSystemVersion];
+    NSString *versionString = [NSString stringWithFormat:@"MacOS %ld.%ld.%ld",
+        version.majorVersion, version.minorVersion, version.patchVersion];
+
+    return [versionString cStringUsingEncoding:NSASCIIStringEncoding];
+}
+
 void HostHelpers::GameThreadStart(void *pv) {
     Log("Starting game...");
     wi::GameMain((char *)""); 

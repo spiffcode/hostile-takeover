@@ -33,6 +33,7 @@ void Player::Init(Pid pid) {
     memset(alatr_, 0, sizeof(alatr_));
     memset(&ws_, 0, sizeof(ws_));
     memset(did_, 0, sizeof(did_));
+    memset(platform_, 0, sizeof(platform_));
 }
 
 void Player::SetEndpoint(Endpoint *endpoint) {
@@ -44,6 +45,7 @@ void Player::SetEndpoint(Endpoint *endpoint) {
     anonymous_ = endpoint->anonymous();
     address_ = endpoint->xpump().socket()->GetRemoteAddress();
     strncpyz(did_, endpoint->did(), sizeof(did_));
+    strncpyz(platform_, endpoint->platform(), sizeof(platform_));
     lag_ = knLagNone;
     nLagState_ = knLagNone;
     tLagStart_ = 0;
@@ -184,6 +186,7 @@ void Player::GetPlayerStats(PlayerStats *ps) {
     ps->pid = pid_;
     address_.IPAsString(ps->ip, sizeof(ps->ip));
     strncpyz(ps->did, did_, sizeof(ps->did));
+    strncpyz(ps->platform, platform_, sizeof(ps->platform));
 
     // If this player was never used, then there are no stats for it
     if (!(wf_ & kfPlrInUse)) {

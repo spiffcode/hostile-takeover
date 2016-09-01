@@ -242,10 +242,10 @@ std::vector<std::string> Lobby::GetIdsString(Endpoint *endpoint) {
             char ip[32];
             it->second->xpump().socket()->
                     GetRemoteAddress().IPAsString(ip, sizeof(ip));
-            responses.push_back(base::Format::ToString("%s: id %d ip %s",
+            responses.push_back(base::Format::ToString("%s: id %d ip %s os %s",
                     it->second->name(),
                     it->second->server().GetChatterId(endpoint, it->second),
-                    ip));
+                    ip, it->second->platform()));
         } else {
             responses.push_back(base::Format::ToString("%s: id %d",
                     it->second->name(),

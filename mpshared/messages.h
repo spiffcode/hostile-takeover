@@ -148,7 +148,7 @@ typedef XMsg2<XMSG_HANDSHAKE> XMsgHandshake;
 typedef XMsg2<XMSG_HANDSHAKERESULT> XMsgHandshakeResult;
 typedef XMsg0<XMSG_ECHO> XMsgEcho;
 typedef XMsg1<XMSG_PROTOCOLERROR> XMsgProtocolError;
-typedef XMsgS3<XMSG_LOGIN, kcbUsernameMax, kcbTokenMax, kcbDidMax> XMsgLogin;
+typedef XMsgS4<XMSG_LOGIN, kcbUsernameMax, kcbTokenMax, kcbDidMax, kcbPlatformMax> XMsgLogin;
 typedef XMsg1<XMSG_LOGINRESULT> XMsgLoginResult;
 typedef XMsg0<XMSG_SIGNOUT> XMsgSignOut;
 typedef XMsg1<XMSG_SIGNOUTRESULT> XMsgSignOutResult;

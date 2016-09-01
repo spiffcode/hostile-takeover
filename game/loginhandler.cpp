@@ -178,7 +178,10 @@ dword LoginHandler::GetToken() {
     // Submit a simple blocking request to get the token
     
     SimpleRequest req(gphttp);
-    const char *url = base::Format::ToString("%s?a=%s&d=%s", kszAuthUrl, output, gszDeviceId);
+    std::string d = base::StringEncoder::QueryEncode(gszDeviceId);
+    std::string o(base::StringEncoder::QueryEncode(HostGetPlatformString()));
+    const char *url = base::Format::ToString("%s?a=%s&d=%s&o=%s", kszAuthUrl, output,
+        d.c_str(), o.c_str());
     req.SetTimeout(60);
 
     char result[kcbTokenMax];
