@@ -626,7 +626,26 @@ long HostRunSpeedTests(DibBitmap *pbmSrc)
 
 dword HostGetCurrentKeyState(dword keyBit)
 {
-    return 0;
+    struct KeyBitVKey {
+        dword keyBit;
+        short vk;
+    } s_akk[] = {
+        {keyBitPageUp, SDL_SCANCODE_UP},
+        {keyBitPageDown, SDL_SCANCODE_DOWN},
+        {keyBitDpadLeft, SDL_SCANCODE_LEFT},
+        {keyBitDpadRight, SDL_SCANCODE_RIGHT},
+        {keyBitDpadButton, SDL_SCANCODE_RETURN},
+    };
+	Assert(keyBit != 0);
+
+	dword keyBitRet = 0;
+    const Uint8 *state = SDL_GetKeyboardState(NULL);
+	for (int i = 0; i < sizeof(s_akk) / sizeof(KeyBitVKey); i++)
+		if ((keyBit & s_akk[i].keyBit) != 0)
+			if (state[s_akk[i].vk])
+				keyBitRet |= s_akk[i].keyBit;
+
+    return keyBitRet;
 }
 
 bool HostIsPenDown()
