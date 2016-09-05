@@ -87,11 +87,6 @@ bool Display::Init()
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeRight LandscapeLeft");
     #endif
 
-    // Android wants to process mouse and touch events separately
-    #if defined(__ANDROID__)
-    SDL_SetHint(SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH, "1");
-    #endif
-
     // Get surface properties
     SurfaceProperties props;
     HostHelpers::GetSurfaceProperties(&props);

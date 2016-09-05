@@ -205,22 +205,6 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 
 	switch (event.type) {
 
-    /*
-    Note: SDL sees all mouse/touch input as "coursor input". Mouse events are 
-    processed as touch events and real touch events raise fake mosue events. 
-    Because WI supports multitouch, mouse events and finger events need to be 
-    processed separately. Until a better way is found, use macros to only 
-    process the input events appropriate for the given platform:
-
-    - OS X doesn't support touch input. Thus, only process SDL_MOUSE events.
-    - iOS doesn't support mouse input. Thus, only process SDL_FINGER events.
-    - Android supports both mouse and touch input. Fortunately,
-    SDL_HINT_ANDROID_SEPARATE_MOUSE_AND_TOUCH can be used to process mouse events
-    separately from touch events (it's a shame a similar hint doesn't exist for
-    other platforms). Thus, Android can process both input event types.
-    - Linux... We'll try only processing SDL_MOUSE events for now.
-    */
-
 #if defined(__IPHONEOS__) || defined(__ANDROID__)
     case SDL_FINGERDOWN: {
         for (int i = 0; i < 2; i++) {
@@ -293,7 +277,7 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
         break;
 #endif
 
-#if defined(__MACOSX__) || defined(__ANDROID__) || defined(__LINUX__)
+#if defined(__MACOSX__) || defined(__LINUX__)
 	case SDL_MOUSEBUTTONDOWN:
         pevt->eType = penDownEvent;
         pevt->x = event.button.x;
