@@ -425,6 +425,7 @@
 #define kidcEasy 1004
 #define kidcNormal 1005
 #define kidcHard 1006
+#define kidcMuteSound 1007
 #define kidc1Select2Scroll 1203
 #define kidcScrollSpeed 1204
 #define kidcScrollSpeedLabel 1205

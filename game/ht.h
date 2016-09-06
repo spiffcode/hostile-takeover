@@ -2870,6 +2870,7 @@ private:
 	void UpdateLabels();
 
 	bool m_fLassoSelection;
+    bool m_fMuteSound;
 	long m_tGameSpeed;
 	word m_wfHandicap;
     double m_nScrollSpeed;

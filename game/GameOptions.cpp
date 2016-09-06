@@ -329,6 +329,7 @@ bool InGameOptionsForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 		return false;
 
 	m_fLassoSelection = gfLassoSelection;
+    m_fMuteSound = !gsndm.IsEnabled();
 	m_tGameSpeed = gtGameSpeed;
 	m_wfHandicap = gwfHandicap;
     m_nScrollSpeed = gnScrollSpeed;
@@ -359,6 +360,10 @@ void InGameOptionsForm::InitResettableControls()
 	// Lasso
 
 	SetControlChecked(kidcLassoSelection, m_fLassoSelection);
+
+    // Mute
+
+    SetControlChecked(kidcMuteSound, !gsndm.IsEnabled());
 
 	// Game Speed
 
@@ -424,6 +429,12 @@ void InGameOptionsForm::OnControlSelected(word idc)
         }
         break;
 
+    case kidcMuteSound:
+        {
+            gsndm.Enable(!GetControlChecked(kidcMuteSound));
+        }
+        break;
+
 	case kidcEasy:
 	case kidcNormal:
 	case kidcHard:
@@ -463,11 +474,13 @@ void InGameOptionsForm::OnControlSelected(word idc)
 		break;
 
 	case kidcCancel:
+        gsndm.Enable(!m_fMuteSound);
 		EndForm(idc);
 		break;
 
 	case kidcDefault:
 		m_fLassoSelection = false;
+        gsndm.Enable(true);
 		m_tGameSpeed = kcmsUpdate / 20;
         m_nScrollSpeed = 1.0;
 		m_wfHandicap = kfHcapDefault;
