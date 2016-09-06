@@ -167,11 +167,7 @@ SimUIForm::SimUIForm(word wfRole, dword gameid, Chatter *chatter)
 	m_nStateMoveTarget = 0;
 
     m_ppenh = NULL;
-#if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
-    SetUIType(kuitFinger);
-#else
-    SetUIType(kuitStylus);
-#endif
+    gfLassoSelection ? SetUIType(kuitStylus) : SetUIType(kuitFinger);
     m_punmrFirst = NULL;
 
     m_gameid = gameid;

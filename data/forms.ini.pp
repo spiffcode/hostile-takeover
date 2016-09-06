@@ -82,13 +82,13 @@
 	LABEL=0 (11 56 68 0) "Scroll Speed" kifntShadow
 	SLIDER=kidcScrollSpeed (11 70 95 8)
 	LABEL=kidcScrollSpeedLabel (121 70 17 0) "0" kifntShadow right
-	CHECKBOX=kidcLassoSelection (11 62 67 0) "Lasso Selection" kifntShadow
 	LABEL=0 (11 89 68 0) "Difficulty" kifntShadow
 	CHECKBOX=kidcEasy (11 99 67 0) "Easy" kifntShadow
 	CHECKBOX=kidcNormal (11 109 67 0) "Normal" kifntShadow
 	CHECKBOX=kidcHard (11 119 67 0) "Hard" kifntShadow
 	LABEL=0 (80 89 68 0) "Miscellaneous" kifntShadow
 	CHECKBOX=kidcMuteSound (80 99 67 0) "Mute Sound" kifntShadow
+	CHECKBOX=kidcLassoSelection (80 109 67 0) "Lasso Selection" kifntShadow
 	BUTTON=kidcOk (13 140 40 12) "OK" kifntButton
 	BUTTON=kidcCancel (60 140 40 12) "CANCEL" kifntButton
 	BUTTON=kidcDefault (107 140 40 12) "DEFAULT" kifntButton

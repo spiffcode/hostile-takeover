@@ -334,7 +334,7 @@ bool InGameOptionsForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 	m_wfHandicap = gwfHandicap;
     m_nScrollSpeed = gnScrollSpeed;
 
-#if defined(IPHONE) || defined(SDL)
+#if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
     GetControlPtr(kidcLassoSelection)->Show(false);
 #endif
 
@@ -447,9 +447,16 @@ void InGameOptionsForm::OnControlSelected(word idc)
 
 	case kidcOk:
 		{
-			// Lasso and game speed, other
+			// Lasso
 
 			gfLassoSelection = GetControlChecked(kidcLassoSelection);
+            SimUIForm *pfrmSimUI = ggame.GetSimUIForm();
+            if (pfrmSimUI != NULL) {
+                gfLassoSelection ? pfrmSimUI->SetUIType(kuitStylus) : pfrmSimUI->SetUIType(kuitFinger);
+            }
+
+            // Game speed and scroll speed
+
 			SliderControl *psldr = (SliderControl *)GetControlPtr(kidcGameSpeed);
 			ggame.SetGameSpeed(gatGameSpeeds[psldr->GetValue()]);
 			psldr = (SliderControl *)GetControlPtr(kidcScrollSpeed);
