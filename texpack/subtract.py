@@ -1,5 +1,5 @@
 import sys
-import Image
+from PIL import Image
 import colorsys
 
 def shift_hue(i0, shift):
