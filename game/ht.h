@@ -2337,7 +2337,6 @@ public:
 	bool AskObserveGame() secGame;
 	bool CheckDatabaseVersion(const char *pszDir, char *pszPdb,
             bool fUpwardCompatOK) secGame;
-    void GamePause(bool fpause);
 
 	// ModeMatch helpers
 

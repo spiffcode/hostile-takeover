@@ -24,6 +24,7 @@ SurfaceProperties gprops;
 SDL_FingerID gtouches[2];
 wi::Point gaptLast[2];
 bool gfWasBackgrounded;
+bool gfSimWasPaused;
 
 char *gpszUdid;
 
@@ -402,7 +403,10 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
         gpdisp->SetShouldRender(true);
 
         // Unpause simulation
-        ggame.GamePause(false);
+        if (!gfSimWasPaused) {
+            gsim.Pause(false);
+            gfSimWasPaused = false;
+        }
 
         // The client was disconected in SDL_APP_DIDENTERBACKGROUND.
         // Notify the callbacks about this to present the user with a message.
@@ -430,7 +434,8 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
         gfWasBackgrounded = true;
 
         // Pause simulation
-        ggame.GamePause(true);
+        gfSimWasPaused = gsim.IsPaused();
+        gsim.Pause(true);
 
         // Close the connection to the server. If the user returns to the app,
         // SDL_APP_DIDENTERFOREGROUND will notify gptra's callbacks.
