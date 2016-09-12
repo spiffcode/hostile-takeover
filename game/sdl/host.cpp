@@ -324,10 +324,6 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 			pevt->chr = chrDelete;
 			break;
 
-        case SDLK_AC_BACK:
-            pevt->chr = vchrBack;
-            break;
-
 #if 0			
 		case SDLK_F7:
 			if (gpavir == NULL) {
@@ -381,6 +377,21 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 			extern void DebugHelperKeyHandler(word vk);
 			DebugHelperKeyHandler(pmsg->wParam);
 #endif
+            pevt->chr = event.key.keysym.sym;
+            break;
+        }
+        break;
+
+    case SDL_KEYUP:
+        // pevt->eType = keyUpEvent;
+        switch (event.key.keysym.sym) {
+
+        case SDLK_AC_BACK:
+            pevt->eType = keyDownEvent;
+            pevt->chr = vchrBack;
+            break;
+
+        default:
             pevt->chr = event.key.keysym.sym;
             break;
         }
