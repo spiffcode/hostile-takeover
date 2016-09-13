@@ -93,6 +93,13 @@ bool Display::Init()
     m_cx = props.cxWidth;
     m_cy = props.cyHeight;
     m_density = props.density;
+
+    // Set appropriate GL attributes
+    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+    SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
+    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     
     // Create window
     if ((m_window = SDL_CreateWindow("Hostile Takeover", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_cx, m_cy, videoflags)) == NULL) {
