@@ -419,7 +419,9 @@ MissionType MissionList::GetMissionType(const PackId *ppackid,
                 return kmtChallenge;
 
             case 'd':
-                return kmtDemo;
+                // HACK: D3 is the only demo mission in the database
+                // let's considder it a challenge map
+                return kmtChallenge; // return kmtDemo;
 
             case 'm':
                 return kmtMultiplayerChallenge;
