@@ -477,4 +477,9 @@ Mark Soderwall
 <BR>
 Marketing Consultant:
 Lisa Linnenkohl
+<BR>
+Open Source Libraries:
+curl
+SDL2
+yajl
 </H2>
