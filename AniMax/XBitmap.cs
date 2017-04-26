@@ -139,10 +139,12 @@ namespace SpiffCode
                         strFile);
             }
             m_strFileName = strFile;
-            m_bm = new Bitmap(strFile);
+            using (var bmTemp = new Bitmap(strFile))
+                m_bm = new Bitmap(bmTemp);
 			string strPath = Path.GetDirectoryName(strFile);
 			string strFileName = Path.GetFileName(strFile);
-			m_bmBlack = new Bitmap(Path.Combine(strPath, "black_" + strFileName));
+            using (var bmpTemp = new Bitmap(Path.Combine(strPath, "black_" + strFileName)))
+                m_bmBlack = new Bitmap(bmTemp);
         }
 
 		private void Load8(string strFileName, bool fUseFirstPaletteEntryAsTransparentColor) {
