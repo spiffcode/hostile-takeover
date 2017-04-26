@@ -98,13 +98,13 @@ void SpInfantryGob::Idle()
 	case 0:
 		m_dir--;
 		if (m_dir < 0)
-			m_dir = 7;
+			m_dir = 15;
 		StartAnimation(&m_ani, m_pmuntc->anIdleStripIndices[m_dir], 0, kfAniResetWhenDone);
 		break;
 
 	case 1:
 		m_dir++;
-		if (m_dir > 7)
+		if (m_dir > 15)
 			m_dir = 0;
 		StartAnimation(&m_ani, m_pmuntc->anIdleStripIndices[m_dir], 0, kfAniResetWhenDone);
 		break;

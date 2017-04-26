@@ -154,7 +154,8 @@ void MinerGob::Draw(DibBitmap *pbm, int xViewOrigin, int yViewOrigin, int nLayer
 	MobileUnitGob::Draw(pbm, xViewOrigin, yViewOrigin, nLayer);
 
 	if (m_st == kstMinerSuck && nLayer == knLayerDepthSorted) {
-		SetAnimationStrip(&m_aniVacuum, m_ani.GetStrip());
+        // HACK: m_ani is dir16 but m_aniVacuum only has 8 strips, divide by 2
+		SetAnimationStrip(&m_aniVacuum, m_ani.GetStrip() / 2);
 		m_aniVacuum.Draw(pbm, PcFromUwc(m_wx) - xViewOrigin, PcFromUwc(m_wy) - yViewOrigin);
 	} else if (nLayer == knLayerSelection && (m_ff & kfGobSelected)) {
 		Rect rcT;
@@ -206,7 +207,8 @@ void MinerGob::GetClippingBounds(Rect *prc)
 	UnitGob::GetClippingBounds(prc);
 
 	if (m_st == kstMinerSuck) {
-		SetAnimationStrip(&m_aniVacuum, m_ani.GetStrip());
+        // HACK: m_ani is dir16 but m_aniVacuum only has 8 strips, divide by 2
+		SetAnimationStrip(&m_aniVacuum, m_ani.GetStrip() / 2);
 		Rect rc;
 		m_aniVacuum.GetBounds(&rc);
 		rc.Offset(PcFromUwc(m_wx), PcFromUwc(m_wy));
@@ -540,8 +542,8 @@ BeginStateMachine
 
 			// Rotate to face south
 
-			if (m_dir != kdirS) {
-				m_dir = TurnToward(kdirS, m_dir);
+			if (m_dir != kdir16S) {
+				m_dir = TurnToward16(kdir16S, m_dir);
 				StartAnimation(&m_ani, m_pmuntc->anMovingStripIndices[m_dir], 0, kfAniLoop | kfAniIgnoreFirstAdvance);
 			} else {
 
@@ -686,9 +688,9 @@ if (!(m_ff & kfGobActive)) {
 
 				// Make sure we're facing towards the Galaxite tile
 
-				Direction dirTo = CalcDir(m_tptGalaxite.tx - TcFromWc(m_wx), m_tptGalaxite.ty - TcFromWc(m_wy));
+				Direction16 dirTo = CalcDir16(m_tptGalaxite.tx - TcFromWc(m_wx), m_tptGalaxite.ty - TcFromWc(m_wy));
 				if (m_dir != dirTo) {
-					m_dir = TurnToward(dirTo, m_dir);
+					m_dir = TurnToward16(dirTo, m_dir);
 					StartAnimation(&m_ani, m_pmuntc->anMovingStripIndices[m_dir], 0, kfAniLoop | kfAniIgnoreFirstAdvance);
 				} else {
 //temp

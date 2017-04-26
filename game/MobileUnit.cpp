@@ -57,6 +57,22 @@ const int kcFireCountdown = 6;	// 6 updates (~.5 secs)
 Path *MobileUnitGob::s_apathCached[kcPathsCache];
 int MobileUnitGob::s_cpathCached;
 
+int Dir16ToDx(Direction16 dir16)
+{
+    return g_mpDirToDx[dir16 / 2];
+}
+
+int Dir16ToDy(Direction16 dir16)
+{
+    return g_mpDirToDy[dir16 / 2];
+}
+
+bool Dir16IsDiagonal(Direction16 dir16)
+{
+    return (dir16 != kdir16N && dir16 != kdir16E &&
+        dir16 != kdir16S && dir16 != kdir16W);
+}
+
 //===========================================================================
 // MobileUnitGob implementation
 
@@ -459,9 +475,9 @@ bool MobileUnitGob::Fire(UnitGob *puntTarget, WCoord wx, WCoord wy, WCoord wdx, 
 {
 	// Make sure we're facing the way we want to fire before we try to fire
 
-	Direction dirFire = CalcDir(wdx, wdy);
+	Direction16 dirFire = CalcDir16(wdx, wdy);
 	if (m_dir != dirFire) {
-		m_dir = TurnToward(dirFire, m_dir);
+		m_dir = TurnToward16(dirFire, m_dir);
 		SetAnimationStrip(&m_ani, m_pmuntc->anMovingStripIndices[m_dir]);
 		m_unvl.MinSkip();
 		return false;
@@ -716,7 +732,7 @@ int MobileUnitGob::ProcessStateMachineMessage(State st, Message *pmsg)
 {
 BeginStateMachine
 	OnEnter
-		m_dir = kdirS;
+		m_dir = kdir16S;
 		SetState(kstGuard);
 
 	// Actions are sent by Trigger/UnitActions or the Overmind
@@ -1855,7 +1871,7 @@ void MobileUnitGob::EnterTransition(TPoint *ptptNext)
 	TCoord tyOld = TcFromWc(m_wy);
 	Assert(IsTileReserved(txOld, tyOld));
 	ReserveTile(txOld, tyOld, false);
-	m_dirNext = DirectionFromLocations(txOld, tyOld, ptptNext->tx, ptptNext->ty);
+	m_dirNext = Direction16FromLocations(txOld, tyOld, ptptNext->tx, ptptNext->ty);
 	Assert(m_dirNext != kdirInvalid);
 
 	// Tile is assumed to be available; reserve it and start a transition
@@ -1882,7 +1898,7 @@ void MobileUnitGob::EnterTransition(TPoint *ptptNext)
 	// This unit is now "in transition".
 
 	WCoord wcMoveDist = m_wcMoveDistPerUpdate;
-	if (m_dirNext & 1)
+	if (Dir16IsDiagonal(m_dirNext))
 		wcMoveDist = gawcDiagonalDist[wcMoveDist];
 	m_cMoveStepsRemaining = gaDiv256byNWithRounding[wcMoveDist];
 }
@@ -1900,7 +1916,7 @@ void MobileUnitGob::ContinueTransition()
 	// Make sure we're facing the way we want to go before we go
 
 	if (m_dirNext != m_dir) {
-		m_dir = TurnToward(m_dirNext, m_dir);
+		m_dir = TurnToward16(m_dirNext, m_dir);
 		StartAnimation(&m_ani, m_pmuntc->anMovingStripIndices[m_dir], 0, kfAniLoop | kfAniIgnoreFirstAdvance);
 		return;
 	}
@@ -1925,17 +1941,17 @@ void MobileUnitGob::ContinueTransition()
 
 		// Are we moving diagonally?
 
-		if (m_dir & 1)
+		if (Dir16IsDiagonal(m_dir))
 			wcMoveDist = gawcDiagonalDist[wcMoveDist];
 
-		int dx = g_mpDirToDx[m_dir];
+		int dx = Dir16ToDx(m_dir);
 		if (dx == -1) {
 			wxNew -= wcMoveDist;
 		} else if (dx == 1) {
 			wxNew += wcMoveDist;
 		}
 
-		int dy = g_mpDirToDy[m_dir];
+		int dy = Dir16ToDy(m_dir);
 		if (dy == -1) {
 			wyNew -= wcMoveDist;
 		} else if (dy == 1) {

@@ -631,6 +631,23 @@ Direction TurnToward(Direction dirTo, Direction dirFrom)
 	return ((unsigned int)dirFrom) % 8;
 }
 
+Direction16 TurnToward16(Direction16 dirTo, Direction16 dirFrom)
+{
+	int d = dirTo - dirFrom;
+	if (d == 0)
+		return dirTo;
+
+	if (d < -8)
+		d = 1;
+	else if (d > 8)
+		d = -1;
+	if (d < 0)
+		dirFrom--;
+	else
+		dirFrom++;
+	return ((unsigned int)dirFrom) % 16;
+}
+
 int isqrt(int val1, int val2)
 {
     return (int)isqrt((dword)val1 * (dword)val1 + (dword)val2 * (dword)val2);

@@ -1119,6 +1119,10 @@ Direction DirectionFromLocations(TCoord txOld, TCoord tyOld, TCoord txNew, TCoor
 	return dir;
 }
 
+Direction16 Direction16FromLocations(TCoord txOld, TCoord tyOld, TCoord txNew, TCoord tyNew) {
+    return DirectionFromLocations(txOld, tyOld, txNew, tyNew) * 2;
+}
+
 //
 // TrackPoint class
 //

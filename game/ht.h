@@ -1378,6 +1378,14 @@ const Direction kdirNW = 7;
 
 typedef int Direction16; // dir16
 const Direction16 kdir16Invalid = -1;
+const Direction16 kdir16N = 0;
+const Direction16 kdir16NE = 2;
+const Direction16 kdir16E = 4;
+const Direction16 kdir16SE = 6;
+const Direction16 kdir16S = 8;
+const Direction16 kdir16SW = 10;
+const Direction16 kdir16W = 12;
+const Direction16 kdir16NW = 14;
 
 // TerrainMap
 
@@ -6775,7 +6783,7 @@ private:
 	UnitGob *FindValidTargetInArea(int nArea) secUnitGob;
 
 protected:
-	Direction m_dir, m_dirNext;
+	Direction16 m_dir, m_dirNext;
 	Gid m_gidTarget;
 	long m_tLastFire;
 	Message m_msgPending;
@@ -8559,6 +8567,7 @@ bool FormDragger(Form *pfrm, Event *pevt) secForm;
 bool HostMultiplayerGame() secMultiplayer;
 bool JoinOrHostMultiplayerGame(const PackId *ppackid) secMultiplayer;
 Direction TurnToward(Direction dirTo, Direction dirFrom) secMisc;
+Direction16 TurnToward16(Direction16 dirTo, Direction16 dirFrom) secMisc;
 int CalcCreditsShare(Player *pplr) secStructures;
 void DrawTileMap(byte **ppbMap, int ctx, int cty, byte *pbDst, int cbDstStride, int cxLeftTile, int cyTopTile, int cxRightTile, int cyBottomTile, int ctxInside, int ctyInside, int cxTile, int cyTile) secTileMap;
 FormMgr *CreateFormMgr(DibBitmap *pbm) secFormMgr;
@@ -8595,6 +8604,7 @@ void FindNearestFreeTile(TCoord tx, TCoord ty, WPoint *pwpt, byte bf = kbfStruct
 void GetPrerequisiteString(char *psz, UnitConsts *puntc) secUnitGob;
 void BringInBounds(WCoord *pwx, WCoord *pwy) secMisc;
 Direction DirectionFromLocations(TCoord txOld, TCoord tyOld, TCoord txNew, TCoord tyNew) secTerrainMap;
+Direction16 Direction16FromLocations(TCoord txOld, TCoord tyOld, TCoord txNew, TCoord tyNew) secTerrainMap;
 int RadiusFromUnitCount(int cUnits) secMisc;
 void MoveUnitsToArea(MobileUnitGob **apmunt, int cpmunt, TRect *ptrc) secTrigger;
 void AddPointToLassoSelection(WPoint wpt) secSimUIForm;
