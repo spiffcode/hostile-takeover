@@ -18,17 +18,17 @@ namespace acrunch
         [STAThread]
         static int Main(string[] astrArgs) {
 
-            if (astrArgs.Length < 3 || astrArgs.Length > 10) {
-                Console.WriteLine("Usage:\nacrunch [-scale N] [-save] [-noscaleicon] [-noshrinkwrap] [-highlight <cxTile>] [-stats] <palette.pal> <input.amx> <outdir>\n");
+            if (astrArgs.Length < 2 || astrArgs.Length > 9) {
+                Console.WriteLine("Usage:\nacrunch [-scale N] [-save] [-noscaleicon] [-noshrinkwrap] [-highlight <cxTile>] [-stats] <input.amx> <outdir>\n");
                 return -1;
             }
 
             double nScale = 1.0;
             bool fSave = false;
-            bool fNoShrinkWrap = false;
+            bool fNoShrinkWrap = true;
             bool fDumpStats = false;
             bool fScaleIcon = true;
-            bool fMakeHighlight = true;
+            bool fMakeHighlight = false;
             int cxTile = 0;
 
             int iarg = 0;
@@ -63,6 +63,7 @@ namespace acrunch
                 iarg++;
             }
 
+#if false
             // Read in the palette
 
             string strFilePal = astrArgs[iarg++];
@@ -71,6 +72,7 @@ namespace acrunch
                 Console.WriteLine("Error: unable to read the palette file {0}\n", strFilePal);
                 return -1;
             }
+#endif
 
             // Read in the animation file (.amx)
 
@@ -96,13 +98,13 @@ namespace acrunch
 
             Strip stpHighlight = null;
             if (fMakeHighlight) {
-                stpHighlight = MakeHighlightStrip(doc, cxTile, pal);
+                stpHighlight = MakeHighlightStrip(doc, cxTile, null);
             }
 
             // Scale if asked
 
             if (nScale != 1.0) {
-                Scale(doc, nScale, pal, fScaleIcon);
+                Scale(doc, nScale, null, fScaleIcon);
             }
 
             // Add in highlight strip
@@ -128,7 +130,7 @@ namespace acrunch
             if (fSave)
                 doc.Save(strDir + Path.DirectorySeparatorChar + Path.GetFileName(strFileAmx));
             else
-                doc.WriteAnir(pal, strDir, Path.GetFileNameWithoutExtension(strFileAmx));
+                doc.WriteAnir(strDir, Path.GetFileNameWithoutExtension(strFileAmx));
             return 0;
         }
 
@@ -221,7 +223,7 @@ namespace acrunch
             foreach (XBitmap xbm in doc.XBitmapSet) {
                 // Scale
 
-                xbm.Bitmap = TBitmapTools.ScaleBitmap(xbm.Bitmap, nScale, palFixed);
+                //xbm.Bitmap = TBitmapTools.ScaleBitmap(xbm.Bitmap, nScale, palFixed);
 
                 // Scale the points in the frames that use this bitmap
 
