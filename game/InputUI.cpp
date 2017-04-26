@@ -403,7 +403,7 @@ void InputUIForm::InGameMenu()
 			break;
 
 		case kidcOptions:
-			DoModalGameOptionsForm(gsim.GetLevel()->GetPalette(), true);
+			DoModalGameOptionsForm(true);
 			break;
 
 		case kidcHelp:

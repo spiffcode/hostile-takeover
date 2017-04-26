@@ -8,8 +8,6 @@ Level::Level()
 	m_pfogm = NULL;
 	m_ptrmap = NULL;
 	m_ptmap = NULL;
-	m_ppal = NULL;
-	m_mpiclriclrShadow = NULL;
 	m_nPlayersMin = 1;
 	m_nPlayersMax = 1;
 	m_szTitle[0] = 0;
@@ -32,11 +30,6 @@ Level::~Level()
 		delete m_ptmap;
 		delete m_pfogm;
 		delete m_ptrmap;
-
-		if (m_ppal != NULL)
-			gpakr.UnmapFile(&m_fmapPalette);
-		if (m_mpiclriclrShadow != NULL)
-			gpakr.UnmapFile(&m_fmapShadowMap);
 
 		// Free up any cached paths
 
@@ -258,20 +251,6 @@ bool Level::LoadLevelConstants(const char *pszLevelName, IniReader *pini)
 		Assert(false);
 		return false;
 	}
-
-	// Load palette
-
-	if (!pini->GetPropertyValue("General", "Palette", szT, sizeof(szT))) {
-		Assert(false);
-		return false;
-	}
-	m_ppal = (Palette *)gpakr.MapFile(szT, &m_fmapPalette);
-	if (m_ppal == NULL) {
-		Assert(false);
-		return false;
-	}
-	strcat(szT, ".shadowmap");
-	m_mpiclriclrShadow = (byte *)gpakr.MapFile(szT, &m_fmapShadowMap);
 
 	// Instantiate an OvermindGob for each Computer Player
 

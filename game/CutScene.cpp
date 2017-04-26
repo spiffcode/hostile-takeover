@@ -46,12 +46,6 @@ void CutScene(const char *pszText, bool fPauseSimulation)
 			gsim.Pause(false);
 		delete pfrm;
 	}
-
-	// Set the palette back
-
-	Palette *ppal = gsim.GetLevel()->GetPalette();
-	SetHslAdjustedPalette(ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
-	gmpiclriclrShadow = gsim.GetLevel()->GetShadowMap();
 }
 
 CutSceneForm::CutSceneForm()
@@ -123,38 +117,10 @@ void CutSceneForm::More()
 			// UNDONE: no image
 			int cArgs = IniScanf(pch, "<img %s>%+", szBitmap, &cch);
 			if (cArgs != 0) {
-				if (cArgs == 1)
+				if (cArgs == 1) {
 					pch += strlen(pch);
-				else
+                } else {
 					pch += cch;
-
-				{
-					// This little dance (hide the bitmap control, force a repaint,
-					// change the palette, show the bitmap control) is to avoid the
-					// ugly palette flash.
-
-					char szPalette[kcbFilename];
-					strcpy(szPalette, szBitmap);
-					char *pchDot = strchr(szPalette, '.');
-					Assert(pchDot != NULL);
-					*pchDot = 0;
-					strcat(szPalette, ".palbin");
-
-					HideCutSceneBitmap();
-
-					FileMap fmapOld = m_fmapPalette;
-					Palette *ppal = (Palette *)gpakr.MapFile(szPalette, &m_fmapPalette);
-					if (ppal != NULL) {
-						if (m_wf & kfFrmHasPalette)
-							gpakr.UnmapFile(&fmapOld);
-
-						m_wf |= kfFrmHasPalette;
-
-						// Select palette
-
-						SetHslAdjustedPalette(ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
-					}
-
 					ShowCutSceneBitmap();
 				}
 
@@ -254,11 +220,6 @@ void CutSceneForm::OnControlSelected(word idc)
 	}
 
 	if (*m_pszText == 0) {
-
-		// Hide the bitmap and force a repaint to avoid an ugly color flash
-		// if the palette changes upon return from the cut scene
-
-		HideCutSceneBitmap();
 		EndForm();
 	} else {
 		More();

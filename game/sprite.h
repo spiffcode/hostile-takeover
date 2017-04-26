@@ -5,7 +5,6 @@
 
 namespace wi {
 
-class Palette;
 class Animation;
 class AnimSprite;
 class SelectionSprite;
@@ -36,7 +35,6 @@ public:
 class UnitGob;
 class AnimSprite : public Sprite {
 public:
-    virtual void SetPalette(Palette *ppal) = 0;
     virtual void CaptureFrame(UnitGob *pgob) = 0;
     virtual void SetScaleAnimation(float nScaleStart, float nScaleEnd,
             dword cms, dword cmsRate, bool fAutoDestroy) = 0;

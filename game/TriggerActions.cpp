@@ -1217,8 +1217,6 @@ bool CutSceneAction::Perform(Trigger *ptgr, Side side)
         return true;
     }
 
-	// UNDONE: clear screen for cleaner palette transition?
-
 	CutScene(m_pszMessage, true);
 
 	// if the app was exited while the cut scene was up, return to it

@@ -181,26 +181,6 @@ bool Display::Init()
     return true;
 }
 
-void Display::SetPalette(Palette *ppal)
-{
-	SDL_Color aclr[256];
-	int cEntries = BigWord(ppal->cEntries);
-	byte *pb = (byte *)ppal->argb;
-	SDL_Color *pclr = aclr;
-	
-	for (int i = 0; i < cEntries; i++) {
-		pclr->r = *pb++;
-		pclr->g = *pb++;
-		pclr->b = *pb++;
-		pclr++;
-	}
-    
-    for (int i = 0; i < cEntries; i++) {
-        m_palette[i] = ((Uint8)aclr[i].r << 16) | ((Uint8)aclr[i].g << 8) | ((Uint8)aclr[i].b << 0);
-    }
-    
-}
-
 int Display::GetModeCount()
 {
     return m_cmodes;

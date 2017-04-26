@@ -717,79 +717,11 @@ void WLineIterator::Init(WCoord wx1, WCoord wy1, WCoord wx2, WCoord wy2, int nIn
 }
 
 //
-// Palette and color helpers
+// Color helpers
 //
 
 const short SCALEFACTOR = 128;
 const word SCALEMAX = 256 * (word)SCALEFACTOR;
-
-// nHueOffset is in the range from -100 to +100
-// nLumOffset is in the range from -100 to +100
-// nSatMultiplier is in the range from -100 to +100 and is scaled non-linearly
-// to cover the desired (finely tuned) range.
-
-void SetHslAdjustedPalette(Palette *ppal, short nHueOffset, short nSatMultiplier, short nLumOffset)
-{
-	// Incorporate hardware-correcting values
-
-	short nHueT, nSatT, nLumT;
-	gpdisp->GetHslAdjustments(&nHueT, &nSatT, &nLumT);
-	nHueOffset += nHueT;
-	if (nHueT < -100)
-		nHueT = -100;
-	else if (nHueT > 100)
-		nHueT = 100;
-	nSatMultiplier += nSatT;
-	if (nSatMultiplier < -100)
-		nSatMultiplier = -100;
-	else if (nSatMultiplier > 100)
-		nSatMultiplier = 100;
-	nLumOffset += nLumT;
-	if (nLumOffset < -100)
-		nLumOffset = -100;
-	else if (nLumOffset > 100)
-		nLumOffset = 100;
-
-	short nHueAdd = (nHueOffset * (3 * SCALEFACTOR)) / 100;
-	short nLumAdd = (short)((nLumOffset * 10000L) / 100);
-
-	// maps +/-100 to 128-384
-	long nT = 128 + (((nSatMultiplier + 100L) * 256) / 200);
-
-	// non-linearly transforms to the range 0-1024 (actually 64-576)
-	short nSatMult = (short)((nT * nT) / 256);
-
-	int cEntries = BigWord(ppal->cEntries);
-	Palette *ppalMod = (Palette *)new byte[sizeof(word) + (cEntries * sizeof(ppal->argb))];
-	ppalMod->cEntries = ppal->cEntries;
-
-	word nH, nS, nL;
-
-	for (int i = 0; i < cEntries; i++) {
-		RgbToHsl(ppal->argb[i][0], ppal->argb[i][1], ppal->argb[i][2], &nH, &nS, &nL);
-
-		int nT = nH + nHueAdd;
-		if (nT >= 6 * SCALEFACTOR)
-			nT -= 6 * SCALEFACTOR;
-		else if (nT < 0)
-			nT += 6 * SCALEFACTOR;
-
-		long lS = (nS * (long)nSatMult) / 256L;
-		if (lS > SCALEMAX)
-			lS = (long)SCALEMAX;
-
-		long lL = nL + (long)nLumAdd;
-		if (lL > SCALEMAX)
-			lL = (long)SCALEMAX;
-		else if (lL < 0)
-			lL = 0;
-
-		HslToRgb((word)nT, (word)lS, (word)lL, &ppalMod->argb[i][0], &ppalMod->argb[i][1], &ppalMod->argb[i][2]);
-	}
-
-	gpdisp->SetPalette(ppalMod);
-	delete[] ppalMod;
-}
 
 // Takes byte-sized RGB values in the range from 0-255 and returns
 // word-sized HSL values in the range from 0-32768 (H, S, L).

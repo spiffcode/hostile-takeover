@@ -202,15 +202,6 @@ DibBitmap *HostHelpers::CreateFrontDib(int cx, int cy, int nDegreeOrientation)
     return NULL;
 #endif
 }
-    
-void HostHelpers::SetPalette(Palette *ppal)
-{
-#if 0
-    [g_appDelegate setPalette:ppal];
-#else
-    Log("HostHelpers::SetPalette not implemented yet");
-#endif
-}
 
 static char gszUdid[20];
 

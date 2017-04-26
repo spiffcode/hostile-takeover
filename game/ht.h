@@ -635,14 +635,6 @@ public:
 		return bottom - top;
 	}
 };
-
-// Palette
-
-struct Palette // pal
-{
-    word cEntries;
-    byte argb[1][3];
-};
     
 } // namespace wi
     
@@ -2405,7 +2397,6 @@ public:
             MissionIdentifier *pmiid = NULL) secShell;
 	int PlayGame(PlayMode pm, MissionIdentifier *pmiid, Stream *pstm,
             int nRank) secShell;
-	void SetPalette() secShell;
 
 private:
     bool DoPlay();
@@ -2414,11 +2405,6 @@ private:
 	bool PlaySinglePlayer(const PackId *ppackid) secShell;
 	bool PlayMultiplayer(const PackId *ppackid) secShell;
     void DownloadMissionPack() secShell;
-
-	FileMap m_fmapPalette;
-	FileMap m_fmapShadowMap;
-	Palette *m_ppal;
-	byte *m_mpiclriclrShadow;
 };
 extern Shell gshl;
 
@@ -2645,8 +2631,6 @@ private:
 #define kfFrmDoModal 0x02
 #define kfFrmVisible 0x04
 #define kfFrmPenInside 0x08
-#define kfFrmHasPalette 0x10
-#define kfFrmHasShadowMap 0x20
 #define kfFrmScaleCoords 0x40
 #define kfFrmAutoTakedown 0x80
 #define kfFrmTranslucent 0x100
@@ -2742,8 +2726,6 @@ protected:
 	Sfx m_sfxShow;
 	Sfx m_sfxHide;
 	Control *m_apctl[kcControlsMax];
-	FileMap m_fmapPalette;
-	FileMap m_fmapShadowMap;
 	int m_iclrBack;
 	void* m_pUserData;
 
@@ -5338,14 +5320,6 @@ public:
 		return m_ptmap;
 	}
 
-	Palette *GetPalette() {
-		return m_ppal;
-	}
-
-	byte *GetShadowMap() {
-		return m_mpiclriclrShadow;
-	}
-
 	FogMap *GetFogMap() {
 		return m_pfogm;
 	}
@@ -5404,10 +5378,6 @@ private:
 	char m_szFileLevel[kcbFilename];
 	int m_nPlayersMin, m_nPlayersMax;
 	TileMap *m_ptmap;
-	Palette *m_ppal;
-	FileMap m_fmapPalette;
-	byte *m_mpiclriclrShadow;
-	FileMap m_fmapShadowMap;
 	FogMap *m_pfogm;
 	TerrainMap *m_ptrmap;
 	bool m_fInitialized;
@@ -8597,7 +8567,6 @@ void FillHelper(DibBitmap *pbm, UpdateMap *pupd, Rect *prc, Color clr) secForm;
 void BltHelper(DibBitmap *pbm, TBitmap *ptbm, UpdateMap *pupd, int xDst, int yDst) secForm;
 void RgbToHsl(byte bR, byte bG, byte bB, word *pnH, word *pnS, word *pnL) secMisc;
 void HslToRgb(word nH, word nS, word nL, byte *pbR, byte *pbG, byte *pbB) secMisc;
-void SetHslAdjustedPalette(Palette *ppal, short nHueOffset, short nSatMultiplier, short nLumOffset) secMisc;
 UnitConsts *GetUnitConsts(GobType gt) secGob;
 Sfx SfxFromCategory(SfxCategory sfxc) secMisc;
 bool ParseNumber(char **ppsz, int *pn) secTrigger;
@@ -8609,7 +8578,7 @@ bool ParseString(char **ppsz, char *psz) secTrigger;
 SideMask GetSideMaskFromCaSideMask(Side sideCur, word wfCaSideMask) secTrigger;
 int GetPlayersListFromCaSideMask(Side sideCur, word wfMask, Player **applr) secTrigger;
 void Ecom(int nCharFrom, int nCharTo, char *pszMessage, int nBackground, bool fMore) secEcom;
-bool DoModalGameOptionsForm(Palette *ppal, bool fInGame) secGameOptionsForm;
+bool DoModalGameOptionsForm(bool fInGame) secGameOptionsForm;
 bool ShowDownloadMissionPackForm(PackId *ppackid);
 bool DownloadMissionPack(const PackId *ppackid, const char *pszTitle,
         bool fPlayButton);

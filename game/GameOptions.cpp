@@ -66,7 +66,7 @@ private:
 class ColorOptionsForm : public Form
 {
 public:
-	ColorOptionsForm(Palette *ppal) secGameOptionsForm;
+	ColorOptionsForm() secGameOptionsForm;
 	virtual bool Init(FormMgr *pfrmm, IniReader *pini, word idf) secGameOptionsForm;
 	virtual void OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd) secGameOptionsForm;
 	virtual void OnControlSelected(word idc) secGameOptionsForm;
@@ -75,7 +75,6 @@ private:
 	void InitResettableControls() secGameOptionsForm;
 	void UpdateLabels() secGameOptionsForm;
 
-	Palette *m_ppal;
 	int m_nHueOffset;
 	int m_nSatMultiplier;
 	int m_nLumOffset;
@@ -136,7 +135,7 @@ private:
 
 // +++
 
-bool DoModalGameOptionsForm(Palette *ppal, bool fInGame)
+bool DoModalGameOptionsForm(bool fInGame)
 {
 #if !defined(IPHONE) && !defined(SDL)
 	ShellForm *pfrm = (ShellForm *)gpmfrmm->LoadForm(gpiniForms, kidfGameOptions, new GameOptionsForm());
@@ -150,7 +149,7 @@ bool DoModalGameOptionsForm(Palette *ppal, bool fInGame)
 
 	if (nResult == kidcColorOptions) {
 		gpmfrmm->InvalidateRect(NULL);
-		Form *pfrmT = gpmfrmm->LoadForm(gpiniForms, kidfColorOptions, new ColorOptionsForm(ppal));
+		Form *pfrmT = gpmfrmm->LoadForm(gpiniForms, kidfColorOptions, new ColorOptionsForm());
 		if (pfrmT != NULL) {
 			pfrmT->DoModal();
 			delete pfrmT;
@@ -576,9 +575,8 @@ void SoundOptionsForm::OnControlSelected(word idc)
 // Color Options Form
 //
 
-ColorOptionsForm::ColorOptionsForm(Palette *ppal)
+ColorOptionsForm::ColorOptionsForm()
 {
-	m_ppal = ppal;
 }
 
 bool ColorOptionsForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
@@ -659,8 +657,6 @@ void ColorOptionsForm::OnControlSelected(word idc)
 			
 			UpdateLabels();
 
-			SetHslAdjustedPalette(m_ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
-
 			// Some devices such as the PocketPC need the form redrawn because setting the palette
 			// is only setting an 8->16 bit translation table, and only the controls are redrawing.
 
@@ -675,7 +671,6 @@ void ColorOptionsForm::OnControlSelected(word idc)
 			gnHueOffset = m_nHueOffset;
 			gnSatMultiplier = m_nSatMultiplier;
 			gnLumOffset = m_nLumOffset;
-			SetHslAdjustedPalette(m_ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
 		}
 
 		EndForm(idc);
@@ -693,7 +688,6 @@ void ColorOptionsForm::OnControlSelected(word idc)
 			gnHueOffset = 0;
 			gnSatMultiplier = 0;
 			gnLumOffset = 0;
-			SetHslAdjustedPalette(m_ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
 		}
 
 		InitResettableControls();

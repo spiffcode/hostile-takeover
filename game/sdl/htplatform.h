@@ -93,7 +93,6 @@ struct ModeInfo
 };
 #define kcmodesMax 16
 
-struct Palette;
 class Rect;
 class DibBitmap;
 class UpdateMap;
@@ -107,7 +106,6 @@ public:
     ~Display();
 
     bool Init();
-    void SetPalette(Palette *ppal);
     int GetModeCount();
     void GetModeInfo(int imode, ModeInfo *pmode);
     int GetMode(ModeInfo *pmode);

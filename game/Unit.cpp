@@ -658,11 +658,7 @@ void UnitGob::Hilight(bool fHilight)
 
 AnimSprite *UnitGob::CreateHilightSprite()
 {
-    AnimSprite *panispr = gpsprm->CreateAnimSprite();
-    if (panispr != NULL) {
-        panispr->SetPalette(gsim.GetLevel()->GetPalette());
-    }
-    return panispr;
+    return gpsprm->CreateAnimSprite();
 }
 
 void UnitGob::SetHealth(fix fxHealth)

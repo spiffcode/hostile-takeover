@@ -39,11 +39,6 @@ Form::~Form()
 	if (m_pfrmm != NULL)
 		m_pfrmm->RemoveForm(this);
 
-	if (m_wf & kfFrmHasPalette)
-		gpakr.UnmapFile(&m_fmapPalette);
-	if (m_wf & kfFrmHasShadowMap)
-		gpakr.UnmapFile(&m_fmapShadowMap);
-
 	// Mark deleted for debugging purposes
 
 	m_wf |= kfFrmDeleted;
@@ -160,7 +155,6 @@ bool Form::InitFromProperties(FormMgr *pfrmm, word idf, IniReader *pini, char *p
 
 	int x, y, cx, cy;
 	char szBitmap[kcbFilename];
-	char szPalette[kcbFilename];
 	int idcDefault;
 	char szArgs[3][32];
 	int cArgs = pini->GetPropertyValue(pszForm, "FORM", "(%d %d %d %d) %d %s %s %s",
@@ -213,9 +207,6 @@ bool Form::InitFromProperties(FormMgr *pfrmm, word idf, IniReader *pini, char *p
 	cArgs = pini->GetPropertyValue(pszForm, "FORMBITMAP", "%s", szBitmap);
 	if (cArgs == 0)
 		szBitmap[0] = 0;
-	cArgs = pini->GetPropertyValue(pszForm, "FORMPALETTE", "%s", szPalette);
-	if (cArgs == 0)
-		szPalette[0] = 0;
 	cArgs = pini->GetPropertyValue(pszForm, "FORMBACKCOLOR", "%d", &m_iclrBack);
 	if (cArgs == 0)
 		m_iclrBack = -1;
@@ -234,27 +225,6 @@ bool Form::InitFromProperties(FormMgr *pfrmm, word idf, IniReader *pini, char *p
 	}
 	m_pfrmm = pfrmm;
 	m_idf = idf;
-
-	// Load and set the form Palette, if any
-
-	if (szPalette[0] != 0) {
-		Palette *ppal = (Palette *)gpakr.MapFile(szPalette, &m_fmapPalette);
-		Assert(ppal != NULL);
-		if (ppal == NULL)
-			return false;
-		m_wf |= kfFrmHasPalette;
-
-		// Select palette
-
-		SetHslAdjustedPalette(ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
-
-		// Load and set a corresponding shadow map if it exists
-
-		strcat(szPalette, ".shadowmap");
-		gmpiclriclrShadow = (byte *)gpakr.MapFile(szPalette, &m_fmapShadowMap);
-		if (gmpiclriclrShadow != NULL)
-			m_wf |= kfFrmHasShadowMap;
-	}
 
 	return true;
 }

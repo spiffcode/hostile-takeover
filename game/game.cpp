@@ -26,7 +26,6 @@ GobStateMachineMgr gsmm;
 GobMgr ggobm;
 byte *gpbScratch;
 word gcbScratch;
-byte *gmpiclriclrShadow;
 int gimmReinitialize = -1;
 bool gfLoadReinitializeSave = false;
 int gcxTile;
@@ -365,11 +364,6 @@ bool Game::Init(int imm)
         HostOutputDebugString("Shell didn't initialize.");
 		return false;
     }
-
-	// Make Shell palette and shadow map active
-
-	ClearDisplay();
-	gshl.SetPalette();
 
 	// Init form / control requirements
 
@@ -1970,16 +1964,6 @@ bool Game::InitSimulation(Stream *pstm, char *pszLevel, word wfRole,
 	if ((wfRole & kfRoleMultiplayer) == 0)
 		m_pfrmSimUI->OnTimer(0);
 
-	// Clear the screen so the ugly palette change isn't apparent
-
-	ClearDisplay();
-
-	// Set palette
-
-	Palette *ppal = gsim.GetLevel()->GetPalette();
-	SetHslAdjustedPalette(ppal, gnHueOffset, gnSatMultiplier, gnLumOffset);
-	gmpiclriclrShadow = gsim.GetLevel()->GetShadowMap();
-
     // Tell the sprite manager the clipping rects
 
     Rect rcClip1;
@@ -2027,16 +2011,7 @@ void Game::ExitSimulation()
 	delete m_pfrmMiniMap;
 	m_pfrmMiniMap = NULL;
 
-	// Before the shell changes the palette...
-
 	ClearDisplay();
-
-    // Too many places are forgetting to set the palette when the
-    // simulation exits, so set it back to the shell palette and
-    // shadow map here. Note InitSimulation sets it to the level
-    // palette / shadowmap, so this is appropriate.
-
-    gshl.SetPalette();
 }
 
 void Game::Exit()
@@ -2059,10 +2034,6 @@ void Game::Exit()
 
 	Status("Exit Simulation (one-time)...");
 	gsim.OneTimeExit();
-
-	// Clear so that when PalmOS switches palette we don't have screen trash
-
-	ClearDisplay();
 
 	m_pfrmSimUI = NULL;
 	delete gpmfrmm;

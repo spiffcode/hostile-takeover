@@ -14,7 +14,6 @@ public:
     ~SdlAnimSprite();
 
     // AnimationSprite
-    virtual void SetPalette(Palette *ppal);
     virtual void CaptureFrame(UnitGob *pgob);
     virtual void SetScaleAnimation(float nScaleStart, float nScaleEnd,
             dword cms, dword cmsRate, bool fAutoDestroy);

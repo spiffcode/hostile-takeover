@@ -41,7 +41,6 @@ public:
     static void ResetScrollOffset();
     static void SetFormMgrs(FormMgr *pfrmmSimUI, FormMgr *pfrmmInput);
     static DibBitmap *CreateFrontDib(int cx, int cy, int nDegreeOrientation);
-    static void SetPalette(Palette *ppal);
     static const char *GetUdid();
     static void InitiateAsk(const char *title, int max, const char *def,
             int keyboard, bool secure);

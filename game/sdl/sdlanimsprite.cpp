@@ -196,33 +196,6 @@ void SdlAnimSprite::GetBounds(Rect *prc) {
     prc->bottom = yNew + cyNew;
 }
 
-void SdlAnimSprite::SetPalette(Palette *ppal) {
-    // Set the palette mapping table
-    // Note the AMXs use the first 131 colors of the palette.
-    for (int n = 0; n < BigWord(ppal->cEntries); n++) {
-        byte *pb = (byte *)&mp8bpp32bpp_[n];
-        *pb++ = 255;
-        *pb++ = ppal->argb[n][0];
-        *pb++ = ppal->argb[n][1];
-        *pb++ = ppal->argb[n][2];
-    } 
-
-    // Make the last color of the palete RGBA for transparent.
-    // We'll fill the 8bpp image with this, so that at 8->32 conversion,
-    // we get transparency.
-
-    mp8bpp32bpp_[255] = 0;
-
-    // Make the second to last 40% black. AMX transparent will map to this
-    // with clever remapping. 40% is equivalent to tbitmap shadowmap.
-
-    byte *pb = (byte *)&mp8bpp32bpp_[254];
-    *pb++ = 102;
-    *pb++ = 0;
-    *pb++ = 0;
-    *pb++ = 0;
-}
-
 void SdlAnimSprite::SetScale(float nScale) {
     if (nScale_ == nScale) {
         return;
