@@ -366,11 +366,6 @@ bool Game::Init(int imm)
 	ClearDisplay();
 	gshl.SetPalette();
 
-	// Init TBitmapCode
-
-	TBitmap::InitClass();
-	m_wf |= kfGameInitBitmap;
-
 	// Init form / control requirements
 
 	ButtonControl::InitClass();
@@ -2037,13 +2032,6 @@ void Game::Exit()
 	ListControl::ExitClass();
 	DamageMeterControl::ExitClass();
 	
-	FreeSharedTBitmaps();
-
-	if (m_wf & kfGameInitBitmap) {
-		TBitmap::ExitClass();
-		m_wf &= ~kfGameInitBitmap;
-	}
-
 	gshl.Exit();
 
 	delete gpstrtbl;
