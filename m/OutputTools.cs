@@ -839,8 +839,8 @@ namespace m
                 for (int tx = 0; tx < m_ctx; tx++) {
                     TileSet.ExtractTilePixels(bm, tx, ty, m_sizTile, ref aclrTile);
                     int index = tset.FindTileIndex(aclrTile);
-                    if (index == -1)
-                        throw new Exception("Couldn't find tile index!");
+                    // if (index == -1)
+                        // throw new Exception("Couldn't find tile index!");
                     m_aiTile[ty, tx] = index;
                 }
             }
