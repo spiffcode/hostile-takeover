@@ -73,61 +73,77 @@ void IndexLoader::OnObject(json::JsonObject *obj) {
     if (!error) {
         for (int i = 0; i < a->GetCount(); i++) {
             if (a->GetObject(i)->type() != json::JSONTYPE_STRING) {
-                error = true;
+                //error = true;
             }
         }
     }
 
     IndexEntry entry;
     const json::JsonString *s;
+    const json::JsonNumber *n;
 
     // id
     if (!error) {
-        s = (const json::JsonString *)a->GetObject(0);
-        if (!base::Format::ToDword(s->GetString(), 10, &entry.packid.id)) {
+        if (a->GetObject(0)->type() != json::JSONTYPE_NUMBER) {
             error = true;
+        } else {
+            n = (const json::JsonNumber *)a->GetObject(0);
+            entry.packid.id = n->GetInteger();
         }
     }
 
     // hash
     if (!error) {
-        s = (const json::JsonString *)a->GetObject(1);
-        if (s->GetLength() != 32) {
+        if (a->GetObject(1)->type() != json::JSONTYPE_STRING) {
             error = true;
-        }
-        if (!base::Format::FromHex(s->GetString(), entry.packid.hash,
-                sizeof(entry.packid.hash))) {
-            error = true;
+        } else {
+            s = (const json::JsonString *)a->GetObject(1);
+            if (s->GetLength() != 32) {
+                error = true;
+            }
+            if (!base::Format::FromHex(s->GetString(), entry.packid.hash, sizeof(entry.packid.hash))) {
+                error = true;
+            }
         }
     }
 
     // title
     if (!error) {
-        s = (const json::JsonString *)a->GetObject(2);
-        entry.title = s->GetString();
+        if (a->GetObject(2)->type() != json::JSONTYPE_STRING) {
+            error = true;
+        } else {
+            s = (const json::JsonString *)a->GetObject(2);
+            entry.title = s->GetString();
+        }
     }
 
     // min players
     if (!error) {
-        s = (const json::JsonString *)a->GetObject(3);
-        if (!base::Format::ToInteger(s->GetString(), 10, &entry.cPlayersMin)) {
+        if (a->GetObject(3)->type() != json::JSONTYPE_NUMBER) {
             error = true;
+        } else {
+            n = (const json::JsonNumber *)a->GetObject(3);
+            entry.cPlayersMin = n->GetInteger();
         }
     }
 
     // max players
     if (!error) {
-        s = (const json::JsonString *)a->GetObject(4);
-        if (!base::Format::ToInteger(s->GetString(), 10, &entry.cPlayersMax)) {
+        if (a->GetObject(4)->type() != json::JSONTYPE_NUMBER) {
             error = true;
+        } else {
+            n = (const json::JsonNumber *)a->GetObject(4);
+            entry.cPlayersMax = n->GetInteger();
         }
     }
 
     // mission count
     if (!error) {
-        s = (const json::JsonString *)a->GetObject(5);
-        if (!base::Format::ToInteger(s->GetString(), 10, &entry.cMissions)) {
+        if (a->GetObject(5)->type() != json::JSONTYPE_NUMBER) {
             error = true;
+        } else {
+            n = (const json::JsonNumber *)a->GetObject(5);
+            entry.cMissions = n->GetInteger();
         }
     }
     delete obj;
