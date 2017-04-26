@@ -11,8 +11,8 @@ char *SpInfantryGob::GetName()
 }
 #endif
 
-static int s_anIdleStripIndices[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
-static int s_anMovingStripIndices[8] = { 9, 10, 11, 12, 13, 14, 15, 16 };
+static int s_anIdleStripIndices[16] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 };
+static int s_anMovingStripIndices[16] = { 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32 };
 
 bool SpInfantryGob::InitClass(IniReader *pini)
 {
