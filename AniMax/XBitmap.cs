@@ -181,12 +181,15 @@ namespace SpiffCode
 			if (strFileName == null) {
 				strFileName = m_strFileName;
             }
-			m_bm.Save(strFileName);
+            if (!System.IO.File.Exists(strFileName))
+                m_bm.Save(strFileName);
 
             if (m_bmBlack != null) {
                 string strPath = Path.GetDirectoryName(strFileName);
                 string strFileT = Path.GetFileName(strFileName);
-                m_bmBlack.Save(Path.Combine(strPath, "black_" + strFileT));
+                string strBlackPath = Path.Combine(strPath, "black_" + strFileT);
+                if (!System.IO.File.Exists(strBlackPath))
+                    m_bmBlack.Save(strBlackPath);
             }
 
 			m_fDirty = false;
