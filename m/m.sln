@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mgui", "mgui\mgui.csproj", "{9D1A44EF-D2D0-4EF7-BE3B-60E0189DCBF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "mcl", "mcl\mcl.csproj", "{81F2F902-EBE3-40C7-9E56-F9A688D820C0}"
@@ -13,23 +15,26 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9D1A44EF-D2D0-4EF7-BE3B-60E0189DCBF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9D1A44EF-D2D0-4EF7-BE3B-60E0189DCBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D1A44EF-D2D0-4EF7-BE3B-60E0189DCBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D1A44EF-D2D0-4EF7-BE3B-60E0189DCBF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81F2F902-EBE3-40C7-9E56-F9A688D820C0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D60E8B53-2A68-40DE-8182-C730A49E9371}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D60E8B53-2A68-40DE-8182-C730A49E9371}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D60E8B53-2A68-40DE-8182-C730A49E9371}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D60E8B53-2A68-40DE-8182-C730A49E9371}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = mgui\mgui.csproj
 		Policies = $0
-		$0.TextStylePolicy = $1
+		$0.TextStylePolicy = $3
 		$1.FileWidth = 120
 		$1.inheritsSet = VisualStudio
 		$1.inheritsScope = text/plain
@@ -37,7 +42,6 @@ Global
 		$0.DotNetNamingPolicy = $2
 		$2.DirectoryNamespaceAssociation = None
 		$2.ResourceNamePolicy = FileFormatDefault
-		$0.TextStylePolicy = $3
 		$3.inheritsSet = null
 		$3.scope = text/x-csharp
 		$0.CSharpFormattingPolicy = $4
