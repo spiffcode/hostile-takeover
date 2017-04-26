@@ -1055,6 +1055,71 @@ struct TBitmapHeader // tbh
 	TBitmapEntry atbe[1];
 };
 
+// DibBitmap
+
+#define kfDibFreeMem 0x0001
+#define kfDibBackWindow 0x0002
+#define kfDibWantScrolls 0x0004
+
+class DibBitmap
+{
+public:
+	DibBitmap() secDibBitmap;
+	~DibBitmap() secDibBitmap;
+
+    bool Init(char *pszFn) secDibBitmap;
+    bool Init(dword *pb, int cx, int cy, bool alpha, bool bigendian) secDibBitmap;
+
+    void Blt(DibBitmap *pbmSrc, Rect *prcSrc, int xDst, int yDst) secDibBitmap;
+    void BltTo(class DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc = NULL) secDibBitmap;
+    void BltTiles(DibBitmap *pbmSrc, UpdateMap *pupd, int yTopDst) secDibBitmap;
+
+    void GetSize(Size *psiz) secDibBitmap;
+    dword *GetBits() secDibBitmap;
+    int GetPitch() secDibBitmap;
+
+    void Fill(int x, int y, int cx, int cy, Color clr) secDibBitmap;
+    void FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
+        int cxDst, int cyDst, int xOrigin = 0, int yOrigin = 0) secDibBitmap;
+    void Clear(Color clr) secDibBitmap;
+    void Shadow(int x, int y, int cx, int cy) secDibBitmap;
+    void DrawLine(short x1, short y1, short x2, short y2, Color clr) secDibBitmap;
+    void Scroll(Rect *prcSrc, int xDst, int yDst) secDibBitmap;
+
+    DibBitmap *Suballoc(int yTop, int cy) secDibBitmap;
+
+    word GetFlags() {
+        return m_wf;
+    }
+    void SetFlags(word wf) {
+		m_wf = wf;
+	}
+    int GetBaseline() {
+        return 0;
+    }
+    char *GetFileName() {
+        return m_pszFn;
+    }
+
+#if defined(SDL)
+    int GetWidth() { return m_surface->w; }
+    int GetHeight() { return m_surface->h; }
+    dword MapRGB(byte r, byte g, byte b);
+    SDL_Surface *GetSurface() { return m_surface; }
+#endif
+    char *m_pszFn;
+
+private:
+#if defined(SDL)
+    SDL_Surface *m_surface;
+    SDL_Renderer *m_renderer;
+#endif
+    word m_wf;
+};
+DibBitmap *LoadDibBitmap(char *pszFn) secDibBitmap;
+DibBitmap *CreateDibBitmap(dword *pb, int cx, int cy, bool alpha = false) secDibBitmap;
+DibBitmap *CreateBigDibBitmap(dword *pb, int cx, int cy, bool alpha = false) secDibBitmap;
+
 struct FontHeader // fnth
 {
 	word cy;
