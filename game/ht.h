@@ -1120,6 +1120,48 @@ DibBitmap *LoadDibBitmap(char *pszFn) secDibBitmap;
 DibBitmap *CreateDibBitmap(dword *pb, int cx, int cy, bool alpha = false) secDibBitmap;
 DibBitmap *CreateBigDibBitmap(dword *pb, int cx, int cy, bool alpha = false) secDibBitmap;
 
+// Texture bitmap
+// Stores information about a bitmap in a texture atlas
+
+class TBitmap
+{
+public:
+    TBitmap() secTBitmap;
+    ~TBitmap() secTBitmap;
+
+    bool Init(char *pszFn, int x, int y, int cx, int cy, int cxOrig, int cyOrig,
+        int ccLeft, int ccTop, int *anSideMap) secTBitmap;
+
+    int GetBaseline() secTBitmap;
+    int GetAtlas(Side side) secTBitmap;
+    void GetTextureSize(Size *psiz) secTBitmap;
+    void GetSize(Size *psiz) secTBitmap;
+    void GetPosition(Point *ppos) secTBitmap;
+
+    void BltTo(class DibBitmap *pimgDst, int xDst, int yDst, Rect *prcSrc = NULL) secTBitmap;
+    void BltTo(class DibBitmap *pimgDst, int xDst, int yDst, Side side, Rect *prcSrc = NULL) secTBitmap;
+    void FillTo(class DibBitmap *pimgDst, int xDst, int yDst,
+        int cxDst, int cyDst, int xOrigin = 0, int yOrigin = 0) secTBitmap;
+
+    char *GetFileName() { return m_pszFn; }
+
+    int ClippedLeft() { return m_ccLeft; }
+    int ClippedTop() { return m_ccTop; }
+
+    int Width() { return m_cxOrig; }
+    int Height() { return m_cyOrig; }
+
+private:
+    DibBitmap *SetLum(word lum, Side side = 1) secTBitmap;
+    
+    int m_x, m_y, m_cx, m_cy;
+    int m_cxOrig, m_cyOrig;
+    int m_ccLeft, m_ccTop; // clipped
+    int *m_anSideMap;
+    char *m_pszFn;
+};
+TBitmap *CreateTBitmap(char *pszName) secTBitmap;
+
 struct FontHeader // fnth
 {
 	word cy;
