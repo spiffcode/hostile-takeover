@@ -338,7 +338,7 @@ namespace m
                 // Save .ini file for this level doc
 
                 MemoryStream stmLvld = new MemoryStream();
-                lvld.SaveIni(stmLvld, -1, strTmap, strTRmap, tmpd.GetName() + ".palbin", true);
+                lvld.SaveIni(stmLvld, -1, strTmap, strTRmap, true);
 
                 // Pre-process
 
@@ -534,15 +534,15 @@ namespace m
 
             // Palette directory
 
-            string strPalDir = astr[8];
+            // string strPalDir = astr[8];
 
             // Get output directory
 
-            string strDir = Path.GetFullPath(astr[9]);
+            string strDir = Path.GetFullPath(astr[8]);
 
             // Expand filespecs
             ArrayList alsFiles = new ArrayList();
-            for (int n = 9; n < astr.Length; n++) {
+            for (int n = 8; n < astr.Length; n++) {
                 string strFileT = Path.GetFileName(astr[n]);
                 string strDirT = Path.GetDirectoryName(astr[n]);
                 if (strDirT == "")
@@ -581,8 +581,8 @@ namespace m
                     string strTcPath = lvld.GetTemplateDoc().GetPath();
                     string strTcName = Path.GetFileNameWithoutExtension(strTcPath);
                     string strTcDir = Path.GetDirectoryName(strTcPath);
-                    string strT3 = strTcDir + Path.DirectorySeparatorChar + strPalDir + Path.DirectorySeparatorChar + strTcName;
-                    tset = new TileSet(lvld.GetTemplateDoc(), Path.GetFileName(strTcPath), strT3, nDepth, sizTile);
+                    // string strT3 = strTcDir + Path.DirectorySeparatorChar + strPalDir + Path.DirectorySeparatorChar + strTcName;
+                    tset = new TileSet(lvld.GetTemplateDoc(), Path.GetFileName(strTcPath), nDepth, sizTile);
                     alsTileSets.Add(tset);
                 }
 
@@ -605,7 +605,7 @@ namespace m
                 // Save .ini for this level doc
                 string strFileIni = strDir + Path.DirectorySeparatorChar + Path.GetFileName(strFile).Replace(".ld", ".lvl");
                 Console.Write("Writing " + strFileIni + "...");
-                lvld.SaveIni(strFileIni, nVersion, strTmap, strTrmap, tset.PalBinFileName);
+                lvld.SaveIni(strFileIni, nVersion, strTmap, strTrmap);
                 Console.Write(" Done.\n");
                 lvld.Dispose();
             }
@@ -922,27 +922,27 @@ namespace m
     class TileSet {
         public string FileName;
         public string TileCollectionFileName;
-        public string PalBinFileName;
+        // public string PalBinFileName;
         public TemplateDoc TemplateDoc;
         private ArrayList m_alsTileData = new ArrayList();
-        private Palette m_pal = null;
+        // private Palette m_pal = null;
         private static int s_cbFileMax = 32000;
         Size m_sizTile;
 
         public TileSet(TemplateDoc tmpd, string strFile) {
             TemplateDoc = tmpd;
-            m_pal = tmpd.GetPalette();
+            // m_pal = tmpd.GetPalette();
             m_sizTile = tmpd.TileSize;
             FileName = strFile.Replace(".tc", ".tset");
             SuckTemplates();
         }
 
-        public TileSet(TemplateDoc tmpd, string strFile, string strFilePal, int nDepth, Size sizTile) {
+        public TileSet(TemplateDoc tmpd, string strFile, int nDepth, Size sizTile) {
             TemplateDoc = tmpd;
-            m_pal = new Palette(strFilePal + "_" + nDepth.ToString() + "bpp.pal");
+            // m_pal = new Palette(strFilePal + "_" + nDepth.ToString() + "bpp.pal");
             TileCollectionFileName = strFile;
             FileName = strFile.Replace(".tc", ".tset");
-            PalBinFileName = Path.GetFileName(strFilePal) + ".palbin";
+            // PalBinFileName = Path.GetFileName(strFilePal) + ".palbin";
             m_sizTile = sizTile;
             SuckTemplates();
         }
@@ -1047,7 +1047,10 @@ namespace m
 
                 // Write out the tiles
                 for (int n = 0; n < cTilesWrite; n++) {
-                    bwtr.Write(GetTileBytes(nTile));
+                    int[] bytes = GetTileBytes(nTile);
+                    for (int i = 0; i < bytes.Length; i++) {
+                        bwtr.Write(bytes[i]);
+                    }
                     nTile++;
                 }
 
@@ -1062,12 +1065,12 @@ namespace m
 
             Stream stmT = new FileStream(strFileTset.Replace(".tset", ".tsetmini"), FileMode.Create, FileAccess.Write, FileShare.None);
             BinaryWriter bwtrMini = new BinaryWriter(stmT);
-            WriteMiniTiles(bwtrMini, m_pal, TemplateDoc, 2, true, nAreaBackgroundThreshold, nLuminanceMultBackground, nSaturationMultBackground, nLuminanceMultForeground, nSaturationMultForeground);
-            WriteMiniTiles(bwtrMini, m_pal, TemplateDoc, 1, false, nAreaBackgroundThreshold, nLuminanceMultBackground, nSaturationMultBackground, nLuminanceMultForeground, nSaturationMultForeground);
+            WriteMiniTiles(bwtrMini, TemplateDoc, 2, true, nAreaBackgroundThreshold, nLuminanceMultBackground, nSaturationMultBackground, nLuminanceMultForeground, nSaturationMultForeground);
+            WriteMiniTiles(bwtrMini, TemplateDoc, 1, false, nAreaBackgroundThreshold, nLuminanceMultBackground, nSaturationMultBackground, nLuminanceMultForeground, nSaturationMultForeground);
             bwtrMini.Close();
         }
 
-        void WriteMiniTiles(BinaryWriter bwtr, Palette pal, TemplateDoc tmpd, int cx, bool fNext, double nAreaBackgroundThreshold, double nLuminanceMultBackground, double nSaturationMultBackground, double nLuminanceMultForeground, double nSaturationMultForeground) {
+        void WriteMiniTiles(BinaryWriter bwtr, TemplateDoc tmpd, int cx, bool fNext, double nAreaBackgroundThreshold, double nLuminanceMultBackground, double nSaturationMultBackground, double nLuminanceMultForeground, double nSaturationMultForeground) {
             // struct MiniTileSetHeader { // mtshdr
             //  ushort offNext;
             //    ushort cTiles;
@@ -1077,7 +1080,7 @@ namespace m
             
             ushort offNext = 0;
             if (fNext)
-                offNext = (ushort)(8 + m_alsTileData.Count * cx * cx);
+                offNext = (ushort)(8 + m_alsTileData.Count * cx * cx * 4);
             bwtr.Write(Misc.SwapUShort(offNext));
             bwtr.Write(Misc.SwapUShort((ushort)m_alsTileData.Count));
             bwtr.Write(Misc.SwapUShort((ushort)cx));
@@ -1161,15 +1164,23 @@ namespace m
 
             // Palette match and write results
 
-            foreach (Color clr in alsColors)
-                bwtr.Write((byte)pal.FindClosestEntry(clr));
+            foreach (Color clr in alsColors) {
+                bwtr.Write(((clr.R << 24) | (clr.G << 16) | (clr.B << 8) | clr.A));
+            }
         }
 
-        byte[] GetTileBytes(int nTile) {
-            byte[] ab = new byte[m_sizTile.Width * m_sizTile.Height];
+        int[] GetTileBytes(int nTile) {
+            int[] ab = new int[m_sizTile.Width * m_sizTile.Height];
             TileData tdata = (TileData)m_alsTileData[nTile];
-            for (int n = 0; n < tdata.aclr.Length; n++)
-                ab[n] = (byte)m_pal.FindClosestEntry(tdata.aclr[n]);
+            for (int n = 0; n < tdata.aclr.Length; n++) {
+                ab[n] = (
+                    (tdata.aclr[n].R << 24) | 
+                    (tdata.aclr[n].G << 16) | 
+                    (tdata.aclr[n].B << 8) | 
+                    (tdata.aclr[n].A << 0)
+                );
+            }
+
             return ab;
         }
 

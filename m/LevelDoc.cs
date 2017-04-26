@@ -1201,13 +1201,13 @@ namespace m {
 		}
 #endif
 
-		public void SaveIni(string strFile, int nVersion, string strFileTmap, string strFileTrmap, string strFilePalette) {
+		public void SaveIni(string strFile, int nVersion, string strFileTmap, string strFileTrmap) {
 			FileStream stm = new FileStream(strFile, FileMode.Create);
-			SaveIni(stm, nVersion, strFileTmap, strFileTrmap, strFilePalette, false);
+			SaveIni(stm, nVersion, strFileTmap, strFileTrmap, false);
 			stm.Close();
 		}
 
-		public void SaveIni(Stream stm, int nVersion, string strFileTmap, string strFileTrmap, string strFilePalette, bool fDemoCheckTrigger) {
+		public void SaveIni(Stream stm, int nVersion, string strFileTmap, string strFileTrmap, bool fDemoCheckTrigger) {
 			Ini ini = new Ini();
 			Ini.Section sec;
 
@@ -1376,7 +1376,7 @@ namespace m {
 			sec.Add(new Ini.Property("Title", Title));
 			sec.Add(new Ini.Property("TileMap", strFileTmap));
 			sec.Add(new Ini.Property("TerrainMap", strFileTrmap));
-			sec.Add(new Ini.Property("Palette", strFilePalette));
+			// sec.Add(new Ini.Property("Palette", strFilePalette));
 			sec.Add(new Ini.Property("MinPlayers", m_nPlayersMin.ToString()));
 			sec.Add(new Ini.Property("MaxPlayers", m_nPlayersMax.ToString()));
 			sec.Add(new Ini.Property("UnitGroupCount", m_ugm.Items.Count.ToString()));
