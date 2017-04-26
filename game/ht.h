@@ -1282,11 +1282,12 @@ private:
 	word m_wf;
 
 public:
-	byte **m_apbTileData;
+	dword **m_apbTileData;
 	word *m_pwMapData;
 	int m_ctx;
 	int m_cty;
-	byte **m_apbDrawMap;
+    DibBitmap *m_pbmDraw;
+    DibBitmap **m_tiles;
 };
 TileMap *LoadTileMap(char *pszFn, Size *psizPlayfield) secTileMap;
 

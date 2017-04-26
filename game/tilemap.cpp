@@ -19,8 +19,9 @@ TileMap::TileMap()
 	m_cTileSets = 0;
 	m_cTiles = 0;
 	m_wf = 0;
-	m_apbDrawMap = NULL;
 	m_pmtseth = NULL;
+    m_pbmDraw = NULL;
+    m_tiles = NULL;
 }
 
 TileMap::~TileMap()
@@ -34,7 +35,10 @@ TileMap::~TileMap()
 		gpakr.UnmapFile(&m_fmapMiniTset);
 	if (m_apbTileData != NULL)
 		gmmgr.FreePtr(m_apbTileData);
-	delete[] m_apbDrawMap;
+
+    m_pbmDraw = NULL;
+    delete[] m_tiles;
+    m_tiles = NULL;
 }
 
 bool TileMap::Load(char *psz, Size *psizPlayfield)
@@ -43,11 +47,9 @@ bool TileMap::Load(char *psz, Size *psizPlayfield)
 
 	m_ctx = (psizPlayfield->cx + (gcxTile - 1)) / gcxTile + 1;
 	m_cty = (psizPlayfield->cy + (gcyTile - 1)) / gcyTile + 1;
-	m_apbDrawMap = new byte *[m_ctx * m_cty];
-	if (m_apbDrawMap == NULL)
-		return false;
+    m_pbmDraw = CreateDibBitmap(NULL, psizPlayfield->cx, psizPlayfield->cy);
 
-	// Load the tile data
+    // Load the tile data
 
 	m_ptmaph = (TileMapHeader *)gpakr.MapFile(psz, &m_fmapTmap);
 	if (m_ptmaph == NULL)
@@ -82,17 +84,17 @@ bool TileMap::Load(char *psz, Size *psizPlayfield)
 
 	// Alloc enough tile pointers to point to the individual tiles
 
-	byte **apbTileData = new byte *[m_cTiles];
+	dword **apbTileData = new dword*[m_cTiles];
 	if (apbTileData == NULL)
 		return false;
 
 	// Fill in the pointers to tile data
 
-	byte **ppb = apbTileData;
-	int cbTile = m_cxTile * m_cyTile;
+	dword **ppb = apbTileData;
+    int cbTile = m_cxTile * m_cyTile;
 	for (int nTset = 0; nTset < m_cTileSets; nTset++) {
 		TileSetHeader *ptseth = m_aptseth[nTset];
-		byte *pbTileData = (byte *)ptseth + kcbTileSetHeader;
+		dword *pbTileData = (dword *)((byte*)ptseth + kcbTileSetHeader);
 		for (int nTile = 0; nTile < BigWord(ptseth->cTiles); nTile++) {
 			*ppb = pbTileData;
 			ppb++;
@@ -102,14 +104,14 @@ bool TileMap::Load(char *psz, Size *psizPlayfield)
 
 	// Save away
 
-	int cbT = sizeof(byte *) * m_cTiles;
-	m_apbTileData = (byte **)gmmgr.AllocPtr(cbT);
-	if (m_apbTileData == NULL) {
-		delete[] apbTileData;
-		return false;
-	}
-	gmmgr.WritePtr(m_apbTileData, 0, apbTileData, cbT);
-	delete[] apbTileData;
+    m_tiles = new DibBitmap*[m_cTiles];
+    if (m_tiles == NULL)
+        return false;
+
+    for (int nTile = 0; nTile < m_cTiles; nTile++) {
+        m_tiles[nTile] = CreateBigDibBitmap(apbTileData[nTile], m_cxTile, m_cyTile);
+    }
+    delete[] apbTileData;
 
 	// Load mini tset
 
@@ -201,7 +203,6 @@ void TileMap::Draw(DibBitmap *pbm, int x, int y, int cx, int cy, int xMap, int y
 	word *pwMapT = &m_pwMapData[iCell];
 	byte *pbFogT = &pbFogMap[iCell];
 	bool *pfInvalid = pupd->GetInvalidMap();
-	byte **ppbDrawMap = m_apbDrawMap;
 
 	int cReturnDrawMap = m_ctx - ctx;
 	int cReturnTileMap = ctxMap - ctx;
@@ -210,28 +211,34 @@ void TileMap::Draw(DibBitmap *pbm, int x, int y, int cx, int cy, int xMap, int y
 		for (int txT = 0; txT < ctx; txT++) {
 			Assert(tx + txT < BigWord(m_ptmaph->ctx));
 
-			*ppbDrawMap = NULL;
 			if (!IsFogOpaque(*pbFogT)) {
 				if (*pfInvalid) {
 					word offset = BigWord(*pwMapT);
+#ifdef DEV_BUILD
 					Assert(offset < 0xff00);
-					*ppbDrawMap = m_apbTileData[offset / 4];
-				}
+#endif
+                    if (offset < 0xff00) {
+                        m_pbmDraw->Blt(m_tiles[offset / 4], NULL,
+                            (m_cxTile * txT) - (xMap % m_cxTile),
+                            (m_cyTile * tyT) - (yMap % m_cyTile));
+                    }
+                }
 			}
 
-			ppbDrawMap++;
 			pbFogT++;
 			pfInvalid++;
 			pwMapT++;
 		}
 
-		ppbDrawMap += cReturnDrawMap;
 		pfInvalid += cReturnDrawMap;
 		pwMapT += cReturnTileMap;
 		pbFogT += cReturnTileMap;
 	}
-					 
-	// Now draw this map
+
+    // Now draw this map
+#if 1
+    pbm->Blt(m_pbmDraw, NULL, x, y);
+#else
 #if 0
 	BitmapType *pbmpScreen = WinGetBitmap(WinGetDisplayWindow());
 	byte *pbDib = (byte *)BmpGetBits(pbmpScreen);
@@ -247,6 +254,8 @@ void TileMap::Draw(DibBitmap *pbm, int x, int y, int cx, int cy, int xMap, int y
 	pbDib += y * sizDib.cx + x;
 
 	DrawTileMapThunk(m_apbDrawMap, m_ctx, m_cty, pbDib, sizDib.cx, pmnfo->cxLeftTile, pmnfo->cyTopTile, pmnfo->cxRightTile, pmnfo->cyBottomTile, pmnfo->ctxInside, pmnfo->ctyInside, gcxTile, gcyTile);
+
+#endif
 }
 
 } // namespace wi
