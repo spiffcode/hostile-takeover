@@ -22,6 +22,8 @@ public:
     void Reset();
 
     int OnString(const char *pch, int cb);
+    int OnNumber(const char *pch, int cb);
+    int OnBool(int value);
     int OnKey(const char *pch, int cb);
     int OnMapStart();
     int OnMapEnd();
@@ -30,13 +32,13 @@ public:
 
 private:
     int CombineItem(JsonObject *obj);
-    json::JsonString *NewJsonString(const char *ach, int cb);
 
     ArrayItemsCallback *callback_;
     yajl_handle handle_;
     bool alloced_;
     std::vector<JsonObject *> stack_;
 };
+json::JsonString *NewJsonString(const char *ach, int cb);
 
 } // namespace json
 

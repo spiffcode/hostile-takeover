@@ -1,6 +1,8 @@
 #include <string.h>
 #include "yajl/wrapper/jsonbuilder.h"
+#include "mpshared/misc.h"
 #include <string.h>
+#include <stdlib.h>
 
 namespace json {
 
@@ -12,13 +14,13 @@ int yajl_null(void *ctx) {
 }
 
 int yajl_boolean(void *ctx, int value) {
-    // Don't accept
-    return 0;
+    JsonBuilder *builder = (JsonBuilder *)ctx;
+    return builder->OnBool(value);
 }
 
 int yajl_number(void *ctx, const char *pch, unsigned int cb) {
     JsonBuilder *builder = (JsonBuilder *)ctx;
-    return builder->OnString((const char *)pch, cb);
+    return builder->OnNumber((const char *)pch, cb);
 }
 
 int yajl_string(void *ctx, const unsigned char *pch, unsigned int cb) {
@@ -122,7 +124,7 @@ JsonObject *JsonBuilder::End() {
     return NULL;
 }
 
-json::JsonString *JsonBuilder::NewJsonString(const char *ach, int cb) {
+json::JsonString *NewJsonString(const char *ach, int cb) {
     char szT[1024];
     char *pchT = szT;
     char *pchTerm = &szT[sizeof(szT) - 1];
@@ -162,6 +164,16 @@ json::JsonString *JsonBuilder::NewJsonString(const char *ach, int cb) {
 
 int JsonBuilder::OnString(const char *pch, int cb) {
     CombineItem(NewJsonString(pch, cb));
+    return 1;
+}
+
+int JsonBuilder::OnNumber(const char *pch, int cb) {
+    CombineItem(new JsonNumber(pch, cb));
+    return 1;
+}
+
+int JsonBuilder::OnBool(int value) {
+    CombineItem(new JsonBool(value == 1 ? true : false));
     return 1;
 }
 
@@ -220,6 +232,24 @@ int JsonBuilder::CombineItem(JsonObject *obj) {
         return 1;
     }
     if (last >= 1 && stack_[last]->type() == JSONTYPE_STRING &&
+            stack_[last - 1]->type() == JSONTYPE_MAP) {
+        JsonMap *map = (JsonMap *)stack_[last - 1];
+        JsonString *key = (JsonString *)stack_[last];
+        map->SetObject(key->GetString(), obj);
+        delete key;
+        stack_.pop_back();
+        return 1;
+    }
+    if (last >= 1 && stack_[last]->type() == JSONTYPE_NUMBER &&
+            stack_[last - 1]->type() == JSONTYPE_MAP) {
+        JsonMap *map = (JsonMap *)stack_[last - 1];
+        JsonString *key = (JsonString *)stack_[last];
+        map->SetObject(key->GetString(), obj);
+        delete key;
+        stack_.pop_back();
+        return 1;
+    }
+    if (last >= 1 && stack_[last]->type() == JSONTYPE_BOOL &&
             stack_[last - 1]->type() == JSONTYPE_MAP) {
         JsonMap *map = (JsonMap *)stack_[last - 1];
         JsonString *key = (JsonString *)stack_[last];

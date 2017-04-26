@@ -11,7 +11,7 @@
 namespace json {
 
 enum JsonType {
-    JSONTYPE_OBJECT, JSONTYPE_MAP, JSONTYPE_ARRAY, JSONTYPE_STRING
+    JSONTYPE_OBJECT, JSONTYPE_MAP, JSONTYPE_ARRAY, JSONTYPE_STRING, JSONTYPE_NUMBER, JSONTYPE_BOOL
 };
 
 class JsonObject {
@@ -35,7 +35,8 @@ public:
 
     int GetLength() const;
     const char *GetString() const;
-
+    const char *ToJson() const;
+    
 #ifdef RELEASE_LOGGING
     virtual std::string ToString() const;
 #endif
@@ -52,6 +53,11 @@ public:
     const JsonObject *GetObject(const char *key) const;
     void SetObject(const char *key, JsonObject *obj);
     const char *EnumKeys(wi::Enum *penm) const;
+    int GetInteger(const char *key) const;
+    double GetFloat(const char *key) const;
+    const char *GetString(const char *key) const;
+    bool GetBool(const char *key) const;
+    const char *ToJson() const;
 
 #ifdef RELEASE_LOGGING
     virtual std::string ToString() const;
@@ -70,6 +76,7 @@ public:
     int GetCount() const;
     const JsonObject *GetObject(int i) const;
     bool AddObject(const JsonObject *obj);
+    const char *ToJson() const;
 
 #ifdef RELEASE_LOGGING
     virtual std::string ToString() const;
@@ -78,6 +85,45 @@ public:
 private:
     typedef std::vector<const JsonObject *> ObjList;
     ObjList list_;
+};
+
+class JsonNumber : public JsonObject {
+public:
+    JsonNumber(int n);
+    JsonNumber(float n);
+    virtual ~JsonNumber();
+
+    bool IsInteger() const;
+    int GetInteger() const;
+    double GetFloat() const;
+    const char *GetString() const;
+
+#ifdef RELEASE_LOGGING
+    virtual std::string ToString() const;
+#endif
+
+private:
+    JsonNumber(const char *pch, int cb);
+
+    char *psz_;
+
+    friend class JsonBuilder;
+};
+
+class JsonBool : public JsonObject {
+public:
+    JsonBool(bool f);
+    virtual ~JsonBool();
+
+    bool GetBool() const;
+    const char *GetString() const;
+
+#ifdef RELEASE_LOGGING
+    virtual std::string ToString() const;
+#endif
+
+private:
+    bool f_;
 };
 
 } // namespace json
