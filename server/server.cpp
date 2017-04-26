@@ -304,7 +304,8 @@ void Server::OnCommand(const std::string command, const json::JsonMap *map) {
             return;
         }
         const json::JsonObject *objV = map->GetObject("value");
-        if (objV == NULL || objV->type() != json::JSONTYPE_STRING) {
+        if (objV == NULL || (objV->type() != json::JSONTYPE_STRING &&
+            objV->type() != json::JSONTYPE_NUMBER)) {
             return;
         }
 
@@ -312,7 +313,9 @@ void Server::OnCommand(const std::string command, const json::JsonMap *map) {
         json::JsonString *value = (json::JsonString *)objV;
 
         if (updater_ != NULL) {
-            updater_->SetInfo(key->GetString(), value->GetString());
+            updater_->SetInfo(key->GetString(),
+            objV->type() == json::JSONTYPE_NUMBER ? ((json::JsonNumber *)value)->GetString() :
+                ((json::JsonString *)value)->GetString());
         }
     }
 }

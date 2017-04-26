@@ -175,10 +175,13 @@ void ServerInfoUpdater::ParseExtra(const std::string& extra_json) {
     const char *key;
     while ((key = map->EnumKeys(&enm)) != NULL) {
         const json::JsonObject *value_obj = map->GetObject(key);
-        if (value_obj->type() != json::JSONTYPE_STRING) {
+        if (value_obj->type() != json::JSONTYPE_STRING && obj->type() != json::JSONTYPE_NUMBER) {
             continue;
         }
-        const char *value = ((const json::JsonString *)value_obj)->GetString();
+        const char *value =
+        value_obj->type() == json::JSONTYPE_NUMBER ?
+            ((const json::JsonNumber *)value_obj)->GetString() :
+            ((const json::JsonString *)value_obj)->GetString();
         extra_.insert(ExtraMap::value_type(std::string(key),
                 std::string(value)));
     }
