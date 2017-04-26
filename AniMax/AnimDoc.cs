@@ -500,7 +500,7 @@ namespace SpiffCode
 			return true;
 		}
 
-		public bool WriteAnir(Palette pal, string strExportPath, string strAnimName) {
+		public bool WriteAnir(string strExportPath, string strAnimName) {
 			Color clrTransparent = Color.FromArgb(0xff, 0, 0xff);
 			SolidBrush brTransparent = new SolidBrush(clrTransparent);
 
@@ -511,24 +511,24 @@ namespace SpiffCode
 
 			// Count the number of Strips
 
-			ushort cstpd = (ushort)StripSet.Count;
+			uint cstpd = (uint)StripSet.Count;
 
 			// Write AnimationFileHeader.cstpd
 
-			stmw.Write(Misc.SwapUShort(cstpd));
+			stmw.Write(Misc.SwapUInt(cstpd));
 
 			// Write array of offsets to StripDatas (AnimationFileHeader.aoffStpd)
 
-			ushort offStpd = (ushort)(2 + (2 * cstpd));
+			uint offStpd = (uint)(4 + (4 * cstpd));
 			ArrayList albm = new ArrayList();
 
 			foreach (Strip stp in StripSet) {
-				stmw.Write(Misc.SwapUShort(offStpd));
+				stmw.Write(Misc.SwapUInt(offStpd));
 
 				// Advance offset to where the next StripData will be
 
-				offStpd += (ushort)((26+1+1+2) /* sizeof(StripData) - sizeof(FrameData) */ + 
-					((1+1+1+1+1+1+1+1+1) /* sizeof(FrameData) */ * stp.Count));
+				offStpd += (uint)((26+1+1+2) /* sizeof(StripData) - sizeof(FrameData) */ + 
+					((64+64+2+2+1+1+1+1+1+1+1) /* sizeof(FrameData) */ * stp.Count));
 
 				// Force word alignment of StripDatas
 
@@ -575,9 +575,27 @@ namespace SpiffCode
 							ibm = albm.Add(bm);
 					}
 
+                    // Write paths for the frame images
+
+                    String sfn = String.Empty;
+                    byte[] abTitle = new byte[64];
+
+                    for (int i = 0; i < 2; i++) {
+                        sfn = String.Empty;
+                        if (fr.BitmapPlacers.Count > i) {
+                            sfn = fr.BitmapPlacers[i].XBitmap.FileName;
+                            sfn = sfn.Replace(@"\", "/");
+                        }
+
+                        Array.Clear(abTitle, 0, abTitle.Length);
+                        enc.GetBytes(sfn, 0, Math.Min(sfn.Length, 63), abTitle, 0);
+                        abTitle[63] = 0;
+                        stmw.Write(abTitle);
+                    }
+
 					// Write FrameData.ibm (the index of the Bitmap as it will be in the Bitmap array)
 
-					stmw.Write((byte)ibm);
+                    stmw.Write(Misc.SwapUShort((ushort)ibm));
 
 					ibm = -1;
 					if (fr.BitmapPlacers.Count > 1) {
@@ -591,7 +609,7 @@ namespace SpiffCode
 
 					// Write FrameData.ibm2 (the index of the Bitmap as it will be in the Bitmap array)
 
-					stmw.Write((byte)ibm);
+                    stmw.Write(Misc.SwapUShort((ushort)ibm));
 
 					// Write FrameData.cHold
 
@@ -636,6 +654,7 @@ namespace SpiffCode
 
 			stmw.Close();
 
+#if false
 			// Write out .tbm
 
 			if (albm.Count != 0) {
@@ -644,6 +663,7 @@ namespace SpiffCode
 //					Console.WriteLine("Crunching and writing " + strFileName); 
 				TBitmap.Save((Bitmap[])albm.ToArray(typeof(Bitmap)), pal, strFileName);
 			}
+#endif
 
 			return true;
 		}
