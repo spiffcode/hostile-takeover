@@ -33,9 +33,12 @@ bool PackInfoManager::GetPackId(json::JsonMap *map, PackId *ppackid) {
 const char *PackInfoManager::GetString(const json::JsonMap *map,
         const char *key) {
     const json::JsonObject *obj = map->GetObject(key);
-    if (obj != NULL && obj->type() == json::JSONTYPE_STRING) {
+    if (obj == NULL)
+        return NULL;
+    if (obj->type() == json::JSONTYPE_STRING)
         return ((const json::JsonString *)obj)->GetString();
-    }
+    if (obj->type() == json::JSONTYPE_NUMBER)
+        return ((const json::JsonNumber *)obj)->GetString();
     return NULL;
 }
 
