@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -9,6 +9,12 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>SpiffCode</RootNamespace>
     <AssemblyName>AniMax</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>2.0</OldToolsVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <RunWithWarnings>false</RunWithWarnings>
     <additionalargs>-unsafe</additionalargs>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -30,30 +37,62 @@
     <additionalargs>-unsafe</additionalargs>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="AboutForm.cs" />
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="AniMax.cs" />
     <Compile Include="AnimDoc.cs" />
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BitmapsForm.cs" />
-    <Compile Include="CombinerForm.cs" />
+    <Compile Include="BitmapsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CombinerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Frame.cs" />
-    <Compile Include="FrameControl.cs" />
+    <Compile Include="FrameControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Globals.cs" />
-    <Compile Include="MainForm.cs" />
-    <Compile Include="MiscControls.cs" />
-    <Compile Include="OptionsForm.cs" />
-    <Compile Include="PerPixelAlphaForm.cs" />
-    <Compile Include="PreviewControl.cs" />
-    <Compile Include="PreviewPanel.cs" />
-    <Compile Include="ReplaceColorsForm.cs" />
+    <Compile Include="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MiscControls.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="OptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PerPixelAlphaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PreviewControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PreviewPanel.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ReplaceColorsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Strip.cs" />
-    <Compile Include="StripControl.cs" />
-    <Compile Include="StripForm.cs" />
-    <Compile Include="StripProperties.cs" />
+    <Compile Include="StripControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StripForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StripProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StripSet.cs" />
-    <Compile Include="StripsForm.cs" />
+    <Compile Include="StripsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UndoManager.cs" />
-    <Compile Include="WallPreviewForm.cs" />
+    <Compile Include="WallPreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="XBitmap.cs" />
     <Compile Include="XBitmapSet.cs" />
     <Compile Include="..\SpiffLib\misc.cs">
