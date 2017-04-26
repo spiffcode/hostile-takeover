@@ -1,8 +1,8 @@
 #include "ht.h"
+#include "yajl/wrapper/jsontypes.h"
+#include "yajl/wrapper/jsonbuilder.h"
 
 namespace wi {
-
-#define kcchFont 256
 
 Font *LoadFont(char *pszFont)
 {
@@ -19,83 +19,107 @@ Font *LoadFont(char *pszFont)
 
 Font::Font()
 {
-	m_pfnth = NULL;
-	m_mpchpbCodeEven = NULL;
-	m_mpchpbCodeOdd = NULL;
-	m_nGlyphOverlap = 0;
-	m_nLineOverlap = 0;
+    m_nGlyphOverlap = 0;
+    m_nLineOverlap = 0;
     m_cxEllipsis = 0;
+    m_cy = 0;
+    m_ptbmDefault = NULL;
 }
 
 Font::~Font()
 {
-	if (m_pfnth != NULL)
-		gpakr.UnmapFile(&m_fmap);
-
-	for (int ch = 0; ch < kcchFont; ch++) {
-		if (m_mpchpbCodeEven != NULL) {
-			if (m_mpchpbCodeEven[ch] != NULL)
-				gmmgr.FreePtr(m_mpchpbCodeEven[ch]);
-		}
-		if (m_mpchpbCodeOdd != NULL) {
-			if (m_mpchpbCodeOdd[ch] != NULL)
-				gmmgr.FreePtr(m_mpchpbCodeOdd[ch]);
-		}
-	}
-	if (m_mpchpbCodeEven != NULL)
-		gmmgr.FreePtr(m_mpchpbCodeEven);
-	if (m_mpchpbCodeOdd != NULL)
-		gmmgr.FreePtr(m_mpchpbCodeOdd);
+    delete m_ptbmDefault;
 }
 
 bool Font::Load(char *pszFont)
 {
-	m_pfnth = (FontHeader *)gpakr.MapFile(pszFont, &m_fmap);
-	if (m_pfnth == NULL)
-		return false;
+    // Read json
 
-	byte *apbT[kcchFont];
-	memset(apbT, 0, sizeof(apbT));
+    FileMap fmap;
+	char *pszJson = (char *)gpakr.MapFile(pszFont, &fmap);
 
-	m_mpchpbCodeEven = (byte **)gmmgr.AllocPtr(sizeof(byte *) * kcchFont);
-	if (m_mpchpbCodeEven == NULL)
-		return false;
-	gmmgr.WritePtr(m_mpchpbCodeEven, 0, apbT, sizeof(apbT));
+    // Parse json
 
-	m_mpchpbCodeOdd = (byte **)gmmgr.AllocPtr(sizeof(byte *) * kcchFont);
-	if (m_mpchpbCodeOdd == NULL)
-		return false;
-	gmmgr.WritePtr(m_mpchpbCodeOdd, 0, apbT, sizeof(apbT));
+    json::JsonBuilder builder;
+    builder.Start();
+    if (!builder.Update(pszJson, (int)strlen(pszJson))) {
+        gpakr.UnmapFile(&fmap);
+        return false;
+    }
+    json::JsonObject *obj = builder.End();
+    if (obj == NULL) {
+        gpakr.UnmapFile(&fmap);
+        return false;
+    }
+    gpakr.UnmapFile(&fmap);
 
-    m_cxEllipsis = GetTextExtent("...");
+    // Font json map
 
-	return true;
+    json::JsonMap *map = (json::JsonMap *)obj;
+
+    // Map of characters to glyph image filenames
+
+    json::JsonMap *glyphMap = (json::JsonMap *)map->GetObject("glyph_map");
+    if (glyphMap == NULL) {
+        delete map;
+        return false;
+    }
+
+    // Iterate over all the characters and cache corresponding TImages via std::map
+
+    Enum enm;
+    const char *key;
+    while ((key = glyphMap->EnumKeys(&enm)) != NULL) {
+
+        json::JsonString *glyph = (json::JsonString *)glyphMap->GetObject(key);
+        if (glyph == NULL) {
+            delete map;
+            return false;
+        }
+
+        char szGlyphFn[64];
+        strncpyz(szGlyphFn, glyph->GetString(), sizeof(szGlyphFn));
+
+        if (!m_map.insert(std::make_pair(std::string(key), CreateTBitmap(szGlyphFn))).second) {
+            LOG() << "Error adding \"" << key << "\" to font map";
+            delete map;
+            return false;
+        }
+    }
+
+    // Default character, for when requested character isn't mapped
+
+    char sz[64];
+    strncpyz(sz, map->GetString("default"), sizeof(sz));
+    m_ptbmDefault = CreateTBitmap(sz);
+    if (m_ptbmDefault == NULL) {
+        delete map;
+        return false;
+    }
+
+    m_cy = map->GetInteger("height");
+    m_nGlyphOverlap = map->GetInteger("glyph_overlap");
+    m_nLineOverlap = map->GetInteger("line_overlap");
+    
+    if (TBitmapExists('.'))
+        m_cxEllipsis = GetTextExtent("...");
+
+    delete map;
+    return true;
 }
 
 int Font::GetTextExtent(const char *psz)
 {
-	int cx = 0;
-	while (*psz != 0) {
-        byte ch = *psz++;
-		cx += m_pfnth->acxChar[ch] - m_nGlyphOverlap;
-    }
-
-	// Shadow allows 1 pixel overlap but the last char doesn't overlap
-
-	return cx + m_nGlyphOverlap;
+    return GetTextExtent(psz, (int)strlen(psz));
 }
 
 int Font::GetTextExtent(const char *psz, int cch)
 {
-	int cx = 0;
-	while (cch-- > 0) {
-        byte ch = *psz++;
-		cx += m_pfnth->acxChar[ch] - m_nGlyphOverlap;
+    int width = 0;
+    for (int i = 0; i < cch; i++) {
+        width += GetTBitmap(psz[i])->Width() - m_nGlyphOverlap;
     }
-
-	// Shadow allows 1 pixel overlap but the last char doesn't overlap
-
-	return cx + m_nGlyphOverlap;
+    return width;
 }
 
 int Font::CalcMultilineHeight(char *psz, int cxMultiline)
@@ -105,7 +129,7 @@ int Font::CalcMultilineHeight(char *psz, int cxMultiline)
 	while (pszNext != NULL) {
 		char *pszStart = pszNext;
 		CalcBreak(cxMultiline, &pszNext);
-		cy += BigWord(m_pfnth->cy) - m_nLineOverlap;
+		cy += m_cy - m_nLineOverlap;
 	}
 
 	return cy;
@@ -114,7 +138,7 @@ int Font::CalcMultilineHeight(char *psz, int cxMultiline)
 void Font::DrawText(DibBitmap *pbm, char *psz, int x, int y, int cx, int cy,
         bool fEllipsis)
 {
-	int cyFont = BigWord(m_pfnth->cy) - m_nLineOverlap;
+    int cyFont = m_cy - m_nLineOverlap;
 	int cyT = cyFont;
 	char *pszNext = psz;
 	while (pszNext != NULL) {
@@ -191,7 +215,7 @@ char *Font::FindNextNonBreakingChar(char *psz)
 int Font::CalcBreak(int cx, char **ppsz, bool fChop)
 {
 	char *pchBreakAfter = NULL;
-	int cchBreak;
+	int cchBreak = 0;
 	int cxT = 0;
 	char *pchT = *ppsz;
 	int cch = 0;
@@ -228,7 +252,7 @@ int Font::CalcBreak(int cx, char **ppsz, bool fChop)
 
 		// At right edge yet?
 
-		int cxChar = m_pfnth->acxChar[(byte)*pchT] - m_nGlyphOverlap;
+        int cxChar = GetTBitmap(pchT[0])->Width() - m_nGlyphOverlap;
 		if (cxT + cxChar > cx) {
 			// If last break exists, use it. Return pointer skips past break char
 
@@ -286,103 +310,38 @@ int Font::CalcBreak(int cx, char **ppsz, bool fChop)
 
 int Font::DrawText(DibBitmap *pbm, char *psz, int x, int y, int cch, dword *mpscaiclr)
 {
-#ifdef DEBUG
-	for (int ichT = 0; ichT < cch; ichT++)
-		Assert((word)psz[ichT] < (word)kcchFont);
-#endif
-
-	if (cch == -1)
+    if (cch == -1)
 		cch = (int)strlen(psz);
 
-	// Clip entire line of text first.
+    int pos = 0;
+    for (int i = 0; i < cch; i++) {
 
-	Size siz;
-	pbm->GetSize(&siz);
+        // Draw the character
+        // If character unavailable, GetTBitmap() will return the default character
 
-	// Top clip
+        GetTBitmap(psz[i])->BltTo(pbm, x + pos, y);
+        pos = pos + GetTBitmap(psz[i])->Width() - m_nGlyphOverlap;
+    }
 
-	if (y < 0)
-		return 0;
-	if (y + BigWord(m_pfnth->cy) > siz.cy)
-		return 0;
+    return 0;
+}
 
-	// Don't include x clipped chars
-	// Left clip
+TBitmap *Font::GetTBitmap(char sz)
+{
+    std::string str(1, sz);
+    FontMap::iterator it = m_map.find(str);
+    if (it == m_map.end()) {
+        // LOG() << "Missing character \"" << str << "\"";
+        return m_ptbmDefault;
+    }
+    return it->second;
+}
 
-	int ich = 0;
-	int xT = x;
-	char *pszT;
-	for (pszT = psz; pszT - psz < cch; pszT++) {
-		if (xT < 0) {
-			ich++;
-			xT += m_pfnth->acxChar[(byte)*pszT] - m_nGlyphOverlap;
-			continue;
-		}
-		break;
-	}
-	int xDst = xT;
-
-	// Right clip
-
-	int cchT = 0;
-	for (; pszT - psz < cch; pszT++) {
-		int cx = m_pfnth->acxChar[(byte)*pszT] - m_nGlyphOverlap;
-		if (xT + cx <= siz.cx) {
-			cchT++;
-			xT += cx;
-			continue;
-		}
-		break;
-	}
-	if (cchT == 0)
-		return 0;
-
-	cch = cchT;
-
-	// Draw
-
-	xT = xDst;
-	byte *pbDst = pbm->GetBits() + (long)y * siz.cx + xT;
-	char *pszMax = &psz[ich + cch];
-
-	for (pszT = &psz[ich]; pszT < pszMax; pszT++) {
-		char ch = *pszT;
-		int cxChar = m_pfnth->acxChar[(byte)ch];
-		if (cxChar == 0)
-			continue;
-
-		byte *pbDraw;
-		if (xT & 1) {
-			pbDraw = m_mpchpbCodeOdd[(byte)ch];
-		} else {
-			pbDraw = m_mpchpbCodeEven[(byte)ch];
-		}
-
-		if (pbDraw == NULL) {
-			ScanData *psd = (ScanData *)(((byte *)m_pfnth) +
-                    BigWord(m_pfnth->mpchibsd[(byte)*pszT]));
-			word cb = Compile8Thunk(gpbScratch, psd, xT & 1);
-			byte *pbT = (byte *)gmmgr.AllocPtr(cb);
-			if (pbT != NULL) {
-				gmmgr.WritePtr(pbT, 0, gpbScratch, cb);
-				if (xT & 1) {
-					gmmgr.WritePtr(m_mpchpbCodeOdd, (byte)ch * sizeof(byte *),
-                            &pbT, sizeof(byte *));
-				} else {
-					gmmgr.WritePtr(m_mpchpbCodeEven, (byte)ch * sizeof(byte *),
-                            &pbT, sizeof(byte *));
-				}
-			}
-			pbDraw = gpbScratch;
-		}
-
-		DrawDispatchThunk(pbDraw, NULL, pbDst, siz.cx - cxChar, mpscaiclr,
-                gmpiclriclrShadow);
-		pbDst += cxChar - m_nGlyphOverlap;
-		xT += cxChar - m_nGlyphOverlap;
-	}
-
-	return xT - xDst;
+bool Font::TBitmapExists(char sz)
+{
+    std::string str(1, sz);
+    FontMap::iterator it = m_map.find(str);
+    return it != m_map.end();
 }
 
 } // namespace wi

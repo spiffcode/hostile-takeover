@@ -404,13 +404,6 @@ bool Game::Init(int imm)
 				Assert("LoadFont failed");
 				return false;
 			}
-
-			// HACK: shadow font glyphs need to overlap by one pixel when drawn
-
-			if (strcmp(szT, "shadowfont.fnt") == 0) {
-				gapfnt[ifnt]->SetGlyphOverlap(1);
-				gapfnt[ifnt]->SetLineOverlap(2);
-			}
 		}
 	}
 	m_wf |= kfGameInitFonts;

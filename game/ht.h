@@ -1181,32 +1181,21 @@ private:
     DibBitmap **m_pbmAtlases;
 };
 
-struct FontHeader // fnth
-{
-	word cy;
-	byte acxChar[256];
-	word mpchibsd[256];
-	ScanData asd[1];
-};
+// Font
+
+#include <map>
+typedef std::map<std::string, TBitmap *> FontMap;
 
 class Font // fnt
 {
 public:
-	Font() secFont;
-	~Font() secFont;
+	Font();
+	~Font();
 
-	bool Load(char *pszFont) secFont;
+	bool Load(char *pszFont);
 
 	int GetHeight() {
-		return BigWord(m_pfnth->cy);
-	}
-
-	void SetGlyphOverlap(int nGlyphOverlap) {
-		m_nGlyphOverlap = nGlyphOverlap;
-	}
-
-	void SetLineOverlap(int nLineOverlap) {
-		m_nLineOverlap = nLineOverlap;
+        return m_cy;
 	}
 
 	int GetGlyphOverlap() {
@@ -1217,29 +1206,30 @@ public:
 		return m_nLineOverlap;
 	}
 
-	int GetTextExtent(const char *psz) secFont;
-	int GetTextExtent(const char *psz, int cch) secFont;
+	int GetTextExtent(const char *psz);
+	int GetTextExtent(const char *psz, int cch);
 	int DrawText(DibBitmap *pbm, char *psz, int x, int y, int cch = -1,
-            dword *mpscaiclr = NULL) secFont;
+            Color *pclr = NULL);
 	void DrawText(DibBitmap *pbm, char *psz, int x, int y, int cx,
-            int cy, bool fEllipsis = false) secFont;
+            int cy, bool fEllipsis = false);
     void DrawTextWithEllipsis(DibBitmap *pbm, char *psz, int cch,
             int x, int y, int cx, bool fForce = false);
-	int CalcMultilineHeight(char *psz, int cxMultiline) secFont;
-	int CalcBreak(int cx, char **psz, bool fChop = true) secFont;
+	int CalcMultilineHeight(char *psz, int cxMultiline);
+	int CalcBreak(int cx, char **psz, bool fChop = true);
 
 private:
-	char *FindNextNonBreakingChar(char *psz) secFont;
+	char *FindNextNonBreakingChar(char *psz);
+    TBitmap *GetTBitmap(char sz);
+    bool TBitmapExists(char sz);
 
-	FileMap m_fmap;
-	FontHeader *m_pfnth;
-	byte **m_mpchpbCodeEven;
-	byte **m_mpchpbCodeOdd;
 	int m_nGlyphOverlap;
 	int m_nLineOverlap;
     int m_cxEllipsis;
+    int m_cy;
+    FontMap m_map;
+    TBitmap *m_ptbmDefault;
 };
-Font *LoadFont(char *pszFont) secFont;
+Font *LoadFont(char *pszFont);
 
 struct TileSetHeader // tseth
 {
