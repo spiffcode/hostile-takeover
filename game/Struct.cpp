@@ -938,7 +938,7 @@ BeginStateMachine
 	OnMsg(kmidSpawnSmoke)
 		if (gwfPerfOptions & kfPerfSmoke) {
 			if (ggobm.IsBelowLimit(knLimitSupport)) {
-				SmokeGob *pgob = new SmokeGob((GetRandom() & 3) + 4);
+				SmokeGob *pgob = new SmokeGob((GetRandom() & 1));
 				Assert(pgob != NULL, "out of memory!");
 				if (pgob != NULL) {
 					WCoord wcx = WcFromTc(m_pstruc->ctx);
