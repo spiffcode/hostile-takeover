@@ -577,16 +577,33 @@ bool Game::LoadGameData()
 	// We've choosen the best mode / data combo. Load the matching data
 
 	Assert(m_immCurrent != -1);
+
+    const char *pszMainDataDir = HostGetMainDataDir();
+
+    // Game data may be a pdb
+
 	char szPdb[20];
 	sprintf(szPdb, "htdata%d%d.pdb", m_amm[m_immCurrent].nDepthData, m_amm[m_immCurrent].nSizeData);
 
-    const char *pszMainDataDir = HostGetMainDataDir();
+    // Game data may be a directory
+
+    char szDir[MAX_PATH];
+    if (pszMainDataDir == NULL) {
+        sprintf(szDir, "htdata%d%d", m_amm[m_immCurrent].nDepthData, m_amm[m_immCurrent].nSizeData);
+    } else {
+        sprintf(szDir, "%s/htdata%d%d", pszMainDataDir, m_amm[m_immCurrent].nDepthData,
+            m_amm[m_immCurrent].nSizeData);
+    }
+
+    // Pdb is first choice, dir is second
+
 	if (!gpakr.Push(pszMainDataDir, szPdb))
-		return false;
+        if (!gpakr.Push(szDir, NULL))
+            return false;
 
 	// Load sound effects
 
-	if (!gpakr.Push(pszMainDataDir, "htsfx.pdb")){
+	if (!gpakr.Push(HostGetMainDataDir(), "htsfx.pdb")){
 		HostMessageBox(TEXT("Required sound effects file missing"));
 		return false;
 	}
@@ -939,6 +956,8 @@ int Game::FindBestModeMatch(int nSizeDataAbove)
 	static DataModePairs s_admp[] = {
 		// Color high res first
 
+        { 24, 32, 24, 320, 9999 },
+#if 0
 		{ 8, 32, 8, 320, 9999 },
 		{ 8, 24, 8, 320, 9999 },
 		{ 8, 20, 8, 240, 319 },
@@ -955,6 +974,7 @@ int Game::FindBestModeMatch(int nSizeDataAbove)
 		{ 4, 24, 4, 320, 9999 },
 		{ 4, 20, 4, 240, 319 },
 		{ 4, 16, 4, 160, 239 },
+#endif
 	};
 
 	// Go through each data / mode pairing and perform searches based on the match order
@@ -988,15 +1008,19 @@ bool Game::InitDisplay(int immRequested)
 
 	// Find all raw data / mode matches
 
+    ddword ddwSizes24bpp = IsDataPresent(24);
 	ddword ddwSizes8bpp = IsDataPresent(8);
 	ddword ddwSizes4bpp = IsDataPresent(4);
-	if (ddwSizes8bpp == 0 && ddwSizes4bpp == 0) {
+	if (ddwSizes24bpp == 0 && ddwSizes8bpp == 0 && ddwSizes4bpp == 0) {
 		HostMessageBox(TEXT("Incorrect game graphics version or no game graphics installed"));
 		return false;
 	}
 
+    if (ddwSizes24bpp & (((ddword)1) << 32))
+		AddModeMatches(24, 32, 24, 320); // 24 depth data, 32 size data, 24 or higher dst, 320 or higher dst
+
 	if (ddwSizes8bpp & (((ddword)1) << 32))
-		AddModeMatches(8, 32, 8, 320); // 8 depth data, 24 size data, 8 or higher dst, 320 or higher dst    
+		AddModeMatches(8, 32, 8, 320); // 8 depth data, 24 size data, 8 or higher dst, 320 or higher dst
 	if (ddwSizes8bpp & (((ddword)1) << 24))
 		AddModeMatches(8, 24, 8, 320); // 8 depth data, 24 size data, 8 or higher dst, 320 or higher dst
 	if (ddwSizes8bpp & (((ddword)1) << 20))
@@ -1429,20 +1453,38 @@ bool Game::IsVersionCompatibleWithExe(int nVersionCompareShip, int nVersionCompa
 ddword Game::IsDataPresent(int cBpp)
 {
     const char *pszMainDataDir = HostGetMainDataDir();
-	char szPdb[kcbFilename];
+    char szPdb[kcbFilename];
+	char szDir[MAX_PATH];
 	ddword ddwSizes = 0;
-	sprintf(szPdb, "htdata%d16.pdb", cBpp);
-	if (CheckDatabaseVersion(pszMainDataDir, szPdb, false))
-		ddwSizes |= (((ddword)1) << 16);
-	sprintf(szPdb, "htdata%d20.pdb", cBpp);
-	if (CheckDatabaseVersion(pszMainDataDir, szPdb, false))
-		ddwSizes |= (((ddword)1) << 20);
-	sprintf(szPdb, "htdata%d24.pdb", cBpp);
-	if (CheckDatabaseVersion(pszMainDataDir, szPdb, false))
-		ddwSizes |= (((ddword)1) << 24);
-	sprintf(szPdb, "htdata%d32.pdb", cBpp);
-	if (CheckDatabaseVersion(pszMainDataDir, szPdb, false))
-		ddwSizes |= (((ddword)1) << 32);
+
+    // tile sizes to check
+    int catsz[] = {
+        // 16,
+        // 20,
+        // 24,
+        32
+    };
+
+    for (int i = 0; i < ARRAYSIZE(catsz); i++) {
+
+        // Data may be a pdb
+
+        sprintf(szPdb, "htdata%d%i.pdb", cBpp, catsz[i]);
+        if (CheckDatabaseVersion(pszMainDataDir, szPdb, false)) {
+            ddwSizes |= (((ddword)1) << catsz[i]);
+            continue;
+        }
+
+        // Data may be a directory
+
+        if (pszMainDataDir == NULL) {
+            sprintf(szDir, "htdata%d%i", cBpp, catsz[i]);
+        } else {
+            sprintf(szDir, "%s/htdata%d%i", pszMainDataDir, cBpp, catsz[i]);
+        }
+        if (CheckDatabaseVersion(szDir, NULL, false))
+            ddwSizes |= (((ddword)1) << catsz[i]);
+    }
     
 	return ddwSizes;
 }
