@@ -13,12 +13,13 @@ BASE_PATH := $(HT_PATH)/base
 YAJL_PATH := $(HT_PATH)/yajl
 HOST_PATH := $(GAME_PATH)/sdl
 INC_PATH := $(HT_PATH)/inc
-SDL2_PATH := $(HOST_PATH)/SDL2
 HTA_PATH := $(HOST_PATH)/android/jni/ht/
-CURL_PATH := $(HOST_PATH)/curl
+SDL2_PATH := $(HOST_PATH)/libs/SDL2
+CURL_PATH := $(HOST_PATH)/libs/curl
+SDL2IMG_PATH = $(HOST_PATH)/libs/SDL2_image
 
 LOCAL_C_INCLUDES := $(SDL2_PATH)/include $(HT_PATH) $(INC_PATH) $(GAME_PATH) \
-$(HOST_PATH) $(CURL_PATH)/include
+$(HOST_PATH) $(CURL_PATH)/include $(SDL2IMG_PATH)/include
 
 SRC_GAME := $(wildcard $(GAME_PATH)/*.cpp) \
             $(wildcard $(MPS_PATH)/*.cpp) \
@@ -42,7 +43,7 @@ SRC_GAME := $(filter-out %jsonbuilder_test.cpp, $(SRC_GAME))
 
 LOCAL_SRC_FILES := $(SRC_GAME)
 
-LOCAL_SHARED_LIBRARIES := SDL2
+LOCAL_SHARED_LIBRARIES := SDL2 SDL2_image
 LOCAL_STATIC_LIBRARIES := curl
 
 LOCAL_CFLAGS := -Wno-write-strings -fsigned-char -w
@@ -53,6 +54,6 @@ ifndef REL
 LOCAL_CFLAGS += -DDEV_BUILD -DDEBUG_LOGGING -DDEBUG -DLOGGING
 endif
 
-LOCAL_LDLIBS := -llog
+LOCAL_LDLIBS := -llog -landroid
 
 include $(BUILD_SHARED_LIBRARY)
