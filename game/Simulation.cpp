@@ -90,12 +90,16 @@ bool Simulation::OneTimeInit()
     Assert(fSuccess);
     Status("Init SpInfantryGob...");
     fSuccess = fSuccess && SpInfantryGob::InitClass(piniGobTemplates);
+    Assert(fSuccess);
     Status("Init OvermindGob...");
     fSuccess = fSuccess && OvermindGob::InitClass(piniGobTemplates);
+    Assert(fSuccess);
     Status("Init TankShotGob...");
     fSuccess = fSuccess && TankShotGob::InitClass(piniGobTemplates);
+    Assert(fSuccess);
     Status("Init RocketGob...");
     fSuccess = fSuccess && RocketGob::InitClass(piniGobTemplates);
+    Assert(fSuccess);
     Status("Init BulletGob...");
     fSuccess = fSuccess && BulletGob::InitClass(piniGobTemplates);
     Assert(fSuccess);
