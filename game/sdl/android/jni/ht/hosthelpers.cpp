@@ -226,11 +226,6 @@ void HostHelpers::GetSurfaceProperties(SurfaceProperties *pprops)
     cxScreen = screenWidth / density;
     cyScreen = screenHeight / density;
 
-    // HT grpahics are whack when the screen width is an odd number of bounds
-    // Hack: "increase" the screen width by one pixel if needed
-    if (cxScreen % 2)
-        cxScreen++;
-
     pprops->cxWidth = cxScreen;
     pprops->cyHeight = cyScreen;
     pprops->cbxPitch = 1;
