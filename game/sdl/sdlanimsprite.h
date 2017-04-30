@@ -44,10 +44,8 @@ private:
     dword hash_;
     int cx_, cy_;
     int xOrigin_, yOrigin_;
-    SDL_Texture *texture_;
-    SDL_Surface *surface_;
+    DibBitmap *surface_;
     SpriteManager *psprm_;
-    dword mp8bpp32bpp_[256];
     float nScaleStart_, nScaleEnd_;
     long msAnimateStart_;
     dword cmsAnimate_;
