@@ -3451,14 +3451,14 @@ private:
 	int m_yOff;
 	TCoord m_ctx;
 	TCoord m_cty;
-	byte *m_pbTileData;
+	dword *m_pbTileData;
 	word *m_pwTileMap;
 	int m_cbRowBytes;
 	byte *m_pbFogMap;
-	byte m_clrWhite;
-	byte m_clrBlack;
-	byte m_clrGalaxite;
-	byte m_aclrSide[kcSides];
+	Color m_clrWhite;
+	Color m_clrBlack;
+	Color m_clrGalaxite;
+	Color m_aclrSide[kcSides];
 };
 
 // Pip Meter Control

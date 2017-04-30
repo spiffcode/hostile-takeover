@@ -2283,12 +2283,15 @@ MiniMapControl::MiniMapControl()
 	m_xOff = 0;
 	m_yOff = 0;
 	m_tInvalidateLast = 0;
+    m_pbTileData = NULL;
 }
 
 MiniMapControl::~MiniMapControl()
 {
 	gpmm = NULL;
 	delete m_pbm;
+    delete[] m_pbTileData;
+    m_pbTileData = NULL;
 }
 
 int MiniMapControl::CalcWidth()
@@ -2393,16 +2396,23 @@ bool MiniMapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 
 	TileMap *ptmap = gsim.GetLevel()->GetTileMap();
 	MiniTileSetHeader *pmtseth = ptmap->GetMiniTileSetHeader(m_nScale);
-	m_pbTileData = (byte *)(pmtseth + 1);
 	m_pwTileMap = ptmap->m_pwMapData;
 	m_pbFogMap = gsim.GetLevel()->GetFogMap()->GetMapPtr();
 	ggobm.GetMapSize(&m_ctx, &m_cty);
-	m_cbRowBytes = m_pbm->GetRowBytes();
-	m_clrBlack = (byte)GetColor(kiclrBlack);
-	m_clrWhite = (byte)GetColor(kiclrWhite);
-	m_clrGalaxite = (byte)GetColor(kiclrGalaxite);
+	m_cbRowBytes = m_ctx * m_nScale;
+	m_clrBlack = GetColor(kiclrBlack);
+	m_clrWhite = GetColor(kiclrWhite);
+	m_clrGalaxite = GetColor(kiclrGalaxite);
 	for (Side sideT = ksideNeutral; sideT < kcSides; sideT++)
-		m_aclrSide[sideT] = (byte)GetSideColor(sideT);
+		m_aclrSide[sideT] = GetSideColor(sideT);
+
+    // Cache the tile data
+
+    dword *pbtd = (dword *)(pmtseth + 1);
+    m_pbTileData = new dword[pmtseth->cTiles];
+    for (int i = 0; i < pmtseth->cTiles; i++, pbtd++) {
+        m_pbTileData[i] = BigDword(*pbtd);
+    }
 
 	// Calc powered radar flag
 
@@ -2694,7 +2704,7 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 
 	// Redraw this rect
 
-	byte *pbDst = m_pbm->GetBits() + (long)ptrc->top * m_cbRowBytes * m_nScale +
+	dword *pbDst = m_pbm->GetBits() + (long)ptrc->top * m_cbRowBytes * m_nScale +
 			ptrc->left * m_nScale + (long)m_yOff * m_cbRowBytes + m_xOff;
 	int cbDstReturn = m_cbRowBytes - ptrc->Width() * m_nScale;
 	long offset = (long)ptrc->top * m_ctx + ptrc->left;
@@ -2774,7 +2784,7 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 				if (punt != NULL) {
 					dword wf = punt->GetFlags();
 					if ((wf & (kfGobMobileUnit | kfGobActive)) != (kfGobMobileUnit))  {
-						byte clr;
+						dword clr;
 						if (wf & kfGobSelected) {
 							clr = m_clrWhite;
 						} else {
@@ -2802,11 +2812,11 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 				// Tile
 
 				int nTile = (BigWord(*pwTileMap) & 0x7fc);
-				byte *pbSrc = &m_pbTileData[nTile];
-				*pbDst++ = *pbSrc++;
-				*pbDst++ = *pbSrc++;
-				*(pbDst + m_cbRowBytes - 2) = *pbSrc++;
-				*(pbDst + m_cbRowBytes - 1) = *pbSrc++;
+				dword pbSrc = m_pbTileData[nTile];
+				*pbDst++ = pbSrc;
+				*pbDst++ = pbSrc;
+				*(pbDst + m_cbRowBytes - 2) = pbSrc;
+				*(pbDst + m_cbRowBytes - 1) = pbSrc;
 				continue;
 			}
 			pwTileMap += ctReturn;

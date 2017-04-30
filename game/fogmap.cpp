@@ -354,7 +354,6 @@ void FogMap::Draw(DibBitmap *pbm, int xMap, int yMap, UpdateMap *pupd)
 	int cfInvalidNextScan = sizMap.cx - ctx;
 	Assert(sizMap.cx >= ctx && sizMap.cy >= cty);
 
-	byte *pbDib = pbm->GetBits();
 	byte *pbMapT = &m_pbMap[ty * m_ctxMap + tx];
 	int cbNextScan = m_ctxMap - ctx;
 	int xTile = tx * gcxTile - xMap;
@@ -362,7 +361,7 @@ void FogMap::Draw(DibBitmap *pbm, int xMap, int yMap, UpdateMap *pupd)
 	int xTileStart = xTile;
 	for (int tyT = ty; tyT < ty + cty; tyT++) {
 		int cEmpty = 0;
-		int xStart;
+		int xStart = 0;
 		for (int txT = tx; txT < tx + ctx; txT++) {
 			byte bFog = *pbMapT++ & kbfFogMask;
 			if (*pfInvalid++ == false)
@@ -439,7 +438,6 @@ void FogMap::DrawGalaxite(DibBitmap *pbm, int xMap, int yMap, UpdateMap *pupd, b
 	int cty = (siz.cy + (gcyTile - 1)) / gcyTile + 1;
 	if (ty + cty > m_ctyMap)
 		cty = m_ctyMap - ty;
-	byte *pbDib = pbm->GetBits();
 	byte *pbMapT = &m_pbMap[ty * m_ctxMap + tx];
 	int cbNextScan = m_ctxMap - ctx;
 	int xTile = tx * gcxTile - xMap;
