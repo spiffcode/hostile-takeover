@@ -219,7 +219,7 @@ void ButtonControl::OnPaint(DibBitmap *pbm)
 			x += sizMid.cx;
 		}
 #else
-		ptbmMid->FillTo(0, pbm, x, rcT.top, xRight - x, rcT.Height());
+		ptbmMid->FillTo(pbm, x, rcT.top, xRight - x, rcT.Height());
 		x = xRight;
 #endif
 
