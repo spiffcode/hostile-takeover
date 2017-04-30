@@ -50,8 +50,6 @@ int g_mpDirToDy[8] = { -1, -1, 0, 1, 1, 1, 0, -1 };
 AnimationData *g_panidMoveTarget;
 static AnimationData *s_panidVehicleExplosion;
 
-#define GetIdleCountdown() ((GetRandom() % 50) + 50)		// somewhere between 4 & 8 seconds
-
 const int kcFireCountdown = 6;	// 6 updates (~.5 secs)
 
 Path *MobileUnitGob::s_apathCached[kcPathsCache];
@@ -721,6 +719,11 @@ bool MobileUnitGob::IsAttackPointWithinFiringRangeOfTarget(UnitGob *puntTarget)
 	WPoint wptAttack;
 	puntTarget->GetAttackPoint(&wptAttack);
 	return IsTargetWithinRange(&wptAttack, puntTarget, m_pmuntc->tcFiringRange);
+}
+
+int MobileUnitGob::GetIdleCountdown()
+{
+    return (GetRandom() % 50) + 50; // somewhere between 4 & 8 seconds
 }
 
 // TUNE:

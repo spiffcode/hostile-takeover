@@ -99,6 +99,11 @@ void SRInfantryGob::Idle()
 	}
 }
 
+int SRInfantryGob::GetIdleCountdown()
+{
+    return (GetRandom() % 100) + 50; // somewhere between 8 & 12 seconds
+}
+
 int SRInfantryGob::ProcessStateMachineMessage(State st, Message *pmsg)
 {
 BeginStateMachine

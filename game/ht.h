@@ -6691,6 +6691,8 @@ public:
 	bool IsMobile() secUnitGob;
 	bool IsStandingOnActivator() secUnitGob;
 
+    virtual int GetIdleCountdown() secUnitGob;
+
 	bool HasAttackTarget() {
 		return m_gidTarget != kgidNull;
 	}
@@ -7024,6 +7026,10 @@ public:
 	virtual bool Fire(UnitGob *puntTarget, WCoord wx, WCoord wy, WCoord wdx, WCoord wdy) secInfantryGob;
 	virtual void Idle() secInfantryGob;
 
+    // MobileUnitGob overrides
+
+    virtual int GetIdleCountdown() secInfantryGob;
+
 	// StateMachine methods
 
 	virtual int ProcessStateMachineMessage(State st, Message *pmsg) secInfantryGob;
@@ -7043,6 +7049,10 @@ public:
 
 	virtual bool Fire(UnitGob *puntTarget, WCoord wx, WCoord wy, WCoord wdx, WCoord wdy) secInfantryGob;
 	virtual void Idle() secInfantryGob;
+
+    // MobileUnitGob overrides
+
+    virtual int GetIdleCountdown() secInfantryGob;
 
 	// StateMachine methods
 

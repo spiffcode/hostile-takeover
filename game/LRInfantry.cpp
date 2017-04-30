@@ -100,6 +100,11 @@ void LRInfantryGob::Idle()
 	}
 }
 
+int LRInfantryGob::GetIdleCountdown()
+{
+    return (GetRandom() % 100) + 50; // somewhere between 8 & 12 seconds
+}
+
 int LRInfantryGob::ProcessStateMachineMessage(State st, Message *pmsg)
 {
 BeginStateMachine
