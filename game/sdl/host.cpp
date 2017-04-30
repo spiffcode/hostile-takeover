@@ -781,38 +781,6 @@ void HostGetCurrentDate(Date *pdate)
     pdate->nDay = ptm->tm_mday;
 }
 
-bool HostSavePreferences(void *pv, int cb)
-{
-    LOG() << HostHelpers::GetPrefsFilename();
-
-    FILE *pf = fopen(HostHelpers::GetPrefsFilename(), "wb");
-    if (pf == NULL) {
-        LOG() << "error opening preferences! " << errno;
-        return false;
-    }
-    if (fwrite(pv, cb, 1, pf) != 1) {
-        LOG() << "error writing preferences! " << errno;
-        fclose(pf);
-        return false;
-    }
-    fclose(pf);
-    return true;
-}
-
-int HostLoadPreferences(void *pv, int cb)
-{
-    FILE *pf = fopen(HostHelpers::GetPrefsFilename(), "rb");
-    if (pf == NULL) {
-        return -1;
-    }
-
-    // Read prefs
-
-    int cbRead = (int)fread(pv, 1, cb, pf);
-    fclose(pf);
-    return cbRead;
-}
-
 const char *HostGetMainDataDir()
 {
     return HostHelpers::GetMainDataDir();
@@ -821,6 +789,11 @@ const char *HostGetMainDataDir()
 const char *HostGetSaveGamesDir()
 {
     return HostHelpers::GetSaveGamesDir();
+}
+
+const char *HostGetPrefsFilename()
+{
+    return HostHelpers::GetPrefsFilename();
 }
 
 void HostNotEnoughMemory(bool fStorage, dword cbFree, dword cbNeed)

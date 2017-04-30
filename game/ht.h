@@ -266,6 +266,7 @@ typedef word CacheHandle; // hc
 #define secDrm secCode16
 #define secBtTransport secCode17
 #define secTexAtlasMgr secCode13
+#define secPreferences secCode9
 
 // Performance options
 
@@ -2273,8 +2274,6 @@ class MultiFormMgr;
 class InputUIForm;
 class Form;
 class Chatter;
-struct PreferencesV100;
-struct PreferencesV101;
 class Game // game
 {
 public:
@@ -2354,10 +2353,7 @@ public:
 private:
 	bool CheckMemoryAvailable() secGame;
 	void Suspend() secGame;
-	void LoadPreferences() secGame;
-	bool LoadPreferences2() secGame;
-	bool LoadPreferencesV100(PreferencesV100 *pprefsV100);
-	bool LoadPreferencesV101(PreferencesV101 *pprefsV101);
+	bool LoadPreferences() secGame;
 	bool InitDisplay(int imm) secGame;
 	int FindBestModeMatch2(int nDepthData, int nSizeData, int nDepthMode, int cxWidthModeMin, int cxWidthModeMax, byte bfMatch) secGame;
 	int FindBestModeMatch(int nSizeDataAbove) secGame;
@@ -8320,89 +8316,80 @@ bool DrmValidate() secDrm;
 // Preferences support
 //
 
-// Preferences structures change over time. They get backed up by HotSync.
-// By carefully versioning the structure HT can load older preference versions
-// successfully. Every prefs structure has a version; these are meant to be supported
-// versions of preferences; meaning HT will load older versions of each versioned prefs
-// structure. They are also sub-versioned by size; this allows us during development to
-// add / remove fields and not have HT crash because it is assuming the wrong thing.
-
-// prefs flags
-
-#define kfPrefSoundMuted 1 // must be 1 for compatibility with fMute
-#define kfPrefIgnoreBluetoothWarning 2
-
-// Preferences is stored in pack 2 alignment
-#pragma pack(push, 2)
-
-// The header necessary on all preferences structures
-
-struct PreferencesVersion
-{
-	dword dwVersion;
-	dword cbSize;
-};
-
-// The versions of preferences structures HT can successfully read
-// Use fixed size datatypes
-
-struct PreferencesV100 // prefs
-{
-	PreferencesVersion prefv;
-    char szUsername[kcbPlayerName];
-    char szPassword[kcbPlayerName];
-    char szToken[kcbTokenMax];
-    word fAnonymous;
-	word nYearLastRun;				// demo time check
-	word nMonthLastRun;
-	word nDayLastRun;
-	word nVolume;					// volume
-	word wfPrefs;
-	word wfPerfOptions;
-	word wfHandicap;				// Difficulty-affecting flags
-	int ctGameSpeed;				// game speed
-	word fLassoSelection;
-	short nHueOffset;				// HSL settings
-	short nSatMultiplier;
-	short nLumOffset;
-	word cxModeBest;				// Remember what mode / data is best. Check against in case config changes
-	word cyModeBest;
-	word nDepthModeBest;
-	word nDepthDataBest;
-	word nSizeDataBest;
-	word nDegreeOrientationBest;
-	word cxModeLast;				// Remember what mode / data was chosen
-	word cyModeLast;
-	word nDepthModeLast;
-	word nDepthDataLast;
-	word nSizeDataLast;
-	word nDegreeOrientationLast;
-	Key key;						// DRM key
-	short nDemoRank;
-#if defined(WIN) && !defined(CE)
-	short nScale;
-#endif
-    double nScrollSpeed;
-    char szAskURL[512];
-};
-
-struct PreferencesV101 : public PreferencesV100
-{
-    // md5 hash (16 bytes) to hex chars (32 bytes) plus zero terminator, rounded up to even number
-    char szDeviceId[34];
-};
-typedef PreferencesV101 Preferences;
-
-#pragma pack(pop)
-
 // The current version
 
-#define knVersionPreferencesV100 0x100
-#define knVersionPreferencesV101 0x101
-#define knVersionPreferences knVersionPreferencesV101
-extern Preferences gprefsInit;
-bool HostSavePreferences(void *pv, int cb) secHost;
-int HostLoadPreferences(void *pv, int cb) secHost;
+#define knVersionPreferencesV01 1
+#define knVersionPreferencesLatest knVersionPreferencesV01
+
+// Keys
+
+#define knPrefVersion "version"
+#define kszPrefUsername "username"
+#define kszPrefPassword "password"
+#define kszPrefToken "token"
+#define kfPrefAnonymous "anonymous"
+#define knPrefYearLastRun "year_last_run" // demo time check
+#define knPrefMonthLastRun "month_last_run"
+#define knPrefDayLastRun "day_last_run"
+#define kwfPrefPerfOptions "perf_options"
+#define knPrefVolume "volume" // in percent (0 - 100)
+#define kfPrefSoundMuted "sound_muted"
+#define kwfPrefHandicap "handicap" // Difficulty-affecting flags
+#define knPrefGameSpeed "game_speed"
+#define kfPrefLassoSelection "lassos_election"
+#define knPrefHueOffset "hue_offset" // HSL settings
+#define knPrefSatMultiplier "sat_multiplier"
+#define knPrefLumOffset "lum_offset"
+#define knPrefCxModeBest "cx_mode_best" // Remember what mode / data is best. Check against in case config
+#define knPrefCyModeBest "cy_mode_best"
+#define knPrefDepthModeBest "depth_mode_best"
+#define knPrefDepthDataBest "depth_data_best"
+#define knPrefSizeDataBest "size_data_best"
+#define knPrefDegreeOrientationBest "degree_orientation_best"
+
+#define knPrefCxModeLast "cx_mode_last" // Remember what mode / data was chosen
+#define knPrefCyModeLast "cy_mode_best"
+#define knPrefDepthModeLast "depth_mode_last"
+#define knPrefDepthDataLast "depth_data_last"
+#define knPrefSizeDataLast "size_data_last"
+#define knPrefDegreeOrientationLast "degree_orientation_last"
+
+#define kszPrefKey "key" // DRM key
+#define knPrefDemoRank "demo_rank"
+// #define knPrefScale "scale"
+#define knPrefScrollSpeed "scroll_speed"
+// #define kfPrefIgnoreBluetoothWarning "ignore_bluetooth_warning"
+#define kszPrefAskUrl "ask_url"
+#define kszPrefDeviceId "did"
+
+class Preferences
+{
+public:
+    Preferences() secPreferences;
+    ~Preferences() secPreferences;
+
+    bool InitFromFile() secPreferences;
+    bool InitFromDeafults() secPreferences;
+
+    bool Save() secPreferences;
+    const char *GetString(const char *key) secPreferences;
+    int GetInteger(const char *key) secPreferences;
+    float GetFloat(const char *key) secPreferences;
+    bool GetBool(const char *key) secPreferences;
+
+    void Set(const char *key, const char *psz) secPreferences;
+    void Set(const char *key, int n) secPreferences;
+    void Set(const char *key, float n) secPreferences;
+    void Set(const char *key, bool f) secPreferences;
+
+private:
+    json::JsonMap *m_pmap;
+    char *m_pszJson;
+};
+Preferences *PrefsFromFile() secPreferences;
+Preferences *PrefsFromDefaults() secPreferences;
+
+extern Preferences *gpprefs;
 
 // Our in-game MessageBox
 
@@ -8773,6 +8760,7 @@ void HostMessageBox(TCHAR *pszFormat, ...) secHost;
 Display *HostCreateDisplay() secDisplay;
 bool HostIsPenDown() secHost;
 const char *HostGetMainDataDir() secHost;
+const char *HostGetPrefsFilename() secHost;
 void HostSuspendModalLoop(DibBitmap *pbm) secHost;
 void HostNotEnoughMemory(bool fStorage, dword cbFree, dword cbNeed) secHost;
 bool HostGetOwnerName(char *pszBuff, int cb, bool fShowError) secHost;

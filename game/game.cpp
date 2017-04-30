@@ -275,27 +275,27 @@ bool Game::Init(int imm)
 
 	// Load prefs first
 
-	LoadPreferences();
+    if (!LoadPreferences())
+        return false;
 
-	// Suck what we can from preferences
+    // Suck what we can from preferences
 
-	gtGameSpeed = gprefsInit.ctGameSpeed;
-	gfLassoSelection = gprefsInit.fLassoSelection != 0;
-	gnHueOffset = gprefsInit.nHueOffset;
-	gnSatMultiplier = gprefsInit.nSatMultiplier;
-	gnLumOffset = gprefsInit.nLumOffset;
-    strncpyz(gszUsername, gprefsInit.szUsername, sizeof(gszUsername));
-    strncpyz(gszPassword, gprefsInit.szPassword, sizeof(gszPassword));
-    strncpyz(gszToken, gprefsInit.szToken, sizeof(gszToken));
-    gfAnonymous = (gprefsInit.fAnonymous != 0);
-	gwfPerfOptions = gprefsInit.wfPerfOptions;
-	gwfHandicap = gprefsInit.wfHandicap;
-	gkey = gprefsInit.key;
-	gnDemoRank = gprefsInit.nDemoRank;
-    gnScrollSpeed = gprefsInit.nScrollSpeed;
-	gfIgnoreBluetoothWarning = (gprefsInit.wfPrefs & kfPrefIgnoreBluetoothWarning) ? true : false;
-    strncpyz(gszAskURL, gprefsInit.szAskURL, sizeof(gszAskURL));
-    strncpyz(gszDeviceId, gprefsInit.szDeviceId, sizeof(gszDeviceId));
+    gtGameSpeed = gpprefs->GetInteger(knPrefGameSpeed);
+    gfLassoSelection = gpprefs->GetBool(kfPrefLassoSelection);
+    gnHueOffset = gpprefs->GetInteger(knPrefHueOffset);
+	gnSatMultiplier = gpprefs->GetInteger(knPrefSatMultiplier);
+	gnLumOffset = gpprefs->GetInteger(knPrefLumOffset);
+    strncpy(gszUsername, gpprefs->GetString(kszPrefUsername), sizeof(gszUsername));
+    strncpy(gszPassword, gpprefs->GetString(kszPrefPassword), sizeof(gszPassword));
+    strncpy(gszToken, gpprefs->GetString(kszPrefToken), sizeof(gszToken));
+    gfAnonymous = gpprefs->GetBool(kfPrefAnonymous);
+    gwfPerfOptions = (word)gpprefs->GetInteger(kwfPrefPerfOptions);
+    gwfHandicap = (word)gpprefs->GetInteger(kwfPrefHandicap);
+    gnDemoRank = gpprefs->GetInteger(knPrefDemoRank);
+    gnScrollSpeed = gpprefs->GetFloat(knPrefScrollSpeed);
+    // gfIgnoreBluetoothWarning = gpprefs->GetBool(kfPrefIgnoreBluetoothWarning);
+    strncpy(gszAskURL, gpprefs->GetString(kszPrefAskUrl), sizeof(gszAskURL));
+    strncpy(gszDeviceId, gpprefs->GetString(kszPrefDeviceId), sizeof(gszDeviceId));
 
 	// Temp buffer used for several things, including decompression, TBitmap compiling.
 
@@ -420,9 +420,9 @@ bool Game::Init(int imm)
 	// Init sound system
 
 	gsndm.Init();
-	if (gprefsInit.nVolume != (word)-1)
-		gsndm.SetVolume(gprefsInit.nVolume);
-	gsndm.Enable((gprefsInit.wfPrefs & kfPrefSoundMuted) == 0);
+	if (gpprefs->GetInteger(knPrefVolume) != (word)-1)
+		gsndm.SetVolume(gpprefs->GetInteger(knPrefVolume));
+    gsndm.Enable(!gpprefs->GetBool(kfPrefSoundMuted));
 
 	// Clear out stale save games
 
@@ -1071,17 +1071,17 @@ bool Game::InitDisplay(int immRequested)
 			bool fMatchesPrefs = true;
 			ModeInfo mode;
 			gpdisp->GetModeInfo(m_amm[immBest].imode, &mode);
-			if (mode.cx != gprefsInit.cxModeBest)
+			if (mode.cx != gpprefs->GetInteger(knPrefCxModeBest))
 				fMatchesPrefs = false;
-			if (mode.cy != gprefsInit.cyModeBest)
+			if (mode.cy != gpprefs->GetInteger(knPrefCyModeBest))
 				fMatchesPrefs = false;
-			if (mode.nDepth != gprefsInit.nDepthModeBest)
+			if (mode.nDepth != gpprefs->GetInteger(knPrefDepthModeBest))
 				fMatchesPrefs = false;
-			if (mode.nDegreeOrientation != gprefsInit.nDegreeOrientationBest)
+			if (mode.nDegreeOrientation != gpprefs->GetInteger(knPrefDegreeOrientationBest))
 				fMatchesPrefs = false;
-			if (m_amm[immBest].nDepthData != gprefsInit.nDepthDataBest)
+			if (m_amm[immBest].nDepthData != gpprefs->GetInteger(knPrefDepthDataBest))
 				fMatchesPrefs = false;
-			if (m_amm[immBest].nSizeData != gprefsInit.nSizeDataBest)
+			if (m_amm[immBest].nSizeData != gpprefs->GetInteger(knPrefSizeDataBest))
 				fMatchesPrefs = false;
 			if (fMatchesPrefs) {
 				// Looks like there hasn't been a config change (new data / new device) so try
@@ -1091,17 +1091,17 @@ bool Game::InitDisplay(int immRequested)
 					ModeMatch *pmmT = &m_amm[immT];
 					ModeInfo modeT;
 					gpdisp->GetModeInfo(pmmT->imode, &modeT);
-					if (modeT.cx != gprefsInit.cxModeLast)
+					if (modeT.cx != gpprefs->GetInteger(knPrefCxModeLast))
 						continue;
-					if (modeT.cy != gprefsInit.cyModeLast)
+					if (modeT.cy != gpprefs->GetInteger(knPrefCyModeLast))
 						continue;
-					if (modeT.nDepth != gprefsInit.nDepthModeLast)
+					if (modeT.nDepth != gpprefs->GetInteger(knPrefDepthModeLast))
 						continue;
-					if (modeT.nDegreeOrientation != gprefsInit.nDegreeOrientationLast)
+					if (modeT.nDegreeOrientation != gpprefs->GetInteger(knPrefDegreeOrientationLast))
 						continue;
-					if (pmmT->nDepthData != gprefsInit.nDepthDataLast)
+					if (pmmT->nDepthData != gpprefs->GetInteger(knPrefDepthDataLast))
 						continue;
-					if (pmmT->nSizeData != gprefsInit.nSizeDataLast)
+					if (pmmT->nSizeData != gpprefs->GetInteger(knPrefSizeDataLast))
 						continue;
 					immNew = immT;
 					break;
@@ -2054,6 +2054,9 @@ void Game::Exit()
 
 	SavePreferences();
 
+    delete gpprefs;
+    gpprefs = NULL;
+
 	Status("Exit Simulation (one-time)...");
 	gsim.OneTimeExit();
 
@@ -2449,219 +2452,108 @@ void Game::SetGameSpeed(int t)
 }
 
 // Preferences support.
-//
-// Note always save and load assuming a storage format of big endian.
-// That way we don't have a headache when someone upgrades from a 68K Palm to a
-// ARM Palm with ARM HT and then HotSyncs, restoring a little endian preferences database.
 
-Preferences gprefsInit;
+Preferences *gpprefs;
 
-void Game::LoadPreferences()
+bool Game::LoadPreferences()
 {
-	// Try to load preferences. If this fails,
-	// initialize preferences to default values.
-	// gprefsInit is a global that holds the preferences that are used during initialization
-	// It's a global because we won't be able to process all preferences related initialization
-	// here.
+	// Try to load preferences.
 
-	if (!LoadPreferences2()) {
-		// Initialize preferences to default values
+    gpprefs = PrefsFromFile();
 
-		memset(&gprefsInit, 0, sizeof(gprefsInit));
-		Date date;
-		HostGetCurrentDate(&date);
-        gprefsInit.fAnonymous = 0;
-		gprefsInit.nYearLastRun = date.nYear;
-		gprefsInit.nMonthLastRun = date.nMonth;
-		gprefsInit.nDayLastRun = date.nDay;
-		gprefsInit.nVolume = (word)-1;
-		gprefsInit.wfPerfOptions = kfPerfMax;
-		gprefsInit.ctGameSpeed = kctUpdate / 2;
-		gprefsInit.wfHandicap = kfHcapDefault;
-#if defined(WIN) && !defined(CE)
-		gprefsInit.nScale = -1;
-#endif
-        gprefsInit.nScrollSpeed = 1.0;
-        strncpyz(gprefsInit.szAskURL, "http://", sizeof(gprefsInit.szAskURL));
-        strncpyz(gprefsInit.szDeviceId, HostGenerateDeviceId(), sizeof(gprefsInit.szDeviceId));
-	}
-}
+    // Failed? Initialize preferences to default values
 
-bool Game::LoadPreferences2()
-{
-    Preferences prefs;
-    int cbRead = HostLoadPreferences(&prefs, sizeof(prefs));
-    if (cbRead != (int)BigDword(prefs.prefv.cbSize))
-        return false;
-
-    switch (BigDword(prefs.prefv.dwVersion)) {
-    case knVersionPreferencesV100:
-        if (cbRead != sizeof(PreferencesV100))
+    if (gpprefs == NULL) {
+        gpprefs = PrefsFromDefaults();
+        if (gpprefs == NULL)
             return false;
-        if (!LoadPreferencesV100((PreferencesV100 *)&prefs))
-            return false;
-        strncpyz(gprefsInit.szDeviceId, HostGenerateDeviceId(), sizeof(gprefsInit.szDeviceId));
-        return true;
-
-	case knVersionPreferencesV101:
-        if (cbRead != sizeof(PreferencesV101))
-            return false;
-        return LoadPreferencesV101((PreferencesV101 *)&prefs);
     }
 
-    return false;
-}
-
-bool Game::LoadPreferencesV100(PreferencesV100 *pprefsV100)
-{
-    strncpyz(gprefsInit.szUsername, pprefsV100->szUsername,
-            sizeof(gprefsInit.szUsername));
-    strncpyz(gprefsInit.szPassword, pprefsV100->szPassword,
-            sizeof(gprefsInit.szPassword));
-    strncpyz(gprefsInit.szToken, pprefsV100->szToken,
-            sizeof(gprefsInit.szToken));
-    gprefsInit.fAnonymous = BigWord(pprefsV100->fAnonymous);
-    gprefsInit.nYearLastRun = BigWord(pprefsV100->nYearLastRun);
-    gprefsInit.nMonthLastRun = BigWord(pprefsV100->nMonthLastRun);
-    gprefsInit.nDayLastRun = BigWord(pprefsV100->nDayLastRun);
-    gprefsInit.nVolume = BigWord(pprefsV100->nVolume);
-    gprefsInit.wfPrefs = BigWord(pprefsV100->wfPrefs);
-    gprefsInit.wfPerfOptions = BigWord(pprefsV100->wfPerfOptions);
-    gprefsInit.ctGameSpeed = BigDword(pprefsV100->ctGameSpeed);
-    gprefsInit.fLassoSelection = BigWord(pprefsV100->fLassoSelection);
-    gprefsInit.nHueOffset = BigWord(pprefsV100->nHueOffset);
-    gprefsInit.nSatMultiplier = BigWord(pprefsV100->nSatMultiplier);
-    gprefsInit.nLumOffset = BigWord(pprefsV100->nLumOffset);
-    gprefsInit.cxModeBest = BigWord(pprefsV100->cxModeBest);
-    gprefsInit.cyModeBest = BigWord(pprefsV100->cyModeBest);
-    gprefsInit.nDepthModeBest = BigWord(pprefsV100->nDepthModeBest);
-    gprefsInit.nDepthDataBest = BigWord(pprefsV100->nDepthDataBest);
-    gprefsInit.nSizeDataBest = BigWord(pprefsV100->nSizeDataBest);
-    gprefsInit.nDegreeOrientationBest = BigWord(pprefsV100->nDegreeOrientationBest);
-    gprefsInit.cxModeLast = BigWord(pprefsV100->cxModeLast);
-    gprefsInit.cyModeLast = BigWord(pprefsV100->cyModeLast);
-    gprefsInit.nDepthModeLast = BigWord(pprefsV100->nDepthModeLast);
-    gprefsInit.nDepthDataLast = BigWord(pprefsV100->nDepthDataLast);
-    gprefsInit.nSizeDataLast = BigWord(pprefsV100->nSizeDataLast);
-    gprefsInit.nDegreeOrientationLast = BigWord(pprefsV100->nDegreeOrientationLast);
-    gprefsInit.nDemoRank = BigWord(pprefsV100->nDemoRank);
-    gprefsInit.nScrollSpeed = pprefsV100->nScrollSpeed;
-    strncpyz(gprefsInit.szAskURL, pprefsV100->szAskURL,
-            sizeof(gprefsInit.szAskURL));
-
-    // Migrate obsolete handicap combinations
-
-    gprefsInit.wfHandicap = BigWord(pprefsV100->wfHandicap);
-    if (gprefsInit.wfHandicap == 0) // old hard
-        gprefsInit.wfHandicap = kfHcapHard; // new hard
-    else if (gprefsInit.wfHandicap == (kfHcapDecreasedTimeToBuild | kfHcapIncreasedFirePower | kfHcapIncreasedMinerLoadValue | kfHcapShowEnemyBuildProgress | kfHcapShowEnemyResourceStatus))
-        gprefsInit.wfHandicap = kfHcapEasy;
-    else if (gprefsInit.wfHandicap == (kfHcapDecreasedTimeToBuild | kfHcapShowEnemyBuildProgress | kfHcapShowEnemyResourceStatus))
-        gprefsInit.wfHandicap = kfHcapNormal;
-    else if (gprefsInit.wfHandicap != kfHcapEasy && gprefsInit.wfHandicap != kfHcapNormal && gprefsInit.wfHandicap != kfHcapHard)
-        gprefsInit.wfHandicap = kfHcapDefault;
-
-    gprefsInit.key = pprefsV100->key;
-#if defined(WIN) && !defined(CE)
-    gprefsInit.nScale = BigWord(pprefsV100->nScale);
-#endif
-
-    return true;
-}
-
-bool Game::LoadPreferencesV101(PreferencesV101 *pprefsV101)
-{
-    // Since order is the same as V100 except for extra fields at the end, load V100 first
-    if (!LoadPreferencesV100((PreferencesV100 *)pprefsV101))
-        return false;
-
-    // PreferencesV101 has this new field, load it
-    strncpyz(gprefsInit.szDeviceId, pprefsV101->szDeviceId, sizeof(gprefsInit.szDeviceId));
     return true;
 }
 
 void Game::SavePreferences()
 {
-	// Only if we've gone through initialization ok
+    // Only if we've gone through initialization ok
 
 	if (!(m_wf & kfGameInitDone))
 		return;
 
 	// Always save the latest version of the preferences
 
-	Preferences prefs;
+	gpprefs->Set(knPrefVersion, knVersionPreferencesLatest);
+    gpprefs->Set(kszPrefUsername, gszUsername);
+    gpprefs->Set(kszPrefPassword, gszPassword);
+    gpprefs->Set(kszPrefToken, gszToken);
+    gpprefs->Set(kfPrefAnonymous, gfAnonymous);
 
-	prefs.prefv.dwVersion = BigDword(knVersionPreferences);
-	prefs.prefv.cbSize = BigDword(sizeof(prefs));
-    strncpyz(prefs.szUsername, gszUsername, sizeof(prefs.szUsername));
-    strncpyz(prefs.szPassword, gszPassword, sizeof(prefs.szPassword));
-    strncpyz(prefs.szToken, gszToken, sizeof(prefs.szToken));
-    prefs.fAnonymous = gfAnonymous ? BigWord(1) : 0;
 	Date date;
 	HostGetCurrentDate(&date);
-	prefs.nYearLastRun = BigWord(date.nYear);
-	prefs.nMonthLastRun = BigWord(date.nMonth);
-	prefs.nDayLastRun = BigWord(date.nDay);
-	prefs.nVolume = BigWord(gsndm.GetVolume());
-    word wfPrefs = gsndm.IsEnabled() ? 0 : kfPrefSoundMuted;
-	wfPrefs |= gfIgnoreBluetoothWarning ? kfPrefIgnoreBluetoothWarning : 0;
-	prefs.wfPrefs = BigWord(wfPrefs);
-	prefs.wfPerfOptions = BigWord((gwfPerfOptions & kfPerfAll) | (kfPerfMax & ~kfPerfAll));
-	prefs.ctGameSpeed = BigDword((dword)gtGameSpeed);
-	prefs.fLassoSelection = gfLassoSelection ? BigWord(1) : 0;
-	prefs.nHueOffset = BigWord(gnHueOffset);
-	prefs.nSatMultiplier = BigWord(gnSatMultiplier);
-	prefs.nLumOffset = BigWord(gnLumOffset);
-	prefs.wfHandicap = BigWord(gwfHandicap);
-	prefs.nDemoRank = BigWord(gnDemoRank);
-    prefs.nScrollSpeed = gnScrollSpeed;
-    strncpyz(prefs.szAskURL, gszAskURL, sizeof(prefs.szAskURL));
-    strncpyz(prefs.szDeviceId, gszDeviceId, sizeof(prefs.szDeviceId));
+    gpprefs->Set(knPrefYearLastRun, date.nYear);
+    gpprefs->Set(knPrefMonthLastRun, date.nMonth);
+    gpprefs->Set(knPrefDayLastRun, date.nDay);
+
+    gpprefs->Set(knPrefVolume, gsndm.GetVolume());
+    gpprefs->Set(kfPrefSoundMuted, !gsndm.IsEnabled());
+    // gpprefs->Set(kfPrefIgnoreBluetoothWarning, gfIgnoreBluetoothWarning);
+    gpprefs->Set(kwfPrefPerfOptions, BigWord((gwfPerfOptions & kfPerfAll) | (kfPerfMax & ~kfPerfAll)));
+    gpprefs->Set(knPrefGameSpeed, gtGameSpeed);
+    gpprefs->Set(kfPrefLassoSelection, gfLassoSelection);
+    gpprefs->Set(knPrefHueOffset, gnHueOffset);
+    gpprefs->Set(knPrefSatMultiplier, gnSatMultiplier);
+    gpprefs->Set(knPrefLumOffset, gnLumOffset);
+    gpprefs->Set(kwfPrefHandicap, gwfHandicap);
+    gpprefs->Set(knPrefDemoRank, gnDemoRank);
+    gpprefs->Set(knPrefScrollSpeed, gnScrollSpeed);
+    gpprefs->Set(kszPrefAskUrl, gszAskURL);
+    gpprefs->Set(kszPrefDeviceId, gszDeviceId);
 
 	if (gpdisp == NULL || m_immBest == -1) {
-		prefs.cxModeBest = 0;
-		prefs.cyModeBest = 0;
-		prefs.nDepthModeBest = 0;
-		prefs.nDepthDataBest = 0;
-		prefs.nSizeDataBest = 0;
-		prefs.nDegreeOrientationBest = 0;
+        gpprefs->Set(knPrefCxModeBest, 0);
+        gpprefs->Set(knPrefCyModeBest, 0);
+        gpprefs->Set(knPrefDepthModeBest, 0);
+        gpprefs->Set(knPrefDepthDataBest, 0);
+        gpprefs->Set(knPrefSizeDataBest, 0);
+        gpprefs->Set(knPrefDegreeOrientationBest, 0);
 	} else {
 		ModeInfo mode;
 		gpdisp->GetModeInfo(m_amm[m_immBest].imode, &mode);
-		prefs.cxModeBest = BigWord(mode.cx);
-		prefs.cyModeBest = BigWord(mode.cy);
-		prefs.nDepthModeBest = BigWord(mode.nDepth);
-		prefs.nDepthDataBest = BigWord(m_amm[m_immBest].nDepthData);
-		prefs.nSizeDataBest = BigWord(m_amm[m_immBest].nSizeData);
-		prefs.nDegreeOrientationBest = BigWord(mode.nDegreeOrientation);
+        gpprefs->Set(knPrefCxModeBest, mode.cx);
+        gpprefs->Set(knPrefCyModeBest, mode.cy);
+        gpprefs->Set(knPrefDepthModeBest, mode.nDepth);
+        gpprefs->Set(knPrefDepthDataBest, m_amm[m_immBest].nDepthData);
+        gpprefs->Set(knPrefSizeDataBest, m_amm[m_immBest].nSizeData);
+        gpprefs->Set(knPrefDegreeOrientationBest, mode.nDegreeOrientation);
 	}
 	if (gpdisp == NULL || m_immCurrent == -1) {
-		prefs.cxModeLast = 0;
-		prefs.cyModeLast = 0;
-		prefs.nDepthModeLast = 0;
-		prefs.nDepthDataLast = 0;
-		prefs.nSizeDataLast = 0;
-		prefs.nDegreeOrientationLast = 0;
+        gpprefs->Set(knPrefCxModeLast, 0);
+        gpprefs->Set(knPrefCyModeLast, 0);
+        gpprefs->Set(knPrefDepthModeLast, 0);
+        gpprefs->Set(knPrefDepthDataLast, 0);
+        gpprefs->Set(knPrefSizeDataLast, 0);
+        gpprefs->Set(knPrefDegreeOrientationLast, 0);
 	} else {
 		ModeInfo mode;
 		gpdisp->GetModeInfo(m_amm[m_immCurrent].imode, &mode);
-		prefs.cxModeLast = BigWord(mode.cx);
-		prefs.cyModeLast = BigWord(mode.cy);
-		prefs.nDepthModeLast = BigWord(mode.nDepth);
-		prefs.nDepthDataLast = BigWord(m_amm[m_immCurrent].nDepthData);
-		prefs.nSizeDataLast = BigWord(m_amm[m_immCurrent].nSizeData);
-		prefs.nDegreeOrientationLast = BigWord(mode.nDegreeOrientation);
+        gpprefs->Set(knPrefCxModeLast, mode.cx);
+        gpprefs->Set(knPrefCyModeLast, mode.cx);
+        gpprefs->Set(knPrefDepthModeLast, mode.nDepth);
+        gpprefs->Set(knPrefDepthDataLast, m_amm[m_immCurrent].nDepthData);
+        gpprefs->Set(knPrefSizeDataLast, m_amm[m_immCurrent].nSizeData);
+        gpprefs->Set(knPrefDegreeOrientationLast, mode.nDegreeOrientation);
 	}
-	prefs.key = gkey;
+
+    gpprefs->Set(kszPrefKey, (const char *)gkey.ab);
+
 #if defined(WIN) && !defined(CE)
 	if (gpdisp == NULL) {
-		prefs.nScale = (word)-1;
+		gpprefs->Set(knPrefScale, -1);
 	} else {
-		prefs.nScale = BigWord(gpdisp->GetScale());
+        gpprefs->Set(knPrefScale, gpdisp->GetScale());
 	}
 #endif
-	
-	HostSavePreferences(&prefs, sizeof(prefs));
+
+    gpprefs->Save();
 }
 
 bool Game::GetVar(const char *pszName, char *pszBuff, int cbBuff)
