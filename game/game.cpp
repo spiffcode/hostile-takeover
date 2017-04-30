@@ -1999,7 +1999,8 @@ void Game::ClearDisplay()
 	DibBitmap *pbmBack = gpdisp->GetBackDib();
 	if (pbmBack == NULL)
 		return;
-	pbmBack->Clear(GetColor(kiclrBlack));
+    if (gaclrFixed != NULL)
+        pbmBack->Clear(GetColor(kiclrBlack));
 	if (gpmfrmm != NULL) {
 		gpmfrmm->InvalidateRect(NULL);
 		gpmfrmm->DrawFrame(false, false);
