@@ -681,9 +681,8 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 				psz = pchT++;
 				continue;
 
-			// "@S." turns on mapping to local player's side color
+			// TODO: "@S." turns on mapping to local player's side color
 			case 'S':
-				mpscaiclr = TBitmap::s_ampscaiclrSide[gpplrLocal->GetSide()];
 				cchT--;
 				pchT++;
 				break;
