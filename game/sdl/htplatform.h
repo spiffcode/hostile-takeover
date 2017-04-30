@@ -132,19 +132,12 @@ private:
 
     int m_cx;
     int m_cy;
-    DibBitmap *m_pbmBack;
-    DibBitmap *m_pbmFront;
     DibBitmap *m_pbmClip;
 
     SDL_Window *m_window;
     SDL_Renderer *m_renderer;
     SDL_Texture *m_texture;
-
-    byte *m_gamePixels;
-    Uint32 *m_gamePixels32;
-    Uint32 m_palette[256];
-    int m_pitch32;
-    int m_pixelCount;
+    DibBitmap *m_display;
 
     float m_density;
     bool m_fShouldRender;

@@ -28,19 +28,12 @@ Display::Display()
 	memset(m_amodeInfo, 0, sizeof(m_amodeInfo));
 	m_imode = -1;
 	m_cmodes = 0;
-	m_pbmBack = NULL;
-	m_pbmFront = NULL;
 	m_pbmClip = NULL;
 
     m_window = NULL;
     m_renderer = NULL;
     m_texture = NULL;
-
-    m_gamePixels = NULL;
-    m_gamePixels32 = NULL;
-    memset(m_palette, 0, sizeof(m_palette));
-    m_pitch32 = 0;
-    m_pixelCount = 0;
+    m_display = NULL;
 
     m_density = 0;
     m_fShouldRender = false;
@@ -48,12 +41,11 @@ Display::Display()
 
 Display::~Display()
 {
-	delete m_pbmBack;
-	m_pbmBack = NULL;
-	delete m_pbmFront;
-	m_pbmFront = NULL;
 	delete m_pbmClip;
 	m_pbmClip = NULL;
+
+    delete m_display;
+    m_display = NULL;
 
     SDL_DestroyWindow(m_window);
     m_window = NULL;
@@ -61,11 +53,6 @@ Display::~Display()
     m_renderer = NULL;
     SDL_DestroyTexture(m_texture);
     m_texture = NULL;
-
-    free(m_gamePixels);
-    m_gamePixels = NULL;
-    free(m_gamePixels32);
-    m_gamePixels32 = NULL;
 }
 
 bool Display::Init()
@@ -115,14 +102,9 @@ bool Display::Init()
     s_siz.cx = m_cx;
     s_siz.cy = m_cy;
 
-    // Create texture
-    m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGB888, SDL_TEXTUREACCESS_TARGET, m_cx, m_cy);
-
-    // Set pixel info
-    m_pixelCount = m_cx * m_cy;
-    m_gamePixels = (byte *)malloc(m_pixelCount);
-    m_gamePixels32 = (dword *)malloc(m_pixelCount * 4);
-    m_pitch32 = m_cx * sizeof(dword);
+    // Create texture and display
+    m_display = CreateDibBitmap(NULL, m_cx, m_cy);
+    m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, m_cx, m_cy);
 
     // Keep the screen size around
     s_siz.cx = m_cx;
@@ -131,7 +113,7 @@ bool Display::Init()
     ModeInfo *pmode = m_amodeInfo;
     
 #if 1
-    pmode->nDepth = 8;
+    pmode->nDepth = 24;
     pmode->cx = props.cxWidth;
     pmode->cy = props.cyHeight;
     pmode->cyGraffiti = 0;
@@ -211,19 +193,12 @@ bool Display::SetMode(int imode)
 
 	ModeInfo *pmode = &m_amodeInfo[imode];
 
-	DibBitmap *pbmBack = CreateDibBitmap(NULL, pmode->cx, pmode->cy);
-	if (pbmBack == NULL)
-		return false;
-
-    DibBitmap *pbmFront = CreateDibBitmap(m_gamePixels, pmode->cx, pmode->cy);
+    DibBitmap *pbmFront = CreateDibBitmap(NULL, m_cx, m_cy);
 	if (pbmFront == NULL) {
-		delete pbmBack;
 		return NULL;
 	}
-	delete m_pbmBack;
-	delete m_pbmFront;
-	m_pbmBack = pbmBack;
-	m_pbmFront = pbmFront;
+	delete m_display;
+	m_display = pbmFront;
 	m_imode = imode;
 
 	return true;
@@ -239,21 +214,17 @@ void Display::DrawFrameInclusive(Rect *prc)
 
 DibBitmap *Display::GetBackDib()
 {
-    return m_pbmBack;
+    return m_display;
 }
 
 DibBitmap *Display::GetFrontDib()
 {
-    return m_pbmFront;
+    return m_display;
 }
 
 DibBitmap *Display::GetClippingDib()
 {
-    DibBitmap *pbm = CreateDibBitmap(NULL, kcCopyBy4Procs * 4, kcCopyBy4Procs * 4);
-    if (pbm == NULL)
-		return NULL;
-	m_pbmClip = pbm;
-	return pbm;
+    return NULL;
 }
 
 void Display::GetHslAdjustments(short *pnHueOffset, short *pnSatMultiplier, short *pnLumOffset)
@@ -267,16 +238,11 @@ void Display::FrameStart()
 {
     // surface->pixels can change every time the surface is locked.
 	// TODO(darrinm): problem for, e.g. scrolling optimizations?
-    m_pbmFront->Init(m_gamePixels, m_cx, m_cy);
 }
 
 void Display::FrameComplete(int cfrmm, UpdateMap **apupd, Rect *arc,
         bool fScrolled)
 {
-    for (int i = 0; i < m_pixelCount; i++) {
-        m_gamePixels32[i] = m_palette[m_gamePixels[i]];
-    }
-
     RenderGameSurface();
 }
 
@@ -285,7 +251,8 @@ void Display::RenderGameSurface() {
         return;
 
     // Update the texture
-    SDL_UpdateTexture(m_texture, NULL, m_gamePixels32, m_pitch32);
+
+    SDL_UpdateTexture(m_texture, NULL, m_display->GetBits(), m_display->GetPitch());
 
     // Draw any sprites onto the texture
     SDL_SetRenderTarget(m_renderer, m_texture);
