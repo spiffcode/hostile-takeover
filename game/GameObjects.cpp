@@ -785,7 +785,7 @@ bool SceneryGob::SaveState(Stream *pstm)
 {
 	pstm->WriteByte(knVerSceneryGobState);
 	char szBitmap[kcbFilename];
-	FindSharedTBitmapFilename(m_ptbm, szBitmap, sizeof(szBitmap));
+    strncpyz(szBitmap, m_ptbm->GetFileName(), kcbFilename);
 	pstm->WriteString(szBitmap);
 	return Gob::SaveState(pstm);
 }
