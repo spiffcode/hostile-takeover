@@ -273,16 +273,15 @@ bool ChooseServerForm::RequestInfos() {
     for (int i = 0; i < infos->GetCount(); i++) {
         json::JsonMap *json_map = (json::JsonMap *)infos->GetObject(i);
         ServerInfo info;
-        info.sort_key = GetIntegerFromMap(json_map, "sort_key");
-        info.name = GetStringFromMap(json_map, "name");
-        info.location = GetStringFromMap(json_map, "location");
-        info.address = base::SocketAddress(GetStringFromMap(json_map,
-                "address").c_str());
-        info.protocol = GetIntegerFromMap(json_map, "protocol");
-        info.status = GetStringFromMap(json_map, "status");
-        info.player_count = GetIntegerFromMap(json_map, "player_count");
-        info.type = GetStringFromMap(json_map, "type");
-        info.disallow = GetStringFromMap(json_map, "disallow");
+        info.sort_key = json_map->GetInteger("sort_key");
+        info.name = json_map->GetString("name");
+        info.location = json_map->GetString("location");
+        info.address = base::SocketAddress(json_map->GetString("address"));
+        info.protocol = json_map->GetInteger("protocol");
+        info.status = json_map->GetString("status");
+        info.player_count = json_map->GetInteger("player_count");
+        info.type = json_map->GetString("type");
+        info.disallow = json_map->GetString("disallow");
 
         // If production client, only show production servers.
 #if !defined(DEBUG) && !defined(BETA_TIMEOUT)
@@ -349,25 +348,6 @@ bool ChooseServerForm::RequestInfos() {
     std::stable_sort(infos_.begin(), infos_.end(), ServerInfoSort);
 
     return true;
-}
-
-int ChooseServerForm::GetIntegerFromMap(json::JsonMap *map, const char *key) {
-    json::JsonString *s = (json::JsonString *)map->GetObject(key);
-    if (s == NULL) {
-        return 0;
-    }
-    int n = 0;
-    base::Format::ToInteger(s->GetString(), 10, &n);
-    return n;
-}
-
-std::string ChooseServerForm::GetStringFromMap(json::JsonMap *map,
-        const char *key) {
-    json::JsonString *s = (json::JsonString *)map->GetObject(key);
-    if (s == NULL) {
-        return "";
-    }
-    return s->GetString();
 }
 
 std::string ChooseServerForm::GetServiceUrl() {

@@ -50,8 +50,6 @@ private:
     std::string GetServiceUrl();
     dword Connect(const ServerInfo& info);
     void ShowTransportError(dword error);
-    int GetIntegerFromMap(json::JsonMap *map, const char *key);
-    std::string GetStringFromMap(json::JsonMap *map, const char *key);
 
     std::vector<ServerInfo> infos_;
     ServerInfo connected_;
