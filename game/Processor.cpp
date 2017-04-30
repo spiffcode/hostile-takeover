@@ -322,7 +322,7 @@ BeginStateMachine
 				Assert(pmnr != NULL, "out of memory!");
 				if (pmnr == NULL)
 					goto lbError;
-				if (!pmnr->Init(m_wx + kwcTile, m_wy + (kwcTile * 2), m_pplr, 0, 0, NULL)) {
+				if (!pmnr->Init(m_wx, m_wy + (kwcTile * 2), m_pplr, 0, 0, NULL)) {
 					delete pmnr;
 					goto lbError;
 				}
@@ -337,6 +337,7 @@ BeginStateMachine
 				m_gidMiner = pmnr->GetId();
 				pmnr->GetCenter(&m_wptFakeMiner);
 				m_wptFakeMiner.wy = m_wy + WcFromTile16ths(15);
+                m_wptFakeMiner.wx = m_wx + WcFromTile16ths(27);
 				pmnr->Hide(true);
 
 				// Set / clear reservation / occupation bits
@@ -366,7 +367,7 @@ lbError:
 			// We twiddle these flags on kmidGalaxiteDelivery and kstPutMiner
 
 			Assert(m_pstruc->ctx == 3 && m_pstruc->cty == 2);
-			gsim.GetLevel()->GetTerrainMap()->SetFlags(TcFromWc(m_wx) + 1, 
+			gsim.GetLevel()->GetTerrainMap()->SetFlags(TcFromWc(m_wx), 
 					TcFromWc(m_wy) + m_pstruc->cty, 1, 1, kbfStructure);
 
 			return StructGob::ProcessStateMachineMessage(st, pmsg);
@@ -401,8 +402,9 @@ lbError:
 				}
 			}
 
-			if (m_wptFakeMiner.wy > m_wy + WcFromTile16ths(15)) {
+			if (m_wptFakeMiner.wy > m_wy + WcFromTile16ths(19)) {
 				m_wptFakeMiner.wy -= kwcTile16th;
+                m_wptFakeMiner.wx += kwcTile / 21;
 				MarkRedraw();
 			} else {
 				SetState(kstProcessorTakeGalaxite);
@@ -516,8 +518,9 @@ lbError:
 			}
 
 			if (m_wptFakeMiner.wy < wptDst.wy) {
-				m_wptFakeMiner.wy += kwcTile16th;
-				MarkRedraw();
+                m_wptFakeMiner.wy += kwcTile16th;
+                m_wptFakeMiner.wx -= kwcTile / 21;
+                MarkRedraw();
 			} else {
 				SetState(kstIdle);
 			}
@@ -555,7 +558,7 @@ lbError:
 			// We don't need to check anything, just clearing it is safe.
 
 			Assert(m_pstruc->ctx == 3 && m_pstruc->cty == 2);
-			gsim.GetLevel()->GetTerrainMap()->ClearFlags(TcFromWc(m_wx) + 1, 
+			gsim.GetLevel()->GetTerrainMap()->ClearFlags(TcFromWc(m_wx),
 					TcFromWc(m_wy) + m_pstruc->cty, 1, 1, kbfStructure);
 
 			int nHandled = StructGob::ProcessStateMachineMessage(st, pmsg);

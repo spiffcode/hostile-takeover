@@ -465,7 +465,7 @@ BeginStateMachine
 				// closest to the Processor's entrance.
 
 				pgobTarget->GetPosition(&m_wptTarget);
-				m_wptTarget.wx += kwcTile + kwcTileHalf;
+				m_wptTarget.wx += kwcTileHalf;
 				m_wptTarget.wy += (kwcTile * 2) + kwcTileHalf;
 				SetState(kstMinerMoveToProcessor);
 			} else {
@@ -540,14 +540,14 @@ BeginStateMachine
 		OnUpdate
 			m_unvl.MinSkip();
 
-			// Rotate to face south
+			// Rotate to face south west
 
-			if (m_dir != kdir16S) {
-				m_dir = TurnToward16(kdir16S, m_dir);
+			if (m_dir != kdir16SW) {
+				m_dir = TurnToward16(kdir16SW, m_dir);
 				StartAnimation(&m_ani, m_pmuntc->anMovingStripIndices[m_dir], 0, kfAniLoop | kfAniIgnoreFirstAdvance);
 			} else {
 
-                // When facing south send message to Processor and switch to
+                // When facing south west send message to Processor and switch to
                 // guard state
 
 				Gob *pgobProcessor = ggobm.GetGob(m_gidTarget);
