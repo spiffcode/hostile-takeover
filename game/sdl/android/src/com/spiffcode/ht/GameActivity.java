@@ -38,9 +38,6 @@ public class GameActivity extends SDLActivity {
 		File dataPathFile = new File(gamePath);
 		dataPathFile.mkdir();
 		
-		AndroidLib.copyAsset(this, "htdata832.pdb", dataPathFile.toString());
-		AndroidLib.copyAsset(this, "htsfx.pdb", dataPathFile.toString());
-		
 		super.onCreate(savedInstanceState);
 	}
 	
