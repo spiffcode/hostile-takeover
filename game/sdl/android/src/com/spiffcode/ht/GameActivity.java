@@ -57,6 +57,8 @@ public class GameActivity extends SDLActivity {
 		NativeLib.screenHeight = metrics.heightPixels;
 		NativeLib.screenDPI = metrics.densityDpi;
 		
+		NativeLib.assetManager = getResources().getAssets();
+		
 		// App data path
 		NativeLib.gameDataPath = getApplication().getApplicationContext().getFilesDir().getAbsolutePath();
 		

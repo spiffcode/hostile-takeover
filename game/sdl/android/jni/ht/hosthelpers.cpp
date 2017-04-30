@@ -1,6 +1,8 @@
 #include <jni.h>
-#include <sys/stat.h>
 #include <android/log.h>
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#include <sys/stat.h>
 #include "game/sdl/hosthelpers.h"
 #include "base/thread.h"
 #include "game/sdl/sdlhttpservice.h"
@@ -24,6 +26,7 @@ static jmethodID initiateAskMethod;
 static jmethodID initiateWebViewMethod;
 static jmethodID getAskStringMethod;
 static jmethodID getPlatformStringMethod;
+static jmethodID getAssetManagerMethod;
 
 namespace wi {
 
@@ -35,6 +38,7 @@ char gszSaveGamesDir[PATH_MAX];         // saved games
 char gszPrefsFilename[PATH_MAX];        // game prefs
 char gszCompletesDir[PATH_MAX];         // for "mission completed" tracking
 HttpService *gphttp;
+AAssetManager *gassetmgr;
 
 IChatController *g_pchat;
 
@@ -73,6 +77,7 @@ jint JNI_OnLoad(JavaVM* vm, void* reserved) {
     getAskStringMethod = env->GetStaticMethodID(NativeLibClass, "getAskString", "()Ljava/lang/String;");
     initiateAskMethod = env->GetStaticMethodID(NativeLibClass, "initiateAsk", "(Ljava/lang/String;ILjava/lang/String;II)V");
     getPlatformStringMethod = env->GetStaticMethodID(NativeLibClass, "getPlatformString", "()Ljava/lang/String;");
+    getAssetManagerMethod = env->GetStaticMethodID(NativeLibClass, "getAssetManager", "()Landroid/content/res/AssetManager;");
 
     return JNI_VERSION_1_4;
 }
@@ -109,7 +114,10 @@ bool HostHelpers::Init() {
     // Get the app's data path from Java
     jobject path = g_env->CallStaticObjectMethod(NativeLibClass, getDataDirMethod);
     const char* dataDir = g_env->GetStringUTFChars((jstring)path, NULL);
-    sprintf(gszMainDataDir, "%s", dataDir);
+
+    // Get the asset manager
+    jobject jam = g_env->CallStaticObjectMethod(NativeLibClass, getAssetManagerMethod);
+    gassetmgr = AAssetManager_fromJava(g_env, jam);
 
     // Set the directory paths
     sprintf(gszTempDir, "%s/tmp", gszMainDataDir);

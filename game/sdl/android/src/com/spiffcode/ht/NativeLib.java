@@ -3,6 +3,7 @@ package com.spiffcode.ht;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.provider.Settings.Secure;
 import android.text.InputFilter;
@@ -16,6 +17,7 @@ public class NativeLib {
 	public static int screenWidth; 				// in pixels
 	public static int screenHeight; 			// in pixels
 	public static int screenDPI; 				// in dpi
+	public static AssetManager assetManager;
 	public static String askString;				// string from user input dialog
 	public static GameActivity gameActivity; 	// A link back to our main gameActivity class instance
 	public static ChatController chatc;
@@ -44,6 +46,10 @@ public class NativeLib {
 	
 	static int screenDPI() {
 		return screenDPI;
+	}
+	
+	static AssetManager getAssetManager() {
+		return assetManager;
 	}
 	
 	static String getAndroidID() {
