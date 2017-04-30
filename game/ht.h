@@ -1555,17 +1555,19 @@ private:
 
 struct FrameData // frmd
 {
-	byte ibm;			// bitmap index
-	byte ibm2;			// second bitmap index
-	byte cHold;			// frame delay
-	char xOrigin;		// x offset for drawing
-	char yOrigin;		// y offset for drawing
-	char xOrigin2;		// x offset for drawing second bitmap
-	char yOrigin2;		// y offset for drawing second bitmap
-	byte bCustomData1;	// first custom data value
-	byte bCustomData2;	// second custom data value
+    char szName[64];       // name of bm
+    char szName2[64];      // name of bm2
+	word ibm;			   // bitmap index
+	word ibm2;			   // second bitmap index
+	byte cHold;			   // frame delay
+	char xOrigin;		   // x offset for drawing
+	char yOrigin;		   // y offset for drawing
+	char xOrigin2;		   // x offset for drawing second bitmap
+	char yOrigin2;		   // y offset for drawing second bitmap
+	byte bCustomData1;	   // first custom data value
+	byte bCustomData2;	   // second custom data value
 };
-#define kcbFrameData 9
+#define kcbFrameData 139
 
 class StripData // stpd
 {
@@ -1603,8 +1605,8 @@ public:
 
 struct AnimationFileHeader // anih
 {
-	word cstpd;			// count of StripData structures
-	word aoffStpd[1];	// array of offsets to StripData structures
+	dword cstpd;        // count of StripData structures
+	dword aoffStpd[1];  // array of offsets to StripData structures
 };
 
 class AnimationData // anid
@@ -1625,9 +1627,10 @@ public:
 	int GetFrameDelay(int nStrip, int nFrame) secAnimation;
 
 private:
-	TBitmap *m_ptbm;
+	TBitmap **m_aptbm;
 	FileMap m_fmap;
 	AnimationFileHeader *m_panih;
+    int m_ctbm;
 };
 AnimationData *LoadAnimationData(const char *pszAniName) secAnimation;
 

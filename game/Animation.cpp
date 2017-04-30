@@ -2,6 +2,11 @@
 
 namespace wi {
 
+// OPT: dynamically build an index of pointers to each StripData, FrameData if perf critical
+
+#define GetStripDataPtr(nStrip) ((StripData *)(((byte *)m_panih) + BigDword(m_panih->aoffStpd[nStrip])))
+#define GetFrameDataPtr(nStrip, nFrame) (GetStripDataPtr(nStrip)->GetFrameData(nFrame))
+
 AnimationData *LoadAnimationData(const char *pszAniName)
 {
 	AnimationData *panid = new AnimationData();
@@ -20,14 +25,19 @@ AnimationData *LoadAnimationData(const char *pszAniName)
 AnimationData::AnimationData()
 {
 	m_panih = NULL;
-	m_ptbm = NULL;
+	m_aptbm = NULL;
+    m_ctbm = 0;
 }
 
 AnimationData::~AnimationData()
 {
 	if (m_panih != NULL)
 		gpakr.UnmapFile(&m_fmap);
-	delete m_ptbm;
+    for (int n = 0; n < m_ctbm; n++) {
+        if (m_aptbm[n] != NULL)
+            delete m_aptbm[n];
+    }
+	delete[] m_aptbm;
 }
 
 bool AnimationData::Init(const char *pszAniName)
@@ -36,6 +46,7 @@ bool AnimationData::Init(const char *pszAniName)
 	if (m_panih == NULL)
 		return false;
 
+#if 0
 	// UNDONE: incorporate the bitmaps directly inside the animation file?
 
 	char szTbmName[kcbFilename];
@@ -50,23 +61,64 @@ bool AnimationData::Init(const char *pszAniName)
 	szTbmName[cch - 4] = 0;
 	strcat(szTbmName, "tbm");
 	
-	m_ptbm = LoadTBitmap(szTbmName);
+	m_ptbm = LoadHTBitmap(szTbmName);
 	if (m_ptbm == NULL) {
-		Assert("unable to load TBitmap %s", szTbmName);
+		Assert("unable to load HTBitmap %s", szTbmName);
 		return false;
 	}
+#endif
+
+    // Iterate over all the strips and frames to get a total count
+    // of images necessary
+
+    for (int nStrip = 0; nStrip < GetStripCount(); nStrip++) {
+        int nStripFrames = GetStripDataPtr(nStrip)->GetFrameCount();
+
+        for (int nFrame = 0; nFrame < nStripFrames; nFrame++) {
+
+            FrameData *pfrmd = GetFrameDataPtr(nStrip, nFrame);
+
+            if (BigWord(pfrmd->ibm) != 65535)
+                m_ctbm++;
+
+            if (BigWord(pfrmd->ibm2) != 65535)
+                m_ctbm++;
+        }
+    }
+
+    m_aptbm = new TBitmap*[m_ctbm]();
+    if (m_aptbm == NULL)
+        return false;
+
+    for (int nStrip = 0; nStrip < GetStripCount(); nStrip++) {
+        int nStripFrames = GetStripDataPtr(nStrip)->GetFrameCount();
+
+        for (int nFrame = 0; nFrame < nStripFrames; nFrame++) {
+            FrameData *pfrmd = GetFrameDataPtr(nStrip, nFrame);
+
+            word ibm = BigWord(pfrmd->ibm);
+            word ibm2 = BigWord(pfrmd->ibm2);
+
+            if (ibm != 65535) {
+                m_aptbm[ibm] = CreateTBitmap(pfrmd->szName);
+                if (m_aptbm[ibm] == NULL)
+                    return false;
+            }
+
+            if (ibm2 != 65535) {
+                m_aptbm[ibm2] = CreateTBitmap(pfrmd->szName2);
+                if (m_aptbm[ibm2] == NULL)
+                    return false;
+            }
+        }
+    }
 
 	return true;
 }
 
-// OPT: dynamically build an index of pointers to each StripData, FrameData if perf critical
-
-#define GetStripDataPtr(nStrip) ((StripData *)(((byte *)m_panih) + BigWord(m_panih->aoffStpd[nStrip])))
-#define GetFrameDataPtr(nStrip, nFrame) (GetStripDataPtr(nStrip)->GetFrameData(nFrame))
-
 int AnimationData::GetStripCount()
 {
-	return BigWord(m_panih->cstpd);
+	return BigDword(m_panih->cstpd);
 }
 
 int AnimationData::GetFrameCount(int nStrip)
@@ -116,10 +168,10 @@ void AnimationData::GetBounds(int nStrip, int nFrame, Rect *prc)
 	// If there is no first bitmap (e.g., delay-only frame) set the bounds
 	// to empty.
 
-	if (pfrmd->ibm == 255) {
+	if (BigWord(pfrmd->ibm) == 65535) {
 		prc->SetEmpty();
 	} else {
-		m_ptbm->GetSize(pfrmd->ibm, &siz);
+        m_aptbm[BigWord(pfrmd->ibm)]->GetSize(&siz);
 		prc->left = -pfrmd->xOrigin;
 		prc->right = prc->left + siz.cx;
 		prc->top = -pfrmd->yOrigin;
@@ -129,8 +181,8 @@ void AnimationData::GetBounds(int nStrip, int nFrame, Rect *prc)
 	// If there is a second bitmap return the union of its bounds and
 	// the bounds of the first bitmap.
 
-	if (pfrmd->ibm2 != 255) {
-		m_ptbm->GetSize(pfrmd->ibm2, &siz);
+	if (BigWord(pfrmd->ibm2) != 65535) {
+        m_aptbm[BigWord(pfrmd->ibm2)]->GetSize(&siz);
 		int xL = -pfrmd->xOrigin2;
 		if (prc->left > xL)
 			prc->left = xL;
@@ -152,19 +204,19 @@ void AnimationData::DrawFrame(int nStrip, int nFrame, DibBitmap *pbm, int x, int
 	Assert(nFrame >= 0 && nFrame < GetStripDataPtr(nStrip)->GetFrameCount());
 
 	FrameData *pfrmd = GetFrameDataPtr(nStrip, nFrame);
-	if (pfrmd->ibm2 != 255)
-		m_ptbm->BltTo(pfrmd->ibm2, pbm, x - pfrmd->xOrigin2, y - pfrmd->yOrigin2, side, prcSrc);
-	if (pfrmd->ibm != 255)
-		m_ptbm->BltTo(pfrmd->ibm, pbm, x - pfrmd->xOrigin, y - pfrmd->yOrigin, side, prcSrc);
+	if (BigWord(pfrmd->ibm2) != 65535)
+        m_aptbm[BigWord(pfrmd->ibm2)]->BltTo(pbm, x - pfrmd->xOrigin2, y - pfrmd->yOrigin2, side, prcSrc);
+	if (BigWord(pfrmd->ibm) != 65535)
+        m_aptbm[BigWord(pfrmd->ibm)]->BltTo(pbm, x - pfrmd->xOrigin, y - pfrmd->yOrigin, side, prcSrc);
 }
 
 int AnimationData::GetStripIndex(const char *pszStripName)
 {
 	// OPT: Can switch to a binary search if needed
-	word *poffStpd = m_panih->aoffStpd;
+	dword *poffStpd = m_panih->aoffStpd;
 	int cstpd = GetStripCount();
 	for (int i = 0; i < cstpd; i++, poffStpd++) {
-		StripData *pstpd = (StripData *)(((byte *)m_panih) + BigWord(*poffStpd));
+		StripData *pstpd = (StripData *)(((byte *)m_panih) + BigDword(*poffStpd));
 		if (stricmp(pszStripName, pstpd->GetName()) == 0)
 			return i;
 	}
