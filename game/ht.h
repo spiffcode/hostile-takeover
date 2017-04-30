@@ -118,7 +118,7 @@ class CommandQueueViewer;
 #include "mpshared/netmessage.h"
 #include "game/dragrect.h"
 #include "base/thread.h"
-//#include "yajl/wrapper/jsontypes.h"
+#include "yajl/wrapper/jsontypes.h"
 
 namespace wi {
 
