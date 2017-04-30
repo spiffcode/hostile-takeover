@@ -3455,9 +3455,11 @@ private:
 	word *m_pwTileMap;
 	int m_cbRowBytes;
 	byte *m_pbFogMap;
+    byte *m_pbTrMap;
 	Color m_clrWhite;
 	Color m_clrBlack;
 	Color m_clrGalaxite;
+    Color m_clrWall;
 	Color m_aclrSide[kcSides];
 };
 

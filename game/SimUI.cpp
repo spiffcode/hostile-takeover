@@ -2398,11 +2398,13 @@ bool MiniMapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	MiniTileSetHeader *pmtseth = ptmap->GetMiniTileSetHeader(m_nScale);
 	m_pwTileMap = ptmap->m_pwMapData;
 	m_pbFogMap = gsim.GetLevel()->GetFogMap()->GetMapPtr();
+    m_pbTrMap = gsim.GetLevel()->GetTerrainMap()->GetMapPtr();
 	ggobm.GetMapSize(&m_ctx, &m_cty);
 	m_cbRowBytes = m_ctx * m_nScale;
 	m_clrBlack = GetColor(kiclrBlack);
 	m_clrWhite = GetColor(kiclrWhite);
 	m_clrGalaxite = GetColor(kiclrGalaxite);
+    m_clrWall = GetColor(kiclrSideNeutral);
 	for (Side sideT = ksideNeutral; sideT < kcSides; sideT++)
 		m_aclrSide[sideT] = GetSideColor(sideT);
 
@@ -2710,11 +2712,14 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 	long offset = (long)ptrc->top * m_ctx + ptrc->left;
 	byte *pbFogMap = m_pbFogMap + offset;
 	word *pwTileMap = m_pwTileMap + offset;
+    byte *pbTrMap = m_pbTrMap + offset;
 	int ctReturn = m_ctx - ptrc->Width();
+
+#define HasWall(btt) ((btt) == kttWall)
 
 	if (m_nScale == 1) {
 		for (TCoord ty = ptrc->top; ty < ptrc->bottom; ty++) {
-			for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++) {
+			for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++, pbTrMap++) {
 				// Fogged?
 
 				if (IsFogOpaque(*pbFogMap)) {
@@ -2744,6 +2749,13 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 					}
 				}
 
+                // Wall?
+
+				if (HasWall(*pbTrMap)) {
+					*pbDst++ = m_clrWall;
+					continue;
+				}
+
 				// Galaxite?
 
 				if (HasGalaxite(*pbFogMap)) {
@@ -2759,11 +2771,12 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 			}
 			pwTileMap += ctReturn;
 			pbFogMap += ctReturn;
+            pbTrMap += ctReturn;
 			pbDst += cbDstReturn;
 		}
 	} else if (m_nScale == 2) {
 		for (TCoord ty = ptrc->top; ty < ptrc->bottom; ty++) {
-			for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++) {
+			for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++, pbTrMap++) {
 				// Fogged?
 
 				if (IsFogOpaque(*pbFogMap)) {
@@ -2799,6 +2812,16 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 					}
 				}
 
+                // Wall?
+
+                if (HasWall(*pbTrMap)) {
+					*pbDst++ = m_clrWall;
+					*pbDst++ = m_clrWall;
+					*(pbDst + m_cbRowBytes - 2) = m_clrWall;
+					*(pbDst + m_cbRowBytes - 1) = m_clrWall;
+					continue;
+				}
+
 				// Galaxite?
 
 				if (HasGalaxite(*pbFogMap)) {
@@ -2821,6 +2844,7 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 			}
 			pwTileMap += ctReturn;
 			pbFogMap += ctReturn;
+            pbTrMap += ctReturn;
 			pbDst += cbDstReturn + m_cbRowBytes;
 		}
 	}
