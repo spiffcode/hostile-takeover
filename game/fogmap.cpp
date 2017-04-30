@@ -103,7 +103,7 @@ bool FogMap::Init(Size *psizTile, Size *psizMap)
 
 	// Load the wall bitmaps
 
-	m_panidWalls = LoadAnimationData("walls.anir");
+	m_panidWalls = LoadAnimationData("wall.anir");
 	if (m_panidWalls == NULL) {
 		Assert("Failed to load wall.anir");
 		return false;
