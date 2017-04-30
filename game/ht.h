@@ -265,6 +265,7 @@ typedef word CacheHandle; // hc
 #define secBuilderGob secCode12
 #define secDrm secCode16
 #define secBtTransport secCode17
+#define secTexAtlasMgr secCode13
 
 // Performance options
 
@@ -1161,6 +1162,24 @@ private:
     char *m_pszFn;
 };
 TBitmap *CreateTBitmap(char *pszName) secTBitmap;
+
+// Texture Atlas Manager
+
+class TexAtlasMgr
+{
+public:
+    TexAtlasMgr() secTexAtlasMgr;
+    ~TexAtlasMgr() secTexAtlasMgr;
+
+    bool Init() secTexAtlasMgr;
+    TBitmap *CreateTBitmap(char *pszName) secTexAtlasMgr;
+    void BltTo(TBitmap *ptbmSrc, DibBitmap *pbmDst, int xDst, int yDst, Side side, Rect *prcSrc) secTexAtlasMgr;
+
+private:
+    int m_natlases;
+    json::JsonMap *m_json;
+    DibBitmap **m_pbmAtlases;
+};
 
 struct FontHeader // fnth
 {
@@ -2354,6 +2373,7 @@ private:
 	int FindBestModeMatch(int nSizeDataAbove) secGame;
 	void AddModeMatches(int nDepthData, int nSizeData, int nDepthOrGreater, int cxWidthOrGreater) secGame;
 	bool LoadGameData() secGame;
+    bool InitTexAtlasMgr() secGame;
 	bool InitCoordMappingTables() secGame;
 	bool InitSimulation(Stream *pstm, char *pszLevel, word wfRole,
             dword gameid, Chatter *chatter);
@@ -8541,6 +8561,7 @@ extern int gnMPPos;
 #endif
 extern char *gpszDataDir;
 extern bool gfIgnoreBluetoothWarning;
+extern TexAtlasMgr *gptam;
 
 inline Color GetColor(int iclr) {
 	return gaclrFixed[iclr];

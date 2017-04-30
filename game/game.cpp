@@ -71,6 +71,7 @@ int gcSupportGobsLimit;
 bool gfMultiplayer;
 bool gfIgnoreBluetoothWarning;
 SpriteManager *gpsprm;
+TexAtlasMgr *gptam;
 
 #ifdef STRESS
 bool gfStress = false;
@@ -323,6 +324,10 @@ bool Game::Init(int imm)
 	if (!LoadGameData()) {
         HostOutputDebugString("Game data didn't load.");
 		return false;
+    }
+
+    if (!InitTexAtlasMgr()) {
+        HostOutputDebugString("Failed to initilize texture atlas manager");
     }
 
 	// Init memory manager *after* setting screen mode so we know how much dyn ram is left after
@@ -633,6 +638,19 @@ bool Game::LoadGameData()
 	}
 
 	return true;
+}
+
+bool Game::InitTexAtlasMgr()
+{
+    gptam = new TexAtlasMgr();
+    Assert(gptam != NULL, "out of memory!");
+	if (gptam == NULL)
+		return false;
+	if (!gptam->Init()) {
+		delete gptam;
+		return false;
+	}
+    return true;
 }
 
 bool Game::InitCoordMappingTables()
@@ -2036,6 +2054,9 @@ void Game::Exit()
 
 	delete gpstrtbl;
 	gpstrtbl = NULL;
+
+    delete gptam;
+    gptam = NULL;
 
 	// Pop off all data files
 
