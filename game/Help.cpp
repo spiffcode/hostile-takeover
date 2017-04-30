@@ -859,7 +859,6 @@ bool PaintChunk(int x, int y, int cx, int cy, int nchBuffer, int cyTotal, int ny
                             GetColor(kiclrButtonFillHighlight));
                 }
 
-				Color clr = 6;
 				gapfnt[kifntDefault]->DrawText(pChunk->pbm, pChunk->psz, x, y, pChunk->cch);
 				
 				// BUG: fix for descender height
@@ -868,7 +867,7 @@ bool PaintChunk(int x, int y, int cx, int cy, int nchBuffer, int cyTotal, int ny
 				if (pChunk->cch != 0) {
 					int descenderAdjust = (nyBottom <= 160? 1: 2);
 					y += gapfnt[kifntDefault]->GetHeight() - descenderAdjust;
-					pChunk->pbm->DrawLine(x, y, x + cx, y, clr);
+					pChunk->pbm->DrawLine(x, y, x + cx, y, GetColor(kiclrJana));
 				}
 			}
 			break;
@@ -879,15 +878,15 @@ bool PaintChunk(int x, int y, int cx, int cy, int nchBuffer, int cyTotal, int ny
 				// draw center rectangle
 
 				int cxDot = PcFromFc(2);
-				pChunk->pbm->Fill(x + cx * 3 / 8 - cxDot / 2, y + cy / 2 - cxDot / 2, cxDot, cxDot, kiclrWhite);
+				pChunk->pbm->Fill(x + cx * 3 / 8 - cxDot / 2, y + cy / 2 - cxDot / 2, cxDot, cxDot, GetColor(kiclrWhite));
 
 				// draw left rectangle
 
-				pChunk->pbm->Fill(x + cx * 4 / 8 - cxDot / 2, y + cy / 2 - cxDot / 2, cxDot, cxDot, kiclrWhite);
+				pChunk->pbm->Fill(x + cx * 4 / 8 - cxDot / 2, y + cy / 2 - cxDot / 2, cxDot, cxDot, GetColor(kiclrWhite));
 
 				// draw right rectangle
 
-				pChunk->pbm->Fill(x + cx * 5 / 8 - cxDot / 2, y + cy / 2 - cxDot / 2, cxDot, cxDot, kiclrWhite);
+				pChunk->pbm->Fill(x + cx * 5 / 8 - cxDot / 2, y + cy / 2 - cxDot / 2, cxDot, cxDot, GetColor(kiclrWhite));
 			}
 			break;
 		}
