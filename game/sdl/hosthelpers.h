@@ -52,6 +52,8 @@ public:
     static void GameThreadStart(void *pv);
     static void DisplayInitComplete();
     static const char *GetPlatformString();
+    static bool DirExists(char *psz);
+    static bool EnumFiles(Enum *penm, int key, char *pszFn, int cbFn);
 
     // TODO(darrinm): unused?
     static int main(int argc, char **argv);

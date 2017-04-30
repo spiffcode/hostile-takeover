@@ -239,6 +239,33 @@ void HostHelpers::GetSurfaceProperties(SurfaceProperties *pprops)
     pprops->density = density;
 }
 
+bool HostHelpers::DirExists(char *psz)
+{
+    AAssetDir *assetDir = AAssetManager_openDir(gassetmgr, psz);
+    bool exists = AAssetDir_getNextFileName(assetDir) != NULL;
+    AAssetDir_close(assetDir);
+    return exists;
+}
+
+bool HostHelpers::EnumFiles(Enum *penm, int key, char *pszFn, int cbFn)
+{
+    if (penm->m_pvNext == (void *)kEnmFirst) {
+        AAssetDir *assetDir = AAssetManager_openDir(gassetmgr, gpakr.BottomDir());
+        penm->m_pvNext = (void *)assetDir;
+        penm->m_dwUser = 0;
+    }
+
+    AAssetDir *assetDir = (AAssetDir *)penm->m_pvNext;
+    const char *ent = AAssetDir_getNextFileName(assetDir);
+    if (ent != NULL) {
+        strncpyz(pszFn, ent, cbFn);
+        penm->m_dwUser++;
+        return true;
+    }
+    AAssetDir_close(assetDir);
+    return false;
+}
+
 /*
 void HostHelpers::FrameStart()
 {
