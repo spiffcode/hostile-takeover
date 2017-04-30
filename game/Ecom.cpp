@@ -25,6 +25,7 @@ public:
 
 	// Form overrides
 
+    virtual bool Init(FormMgr *pfrmm, IniReader *pini, word idf) secEcom;
 	virtual void OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd) secEcom;
 	virtual void OnControlSelected(word idc) secEcom;
 	virtual bool OnPenEvent(Event *pevt) secEcom;
@@ -39,6 +40,7 @@ private:
 	word m_wfEcom;
 	char *m_pszText;
 	char *m_pszNext;
+    TBitmap *m_ptbm;
 };
 
 //------------------------------------------------------------------------------
@@ -147,12 +149,20 @@ EcomForm::EcomForm()
 {
 	m_wfEcom = 0;
 	m_pszText = NULL;
+    m_ptbm = NULL;
 }
 
 EcomForm::~EcomForm()
 {
 	if (m_pszText != NULL)
 		delete[] m_pszText;
+    delete m_ptbm;
+}
+
+bool EcomForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
+{
+    m_ptbm = CreateTBitmap(idf == kidfEcomLarge ? (char *)"ecomlargebkgd.png" : (char *)"ecomsmallbkgd.png");
+    return Form::Init(pfrmm, pini, idf);
 }
 
 bool EcomForm::DoModal(char *pszMessage, int *pnResult, Sfx sfxShow, Sfx sfxHide)
@@ -274,9 +284,7 @@ void EcomForm::OnControlSelected(word idc)
 
 void EcomForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
-	RawBitmap *prbm = LoadRawBitmap(GetId() == kidfEcomLarge ? (char *)"ecomlargebkgd.png" : (char *)"ecomsmallbkgd.png");
-	BltHelper(pbm, prbm, pupd, m_rc.left, m_rc.top);
-	delete prbm;
+	BltHelper(pbm, m_ptbm, pupd, m_rc.left, m_rc.top);
 }
 
 void EcomForm::OnTimer(long tCurrent)
