@@ -2842,6 +2842,7 @@ private:
 	long m_tGameSpeed;
 	word m_wfHandicap;
     double m_nScrollSpeed;
+    int m_cmsMaxFPS;
 };
 
 // Control
@@ -8357,6 +8358,7 @@ bool DrmValidate() secDrm;
 // #define kfPrefIgnoreBluetoothWarning "ignore_bluetooth_warning"
 #define kszPrefAskUrl "ask_url"
 #define kszPrefDeviceId "did"
+#define knPrefUpdateDisplay "update_display"
 
 class Preferences
 {

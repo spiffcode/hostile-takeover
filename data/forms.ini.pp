@@ -76,12 +76,15 @@
 [kidfInGameOptions]
 	FORM=(0 0 160 160) kidcCancel center
 	LABEL=0 (38 6 83 0) "GAME OPTIONS" kifntTitle center
-	LABEL=0 (11 26 68 0) "Game Speed" kifntShadow
-	SLIDER=kidcGameSpeed (11 40 95 8)
-	LABEL=kidcGameSpeedLabel (121 40 17 0) "0" kifntShadow right
-	LABEL=0 (11 56 68 0) "Scroll Speed" kifntShadow
-	SLIDER=kidcScrollSpeed (11 70 95 8)
-	LABEL=kidcScrollSpeedLabel (121 70 17 0) "0" kifntShadow right
+	LABEL=0 (11 22 68 0) "Game Speed" kifntShadow
+	SLIDER=kidcGameSpeed (11 32 95 8)
+	LABEL=kidcGameSpeedLabel (121 32 17 0) "0" kifntShadow right
+	LABEL=0 (11 44 68 0) "Scroll Speed" kifntShadow
+	SLIDER=kidcScrollSpeed (11 54 95 8)
+	LABEL=kidcScrollSpeedLabel (121 54 17 0) "0" kifntShadow right
+    LABEL=0 (11 66 68 0) "Max FPS" kifntShadow
+	SLIDER=kidcMaxFPS (11 76 95 8)
+	LABEL=kidcMaxFPSLabel (121 76 17 0) "0" kifntShadow right
 	LABEL=0 (11 89 68 0) "Difficulty" kifntShadow
 	CHECKBOX=kidcEasy (11 99 67 0) "Easy" kifntShadow
 	CHECKBOX=kidcNormal (11 109 67 0) "Normal" kifntShadow

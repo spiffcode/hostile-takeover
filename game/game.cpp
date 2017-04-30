@@ -296,6 +296,7 @@ bool Game::Init(int imm)
     // gfIgnoreBluetoothWarning = gpprefs->GetBool(kfPrefIgnoreBluetoothWarning);
     strncpy(gszAskURL, gpprefs->GetString(kszPrefAskUrl), sizeof(gszAskURL));
     strncpy(gszDeviceId, gpprefs->GetString(kszPrefDeviceId), sizeof(gszDeviceId));
+    gcmsDisplayUpdate = gpprefs->GetInteger(knPrefUpdateDisplay);
 
 	// Temp buffer used for several things, including decompression, TBitmap compiling.
 
@@ -2522,6 +2523,7 @@ void Game::SavePreferences()
 	}
 
     gpprefs->Set(kszPrefKey, (const char *)gkey.ab);
+    gpprefs->Set(knPrefUpdateDisplay, gcmsDisplayUpdate);
 
 #if defined(WIN) && !defined(CE)
 	if (gpdisp == NULL) {

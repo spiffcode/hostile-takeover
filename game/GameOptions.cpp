@@ -36,6 +36,21 @@ bool gfStylusUI = false;
 #define SetControlChecked(id, f) ((CheckBoxControl *)GetControlPtr(id))->SetChecked(f)
 #define GetControlChecked(id) ((CheckBoxControl *)GetControlPtr(id))->IsChecked()
 
+// Mimimum ms options to elapse between paints
+
+int gacmsFPSOptions[10] = {
+    50, // 20 FPS
+    33, // 30 FPS
+    25, // 40 FPS
+    20, // 50 FPS
+    16, // 62 FPS
+    14, // 71 FPS
+    12, // 83 FPS
+    11, // 90 FPS
+    10, // 100 FPS
+    8   // 125 FPS
+};
+
 // GameOptions
 
 class GameOptionsForm : public ShellForm
@@ -332,6 +347,7 @@ bool InGameOptionsForm::Init(FormMgr *pfrmm, IniReader *pini, word idf)
 	m_tGameSpeed = gtGameSpeed;
 	m_wfHandicap = gwfHandicap;
     m_nScrollSpeed = gnScrollSpeed;
+    m_cmsMaxFPS = gcmsDisplayUpdate;
 
 #if defined(IPHONE) || defined(__IPHONEOS__) || defined(__ANDROID__)
     GetControlPtr(kidcLassoSelection)->Show(false);
@@ -384,6 +400,18 @@ void InGameOptionsForm::InitResettableControls()
 	psldr->SetRange(0, (knScrollSpeedMax - 1) * 4);
 	psldr->SetValue((m_nScrollSpeed - 1.0) / 0.25);
 
+    // Max FPS
+
+	psldr = (SliderControl *)GetControlPtr(kidcMaxFPS);
+	psldr->SetRange(0, ARRAYSIZE(gacmsFPSOptions) - 1);
+	psldr->SetValue(0);
+	for (int i = 0; i < ARRAYSIZE(gacmsFPSOptions); i++) {
+		if (gacmsFPSOptions[i] == m_cmsMaxFPS) {
+			psldr->SetValue(i);
+			break;
+		}
+	}
+
 	// Difficulty
 
 	SetControlChecked(kidcEasy, m_wfHandicap == kfHcapEasy);
@@ -405,6 +433,10 @@ void InGameOptionsForm::UpdateLabels()
     int cFrac = (m_nScrollSpeed - (int)m_nScrollSpeed) * 100;
     sprintf(szT, "%d.%dx", cWhole, cFrac);
     plbl->SetText(szT);
+
+    plbl = (LabelControl *)GetControlPtr(kidcMaxFPSLabel);
+    sprintf(szT, "%.1f", (float)1000 / (float)m_cmsMaxFPS);
+	plbl->SetText(szT);
 }
 
 void InGameOptionsForm::OnControlSelected(word idc)
@@ -434,6 +466,15 @@ void InGameOptionsForm::OnControlSelected(word idc)
         }
         break;
 
+    case kidcMaxFPS:
+		{
+			SliderControl *psldr =
+                    (SliderControl *)GetControlPtr(kidcMaxFPS);
+			m_cmsMaxFPS = gacmsFPSOptions[psldr->GetValue()];
+			UpdateLabels();
+		}
+		break;
+
 	case kidcEasy:
 	case kidcNormal:
 	case kidcHard:
@@ -460,6 +501,8 @@ void InGameOptionsForm::OnControlSelected(word idc)
 			ggame.SetGameSpeed(gatGameSpeeds[psldr->GetValue()]);
 			psldr = (SliderControl *)GetControlPtr(kidcScrollSpeed);
             gnScrollSpeed = 1.0 + psldr->GetValue() * 0.25;
+            psldr = (SliderControl *)GetControlPtr(kidcMaxFPS);
+            gcmsDisplayUpdate = gacmsFPSOptions[psldr->GetValue()];
 
 			// Difficulty
 
@@ -490,6 +533,7 @@ void InGameOptionsForm::OnControlSelected(word idc)
 		m_tGameSpeed = kcmsUpdate / 20;
         m_nScrollSpeed = 1.0;
 		m_wfHandicap = kfHcapDefault;
+        m_cmsMaxFPS = 8; // 125 FPS
 		InitResettableControls();
 		break;
 	}

@@ -99,6 +99,7 @@ bool Preferences::InitFromDeafults() {
     Set(knPrefScrollSpeed, 1.0f);
     Set(kszPrefAskUrl, "http://");
     Set(kszPrefDeviceId, HostGenerateDeviceId());
+    Set(knPrefUpdateDisplay, 8); // 125 FPS
 
     return true;
 }
