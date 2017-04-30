@@ -1183,6 +1183,12 @@ bool Game::InitDisplay(int immRequested)
 		gfGrayscale = false;
 		break;
 
+    case 24:
+    case 32:
+		gaclrFixed = gaclr24bpp;
+		gfGrayscale = false;
+		break;
+
 	default:
 		Assert("Whoa! Unsupported color depth");
 		break;

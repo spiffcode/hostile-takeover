@@ -304,7 +304,7 @@ const int knDecreasedDamagePercent = 90;
 
 // Color type
 
-typedef word Color; // clr
+typedef dword Color; // clr
 
 // Network stuff
 
@@ -8450,6 +8450,7 @@ extern int gtGameSpeed;
 extern AnimationData *g_panidMoveTarget;
 extern UpdateMap *gpupdSim;
 extern Color *gaclrFixed;
+extern Color gaclr24bpp[];
 extern Color gaclr8bpp[];
 extern Color gaclr4bpp[];
 extern byte gmpDistFromDxy[10][10];
