@@ -148,7 +148,9 @@
 }
 
 - (NSString *)getPlatformString {
-    return [NSString stringWithFormat:@"iOS %@", [[UIDevice currentDevice] systemVersion]];
+    return [NSString stringWithFormat:@"%@ %@",
+        [[UIDevice currentDevice] systemName],
+        [[UIDevice currentDevice] systemVersion]];
 }
 
 @end
