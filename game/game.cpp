@@ -71,6 +71,7 @@ bool gfMultiplayer;
 bool gfIgnoreBluetoothWarning;
 SpriteManager *gpsprm;
 TexAtlasMgr *gptam;
+int gcmsDisplayUpdate = 8; // mimimum ms to elapse between paints
 
 #ifdef STRESS
 bool gfStress = false;

@@ -1792,10 +1792,11 @@ enum {
 
 #define kcevtPostMax 20
 
-#define kfRedrawDirty 1
-#define kfRedrawMax 2
-#define kfRedrawBeforeTimer 4
-#define kfRedrawBeforeInput 8
+#define kfRedrawDirty 0x01
+#define kfRedrawMax 0x02
+#define kfRedrawBeforeTimer 0x04
+#define kfRedrawBeforeInput 0x08
+#define kfRedrawPaintSkipped 0x10
 
 struct FlickVector {
     int GetMagnitude() {
@@ -1848,6 +1849,7 @@ public:
 	}
 
 private:
+    bool CheckPaintFPS() secEventMgr;
     void UpdatePenHistory(Event *pevt) secEventMgr;    
     bool QueryPenHistory(int nPen, long t, Point *ppt);
 
@@ -8534,6 +8536,7 @@ extern int gnMPPos;
 extern char *gpszDataDir;
 extern bool gfIgnoreBluetoothWarning;
 extern TexAtlasMgr *gptam;
+extern int gcmsDisplayUpdate;
 
 inline Color GetColor(int iclr) {
 	return gaclrFixed[iclr];

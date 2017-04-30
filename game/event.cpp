@@ -3,6 +3,7 @@
 namespace wi {
 
 EventMgr gevm;
+long gcmsNextPaint = 0;
 
 EventMgr::EventMgr()
 {
@@ -139,6 +140,24 @@ bool EventMgr::GetEvent(Event *pevt, long ctWait, bool fCheckPaints)
 #else
             {
 #endif
+                // Ensure that the skipped paint will be painted before sleeping kctForever
+
+                if ((m_wfRedraw & kfRedrawPaintSkipped) && ctWait == -1) {
+
+                    // Convert next paint to ticks
+
+                    long ctNextPaint = (gcmsNextPaint / 10);
+
+                    // Adjust wait time to next possible paint
+
+                    tCurrent = gtimm.GetTickCount();
+                    ctElapsed = tCurrent - tStart;
+                    ctWait = ctElapsed + ctNextPaint;
+
+                    m_wfRedraw &= ~kfRedrawPaintSkipped;
+                    m_wfRedraw |= kfRedrawDirty;
+                }
+
                 // Get the event from the host. The host doesn't coalesce
                 // messages, but does mark messages has being coalesce
                 // candidates, based on what was in the queue when the post
@@ -258,8 +277,16 @@ bool EventMgr::GetEvent(Event *pevt, long ctWait, bool fCheckPaints)
 			} else {
 				m_wfRedraw &= ~(kfRedrawDirty | kfRedrawBeforeTimer | kfRedrawBeforeInput);
 			}
-			pevt->eType = gamePaintEvent;
-			return true;
+
+            // Is it within the max fps rate?
+
+            if (CheckPaintFPS()) {
+                m_wfRedraw &= ~kfRedrawPaintSkipped;
+                pevt->eType = gamePaintEvent;
+                return true;
+            } else {
+                m_wfRedraw |= kfRedrawPaintSkipped;
+            }
 		}
 
 		// If the user timeout expired, return timeout
@@ -387,6 +414,32 @@ bool EventMgr::QueryPenHistory(int nPen, long ms, Point *ppt)
     ppt->y = pevtOnOrBefore->y + (int)(flPercent * (pevtOnOrAfter->y - pevtOnOrBefore->y) + 0.5f);    
     
     return true;
+}
+
+bool EventMgr::CheckPaintFPS()
+{
+    long cmsCurrent = HostGetMillisecondCount();
+
+    // First time through?
+
+    if (gcmsNextPaint == 0) {
+        gcmsNextPaint = cmsCurrent + gcmsDisplayUpdate;
+        return true;
+    } else if (cmsCurrent >= gcmsNextPaint) {
+
+        // Is cmsCurrent is way ahead? This can occur after sleeping
+
+        if (cmsCurrent >= gcmsNextPaint + gcmsDisplayUpdate * 5) {
+            gcmsNextPaint = cmsCurrent + gcmsDisplayUpdate;
+        } else {
+            gcmsNextPaint += gcmsDisplayUpdate;
+        }
+        return true;
+    }
+
+    // There hasn't been enough time since the last draw
+
+    return false;
 }
     
 void EventMgr::Init()
