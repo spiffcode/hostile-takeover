@@ -1,0 +1,1 @@
+../../../../../libs/SDL2/android/SDLActivity.java
