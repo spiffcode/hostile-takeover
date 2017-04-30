@@ -30,7 +30,7 @@ static jmethodID getAssetManagerMethod;
 
 namespace wi {
 
-char gszMainDataDir[PATH_MAX];          // data file (htdata832.pdb, htsfx.pdb) dir
+// char gszMainDataDir[PATH_MAX];       // main data is archived into Android assets
 char gszTempDir[PATH_MAX];              // temp file directory
 char gszMissionPacksDir[PATH_MAX];      // downloaded mission packs
 char gszMissionPackInfosDir[PATH_MAX];  // info about downloaded mission packs
@@ -149,7 +149,7 @@ void HostHelpers::Cleanup() {
 }
 
 const char *HostHelpers::GetMainDataDir() {
-    return gszMainDataDir;
+    return NULL;
 }
 
 const char *HostHelpers::GetTempDir() {
