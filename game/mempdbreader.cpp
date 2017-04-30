@@ -23,28 +23,28 @@ bool MemPdbReader::Open(char *pszFn)
 	// Attempt to open
 
 	Assert(m_pb == NULL);
-	FILE *pfil = fopen(pszFn, "rb");
-	if (pfil == NULL) {
+    FileHandle hf = HostOpenFile(pszFn, kfOfRead);
+	if (hf == NULL) {
         Trace("fopen(\"%s\", \"rb\"); failed", pszFn);
 		return false;
     }
 
 	// Read in the entire thing
 
-	fseek(pfil, 0, SEEK_END);
-	m_cb = (dword)ftell(pfil);
-	fseek(pfil, 0, SEEK_SET);
+    HostSeekFile(hf, 0, kfSeekEnd);
+    m_cb = HostTellFile(hf);
+    HostSeekFile(hf, 0, kfSeekSet);
 
 	m_pb = new byte[m_cb];
 	if (m_pb == NULL) {
-		fclose(pfil);
+		HostCloseFile(hf);
 		return false;
 	}
-	if (fread(m_pb, m_cb, 1, pfil) != 1) {
-		fclose(pfil);
+	if (HostReadFile(m_pb, m_cb, 1, hf) != 1) {
+		HostCloseFile(hf);
 		return false;
 	}
-	fclose(pfil);
+	HostCloseFile(hf);
 
 	// Alloc cache handle array
 

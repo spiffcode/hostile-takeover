@@ -700,22 +700,44 @@ FileHandle HostOpenFile(const char *pszFilename, word wf)
     else if (wf == (kfOfRead | kfOfWrite))
         pszMode = "rb+";
 
-    return (FileHandle)fopen((char *)pszFilename, pszMode);
+    return (FileHandle)SDL_RWFromFile(pszFilename, pszMode);
 }
 
 void HostCloseFile(FileHandle hf)
 {
-    fclose((FILE *)hf);
+    SDL_RWclose((SDL_RWops *)hf);
 }
 
-dword HostWriteFile(FileHandle hf, void *pv, dword cb)
+dword HostWriteFile(void *pv, dword c, dword cb, FileHandle hf)
 {
-    return fwrite(pv, 1, cb, (FILE *)hf);
+    // SDL_RWwrite() returns the number of objects written,
+    // which will be less than cb on error
+
+    return (dword)SDL_RWwrite((SDL_RWops *)hf, pv, c, cb);
 }
 
-dword HostReadFile(FileHandle hf, void *pv, dword cb)
+dword HostReadFile(void *pv, dword c, dword cb, FileHandle hf)
 {
-    return fread(pv, 1, cb, (FILE *)hf);
+    // SDLRWread() returns the number of objects read,
+    // or 0 at error or end of file
+
+    return (dword)SDL_RWread((SDL_RWops *)hf, pv, c, cb);
+}
+
+dword HostSeekFile(FileHandle hf, int off, int nOrigin)
+{
+    // SDL_RWseek() returns the final offset in the data
+    // stream after the seek or -1 on error
+
+    return (dword)SDL_RWseek((SDL_RWops *)hf, off, nOrigin);
+}
+
+dword HostTellFile(FileHandle hf)
+{
+    // SDL_RWtell() returns the current offset in the stream,
+    // or -1 if the information can not be determined
+
+    return (dword)SDL_RWtell((SDL_RWops *)hf);
 }
 
 void HostSleep(dword ct)

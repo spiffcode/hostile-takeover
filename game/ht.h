@@ -8829,10 +8829,16 @@ void HostGetSilkRect(int irc, Rect *prc) secHost;
 const word kfOfRead = 0x0001;		// same as "rb"
 const word kfOfWrite = 0x0002;		// same as "wb"
 
+#define kfSeekSet 0
+#define kfSeekCur 1
+#define kfSeekEnd 2
+
 FileHandle HostOpenFile(const char *pszFilename, word wf) secHost;
 void HostCloseFile(FileHandle hf) secHost;
-dword HostWriteFile(FileHandle hf, void *pv, dword cb) secHost;
-dword HostReadFile(FileHandle hf, void *pv, dword cb) secHost;
+dword HostWriteFile(void *pv, dword c, dword cb, FileHandle hf) secHost;
+dword HostReadFile(void *pv, dword c, dword cb, FileHandle hf) secHost;
+dword HostSeekFile(FileHandle hf, int off, int nOrigin) secHost;
+dword HostTellFile(FileHandle hf) secHost;
 
 // Save game
 
