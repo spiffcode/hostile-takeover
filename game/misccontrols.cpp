@@ -13,12 +13,12 @@ TBitmap *ButtonControl::s_ptbmRightDown;
 
 bool ButtonControl::InitClass()
 {
-	s_ptbmLeftUp = CreateTBitmap("buttonleftup.tbm");
-	s_ptbmMidUp = CreateTBitmap("buttonmidup.tbm");
-	s_ptbmRightUp = CreateTBitmap("buttonrightup.tbm");
-	s_ptbmLeftDown = CreateTBitmap("buttonleftdown.tbm");
-	s_ptbmMidDown = CreateTBitmap("buttonmiddown.tbm");
-	s_ptbmRightDown = CreateTBitmap("buttonrightdown.tbm");
+	s_ptbmLeftUp = CreateTBitmap("buttonleftup.png");
+	s_ptbmMidUp = CreateTBitmap("buttonmidup.png");
+	s_ptbmRightUp = CreateTBitmap("buttonrightup.png");
+	s_ptbmLeftDown = CreateTBitmap("buttonleftdown.png");
+	s_ptbmMidDown = CreateTBitmap("buttonmiddown.png");
+	s_ptbmRightDown = CreateTBitmap("buttonrightdown.png");
 	return true;
 }
 
@@ -111,7 +111,7 @@ bool ButtonControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	if (!Control::Init(pfrm, pini, pfind))
 		return false;
 
-	// idc (x y cx cy) "label" nfnt center buttonup.tbm buttondown.tbm 
+	// idc (x y cx cy) "label" nfnt center buttonup.png buttondown.png 
 
 	char szFnUp[kcbFilename];
 	char szFnDown[kcbFilename];
@@ -349,10 +349,10 @@ bool CheckBoxControl::Init(Form *pfrm, word idc, int x, int y, char *pszLabel, i
 
 bool CheckBoxControl::InitClass()
 {
-	s_ptbmOnUp = CreateTBitmap("checkboxonup.tbm");
-	s_ptbmOnDown = CreateTBitmap("checkboxondown.tbm");
-	s_ptbmOffUp = CreateTBitmap("checkboxoffup.tbm");
-	s_ptbmOffDown = CreateTBitmap("checkboxoffdown.tbm");
+	s_ptbmOnUp = CreateTBitmap("checkboxonup.png");
+	s_ptbmOnDown = CreateTBitmap("checkboxondown.png");
+	s_ptbmOffUp = CreateTBitmap("checkboxoffup.png");
+	s_ptbmOffDown = CreateTBitmap("checkboxoffdown.png");
 
 	return true;
 }
@@ -728,7 +728,7 @@ bool BitmapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	if (!Control::Init(pfrm, pini, pfind))
 		return false;
 
-	// idc (x y cx cy) bitmap.tbm
+	// idc (x y cx cy) bitmap.png
 
 	char szBitmap[kcbFilename];
 	int cArgs = pini->GetPropertyValue(pfind, "%*d (%*d %*d %*d %*d) %s", szBitmap);
@@ -851,10 +851,10 @@ TBitmap *ListControl::s_ptbmScrollDownDown;
 
 bool ListControl::InitClass()
 {
-	s_ptbmScrollUpUp = CreateTBitmap("scrollupup.tbm");
-	s_ptbmScrollUpDown = CreateTBitmap("scrollupdown.tbm");
-	s_ptbmScrollDownUp = CreateTBitmap("scrolldownup.tbm");
-	s_ptbmScrollDownDown = CreateTBitmap("scrolldowndown.tbm");
+	s_ptbmScrollUpUp = CreateTBitmap("scrollupup.png");
+	s_ptbmScrollUpDown = CreateTBitmap("scrollupdown.png");
+	s_ptbmScrollDownUp = CreateTBitmap("scrolldownup.png");
+	s_ptbmScrollDownDown = CreateTBitmap("scrolldowndown.png");
 	return true;
 }
 
@@ -1735,7 +1735,7 @@ TBitmap *PipMeterControl::s_ptbmPip;
 
 bool PipMeterControl::InitClass()
 {
-	s_ptbmPip = CreateTBitmap("pip.tbm");
+	s_ptbmPip = CreateTBitmap("pip.png");
 	return true;
 }
 
@@ -1779,7 +1779,7 @@ bool PipMeterControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	if (!Control::Init(pfrm, pini, pfind))
 		return false;
 
-	// idc (x y cx cy) [pip.tbm]
+	// idc (x y cx cy) [pip.png]
 
 	char szPip[kcbFilename];
 	
@@ -1831,9 +1831,9 @@ TBitmap *DamageMeterControl::s_ptbmStructure;
 
 bool DamageMeterControl::InitClass()
 {
-	s_ptbmInfantry = CreateTBitmap("damage_infantry.tbm");
-	s_ptbmVehicle = CreateTBitmap("damage_vehicle.tbm");
-	s_ptbmStructure = CreateTBitmap("damage_structure.tbm");
+	s_ptbmInfantry = CreateTBitmap("damage_infantry.png");
+	s_ptbmVehicle = CreateTBitmap("damage_vehicle.png");
+	s_ptbmStructure = CreateTBitmap("damage_structure.png");
 	return true;
 }
 

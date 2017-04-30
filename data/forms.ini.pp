@@ -18,7 +18,7 @@
 [kidfInputUI]
 	FORM=(0 0 160 68) kidcOk
 	FORMBACKCOLOR=kiclrFormBackground
-	BUTTON=kidcMenuButton (0 0 23 7) "" kifntButton nocenter menuup.tbm menudown.tbm
+	BUTTON=kidcMenuButton (0 0 23 7) "" kifntButton nocenter menuup.png menudown.png
 	GRAFFITISCROLL=kidcGraffitiScroll (0 9 0 0) 4
 	SILKBUTTON=kidcAppsSilkButton (0 0 0 0)
 	SILKBUTTON=kidcMenuSilkButton (0 0 0 0)
@@ -34,7 +34,7 @@
 [kidfStartup]
 	FORM=(0 0 240 160) kidcCancel center
 	FORMBACKCOLOR=kiclrFormBackground
-	BITMAP=0 (28 7 0 0) title.rbm
+	BITMAP=0 (28 7 0 0) title.png
 	BUTTON=kidcPlay (65 59 110 14) "PLAY" kifntButton
 	BUTTON=kidcLeaderboard (65 76 110 14) "LEADERBOARD" kifntButton
 	BUTTON=kidcLoadSavedGame (65 93 110 14) "LOAD SAVED GAME" kifntButton
@@ -43,7 +43,7 @@
 	BUTTON=kidcSetupGame (65 127 39 14) "OPTIONS" kifntButton
 	BUTTON=kidcHelp (105 127 30 14) "HELP" kifntButton
 	BUTTON=kidcForums (136 127 39 14) "FORUMS" kifntButton
-	BITMAP=0 (52 148 0 0) copyright.rbm
+	BITMAP=0 (52 148 0 0) copyright.png
 	LABEL=kidcVersion (239 148 0 12) "" kifntShadow right
 
 [kidfPlay]
@@ -473,8 +473,8 @@
 [kidfBuildInfantry]
 	FORM=(0 0 160 143) kidcCancel
 	LABEL=0 (2 5 82 0) "RECRUIT PERSONNEL" kifntTitle
-	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.tbm helpdown.tbm
-	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.tbm canceldown.tbm
+	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.png helpdown.png
+	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.png canceldown.png
 	ANIMLIST=kidcList (-1 17 28 121) kifntShadow 17
 	LABEL=kidcDescription (30 79 127 8) "" kifntShadow left multiline
 	LABEL=kidcName (30 19 75 0) "" kifntShadow
@@ -500,8 +500,8 @@
 [kidfBuildVehicle]
 	FORM=(0 0 160 143) kidcCancel
 	LABEL=0 (2 5 82 0) "ORDER VEHICLE" kifntTitle
-	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.tbm helpdown.tbm
-	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.tbm canceldown.tbm
+	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.png helpdown.png
+	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.png canceldown.png
 	ANIMLIST=kidcList (-1 17 28 121) kifntShadow 17
 	LABEL=kidcDescription (30 79 127 8) "" kifntShadow left multiline
 	LABEL=kidcName (30 19 75 0) "" kifntShadow
@@ -527,8 +527,8 @@
 [kidfBuildStructure]
 	FORM=(0 0 160 143) kidcCancel
 	LABEL=0 (2 5 82 0) "ORDER BUILDING" kifntTitle
-	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.tbm helpdown.tbm
-	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.tbm canceldown.tbm
+	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.png helpdown.png
+	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.png canceldown.png
 	ANIMLIST=kidcList (-1 17 28 121) kifntShadow 18
 	LABEL=kidcDescription (30 79 127 8) "" kifntShadow left multiline
 	LABEL=kidcName (30 19 75 0) "UNIT NAME" kifntShadow
@@ -553,8 +553,8 @@
 [kidfUpgrade]
 	FORM=(0 0 160 143) kidcCancel
 	LABEL=0 (2 5 82 0) "R&D TECHNOLOGIES" kifntTitle
-	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.tbm helpdown.tbm
-	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.tbm canceldown.tbm
+	BUTTON=kidcHelp (135 3 10 12) "" kifntButton nocenter helpup.png helpdown.png
+	BUTTON=kidcCancel (147 3 10 12) "" kifntButton nocenter cancelup.png canceldown.png
 	ANIMLIST=kidcList (-1 17 28 121) kifntShadow 18
 	LABEL=kidcName (30 19 75 0) "UPGRADE NAME" kifntShadow
 	LABEL=kidcCostLabel (30 31 22 0) "COST" kifntShadow
@@ -568,49 +568,49 @@
 
 [kidfPlaceStructure]
 	FORM=(0 0 320 320) kidcCancel
-	BUTTON=kidcOk (120 135 10 12) "" kifntButton nocenter okup.tbm okdown.tbm
-	BUTTON=kidcCancel (0 135 10 12) "" kifntButton nocenter cancelup.tbm canceldown.tbm
+	BUTTON=kidcOk (120 135 10 12) "" kifntButton nocenter okup.png okdown.png
+	BUTTON=kidcCancel (0 135 10 12) "" kifntButton nocenter cancelup.png canceldown.png
 
 [kidfHrcMenu]
 	FORM=(0 0 66 68) kidcCancel
 	LABEL=kidcTitle (0 2 66 0) "" kifntTitle center
-	BUTTON=kidcBuild (3 14 60 12) "" kifntButton nocenter build_btn_up.tbm build_btn_down.tbm build_btn_disabled.tbm
-	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.tbm repair_btn_down.tbm repair_btn_disabled.tbm
-	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.tbm abort_repair_btn_down.tbm
-	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.tbm sell_btn_down.tbm sell_btn_disabled.tbm
+	BUTTON=kidcBuild (3 14 60 12) "" kifntButton nocenter build_btn_up.png build_btn_down.png build_btn_disabled.png
+	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.png repair_btn_down.png repair_btn_disabled.png
+	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.png abort_repair_btn_down.png
+	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.png sell_btn_down.png sell_btn_disabled.png
 
 [kidfVtsMenu]
 	FORM=(0 0 66 68) kidcCancel
 	LABEL=kidcTitle (0 2 66 0) "" kifntTitle center
-	BUTTON=kidcBuild (3 14 60 12) "" kifntButton nocenter build_btn_up.tbm build_btn_down.tbm build_btn_disabled.tbm
-	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.tbm repair_btn_down.tbm repair_btn_disabled.tbm
-	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.tbm abort_repair_btn_down.tbm
-	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.tbm sell_btn_down.tbm sell_btn_disabled.tbm
+	BUTTON=kidcBuild (3 14 60 12) "" kifntButton nocenter build_btn_up.png build_btn_down.png build_btn_disabled.png
+	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.png repair_btn_down.png repair_btn_disabled.png
+	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.png abort_repair_btn_down.png
+	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.png sell_btn_down.png sell_btn_disabled.png
 
 [kidfHqMenu]
 	FORM=(0 0 66 68) kidcCancel
 	LABEL=kidcTitle (0 2 66 0) "" kifntTitle center
-	BUTTON=kidcBuild (0 14 0 0) "" kifntButton nocenter build_btn_up.tbm build_btn_down.tbm build_btn_disabled.tbm
-	BUTTON=kidcAbortBuild (0 14 0 0) "" kifntButton nocenter abort_build_btn_up.tbm abort_build_btn_down.tbm
-	BUTTON=kidcRepair (14 14 0 0) "" kifntButton nocenter repair_btn_up.tbm repair_btn_down.tbm repair_btn_disabled.tbm
-	BUTTON=kidcAbortRepair (14 14 0 0) "" kifntButton nocenter abort_repair_btn_up.tbm abort_repair_btn_down.tbm
-	BUTTON=kidcSelfDestruct (28 14 0 0) "" kifntButton nocenter sell_btn_up.tbm sell_btn_down.tbm sell_btn_disabled.tbm
+	BUTTON=kidcBuild (0 14 0 0) "" kifntButton nocenter build_btn_up.png build_btn_down.png build_btn_disabled.png
+	BUTTON=kidcAbortBuild (0 14 0 0) "" kifntButton nocenter abort_build_btn_up.png abort_build_btn_down.png
+	BUTTON=kidcRepair (14 14 0 0) "" kifntButton nocenter repair_btn_up.png repair_btn_down.png repair_btn_disabled.png
+	BUTTON=kidcAbortRepair (14 14 0 0) "" kifntButton nocenter abort_repair_btn_up.png abort_repair_btn_down.png
+	BUTTON=kidcSelfDestruct (28 14 0 0) "" kifntButton nocenter sell_btn_up.png sell_btn_down.png sell_btn_disabled.png
 
 [kidfResearchMenu]
 	FORM=(0 0 76 68) kidcCancel
 	LABEL=kidcTitle (0 2 76 0) "" kifntTitle center
-	BUTTON=kidcResearch (3 14 60 12) "" kifntButton nocenter build_btn_up.tbm build_btn_down.tbm build_btn_disabled.tbm
-	BUTTON=kidcAbortUpgrade (3 14 60 12) "" kifntButton nocenter abort_build_btn_up.tbm abort_build_btn_down.tbm
-	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.tbm repair_btn_down.tbm repair_btn_disabled.tbm
-	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.tbm abort_repair_btn_down.tbm
-	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.tbm sell_btn_down.tbm sell_btn_disabled.tbm
+	BUTTON=kidcResearch (3 14 60 12) "" kifntButton nocenter build_btn_up.png build_btn_down.png build_btn_disabled.png
+	BUTTON=kidcAbortUpgrade (3 14 60 12) "" kifntButton nocenter abort_build_btn_up.png abort_build_btn_down.png
+	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.png repair_btn_down.png repair_btn_disabled.png
+	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.png abort_repair_btn_down.png
+	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.png sell_btn_down.png sell_btn_disabled.png
 
 [kidfStructMenu]
 	FORM=(0 0 66 51) kidcCancel
 	LABEL=kidcTitle (0 2 66 0) "" kifntTitle center
-	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.tbm repair_btn_down.tbm repair_btn_disabled.tbm
-	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.tbm abort_repair_btn_down.tbm
-	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.tbm sell_btn_down.tbm sell_btn_disabled.tbm
+	BUTTON=kidcRepair (3 31 60 12) "" kifntButton nocenter repair_btn_up.png repair_btn_down.png repair_btn_disabled.png
+	BUTTON=kidcAbortRepair (3 31 60 12) "" kifntButton nocenter abort_repair_btn_up.png abort_repair_btn_down.png
+	BUTTON=kidcSelfDestruct (3 48 60 12) "" kifntButton nocenter sell_btn_up.png sell_btn_down.png sell_btn_disabled.png
 
 [kidfUnitMenu]
 	FORM=(0 0 66 51) kidcCancel
@@ -682,8 +682,8 @@
 	FORM=(0 0 160 150) kidcOk
 	LABEL=kidcFrom (3 19 56 0) "Olstrom@@acme" kifntShadow
 	LABEL=kidcTo (3 34 54 0) "Olstrom@@acme" kifntShadow
-	BITMAP=kidcFromBitmap (80 4 0 0) olstrom.tbm
-	BITMAP=kidcToBitmap (121 4 0 0) jana.tbm
+	BITMAP=kidcFromBitmap (80 4 0 0) olstrom.png
+	BITMAP=kidcToBitmap (121 4 0 0) jana.png
 	ECOMTEXT=kidcMessage (4 50 152 81) "EcomText" kifntEcom left
 	BUTTON=kidcOk (108 135 50 12) "OK" kifntButton
 
@@ -699,18 +699,18 @@
 	HELP=kidcHelp (5 6 150 130)
 	BUTTON=kidcOk (5 140 45 12) "OK" kifntButton
 	BUTTON=kidcIndex (55 140 45 12) "Index" kifntButton
-	BUTTON=kidcBack (119 142 6 6) "" kifntButton nocenter backup.tbm backdown.tbm
-	BUTTON=kidcNextPage (130 144 4 4) "" kifntButton nocenter scrolldownup.tbm scrolldowndown.tbm
-	BUTTON=kidcPrevPage (140 144 4 4) "" kifntButton nocenter scrollupup.tbm scrollupdown.tbm
+	BUTTON=kidcBack (119 142 6 6) "" kifntButton nocenter backup.png backdown.png
+	BUTTON=kidcNextPage (130 144 4 4) "" kifntButton nocenter scrolldownup.png scrolldowndown.png
+	BUTTON=kidcPrevPage (140 144 4 4) "" kifntButton nocenter scrollupup.png scrollupdown.png
 
 [kidfHelpWide]
 	FORM=(0 0 240 160) kidcOk center
 	HELP=kidcHelp (5 6 228 130)
 	BUTTON=kidcOk (70 140 45 12) "OK" kifntButton
 	BUTTON=kidcIndex (125 140 45 12) "Index" kifntButton
-	BUTTON=kidcBack (189 142 6 6) "" kifntButton nocenter backup.tbm backdown.tbm
-	BUTTON=kidcNextPage (200 144 4 4) "" kifntButton nocenter scrolldownup.tbm scrolldowndown.tbm
-	BUTTON=kidcPrevPage (210 144 4 4) "" kifntButton nocenter scrollupup.tbm scrollupdown.tbm
+	BUTTON=kidcBack (189 142 6 6) "" kifntButton nocenter backup.png backdown.png
+	BUTTON=kidcNextPage (200 144 4 4) "" kifntButton nocenter scrolldownup.png scrolldowndown.png
+	BUTTON=kidcPrevPage (210 144 4 4) "" kifntButton nocenter scrollupup.png scrollupdown.png
 
 [kidfCutScene]
 	FORM=(0 0 160 160) kidcOk center
@@ -726,7 +726,7 @@
 	FORM=(0 0 160 160) kidcExitGame center
 	FORMBACKCOLOR=kiclrFormBackground
 	LABEL=0 (80 9 0 0) "HANDMARK PRESENTS" kifntTitle center
-	BITMAP=0 (0 17 0 0) title.rbm
+	BITMAP=0 (0 17 0 0) title.png
 	LABEL=0 (30 60 100 8) "Copyright 2003, 2004 Spiffcode, Inc." kifntDefault center
 	LABEL=0 (30 70 100 8) "All Rights Reserved" kifntDefault center
 	LABEL=0 (8 91 143 8) "Purchase at www.WarfareIncorporated.com" kifntDefault center

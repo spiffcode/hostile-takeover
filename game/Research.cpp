@@ -587,7 +587,7 @@ void UpgradeForm::OnControlSelected(word idc)
 
 void UpgradeForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
-	TBitmap *ptbm = CreateTBitmap("buildformbkgd.rbm");
+	TBitmap *ptbm = CreateTBitmap("buildformbkgd.png");
 	BltHelper(pbm, ptbm, pupd, m_rc.left, m_rc.top);
 	delete ptbm;
 }

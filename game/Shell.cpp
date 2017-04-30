@@ -963,7 +963,7 @@ void ShellForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 
 	Size sizDib;
 	pbm->GetSize(&sizDib);
-	TBitmap *ptbm = CreateTBitmap("titlescreenbkgd.rbm");
+	TBitmap *ptbm = CreateTBitmap("titlescreenbkgd.png");
 	Size sizBmp;
 	ptbm->GetSize(&sizBmp);
     

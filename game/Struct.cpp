@@ -98,9 +98,9 @@ bool StructGob::InitClass(StructConsts *pstruc, IniReader *pini)
 	// Preload the repair symbol bitmap
 
 	if (s_ptbmRepairing == NULL) {
-		s_ptbmRepairing = CreateTBitmap("repairing_symbol.tbm");
+		s_ptbmRepairing = CreateTBitmap("repairing_symbol.png");
 		if (s_ptbmRepairing == NULL) {
-			Assert("Failed to load repairing_symbol.tbm");
+			Assert("Failed to load repairing_symbol.png");
 			return false;
 		}
 	}
@@ -108,9 +108,9 @@ bool StructGob::InitClass(StructConsts *pstruc, IniReader *pini)
 	// Preload the needs power symbol bitmap
 
 	if (s_ptbmNeedsPower == NULL) {
-		s_ptbmNeedsPower = CreateTBitmap("needs_power_symbol.tbm");
+		s_ptbmNeedsPower = CreateTBitmap("needs_power_symbol.png");
 		if (s_ptbmNeedsPower == NULL) {
-			Assert("Failed to load needs_power_symbol.tbm");
+			Assert("Failed to load needs_power_symbol.png");
 			return false;
 		}
 	}
@@ -118,9 +118,9 @@ bool StructGob::InitClass(StructConsts *pstruc, IniReader *pini)
 	// Preload the need credits symbol bitmap
 
 	if (s_ptbmNeedCredits == NULL) {
-		s_ptbmNeedCredits = CreateTBitmap("needs_credits_symbol.tbm");
+		s_ptbmNeedCredits = CreateTBitmap("needs_credits_symbol.png");
 		if (s_ptbmNeedCredits == NULL) {
-			Assert("Failed to load need_credits_symbol.tbm");
+			Assert("Failed to load need_credits_symbol.png");
 			return false;
 		}
 	}

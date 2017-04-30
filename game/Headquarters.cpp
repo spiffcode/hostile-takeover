@@ -75,8 +75,8 @@ bool HqGob::InitClass(IniReader *pini)
 
 	// Preload the placement tile bitmaps
 
-	s_ptbmPlacementGood = CreateTBitmap("placementGood.tbm");
-	s_ptbmPlacementBad = CreateTBitmap("placementBad.tbm");
+	s_ptbmPlacementGood = CreateTBitmap("placementGood.png");
+	s_ptbmPlacementBad = CreateTBitmap("placementBad.png");
 
 	// Sound effects
 
@@ -517,7 +517,7 @@ void StructureBuildForm::OnControlNotify(word idc, int nNotify)
 
 void StructureBuildForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
-	TBitmap *ptbm = CreateTBitmap("buildformbkgd.rbm");
+	TBitmap *ptbm = CreateTBitmap("buildformbkgd.png");
 	BltHelper(pbm, ptbm, pupd, m_rc.left, m_rc.top);
 	delete ptbm;
 }

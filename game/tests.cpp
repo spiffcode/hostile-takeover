@@ -21,7 +21,7 @@ void DoTimeTest(DibBitmap *pbm)
 	long lEnd;
 	long n;
 
-	TBitmap *ptbmCode = (TBitmap *)CreateTBitmap("srtest.tbm");
+	TBitmap *ptbmCode = (TBitmap *)CreateTBitmap("srtest.png");
 	//ptbmCode->CompileTest(c);
 	//ptbmCode->DrawTest(pbm, c);
 	delete ptbmCode;
@@ -36,7 +36,7 @@ void DoTimeTest(DibBitmap *pbm)
 
 #if 0
 	ptbm = ptbmCode;
-	//ptbm = CreateTBitmap("srtest.tbm");
+	//ptbm = CreateTBitmap("srtest.png");
 	ptbm->BltTo(pbm, -24, 10);
 	lStart = HostGetTickCount();
 	for (n = 0; n < c; n++)
@@ -45,7 +45,7 @@ void DoTimeTest(DibBitmap *pbm)
 	HostMessageBox("%ld count %ld ticks", c, lEnd - lStart);
 	delete ptbm;
 
-	ptbm = CreateTBitmap("srtest2.tbm");
+	ptbm = CreateTBitmap("srtest2.png");
 	lStart = HostGetTickCount();
 	for (n = 0; n < c; n++)
 		ptbm->BltTo(pbm, 10, 10);
@@ -53,7 +53,7 @@ void DoTimeTest(DibBitmap *pbm)
 	HostMessageBox("%ld count %ld ticks", c, lEnd - lStart);
 	delete ptbm;
 
-	ptbm = CreateTBitmap("sri_jog_0_0.tbm");
+	ptbm = CreateTBitmap("sri_jog_0_0.png");
 	lStart = HostGetTickCount();
 	for (n = 0; n < c; n++)
 		ptbm->BltTo(pbm, 10, 10);
@@ -73,7 +73,7 @@ void DoTimeTest(DibBitmap *pbm)
 
 #if 0
 	FileMap fmap;
-	BitmapHeader *pbmh = (BitmapHeader *)MapFile("sri_fire_5_1.tbm", &fmap);
+	BitmapHeader *pbmh = (BitmapHeader *)MapFile("sri_fire_5_1.png", &fmap);
 	byte *pbDst = pbm->GetBits() + 160 * 15;
 	lStart = HostGetTickCount();
 	for (n = 0; n < c; n++)
@@ -104,7 +104,7 @@ void TestTBitmap(DibBitmap *pbm)
 
 #if 1
 	if (ptbmTest == NULL) {
-		ptbmTest = CreateTBitmap("sri_stand_4_0.tbm");
+		ptbmTest = CreateTBitmap("sri_stand_4_0.png");
 		if (ptbmTest == NULL)
 			return;
 		gxTest = 11;

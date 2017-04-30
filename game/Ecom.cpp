@@ -50,7 +50,7 @@ static char *s_aszNames[] = {\
 "", "Andy: ", "Jana: ", "Olstrom: ", "Fox: ", "ACME Security: ", "OMNI Security: ", "Anonymous: ", ""
 };
 static char *s_aszPortraits[] = {
-	NULL, "andyportrait.tbm", "jana.tbm", "olstrom.tbm", "fox.tbm", NULL, NULL, NULL, NULL
+	NULL, "andyportrait.png", "jana.png", "olstrom.png", "fox.png", NULL, NULL, NULL, NULL
 };
 
 void Ecom(int nCharFrom, int nCharTo, char *pszMessage, int nBackground, bool fMore)
@@ -274,7 +274,7 @@ void EcomForm::OnControlSelected(word idc)
 
 void EcomForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
-	RawBitmap *prbm = LoadRawBitmap(GetId() == kidfEcomLarge ? (char *)"ecomlargebkgd.rbm" : (char *)"ecomsmallbkgd.rbm");
+	RawBitmap *prbm = LoadRawBitmap(GetId() == kidfEcomLarge ? (char *)"ecomlargebkgd.png" : (char *)"ecomsmallbkgd.png");
 	BltHelper(pbm, prbm, pupd, m_rc.left, m_rc.top);
 	delete prbm;
 }
