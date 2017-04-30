@@ -43,7 +43,7 @@
 	BUTTON=kidcSetupGame (65 127 39 14) "OPTIONS" kifntButton
 	BUTTON=kidcHelp (105 127 30 14) "HELP" kifntButton
 	BUTTON=kidcForums (136 127 39 14) "FORUMS" kifntButton
-	BITMAP=0 (52 148 0 0) copyright.png
+	BITMAP=0 (81 150 0 0) copyright.png
 	LABEL=kidcVersion (239 148 0 12) "" kifntShadow right
 
 [kidfPlay]
