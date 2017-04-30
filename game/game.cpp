@@ -80,7 +80,7 @@ long gtStressTimeout;
 
 #ifndef PIL
 #if (defined(IPHONE) || defined(SDL)) && (!defined(DEV_BUILD) && !defined(BETA_TIMEOUT))
-char *gszVersion = "1.6";
+char *gszVersion = "1.7";
 #else
 char *gszVersion = "+++VERSION+++";
 #endif
