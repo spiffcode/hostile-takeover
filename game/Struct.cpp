@@ -118,7 +118,7 @@ bool StructGob::InitClass(StructConsts *pstruc, IniReader *pini)
 	// Preload the need credits symbol bitmap
 
 	if (s_ptbmNeedCredits == NULL) {
-		s_ptbmNeedCredits = CreateTBitmap("needs_credits_symbol.png");
+		s_ptbmNeedCredits = CreateTBitmap("need_credits_symbol.png");
 		if (s_ptbmNeedCredits == NULL) {
 			Assert("Failed to load need_credits_symbol.png");
 			return false;
