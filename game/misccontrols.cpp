@@ -713,12 +713,12 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 
 BitmapControl::BitmapControl()
 {
-	m_phtbm = NULL;
+	m_ptbm = NULL;
 }
 
 BitmapControl::~BitmapControl()
 {
-	delete m_phtbm;
+	delete m_ptbm;
 }
 
 bool BitmapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
@@ -746,7 +746,7 @@ bool BitmapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 		return false;
 
 	Size siz = { 0, 0 };
-	m_phtbm->GetSize(&siz);
+	m_ptbm->GetSize(&siz);
 	m_rc.right = m_rc.left + siz.cx;
 	m_rc.bottom = m_rc.top + siz.cy;
 	return true;
@@ -759,24 +759,24 @@ void BitmapControl::OnPaint(DibBitmap *pbm)
 
 	// Draw image
 
-	if (m_phtbm != NULL)
+	if (m_ptbm != NULL)
 		
 		// HACK: this "& ~1" is to force word alignment on CE as required by RawBitmap::BltTo
 		// Character portrats have some side color in them that must be mapped to blue
 
-		m_phtbm->BltTo(pbm, (m_rc.left + rcForm.left) & ~1, m_rc.top + rcForm.top, kside1);
+		m_ptbm->BltTo(pbm, (m_rc.left + rcForm.left) & ~1, m_rc.top + rcForm.top, kside1);
 }
 
-void BitmapControl::SetBitmap(HtBitmap *phtbm)
+void BitmapControl::SetBitmap(TBitmap *ptbm)
 {
-	if (m_phtbm != NULL)
-		delete m_phtbm;
+	if (m_ptbm != NULL)
+		delete m_ptbm;
 
-	m_phtbm = phtbm;
+	m_ptbm = ptbm;
 
-	if (m_phtbm != NULL) {
+	if (m_ptbm != NULL) {
 		Size siz;
-		m_phtbm->GetSize(&siz);
+		m_ptbm->GetSize(&siz);
 		if (m_rc.Width() < siz.cx)
 			m_rc.right = m_rc.left + siz.cx;
 		if (m_rc.Height() < siz.cy)

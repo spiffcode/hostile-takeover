@@ -751,13 +751,13 @@ void FillHelper(DibBitmap *pbm, UpdateMap *pupd, Rect *prc, Color clr)
 	}
 }
 
-void BltHelper(DibBitmap *pbm, HtBitmap *phtbm, UpdateMap *pupd, int xDst, int yDst)
+void BltHelper(DibBitmap *pbm, TBitmap *ptbm, UpdateMap *pupd, int xDst, int yDst)
 {
 	if (pupd == NULL) {
-		phtbm->BltTo(pbm, xDst, yDst);
+		ptbm->BltTo(pbm, xDst, yDst);
 	} else {
 		Size siz;
-		phtbm->GetSize(&siz);
+		ptbm->GetSize(&siz);
 		Rect rc;
 		rc.Set(xDst, yDst, xDst + siz.cx, yDst + siz.cy);
 		Rect rcInvalid;
@@ -769,7 +769,7 @@ void BltHelper(DibBitmap *pbm, HtBitmap *phtbm, UpdateMap *pupd, int xDst, int y
 			rcSrc.top = rcInvalid.top - yDst;
 			rcSrc.right = rcSrc.left + rcInvalid.Width();
 			rcSrc.bottom = rcSrc.top + rcInvalid.Height();
-			phtbm->BltTo(pbm, rcInvalid.left, rcInvalid.top, &rcSrc);
+			ptbm->BltTo(pbm, rcInvalid.left, rcInvalid.top, &rcSrc);
 		}
 	}
 }

@@ -3361,10 +3361,10 @@ public:
 	virtual bool Init(Form *pfrm, IniReader *pini, FindProp *pfind) secBitmapControl;
 	virtual void OnPaint(DibBitmap *pbm) secBitmapControl;
 
-	void SetBitmap(HtBitmap *phtbm) secBitmapControl;
+	void SetBitmap(TBitmap *ptbm) secBitmapControl;
 
 private:
-	HtBitmap *m_phtbm;
+	TBitmap *m_ptbm;
 };
 
 // Slider Control
@@ -8596,7 +8596,7 @@ void DrawTileMap(byte **ppbMap, int ctx, int cty, byte *pbDst, int cbDstStride, 
 FormMgr *CreateFormMgr(DibBitmap *pbm) secFormMgr;
 void ShadowHelper(DibBitmap *pbm, UpdateMap *pupd, Rect *prc) secForm;
 void FillHelper(DibBitmap *pbm, UpdateMap *pupd, Rect *prc, Color clr) secForm;
-void BltHelper(DibBitmap *pbm, HtBitmap *phtbm, UpdateMap *pupd, int xDst, int yDst) secForm;
+void BltHelper(DibBitmap *pbm, TBitmap *ptbm, UpdateMap *pupd, int xDst, int yDst) secForm;
 void RgbToHsl(byte bR, byte bG, byte bB, word *pnH, word *pnS, word *pnL) secMisc;
 void HslToRgb(word nH, word nS, word nL, byte *pbR, byte *pbG, byte *pbB) secMisc;
 void SetHslAdjustedPalette(Palette *ppal, short nHueOffset, short nSatMultiplier, short nLumOffset) secMisc;
