@@ -99,6 +99,7 @@ struct File
 	byte cRecs;
 	word nRecFirst;
 	word acb[1];
+    void *pvData;
 };
 
 // Used for MapFile / UnmapFile
@@ -122,20 +123,20 @@ public:
 	PackFileReader();
 	~PackFileReader();
 
-	File *fopen(const char *pszFn, const char *pszMode);
-	int fclose(File *pfil);
-	dword fread(void *pv, dword cb, int c, File *pfil);
-	int fseek(File *pfil, int off, int nOrigin);
-	dword ftell(File *pfil);
-	bool EnumFiles(Enum *penm, int key, char *pszFn, int cbFn);
-	void *MapFile(const char *pszFn, FileMap *pfmap, dword *pcb = NULL);
-	void UnmapFile(FileMap *pfmap);
+	virtual File *fopen(const char *pszFn, const char *pszMode);
+	virtual int fclose(File *pfil);
+	virtual dword fread(void *pv, dword cb, int c, File *pfil);
+	virtual int fseek(File *pfil, int off, int nOrigin);
+	virtual dword ftell(File *pfil);
+	virtual bool EnumFiles(Enum *penm, int key, char *pszFn, int cbFn);
+	virtual void *MapFile(const char *pszFn, FileMap *pfmap, dword *pcb = NULL);
+	virtual void UnmapFile(FileMap *pfmap);
     bool HashFile(const char *pszFn, byte *hash);
     bool GetPdbName(const char *pszFn, char *pszPdb, int cbPdb,
             char *pszDir = NULL, int cbDir = 0);
 
-	bool Push(const char *pszDir, const char *pszFn);
-	bool Pop();
+	virtual bool Push(const char *pszDir, const char *pszFn);
+	virtual bool Pop();
 	bool Delete(const char *pszDir, const char *pszFn);
 
 private:

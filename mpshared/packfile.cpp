@@ -72,7 +72,9 @@ File *PackFileReader::fopen(const char *pszFn, const char *pszMode)
 	ReaderInfo *prnfo;
 	DirEntry dir;
 	if (!FindDirEntry(pszFn, &dir, &prnfo)) {
+#if !defined(SDL)
         LOG() << "can't find dir entry " << pszFn;
+#endif
 		return NULL;
     }
 
@@ -362,6 +364,7 @@ void PackFileReader::UnmapFile(FileMap *pfmap)
 	pfmap->prnfo->cOpen--;
     if (pfmap->pbAlloced != NULL) {
         delete[] pfmap->pbAlloced;
+        pfmap->pbAlloced = NULL;
     } else {
         pfmap->prnfo->ppdbReader->UnmapRecord(pfmap->nRec, pfmap->pvCookie);
     }
