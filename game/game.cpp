@@ -1217,7 +1217,7 @@ bool Game::InitMultiFormMgr()
 	// is dynamically sized and repositioned based on knowledge of how the game form is
 	// layed out.
 
-	TBitmap *ptbmMenuButton = LoadTBitmap("menuup.tbm");
+	TBitmap *ptbmMenuButton = CreateTBitmap("menuup.tbm");
 	if (ptbmMenuButton == NULL) {
 		return false;
     }

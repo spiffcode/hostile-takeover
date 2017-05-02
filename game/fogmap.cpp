@@ -58,21 +58,21 @@ bool FogMap::Init(Size *psizTile, Size *psizMap)
 	// Load the edges
 
 	m_aptbm[15] = NULL;
-	m_aptbm[14] = LoadTBitmap("fog0001.tbm");
-	m_aptbm[13] = LoadTBitmap("fog0010.tbm");
-	m_aptbm[12] = LoadTBitmap("fog0011.tbm");
-	m_aptbm[11] = LoadTBitmap("fog0100.tbm");
-	m_aptbm[10] = LoadTBitmap("fog0101.tbm");
+	m_aptbm[14] = CreateTBitmap("fog0001.tbm");
+	m_aptbm[13] = CreateTBitmap("fog0010.tbm");
+	m_aptbm[12] = CreateTBitmap("fog0011.tbm");
+	m_aptbm[11] = CreateTBitmap("fog0100.tbm");
+	m_aptbm[10] = CreateTBitmap("fog0101.tbm");
 	m_aptbm[9] = NULL;
-	m_aptbm[8] = LoadTBitmap("fog0111.tbm");
-	m_aptbm[7] = LoadTBitmap("fog1000.tbm");
+	m_aptbm[8] = CreateTBitmap("fog0111.tbm");
+	m_aptbm[7] = CreateTBitmap("fog1000.tbm");
 	m_aptbm[6] = NULL;
-	m_aptbm[5] = LoadTBitmap("fog1010.tbm");
-	m_aptbm[4] = LoadTBitmap("fog1011.tbm");
-	m_aptbm[3] = LoadTBitmap("fog1100.tbm");
-	m_aptbm[2] = LoadTBitmap("fog1101.tbm");
-	m_aptbm[1] = LoadTBitmap("fog1110.tbm");
-	m_aptbm[0] = LoadTBitmap("fog1111.tbm");
+	m_aptbm[5] = CreateTBitmap("fog1010.tbm");
+	m_aptbm[4] = CreateTBitmap("fog1011.tbm");
+	m_aptbm[3] = CreateTBitmap("fog1100.tbm");
+	m_aptbm[2] = CreateTBitmap("fog1101.tbm");
+	m_aptbm[1] = CreateTBitmap("fog1110.tbm");
+	m_aptbm[0] = CreateTBitmap("fog1111.tbm");
 
 	int c = 0;
 	int n;
@@ -83,15 +83,15 @@ bool FogMap::Init(Size *psizTile, Size *psizMap)
 	if (c != 3)
 		return false;
 	
-	m_aptbmGalax[0] = LoadTBitmap("galax1a.tbm");
-	m_aptbmGalax[1] = LoadTBitmap("galax1b.tbm");
-	m_aptbmGalax[2] = LoadTBitmap("galax1c.tbm");
-	m_aptbmGalax[3] = LoadTBitmap("galax2a.tbm");
-	m_aptbmGalax[4] = LoadTBitmap("galax2b.tbm");
-	m_aptbmGalax[5] = LoadTBitmap("galax2c.tbm");
-	m_aptbmGalax[6] = LoadTBitmap("galax3a.tbm");
-	m_aptbmGalax[7] = LoadTBitmap("galax3b.tbm");
-	m_aptbmGalax[8] = LoadTBitmap("galax3c.tbm");
+	m_aptbmGalax[0] = CreateTBitmap("galax1a.tbm");
+	m_aptbmGalax[1] = CreateTBitmap("galax1b.tbm");
+	m_aptbmGalax[2] = CreateTBitmap("galax1c.tbm");
+	m_aptbmGalax[3] = CreateTBitmap("galax2a.tbm");
+	m_aptbmGalax[4] = CreateTBitmap("galax2b.tbm");
+	m_aptbmGalax[5] = CreateTBitmap("galax2c.tbm");
+	m_aptbmGalax[6] = CreateTBitmap("galax3a.tbm");
+	m_aptbmGalax[7] = CreateTBitmap("galax3b.tbm");
+	m_aptbmGalax[8] = CreateTBitmap("galax3c.tbm");
 
 
 	for (n = 0; n < 9; n++) {

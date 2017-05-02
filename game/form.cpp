@@ -225,7 +225,7 @@ bool Form::InitFromProperties(FormMgr *pfrmm, word idf, IniReader *pini, char *p
 	m_ptbm = NULL;
 	m_rc.Set(x, y, x + cx, y + cy);
 	if (szBitmap[0] != 0) {
-		m_ptbm = LoadTBitmap(szBitmap);
+		m_ptbm = CreateTBitmap(szBitmap);
 		if (m_ptbm == NULL)
 			return false;
 		Size siz;

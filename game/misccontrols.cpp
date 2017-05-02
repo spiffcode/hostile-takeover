@@ -13,12 +13,12 @@ TBitmap *ButtonControl::s_ptbmRightDown;
 
 bool ButtonControl::InitClass()
 {
-	s_ptbmLeftUp = GetSharedTBitmap("buttonleftup.tbm");
-	s_ptbmMidUp = GetSharedTBitmap("buttonmidup.tbm");
-	s_ptbmRightUp = GetSharedTBitmap("buttonrightup.tbm");
-	s_ptbmLeftDown = GetSharedTBitmap("buttonleftdown.tbm");
-	s_ptbmMidDown = GetSharedTBitmap("buttonmiddown.tbm");
-	s_ptbmRightDown = GetSharedTBitmap("buttonrightdown.tbm");
+	s_ptbmLeftUp = CreateTBitmap("buttonleftup.tbm");
+	s_ptbmMidUp = CreateTBitmap("buttonmidup.tbm");
+	s_ptbmRightUp = CreateTBitmap("buttonrightup.tbm");
+	s_ptbmLeftDown = CreateTBitmap("buttonleftdown.tbm");
+	s_ptbmMidDown = CreateTBitmap("buttonmiddown.tbm");
+	s_ptbmRightDown = CreateTBitmap("buttonrightdown.tbm");
 	return true;
 }
 
@@ -56,11 +56,11 @@ bool ButtonControl::Init(char *pszLabel, int nfnt, char *szFnUp, char *szFnDown,
 	gmmgr.WritePtr(m_szLabel, 0, pszLabel, strlen(pszLabel) + 1);
 
 	if (szFnUp != NULL)
-		m_ptbmUp = GetSharedTBitmap(szFnUp);
+		m_ptbmUp = CreateTBitmap(szFnUp);
 	if (szFnDown != NULL)
-		m_ptbmDown = GetSharedTBitmap(szFnDown);
+		m_ptbmDown = CreateTBitmap(szFnDown);
 	if (szFnDisabled != NULL)
-		m_ptbmDisabled = GetSharedTBitmap(szFnDisabled);
+		m_ptbmDisabled = CreateTBitmap(szFnDisabled);
 
 	if (m_ptbmUp != NULL && m_ptbmDown != NULL) {
 		Size siz1 = { 0, 0 };
@@ -277,9 +277,9 @@ void ButtonControl::SetText(char *psz)
 bool PresetButtonControl::Init(char *pszLabel, int nfnt, char *szFnUp, char *szFnDown, bool fCenter)
 {
 	if (szFnUp != NULL)
-		m_ptbmUp = GetSharedTBitmap(szFnUp);
+		m_ptbmUp = CreateTBitmap(szFnUp);
 	if (szFnDown != NULL)
-		m_ptbmDown = GetSharedTBitmap(szFnDown);
+		m_ptbmDown = CreateTBitmap(szFnDown);
 
 	if (m_ptbmUp != NULL) {
 		Size siz1 = { 0, 0 };
@@ -349,10 +349,10 @@ bool CheckBoxControl::Init(Form *pfrm, word idc, int x, int y, char *pszLabel, i
 
 bool CheckBoxControl::InitClass()
 {
-	s_ptbmOnUp = GetSharedTBitmap("checkboxonup.tbm");
-	s_ptbmOnDown = GetSharedTBitmap("checkboxondown.tbm");
-	s_ptbmOffUp = GetSharedTBitmap("checkboxoffup.tbm");
-	s_ptbmOffDown = GetSharedTBitmap("checkboxoffdown.tbm");
+	s_ptbmOnUp = CreateTBitmap("checkboxonup.tbm");
+	s_ptbmOnDown = CreateTBitmap("checkboxondown.tbm");
+	s_ptbmOffUp = CreateTBitmap("checkboxoffup.tbm");
+	s_ptbmOffDown = CreateTBitmap("checkboxoffdown.tbm");
 
 	return true;
 }
@@ -741,20 +741,8 @@ bool BitmapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	if (cArgs != 1)
 		return false;
 
-	// Distinguish between RawBitmaps and TBitmaps
-	// UNDONE: this should probably be handled by an HtBitmap::Init.
-
-	int cch = (int)strlen(szBitmap);
-	if (szBitmap[cch - 3] == 'r') {
-		Assert(szBitmap[cch - 4] == '.' && szBitmap[cch - 2] == 'b' && szBitmap[cch - 1] == 'm');
-		m_phtbm = new RawBitmap();
-	} else {
-		m_phtbm = new TBitmap();
-	}
-	if (m_phtbm == NULL)
-		return false;
-
-	if (!m_phtbm->Init(szBitmap))
+    m_ptbm = CreateTBitmap(szBitmap);
+    if (!m_ptbm)
 		return false;
 
 	Size siz = { 0, 0 };
@@ -863,10 +851,10 @@ TBitmap *ListControl::s_ptbmScrollDownDown;
 
 bool ListControl::InitClass()
 {
-	s_ptbmScrollUpUp = GetSharedTBitmap("scrollupup.tbm");
-	s_ptbmScrollUpDown = GetSharedTBitmap("scrollupdown.tbm");
-	s_ptbmScrollDownUp = GetSharedTBitmap("scrolldownup.tbm");
-	s_ptbmScrollDownDown = GetSharedTBitmap("scrolldowndown.tbm");
+	s_ptbmScrollUpUp = CreateTBitmap("scrollupup.tbm");
+	s_ptbmScrollUpDown = CreateTBitmap("scrollupdown.tbm");
+	s_ptbmScrollDownUp = CreateTBitmap("scrolldownup.tbm");
+	s_ptbmScrollDownDown = CreateTBitmap("scrolldowndown.tbm");
 	return true;
 }
 
@@ -1747,7 +1735,7 @@ TBitmap *PipMeterControl::s_ptbmPip;
 
 bool PipMeterControl::InitClass()
 {
-	s_ptbmPip = GetSharedTBitmap("pip.tbm");
+	s_ptbmPip = CreateTBitmap("pip.tbm");
 	return true;
 }
 
@@ -1777,7 +1765,7 @@ bool PipMeterControl::Init(Form *pfrm, word idc, int x, int y, int cx, int cy,
 bool PipMeterControl::Init(char *szPip)
 {
 	if (szPip != NULL)
-		m_ptbmPip = GetSharedTBitmap(szPip);
+		m_ptbmPip = CreateTBitmap(szPip);
 	else
 		m_ptbmPip = s_ptbmPip;
 
@@ -1843,9 +1831,9 @@ TBitmap *DamageMeterControl::s_ptbmStructure;
 
 bool DamageMeterControl::InitClass()
 {
-	s_ptbmInfantry = GetSharedTBitmap("damage_infantry.tbm");
-	s_ptbmVehicle = GetSharedTBitmap("damage_vehicle.tbm");
-	s_ptbmStructure = GetSharedTBitmap("damage_structure.tbm");
+	s_ptbmInfantry = CreateTBitmap("damage_infantry.tbm");
+	s_ptbmVehicle = CreateTBitmap("damage_vehicle.tbm");
+	s_ptbmStructure = CreateTBitmap("damage_structure.tbm");
 	return true;
 }
 

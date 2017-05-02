@@ -587,9 +587,9 @@ void UpgradeForm::OnControlSelected(word idc)
 
 void UpgradeForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
-	RawBitmap *prbm = LoadRawBitmap("buildformbkgd.rbm");
-	BltHelper(pbm, prbm, pupd, m_rc.left, m_rc.top);
-	delete prbm;
+	TBitmap *ptbm = CreateTBitmap("buildformbkgd.rbm");
+	BltHelper(pbm, ptbm, pupd, m_rc.left, m_rc.top);
+	delete ptbm;
 }
 
 } // namespace wi

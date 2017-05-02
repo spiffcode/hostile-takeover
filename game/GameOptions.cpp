@@ -712,9 +712,9 @@ void ColorOptionsForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
 	// Draw the fancy background bitmap
 
-	RawBitmap *prbm = LoadRawBitmap("titlescreenbkgd.rbm");
-	BltHelper(pbm, prbm, pupd, m_rc.left, m_rc.top);
-	delete prbm;
+	TBitmap *ptbm = CreateTBitmap("titlescreenbkgd.png");
+	BltHelper(pbm, ptbm, pupd, m_rc.left, m_rc.top);
+	delete ptbm;
 }
 
 //

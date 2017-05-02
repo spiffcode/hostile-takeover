@@ -189,10 +189,10 @@ bool UnitGob::InitClass(UnitConsts *puntc, IniReader *pini)
 	// If they aren't already loaded, load the scorch marks
 
 	if (gaptbmScorches[0] == NULL) {
-		gaptbmScorches[0] = LoadTBitmap("scorch_8x8.tbm");
-		gaptbmScorches[1] = LoadTBitmap("scorch_16x16.tbm");
-		gaptbmScorches[2] = LoadTBitmap("scorch_32x16.tbm");
-		gaptbmScorches[3] = LoadTBitmap("scorch_48x48.tbm");
+		gaptbmScorches[0] = CreateTBitmap("scorch_8x8.tbm");
+		gaptbmScorches[1] = CreateTBitmap("scorch_16x16.tbm");
+		gaptbmScorches[2] = CreateTBitmap("scorch_32x16.tbm");
+		gaptbmScorches[3] = CreateTBitmap("scorch_48x48.tbm");
 	}
 
 	return true;

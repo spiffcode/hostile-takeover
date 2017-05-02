@@ -882,9 +882,9 @@ void MobileUnitBuildForm::DefUpdate(BuilderGob *pbldr, bool fBuildInProgress)
 
 void MobileUnitBuildForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 {
-	RawBitmap *prbm = LoadRawBitmap("buildformbkgd.rbm");
-	BltHelper(pbm, prbm, pupd, m_rc.left, m_rc.top);
-	delete prbm;
+	TBitmap *ptbm = CreateTBitmap("buildformbkgd.png");
+	BltHelper(pbm, ptbm, pupd, m_rc.left, m_rc.top);
+	delete ptbm;
 }
 
 void MobileUnitBuildForm::OnUnitCompleted(BuilderGob *pbldr, UnitType ut)

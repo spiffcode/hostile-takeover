@@ -119,7 +119,7 @@ void Ecom(int nCharFrom, int nCharTo, char *pszMessage, int nBackground, bool fM
 		BitmapControl *pbmc = (BitmapControl *)pfrm->GetControlPtr(kidcFromBitmap);
 		char *pszBitmap = s_aszPortraits[nCharFrom];
 		if (pszBitmap != NULL) {
-			pbmc->SetBitmap(LoadTBitmap(pszBitmap));
+			pbmc->SetBitmap(CreateTBitmap(pszBitmap));
 			pbmc->Show(true);
 		} else {
 			pbmc->Show(false);
@@ -128,7 +128,7 @@ void Ecom(int nCharFrom, int nCharTo, char *pszMessage, int nBackground, bool fM
 		pbmc = (BitmapControl *)pfrm->GetControlPtr(kidcToBitmap);
 		pszBitmap = s_aszPortraits[nCharTo];
 		if (pszBitmap != NULL) {
-			pbmc->SetBitmap(LoadTBitmap(pszBitmap));
+			pbmc->SetBitmap(CreateTBitmap(pszBitmap));
 			pbmc->Show(true);
 		} else {
 			pbmc->Show(false);

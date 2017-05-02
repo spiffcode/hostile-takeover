@@ -963,9 +963,9 @@ void ShellForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 
 	Size sizDib;
 	pbm->GetSize(&sizDib);
-	RawBitmap *prbm = LoadRawBitmap("titlescreenbkgd.rbm");
+	TBitmap *ptbm = CreateTBitmap("titlescreenbkgd.rbm");
 	Size sizBmp;
-	prbm->GetSize(&sizBmp);
+	ptbm->GetSize(&sizBmp);
     
     // Draw middle
 	Rect rcBmp;
@@ -973,7 +973,7 @@ void ShellForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
 	rcBmp.top = (sizDib.cy - sizBmp.cy) / 2;
 	rcBmp.right = rcBmp.left + sizBmp.cx;
 	rcBmp.bottom = rcBmp.top + sizBmp.cy;
-	BltHelper(pbm, prbm, pupd, rcBmp.left, rcBmp.top);
+	BltHelper(pbm, ptbm, pupd, rcBmp.left, rcBmp.top);
 
 #if 0
     // Draw left
@@ -987,7 +987,7 @@ void ShellForm::OnPaintBackground(DibBitmap *pbm, UpdateMap *pupd)
     }
 #endif
     
-	delete prbm;
+	delete ptbm;
     
 	// If the screen is wider than the form we clear those areas
 	// out first to the form's background color

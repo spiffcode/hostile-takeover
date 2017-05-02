@@ -227,7 +227,7 @@ void CutSceneForm::Layout(char *pszBitmap)
 		// Set the bitmap (which resizes its control)
 
 		BitmapControl *pbmc = (BitmapControl *)GetControlPtr(kidcBitmap);
-		pbmc->SetBitmap(LoadRawBitmap(pszBitmap));
+		pbmc->SetBitmap(CreateTBitmap(pszBitmap));
 		pbmc->GetRect(&rcBitmap);
 	}
 
