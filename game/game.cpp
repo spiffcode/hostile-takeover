@@ -47,7 +47,7 @@ int gnHueOffset = 0;
 int gnSatMultiplier = 0;
 int gnLumOffset = 0;
 int gnDemoRank = 0;
-double gnScrollSpeed = 1.0;
+float gnScrollSpeed = 1.0;
 char gszAskURL[512];
 char gszDeviceId[34];
 Stream *gpstmSavedGame;

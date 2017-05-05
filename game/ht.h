@@ -8477,7 +8477,7 @@ extern int gnHueOffset;
 extern int gnSatMultiplier;
 extern int gnLumOffset;
 extern int gnDemoRank;
-extern double gnScrollSpeed;
+extern float gnScrollSpeed;
 extern char gszAskURL[512];
 extern char gszDeviceId[34];
 extern int gtGameSpeed;
