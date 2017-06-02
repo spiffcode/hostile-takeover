@@ -1267,6 +1267,7 @@ void Stream::ReadBytesRLE(byte *pb, int cb)
 // Return the appropriate color for the current device
 //
 
+# if 0
 Color gaclr4bpp[] = {
 	0x000f, // black
 	0x0000, // white
@@ -1317,7 +1318,9 @@ Color gaclr4bpp[] = {
 	0x000f, // neutral side 3
 	0x000f, // neutral side 4
 };
+#endif
 
+#if 0
 Color gaclr8bpp[] = {
 	0x0000, // black
 	0x0001, // white
@@ -1369,57 +1372,58 @@ Color gaclr8bpp[] = {
 	45,		// neutral side 4
 	52,		// Galaxite fullness indicator/neon pink
 };
+#endif
 
 Color gaclr24bpp[] = {
-    255,        // black                     (0 0 0)
-	4244438271, // white                     (252 252 252)
-	4227858687, // red                       (252 0 0)
-	16515327,   // green                     (0 252 0)
-	4244373759, // yellow                    (252 252 0)
-	7661823,    // side 1 color              (0 116 232)
-	3894411519, // side 2 color              (232 32 0)
-	3907256575, // side 3 color              (232 228 0)
-	1761410303, // side 4 color              (104 252 252)
-	12633343,   // button fill               (0 192 196)
-	6341887,    // button border             (0 96 196)
-	255,        // menu background           (0 0 0)
-	255,        // form background           (0 0 0)
-	473447423,  // mini map border area      (28 56 59)
-	2606271743, // Galaxite minimap color    (155 88 140)
-	1419816191, // button fill highlight     (84 160 172)
-	2223014143, // medium gray               (132 128 128)
-	7661823,    // blue side 0               (0 116 232)
-	6341887,    // blue side 1               (0 96 196)
-	4225279,    // blue side 2               (0 64 120)
-	3169535,    // blue side 3               (0 48 92)
-	2113791,    // blue side 4               (0 32 64)
-	3894411519, // red side 0                (232 32 0)
-	3290235135, // red side 1                (196 29 0)
-	2013790463, // red side 2                (120 8 0)
-	1544028415, // red side 3                (92 8 0)
-	1074266367, // red side 4                (64 8 0)
-	3907256575, // yellow side 0             (232 228 0)
-	3300917503, // yellow side 1             (196 192 0)
-	2020868351, // yellow side 2             (120 116 0)
-	1549271295, // yellow side 3             (92 88 0)
-	1077674239, // yellow side 4             (64 60 0)
-	1761410303, // cyan side 0               (104 252 252)
-	1419816191, // cyan side 1               (84 160 172)
-	947422207,  // cyan side 2               (56 120 131)
-	676354303,  // cyan side 3               (40 80 88)
-	473447423,  // cyan side 4               (28 56 59)
-	271068159,  // list background           (16 40 43)
-	1419816191, // list border               (84 160 172)
-	3103324415, // Jana font                 (184 248 248)
-	1761410303, // Andy font                 (104 252 252)
-	3907256575, // Olstrom font              (232 228 0)
-	3894411519, // Fox font                  (232 32 0)
-	3638089983, // neutral side 0            (216 216 216)
-	2829625599, // neutral side 1            (168 168 168)
-	2021161215, // neutral side 2            (120 120 120)
-	1549556991, // neutral side 3            (92 92 92)
-	1077952767, // neutral side 4            (64 64 64)
-	4227923199, // Galaxite fullness indicator/neon pink (252 0 252)
+    { 0,   0,   0   }, // black
+    { 252, 252, 252 }, // white
+    { 252, 0,   0   }, // red
+    { 0,   252, 0   }, // green
+    { 252, 252, 0   }, // yellow
+    { 0,   116, 232 }, // side 1 color
+    { 232, 32,  0   }, // side 2 color
+    { 232, 228, 0   }, // side 3 color
+    { 104, 252, 252 }, // side 4 color
+    { 0,   192, 196 }, // button fill
+    { 0,   96,  196 }, // button border
+    { 0,   0,   0   }, // menu background
+    { 0,   0,   0   }, // form background
+    { 28,  56,  59  }, // mini map border area
+    { 155, 88,  140 }, // Galaxite minimap color
+    { 84,  160, 172 }, // button fill highlight
+    { 132, 128, 128 }, // medium gray
+    { 0,   116, 232 }, // blue side 0
+    { 0,   96,  196 }, // blue side 1
+    { 0,   64,  120 }, // blue side 2
+    { 0,   48,  92  }, // blue side 3
+    { 0,   32,  64  }, // blue side 4
+    { 232, 32,  0   }, // red side 0
+    { 196, 29,  0   }, // red side 1
+    { 120, 8,   0   }, // red side 2
+    { 92,  8,   0   }, // red side 3
+    { 64,  8,   0   }, // red side 4
+    { 232, 228, 0   }, // yellow side 0
+    { 196, 192, 0   }, // yellow side 1
+    { 120, 116, 0   }, // yellow side 2
+    { 92,  88,  0   }, // yellow side 3
+    { 64,  60,  0   }, // yellow side 4
+    { 104, 252, 252 }, // cyan side 0
+    { 84,  160, 172 }, // cyan side 1
+    { 56,  120, 131 }, // cyan side 2
+    { 40,  80,  88  }, // cyan side 3
+    { 28,  56,  59  }, // cyan side 4
+    { 16,  40,  43  }, // list background
+    { 84,  160, 172 }, // list border
+    { 184, 248, 248 }, // Jana font
+    { 104, 252, 252 }, // Andy font
+    { 232, 228, 0   }, // Olstrom font
+    { 232, 32,  0   }, // Fox font
+    { 216, 216, 216 }, // neutral side 0
+    { 168, 168, 168 }, // neutral side 1
+    { 120, 120, 120 }, // neutral side 2
+    { 92,  92,  92  }, // neutral side 3
+    { 64,  64,  64  }, // neutral side 4
+    { 252, 0,   252 }  // Galaxite fullness indicator/neon pink
 };
 
 int gaiclrSide[kcSides] = { kiclrSideNeutral, kiclrSide1, kiclrSide2, kiclrSide3, kiclrSide4 };

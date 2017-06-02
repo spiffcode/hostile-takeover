@@ -304,7 +304,11 @@ const int knDecreasedDamagePercent = 90;
 
 // Color type
 
-typedef dword Color; // clr
+typedef struct {
+    byte r;
+    byte g;
+    byte b;
+} Color; // clr
 
 // Network stuff
 
