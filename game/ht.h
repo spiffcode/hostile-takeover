@@ -3083,7 +3083,7 @@ private:
 	void CalcRect() secEcom;
 
 	int m_cchCur;
-	dword m_aiclrEcom[4];
+	Color m_aclrEcom[4];
 	long m_ctPrevTime;
 };
 

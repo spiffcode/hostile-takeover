@@ -536,11 +536,11 @@ void GraffitiScrollControl::OnPaint(DibBitmap *pbm)
 	Rect rcT = m_rc;
 	rcT.Offset(rcForm.left, rcForm.top);
 
-	int iclr = GetColor(kiclrWhite);
-	pbm->Fill(rcT.left + 1, rcT.top, rcT.Width() - 2, 1, iclr);
-	pbm->Fill(rcT.left, rcT.top + 1, 1, rcT.Height() - 2, iclr);
-	pbm->Fill(rcT.right - 1, rcT.top + 1, 1, rcT.Height() - 2, iclr);
-	pbm->Fill(rcT.left + 1, rcT.bottom - 1, rcT.Width() - 2, 1, iclr);
+	Color clr = GetColor(kiclrWhite);
+	pbm->Fill(rcT.left + 1, rcT.top, rcT.Width() - 2, 1, clr);
+	pbm->Fill(rcT.left, rcT.top + 1, 1, rcT.Height() - 2, clr);
+	pbm->Fill(rcT.right - 1, rcT.top + 1, 1, rcT.Height() - 2, clr);
+	pbm->Fill(rcT.left + 1, rcT.bottom - 1, rcT.Width() - 2, 1, clr);
 }
 
 bool GraffitiScrollControl::IsPainting()

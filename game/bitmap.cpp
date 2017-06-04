@@ -193,7 +193,7 @@ int DibBitmap::GetPitch()
 void DibBitmap::Fill(int x, int y, int cx, int cy, Color clr)
 {
     SDL_Rect rc = { x, y, cx, cy };
-    SDL_FillRect(m_surface, &rc, clr);
+    SDL_FillRect(m_surface, &rc, SDL_MapRGB(m_surface->format, clr.r, clr.g, clr.b));
 }
 
 void DibBitmap::FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
@@ -243,10 +243,7 @@ void DibBitmap::DrawLine(short x1, short y1, short x2, short y2, Color clr)
         if ((m_renderer = SDL_CreateSoftwareRenderer(m_surface)) == NULL)
             return;
 
-    byte r, g, b;
-    SDL_GetRGB(clr, m_surface->format, &r, &g, &b);
-
-    SDL_SetRenderDrawColor(m_renderer, r, g, b, 255);
+    SDL_SetRenderDrawColor(m_renderer, clr.r, clr.g, clr.b, 255);
     SDL_RenderDrawLine(m_renderer, x1, y1, x2, y2);
 }
 

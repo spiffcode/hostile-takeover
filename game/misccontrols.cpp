@@ -649,7 +649,7 @@ int GetFancyTextExtent(Font *pfntDefault, char *psz, int cch)
 
 int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, int cch, bool fGetExtent)
 {
-	dword *mpscaiclr = NULL;
+	Color *pclr = NULL;
 	Font *pfnt = pfntDefault;
 
 	if (cch == 0)
@@ -668,7 +668,7 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 				if (fGetExtent) {
 					cx += pfnt->GetTextExtent(psz, (int)(pchT - psz - 1));
 				} else {
-					cx += pfnt->DrawText(pbm, psz, x, y, (int)(pchT - psz - 1), mpscaiclr);
+					cx += pfnt->DrawText(pbm, psz, x, y, (int)(pchT - psz - 1), pclr);
 					x += cx;
 				}
 				psz = pchT;
@@ -702,7 +702,7 @@ int FancyTextCore(DibBitmap *pbm, Font *pfntDefault, char *psz, int x, int y, in
 		if (fGetExtent)
 			cx += pfnt->GetTextExtent(psz, (int)(pchT - psz));
 		else
-			cx += pfnt->DrawText(pbm, psz, x, y, (int)(pchT - psz), mpscaiclr);
+			cx += pfnt->DrawText(pbm, psz, x, y, (int)(pchT - psz), pclr);
 	}
 
 	return cx;

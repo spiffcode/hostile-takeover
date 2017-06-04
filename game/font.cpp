@@ -308,7 +308,7 @@ int Font::CalcBreak(int cx, char **ppsz, bool fChop)
 	return cch;
 }
 
-int Font::DrawText(DibBitmap *pbm, char *psz, int x, int y, int cch, dword *mpscaiclr)
+int Font::DrawText(DibBitmap *pbm, char *psz, int x, int y, int cch, Color *pclr)
 {
     if (cch == -1)
 		cch = (int)strlen(psz);

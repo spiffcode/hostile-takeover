@@ -1175,6 +1175,7 @@ bool Game::InitDisplay(int immRequested)
 	// Set the global fixed colors table
 
 	switch (m_amm[m_immCurrent].nDepthData) {
+#if 0
 	case 4:
 		gaclrFixed = gaclr4bpp;
 		gfGrayscale = true;
@@ -1184,7 +1185,7 @@ bool Game::InitDisplay(int immRequested)
 		gaclrFixed = gaclr8bpp;
 		gfGrayscale = false;
 		break;
-
+#endif
     case 24:
     case 32:
 		gaclrFixed = gaclr24bpp;
@@ -1664,7 +1665,7 @@ int Game::RunSimulation(Stream *pstm, char *pszLevel, word wfRole,
 	DialogForm *pfrm = (DialogForm *)gpmfrmm->LoadForm(gpiniForms, kidfLoading, new DialogForm());
 	if (pfrm != NULL) {
 		pfrm->SetBackgroundColorIndex(kiclrBlack);
-		pfrm->SetTitleColor(kiclrBlack);
+		pfrm->SetTitleColor(GetColor(kiclrBlack));
 		pfrm->SetBorderColorIndex(kiclr0CyanSide);
 		gpmfrmm->DrawFrame(false);
 	}

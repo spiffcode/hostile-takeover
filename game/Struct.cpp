@@ -454,15 +454,15 @@ void StructGob::Draw(DibBitmap *pbm, int xViewOrigin, int yViewOrigin, int nLaye
 	switch (nLayer) {
 	case knLayerMiniMap:
 		{
-			int iclr;
+			Color clr;
 			if (m_ff & kfGobSelected)
-				iclr = kiclrWhite;
+				clr = GetColor(kiclrWhite);
 			else 
-				iclr = GetSideColor(m_pplr->GetSide());
+				clr = GetSideColor(m_pplr->GetSide());
 
 			int cxy = gsim.GetMiniMapScale();
 			pbm->Fill(xViewOrigin + MmcFromWc(m_wx), yViewOrigin + MmcFromWc(m_wy), m_pstruc->ctx * cxy, m_pstruc->cty * cxy,
-					GetColor(iclr));
+					clr);
 		}
 		return;
 

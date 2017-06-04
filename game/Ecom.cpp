@@ -353,15 +353,10 @@ bool EcomTextControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
 	m_wf |= kfLblMultiLine;
 
 	m_cchCur = 0;
-	byte biclr;
-	biclr = GetColor(kiclrJana) & 0xff;
-	m_aiclrEcom[kiaiclrJana] = MAKEDWORD(biclr);
-	biclr = GetColor(kiclrAndy) & 0xff;
-	m_aiclrEcom[kiaiclrAndy] = MAKEDWORD(biclr);
-	biclr = GetColor(kiclrOlstrom) & 0xff;
-	m_aiclrEcom[kiaiclrOlstrom] = MAKEDWORD(biclr);
-	biclr = GetColor(kiclrFox) & 0xff;
-	m_aiclrEcom[kiaiclrFox] = MAKEDWORD(biclr);
+	m_aclrEcom[kiaiclrJana] = GetColor(kiclrJana);
+	m_aclrEcom[kiaiclrAndy] = GetColor(kiclrAndy);
+	m_aclrEcom[kiaiclrOlstrom] = GetColor(kiclrOlstrom);
+	m_aclrEcom[kiaiclrFox] = GetColor(kiclrFox);
 
 	return true;
 }
@@ -460,9 +455,7 @@ void EcomTextControl::DrawText(DibBitmap *pbm, Font *pfnt, char *psz, int x, int
 
 	char *pszNextSpeech = psz;
 	int cchSpeech;
-	byte biclr = GetColor(kiclrWhite) & 0xff; // make into a dword
-	dword dwiclr = MAKEDWORD(biclr);		// default color
-	dword dwiColorName = dwiclr;			// save for doing names
+	Color clr = GetColor(kiclrWhite); // default color
 	int xStart = x;
 	int cxStart = cx;
 
@@ -486,19 +479,19 @@ void EcomTextControl::DrawText(DibBitmap *pbm, Font *pfnt, char *psz, int x, int
 			// set the color for a new speech
 			switch (*pszNextSpeech) {
 			case 'A':
-				dwiclr = m_aiclrEcom[kiaiclrAndy];
+				clr = m_aclrEcom[kiaiclrAndy];
 				iszNames = 1;
 				break;
 			case 'J':
-				dwiclr = m_aiclrEcom[kiaiclrJana];
+				clr = m_aclrEcom[kiaiclrJana];
 				iszNames = 2;
 				break;
 			case 'O':
-				dwiclr = m_aiclrEcom[kiaiclrOlstrom];
+				clr = m_aclrEcom[kiaiclrOlstrom];
 				iszNames = 3;
 				break;
 			case 'F':
-				dwiclr = m_aiclrEcom[kiaiclrFox];
+				clr = m_aclrEcom[kiaiclrFox];
 				iszNames = 4;
 				break;
 			default:
@@ -513,7 +506,7 @@ void EcomTextControl::DrawText(DibBitmap *pbm, Font *pfnt, char *psz, int x, int
 			// seems wonky to use both dwWhite and dwiscColor but palm compiler
 			// messes it up if I don't use the intermediate variable
 
-			pfnt->DrawText(pbm, s_aszNames[iszNames], x, y, -1, &dwiColorName );
+			pfnt->DrawText(pbm, s_aszNames[iszNames], x, y, -1, &clr);
 			int cxName = pfnt->GetTextExtent(s_aszNames[iszNames]);
 			x += cxName;
 			cx -= cxName;
@@ -542,7 +535,7 @@ void EcomTextControl::DrawText(DibBitmap *pbm, Font *pfnt, char *psz, int x, int
 			if (cch >= cchSpeech) 
 				cch = cchSpeech;
 			cchSpeech -= cch;
-			int iret = pfnt->DrawText(pbm, pszStart, x, y, cch, &dwiclr);
+			int iret = pfnt->DrawText(pbm, pszStart, x, y, cch, &clr);
 
 			// cch does not include the whitespace char being used
 			// to break the line!
