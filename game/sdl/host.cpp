@@ -425,9 +425,8 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 
         // SDL may have released its graphics context if the app was previously
         // backgrounded. This leaves the screen black when the user returns.
-        // Hack: Draw dib and render
+        // Hack: Redraw
         gpmfrmm->DrawFrame(true);
-        gpdisp->RenderGameSurface();
         break;
 
     case SDL_APP_DIDENTERBACKGROUND:
@@ -465,7 +464,6 @@ bool ProcessSdlEvent(base::Message *pmsg, Event *pevt)
 
     case SDL_WINDOWEVENT:
         gpmfrmm->DrawFrame(true);
-        gpdisp->RenderGameSurface();
         break;
 
     default:

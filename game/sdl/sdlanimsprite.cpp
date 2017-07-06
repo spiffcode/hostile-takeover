@@ -11,7 +11,7 @@ SdlAnimSprite::SdlAnimSprite(SpriteManager *psprm) {
     cy_ = 0;
     xOrigin_ = 0;
     yOrigin_ = 0;
-    surface_ = NULL;
+    pbm_ = NULL;
     nScale_ = 1.0f;
     x_ = 0;
     y_ = 0;
@@ -23,7 +23,9 @@ SdlAnimSprite::~SdlAnimSprite() {
     psprm_->Remove(this);
 
     crit_.Enter();
-    surface_ = NULL;
+    if (pbm_)
+        delete pbm_;
+    pbm_ = NULL;
     crit_.Leave();
 }
 
@@ -74,10 +76,11 @@ bool SdlAnimSprite::CreateSurface(UnitGob *pgob) {
     yOrigin_ = rcAni.top;
 
     // Create the surface
-    surface_ = CreateDibBitmap(NULL, cx_, cy_, true);
-    if (surface_ == NULL)
+    pbm_ = CreateDibBitmap(NULL, cx_, cy_);
+    if (pbm_ == NULL)
         return false;
-    pgob->DrawAnimation(surface_, -xOrigin_, -yOrigin_);
+    SDL_SetTextureBlendMode(pbm_->Texture(), SDL_BLENDMODE_BLEND);
+    pgob->DrawAnimation(pbm_, -xOrigin_, -yOrigin_);
     
     return true;
 }
@@ -104,15 +107,8 @@ void SdlAnimSprite::Draw(void *pv, Size *psiz) {
         rcBounds.Height()
     };
 
-    if (surface_ != NULL) {
-        // Create a texture from the surface
-        SDL_Texture *texture = SDL_CreateTextureFromSurface((SDL_Renderer *)pv, surface_->GetSurface());
-
-        // Render the texture
-        SDL_RenderCopy((SDL_Renderer *)pv, texture, NULL, &rc);
-
-        // Destroy 
-        SDL_DestroyTexture(texture);
+    if (pbm_ != NULL) {
+        SDL_RenderCopy((SDL_Renderer *)pv, pbm_->Texture(), NULL, &rc);
     }
 
     crit_.Leave();

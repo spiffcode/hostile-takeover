@@ -55,7 +55,9 @@ void TBitmap::BltTo(class DibBitmap *pbmDst, int xDst, int yDst, Side side, Rect
     // Flash unit?
 
     if (side == (Side)-1) {
-        SetLum(32768)->BltTo(pbmDst, xDst, yDst, prcSrc);
+        DibBitmap *pbm = Flash();
+        pbmDst->Blt(pbm, prcSrc, xDst, yDst);
+        delete pbm;
         return;
     }
 
@@ -118,40 +120,44 @@ void TBitmap::FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
     }
 }
 
-DibBitmap *TBitmap::SetLum(word lum, Side side) {
+DibBitmap *TBitmap::Flash() {
+    // Returns a DibBitmap of this TBitmap where all
+    // the pixels have been changed to (255, 255, 255)
+    // while maintaining their original alpha value
 
-    // Copy pixels into an DibBitmap
+#if defined(SDL)
 
-    DibBitmap *pbm = CreateDibBitmap(NULL, m_cxOrig, m_cyOrig, true);
-    BltTo(pbm, 0, 0, side);
-    Uint32 *i0p = (Uint32 *)pbm->GetBits();
+    // Blt from the texture atlas into a dib
+
+    DibBitmap *pbm = CreateDibBitmap(NULL, m_cxOrig, m_cyOrig);
+    BltTo(pbm, 0, 0, ksidmSide1);
+
+    // Read pixels from dib
+
+    int cpixels = m_cxOrig * m_cyOrig;
+    dword *pixels = new dword[cpixels];
+    int pitch = m_cxOrig * sizeof(dword);
+
+    SDL_Renderer *renderer = gpdisp->Renderer();
+    if (SDL_SetRenderTarget(renderer, pbm->Texture()) != 0)
+        return NULL;
+
+    // SDL_RenderReadPixels() is a slow operation
+
+    if (SDL_RenderReadPixels(renderer, NULL, 0, pixels, pitch) != 0)
+        return NULL;
+
+    // Loop through the pixels and convert to (255, 255, 255, a)
 
     byte r, g, b, a;
-    word h, s, l;
-
-    // Loop helpers
-
-    int npixels = m_cxOrig * m_cyOrig;
-    dword *ppixels = pbm->GetBits();
-    dword *ppixel = ppixels;
-    dword *end = ppixels + npixels;
-
-    for (; ppixel < end; ppixel++, i0p++) {
-        SDL_GetRGBA(*i0p, pbm->GetSurface()->format, &r, &g, &b, &a);
-        RgbToHsl(r, g, b, &h, &s, &l);
-
-        if (lum > 32768)
-            lum = 32768;
-        if (lum < 0)
-            lum = 0;
-
-        // Change the pixel value
-
-        HslToRgb(h, s, lum, &r, &g, &b);
-        *ppixel = SDL_MapRGBA(pbm->GetSurface()->format, r, g, b, a);
+    for (int i = 0; i < cpixels; i++) {
+        SDL_GetRGBA(pixels[i], pbm->m_ppfmt, &r, &g, &b, &a);
+        pixels[i] = SDL_MapRGBA(pbm->m_ppfmt, 255, 255, 255, a);
     }
 
-    return pbm;
+    delete pbm;
+    return CreateDibBitmap(pixels, m_cxOrig, m_cyOrig);
+#endif // SDL
 }
 
 } // namespace wi

@@ -937,10 +937,6 @@ void MultiFormMgr::DrawFrame(bool fForceBackBufferValid, bool fPaint)
 
 	bool fAnyScroll = fPaint ? Paint(fForceBackBufferValid) : false;
 
-	// Copy to front buffer
-
-	BltTo(gpdisp->GetFrontDib(), 0, fAnyScroll);
-
 	// Notify the display we've completed a frame. Pass in update maps
     // so selective invalidation can occur
 

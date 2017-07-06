@@ -1059,32 +1059,30 @@ struct TBitmapHeader // tbh
 #define kfDibBackWindow 0x0002
 #define kfDibWantScrolls 0x0004
 
+class SubBitmap;
 class DibBitmap
 {
 public:
 	DibBitmap() secDibBitmap;
-	~DibBitmap() secDibBitmap;
+	virtual ~DibBitmap() secDibBitmap;
 
-    bool Init(char *pszFn) secDibBitmap;
-    bool Init(dword *pb, int cx, int cy, bool alpha, bool bigendian) secDibBitmap;
+    virtual bool Init(char *pszFn) secDibBitmap;
+    virtual bool Init(dword *pb, int cx, int cy) secDibBitmap;
 
-    void Blt(DibBitmap *pbmSrc, Rect *prcSrc, int xDst, int yDst) secDibBitmap;
-    void BltTo(class DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc = NULL) secDibBitmap;
-    void BltTiles(DibBitmap *pbmSrc, UpdateMap *pupd, int yTopDst) secDibBitmap;
-
-    void GetSize(Size *psiz) secDibBitmap;
-    dword *GetBits() secDibBitmap;
-    int GetPitch() secDibBitmap;
-
-    void Fill(int x, int y, int cx, int cy, Color clr) secDibBitmap;
-    void FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
+    virtual void Blt(DibBitmap *pbmSrc, Rect *prcSrc, int xDst, int yDst) secDibBitmap;
+    virtual void BltTiles(DibBitmap *pbmSrc, UpdateMap *pupd, int yTopDst) secDibBitmap;
+    virtual void GetSize(Size *psiz) secDibBitmap;
+    virtual void Fill(int x, int y, int cx, int cy, Color clr) secDibBitmap;
+    virtual void Fill(int x, int y, int cx, int cy, dword clr) secDibBitmap;
+    virtual void FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
         int cxDst, int cyDst, int xOrigin = 0, int yOrigin = 0) secDibBitmap;
-    void Clear(Color clr) secDibBitmap;
-    void Shadow(int x, int y, int cx, int cy) secDibBitmap;
-    void DrawLine(short x1, short y1, short x2, short y2, Color clr) secDibBitmap;
-    void Scroll(Rect *prcSrc, int xDst, int yDst) secDibBitmap;
+    virtual void Clear(Color clr) secDibBitmap;
+    virtual void Shadow(int x, int y, int cx, int cy) secDibBitmap;
+    virtual void DrawLine(short x1, short y1, short x2, short y2, Color clr) secDibBitmap;
+    virtual void Scroll(Rect *prcSrc, int xDst, int yDst) secDibBitmap;
 
-    DibBitmap *Suballoc(int yTop, int cy) secDibBitmap;
+    virtual SubBitmap *Suballoc(int yTop, int cy) secDibBitmap;
+    virtual SubBitmap *Suballoc(Rect rc) secDibBitmap;
 
     word GetFlags() {
         return m_wf;
@@ -1092,31 +1090,40 @@ public:
     void SetFlags(word wf) {
 		m_wf = wf;
 	}
-    int GetBaseline() {
-        return 0;
-    }
-    char *GetFileName() {
-        return m_pszFn;
-    }
 
 #if defined(SDL)
-    int GetWidth() { return m_surface->w; }
-    int GetHeight() { return m_surface->h; }
-    dword MapRGB(byte r, byte g, byte b);
-    SDL_Surface *GetSurface() { return m_surface; }
+    SDL_Texture *Texture() { return m_texture; }
+    int Width() { return m_cx; }
+    int Height() { return m_cy; }
 #endif
-    char *m_pszFn;
 
 private:
 #if defined(SDL)
-    SDL_Surface *m_surface;
-    SDL_Renderer *m_renderer;
+    SDL_Texture *m_texture;
+    SDL_PixelFormat *m_ppfmt;
 #endif
     word m_wf;
+    int m_cx;
+    int m_cy;
+
+    friend class TBitmap;
 };
 DibBitmap *LoadDibBitmap(char *pszFn) secDibBitmap;
-DibBitmap *CreateDibBitmap(dword *pb, int cx, int cy, bool alpha = false) secDibBitmap;
-DibBitmap *CreateBigDibBitmap(dword *pb, int cx, int cy, bool alpha = false) secDibBitmap;
+DibBitmap *CreateDibBitmap(dword *pb, int cx, int cy) secDibBitmap;
+
+class SubBitmap : public DibBitmap
+{
+public:
+    SubBitmap(Rect rc) : m_rc(rc) { }
+    ~SubBitmap() {}
+
+    void Blt(DibBitmap *pbmSrc, Rect *prcSrc, int xDst, int yDst);
+    void Fill(int x, int y, int cx, int cy, Color clr);
+    void Clear(Color clr);
+    void DrawLine(short x1, short y1, short x2, short y2, Color clr);
+private:
+    Rect m_rc;
+};
 
 // Texture bitmap
 // Stores information about a bitmap in a texture atlas
@@ -1150,7 +1157,7 @@ public:
     int Height() { return m_cyOrig; }
 
 private:
-    DibBitmap *SetLum(word lum, Side side = 1) secTBitmap;
+    DibBitmap *Flash() secTBitmap;
     
     int m_x, m_y, m_cx, m_cy;
     int m_cxOrig, m_cyOrig;

@@ -109,7 +109,7 @@ bool TileMap::Load(char *psz, Size *psizPlayfield)
         return false;
 
     for (int nTile = 0; nTile < m_cTiles; nTile++) {
-        m_tiles[nTile] = CreateBigDibBitmap(apbTileData[nTile], m_cxTile, m_cyTile);
+        m_tiles[nTile] = CreateDibBitmap(apbTileData[nTile], m_cxTile, m_cyTile);
     }
     delete[] apbTileData;
 

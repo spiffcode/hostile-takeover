@@ -3,12 +3,7 @@
 #if defined(SDL)
 #include <SDL.h>
 #include <SDL_image.h>
-
-#define SURFACE_FLAGS 0
-#define SURFACE_DEPTH 32
-#define SURFACE_PITCH(x) x*4 // row length in bytes: x*sizeof(byte)*sizeof(dword)
-#define SHADOW_ALPHA_MOD 100
-#endif // defined(SDL)
+#endif
 
 namespace wi {
 
@@ -16,21 +11,23 @@ namespace wi {
 
 DibBitmap::DibBitmap()
 {
-    m_surface = NULL;
+    m_texture = NULL;
+    m_ppfmt = NULL;
     m_wf = 0;
-    m_pszFn = NULL;
-    m_renderer = NULL;
+    m_cx = 0;
+    m_cy = 0;
 }
 
 DibBitmap::~DibBitmap()
 {
-    SDL_DestroyRenderer(m_renderer);
-    SDL_FreeSurface(m_surface);
-    if (m_wf & kfDibFreeMem)
-        free(m_surface->pixels);
-    m_surface = NULL;
-    if (m_pszFn != NULL)
-        delete[] m_pszFn;
+    if (m_texture) {
+        SDL_DestroyTexture(m_texture);
+        m_texture = NULL;
+    }
+    if (m_ppfmt && m_ppfmt->next) {
+        SDL_FreeFormat(m_ppfmt);
+        m_ppfmt = NULL;
+    }
 }
 
 DibBitmap *LoadDibBitmap(char *pszFn)
@@ -46,26 +43,13 @@ DibBitmap *LoadDibBitmap(char *pszFn)
 	return pbm;
 }
 
-DibBitmap *CreateDibBitmap(dword *pb, int cx, int cy, bool alpha)
+DibBitmap *CreateDibBitmap(dword *pb, int cx, int cy)
 {
     DibBitmap *pbm = new DibBitmap();
 	Assert(pbm != NULL, "out of memory!");
 	if (pbm == NULL)
 		return NULL;
-	if (!pbm->Init(pb, cx, cy, alpha, false)) {
-		delete pbm;
-		return NULL;
-	}
-	return pbm;
-}
-
-DibBitmap *CreateBigDibBitmap(dword *pb, int cx, int cy, bool alpha)
-{
-    DibBitmap *pbm = new DibBitmap();
-	Assert(pbm != NULL, "out of memory!");
-	if (pbm == NULL)
-		return NULL;
-	if (!pbm->Init(pb, cx, cy, alpha, true)) {
+	if (!pbm->Init(pb, cx, cy)) {
 		delete pbm;
 		return NULL;
 	}
@@ -74,94 +58,107 @@ DibBitmap *CreateBigDibBitmap(dword *pb, int cx, int cy, bool alpha)
 
 bool DibBitmap::Init(char *pszFn)
 {
-    // Read the file
+    // Open the file
 
     File *pfil = gpakr.fopen(pszFn, "rb");
-    if (pfil == NULL)
+    if (!pfil)
         return false;
     byte *pb = new byte[pfil->cbTotal];
-
-    if (gpakr.fread(pb, pfil->cbTotal, 1, pfil) != 1)
+    if (!pb)
         return false;
 
-    // Feed the bytes into an SDL surface
+    // Read the file
 
-    SDL_RWops *prwio = SDL_RWFromMem(pb, pfil->cbTotal);
-    m_surface = IMG_Load_RW(prwio, 0);
-
-    // Cleanup
-
-    SDL_FreeRW(prwio);
-    delete[] pb;
+    if (gpakr.fread(pb, pfil->cbTotal, 1, pfil) != 1) {
+        gpakr.fclose(pfil);
+        return false;
+    }
     gpakr.fclose(pfil);
 
-    // Keep the name around
+    // Copy bytes into an SDL texture
 
-    m_pszFn = AllocString(pszFn);
+    SDL_RWops *prwio = SDL_RWFromMem(pb, pfil->cbTotal);
+    m_texture = IMG_LoadTexture_RW(gpdisp->Renderer(), prwio, 1);
+    if (!m_texture)
+        return false;
 
-    return m_surface != NULL;
+    // Bytes have been copied into the texture and can be deleted
+
+    delete[] pb;
+
+    // Query the texture and save prevalent information
+
+    dword fmt;
+    SDL_QueryTexture(m_texture, &fmt, NULL, &m_cx, &m_cy);
+    m_ppfmt = SDL_AllocFormat(fmt);
+
+    return true;
 }
 
-bool DibBitmap::Init(dword *pb, int cx, int cy, bool alpha, bool bigendian)
+bool DibBitmap::Init(dword *pb, int cx, int cy)
 {
-    Uint32 rmask, gmask, bmask, amask;
-    if (bigendian) {
-        rmask = 0x000000ff;
-        gmask = 0x0000ff00;
-        bmask = 0x00ff0000;
-        amask = 0xff000000;
-    } else {
-        rmask = 0xff000000;
-        gmask = 0x00ff0000;
-        bmask = 0x0000ff00;
-        amask = 0x000000ff;
-    }
-    if (!alpha)
-        amask = 0;
+    // Assume RGBA mask
 
+    Uint32 rmask = 0, gmask = 0, bmask = 0, amask = 0;
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+
+    // Create the texture
+
+    SDL_Renderer *renderer = gpdisp->Renderer();
     if (pb == NULL) {
-        m_surface = SDL_CreateRGBSurface(SURFACE_FLAGS, cx, cy, SURFACE_DEPTH,
-            rmask, gmask, bmask, amask);
+        m_texture = SDL_CreateTexture(renderer,
+            SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, cx, cy);
     } else {
-        m_surface = SDL_CreateRGBSurfaceFrom(pb, cx, cy, SURFACE_DEPTH, SURFACE_PITCH(cx),
-            rmask, gmask, bmask, amask);
 
-        // When using SDL_CreateRGBSurfaceFrom(), SDL does not manage the pixel data
-        // so it will need to be freed manually
+        // If creating with pb, copy bytes into SDL_Surface then create SDL_Texture from surface
 
-        m_wf |= kfDibFreeMem;
+        SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(
+            pb, cx, cy, 32, cx * sizeof(dword), rmask, gmask, bmask, amask);
+        m_texture = SDL_CreateTextureFromSurface(renderer, surface);
+        SDL_FreeSurface(surface);
+        surface = NULL;
     }
 
-#if 0
-    // This can be used to set the alpha color (only works if amask is 0)
-    // SDL_SetColorKey(m_surface, 1, SDL_MapRGB(m_surface->format, 255, 0, 255));
-#endif
+    if (!m_texture)
+        return false;
 
-    return m_surface != NULL;
+    // Query the texture and save prevalent information
+
+    dword fmt;
+    SDL_QueryTexture(m_texture, &fmt, NULL, &m_cx, &m_cy);
+    m_ppfmt = SDL_AllocFormat(fmt);
+    if (!m_ppfmt)
+        return false;
+
+    return true;
 }
 
+SDL_Rect rcSrc;
+SDL_Rect rcDst;
 void DibBitmap::Blt(DibBitmap *pbmSrc, Rect *prcSrc, int xDst, int yDst)
 {
-    if (prcSrc == NULL) {
-        SDL_Rect rcDst = { xDst, yDst, pbmSrc->GetSurface()->w, pbmSrc->GetSurface()->h };
-        SDL_BlitSurface(pbmSrc->GetSurface(), NULL, m_surface, &rcDst);
-    } else {
-        SDL_Rect rcSrc = { prcSrc->left, prcSrc->top, prcSrc->Width(), prcSrc->Height() };
-        SDL_Rect rcDst = { xDst, yDst, prcSrc->Width(), prcSrc->Height() };
-        SDL_BlitSurface(pbmSrc->GetSurface(), &rcSrc, m_surface, &rcDst);
+    SDL_Renderer *renderer = gpdisp->Renderer();
+    if (SDL_SetRenderTarget(renderer, m_texture) != 0) {
+        LOG() << "SDL Error: " << SDL_GetError();
+        return;
     }
-}
 
-void DibBitmap::BltTo(class DibBitmap *pbmDst, int xDst, int yDst, Rect *prcSrc)
-{
-    if (prcSrc == NULL) {
-        SDL_Rect rcDst = { xDst, yDst, m_surface->w, m_surface->h };
-        SDL_BlitSurface(m_surface, NULL, pbmDst->GetSurface(), &rcDst);
-    } else {
-        SDL_Rect rcSrc = { prcSrc->left, prcSrc->top, prcSrc->Width(), prcSrc->Height() };
-        SDL_Rect rcDst = { xDst, yDst, prcSrc->Width(), prcSrc->Height() };
-        SDL_BlitSurface(m_surface, &rcSrc, pbmDst->GetSurface(), &rcDst);
+    if (prcSrc != NULL) {
+        rcSrc.x = prcSrc->left;
+        rcSrc.y = prcSrc->top;
+        rcSrc.w = prcSrc->Width();
+        rcSrc.h = prcSrc->Height();
     }
+
+    rcDst.x = xDst;
+    rcDst.y = yDst;
+    rcDst.w = prcSrc ? prcSrc->Width() : pbmSrc->Width();
+    rcDst.h = prcSrc ? prcSrc->Height() : pbmSrc->Height();
+
+    SDL_RenderCopy(renderer, pbmSrc->Texture(), prcSrc != NULL ? &rcSrc : NULL, &rcDst);
 }
 
 void DibBitmap::BltTiles(DibBitmap *pbmSrc, UpdateMap *pupd, int yTopDst)
@@ -176,24 +173,34 @@ void DibBitmap::BltTiles(DibBitmap *pbmSrc, UpdateMap *pupd, int yTopDst)
 
 void DibBitmap::GetSize(Size *psiz)
 {
-    psiz->cx = m_surface->w;
-	psiz->cy = m_surface->h;
-}
-
-dword *DibBitmap::GetBits()
-{
-    return (dword *)m_surface->pixels;
-}
-
-int DibBitmap::GetPitch()
-{
-    return m_surface->pitch;
+    psiz->cx = m_cx;
+	psiz->cy = m_cy;
 }
 
 void DibBitmap::Fill(int x, int y, int cx, int cy, Color clr)
 {
-    SDL_Rect rc = { x, y, cx, cy };
-    SDL_FillRect(m_surface, &rc, SDL_MapRGB(m_surface->format, clr.r, clr.g, clr.b));
+    SDL_Renderer *renderer = gpdisp->Renderer();
+    SDL_SetRenderTarget(renderer, m_texture);
+
+    SDL_Rect rc;
+    rc.x = x;
+    rc.y = y;
+    rc.w = cx;
+    rc.h = cy;
+
+    SDL_SetRenderDrawColor(renderer, clr.r, clr.g, clr.b, 255);
+    SDL_RenderFillRect(renderer, &rc);
+}
+
+void DibBitmap::Fill(int x, int y, int cx, int cy, dword clr)
+{
+    SDL_PixelFormat *pfmt = SDL_AllocFormat(SDL_PIXELFORMAT_RGBA8888);
+    if (pfmt) {
+        byte r, g, b;
+        SDL_GetRGB(clr, pfmt, &r, &g, &b);
+        Color c = { r, g, b };
+        Fill(x, y, cx, cy, c);
+    }
 }
 
 void DibBitmap::FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
@@ -201,20 +208,20 @@ void DibBitmap::FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
 {
     Rect rcclp;
 
-    // For every y point that is disivible by m_surface->h
+    // For every y point that is disivible by cx
 
     for (int y = 0; y < cyDst; y++) {
-        if (!(y % m_surface->h)) {
+        if (!(y % m_cy)) {
 
-            // For every x point that is disivible by m_surface->w
+            // For every x point that is disivible by cy
 
             for (int x = 0; x < cxDst; x++) {
-                if (!(x % m_surface->w)) {
+                if (!(x % m_cx)) {
 
                     // Blt and clip appropriately
 
                     rcclp.Set(xDst + x, yDst + y, cxDst, cyDst);
-                    pbmDst->Blt(this, NULL, xDst + x, yDst + y);
+                    pbmDst->Blt(this, &rcclp, xDst + x, yDst + y);
                 }
             }
         }
@@ -223,7 +230,7 @@ void DibBitmap::FillTo(class DibBitmap *pbmDst, int xDst, int yDst,
 
 void DibBitmap::Clear(Color clr)
 {
-    Fill(0, 0, m_surface->w, m_surface->h, clr);
+    Fill(0, 0, m_cx, m_cy, clr);
 }
 
 void DibBitmap::Shadow(int x, int y, int cx, int cy)
@@ -231,20 +238,21 @@ void DibBitmap::Shadow(int x, int y, int cx, int cy)
     DibBitmap *pbm = CreateDibBitmap(NULL, cx, cy);
     pbm->Clear(GetColor(kiclrBlack));
 
-    SDL_SetSurfaceBlendMode(pbm->GetSurface(), SDL_BLENDMODE_BLEND);
-    SDL_SetSurfaceAlphaMod(pbm->GetSurface(), SHADOW_ALPHA_MOD);
+    SDL_SetTextureBlendMode(pbm->Texture(), SDL_BLENDMODE_BLEND);
+    SDL_SetTextureAlphaMod(pbm->Texture(), 100);
 
-    pbm->BltTo(this, x, y);
+    Blt(pbm, NULL, x, y);
+
+    SDL_SetTextureBlendMode(pbm->Texture(), SDL_BLENDMODE_NONE);
 }
 
 void DibBitmap::DrawLine(short x1, short y1, short x2, short y2, Color clr)
 {
-    if (m_renderer == NULL)
-        if ((m_renderer = SDL_CreateSoftwareRenderer(m_surface)) == NULL)
-            return;
+    SDL_Renderer *renderer = gpdisp->Renderer();
+    SDL_SetRenderTarget(renderer, m_texture);
 
-    SDL_SetRenderDrawColor(m_renderer, clr.r, clr.g, clr.b, 255);
-    SDL_RenderDrawLine(m_renderer, x1, y1, x2, y2);
+    SDL_SetRenderDrawColor(renderer, clr.r, clr.g, clr.b, 255);
+    SDL_RenderDrawLine(renderer, x1, y1, x2, y2);
 }
 
 void DibBitmap::Scroll(Rect *prcSrc, int xDst, int yDst)
@@ -255,26 +263,54 @@ void DibBitmap::Scroll(Rect *prcSrc, int xDst, int yDst)
     Blt(this, prcSrc, xDst, yDst);
 }
 
-
-DibBitmap *DibBitmap::Suballoc(int yTop, int cy)
+SubBitmap *DibBitmap::Suballoc(int yTop, int cy)
 {
-    Assert(yTop < m_surface->h && yTop + cy <= m_surface->h);
-	dword *pb = (dword *)m_surface->pixels + (long)m_surface->w * yTop;
-    DibBitmap *pbm = CreateDibBitmap(pb, m_surface->w, cy);
+    Assert(yTop < m_cy && yTop + cy <= m_cy);
+    Rect rc;
+    rc.Set(0, yTop, m_cx, yTop + cy);
+    return Suballoc(rc);
+}
 
-    // We don't want it to free memory since that will be taken care
-    // of by 'this'
-    if (pbm != NULL)
-        pbm->SetFlags(pbm->GetFlags() & ~kfDibFreeMem);
+SubBitmap *DibBitmap::Suballoc(Rect rc)
+{
+    Assert(rc.right <= m_cx && rc.top <= m_cy);
+
+    SubBitmap *pbm = new SubBitmap(rc);
+    if (!pbm) {
+        delete pbm;
+        return NULL;
+    }
+
+    pbm->m_texture = m_texture;
+    pbm->m_ppfmt = m_ppfmt;
+    pbm->m_cx = rc.Width();
+    pbm->m_cy = rc.Height();
 
     return pbm;
 }
 
-dword DibBitmap::MapRGB(byte r, byte g, byte b)
+#endif // defined(SDL)
+
+// SubBitmap
+
+void SubBitmap::Blt(DibBitmap *pbmSrc, Rect *prcSrc, int xDst, int yDst)
 {
-    return SDL_MapRGB(m_surface->format, r, g, b);
+    DibBitmap::Blt(pbmSrc, prcSrc, xDst + m_rc.left, yDst + m_rc.top);
 }
 
-#endif // defined(SDL)
+void SubBitmap::Fill(int x, int y, int cx, int cy, Color clr)
+{
+    DibBitmap::Fill(x + m_rc.left, y + m_rc.top, cx, cy, clr);
+}
+
+void SubBitmap::Clear(Color clr)
+{
+    DibBitmap::Fill(m_rc.left, m_rc.top, m_rc.Width(), m_rc.Height(), clr);
+}
+
+void SubBitmap::DrawLine(short x1, short y1, short x2, short y2, Color clr)
+{
+    DibBitmap::DrawLine(x1 + m_rc.left, y1 + m_rc.top, x2 + m_rc.left, y2 + m_rc.top, clr);
+}
 
 } // namespace wi

@@ -2165,7 +2165,7 @@ bool Game::FilterEvent(Event *pevt)
 
 		// Draw
 
-		gpmfrmm->DrawFrame(false);
+		gpmfrmm->DrawFrame(true);
 		return true;
 
 	case gameSuspendEvent:

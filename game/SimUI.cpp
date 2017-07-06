@@ -2413,7 +2413,7 @@ bool MiniMapControl::Init(Form *pfrm, IniReader *pini, FindProp *pfind)
     dword *pbtd = (dword *)(pmtseth + 1);
     m_pbTileData = new dword[pmtseth->cTiles];
     for (int i = 0; i < pmtseth->cTiles; i++, pbtd++) {
-        m_pbTileData[i] = BigDword(*pbtd);
+        m_pbTileData[i] = *pbtd;
     }
 
 	// Calc powered radar flag
@@ -2706,9 +2706,9 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 
 	// Redraw this rect
 
-	dword *pbDst = m_pbm->GetBits() + (long)ptrc->top * m_cbRowBytes * m_nScale +
-			ptrc->left * m_nScale + (long)m_yOff * m_cbRowBytes + m_xOff;
-	int cbDstReturn = m_cbRowBytes - ptrc->Width() * m_nScale;
+    Rect rc;
+    rc.Set(m_xOff, m_yOff, ptrc->Width(), ptrc->Height());
+    DibBitmap *pbmDst = m_pbm->Suballoc(rc);
 	long offset = (long)ptrc->top * m_ctx + ptrc->left;
 	byte *pbFogMap = m_pbFogMap + offset;
 	word *pwTileMap = m_pwTileMap + offset;
@@ -2716,138 +2716,62 @@ void MiniMapControl::RedrawTRect(TRect *ptrc)
 	int ctReturn = m_ctx - ptrc->Width();
 
 #define HasWall(btt) ((btt) == kttWall)
+    for (TCoord ty = ptrc->top; ty < ptrc->bottom; ty++) {
+        for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++, pbTrMap++) {
+            // Fogged?
 
-	if (m_nScale == 1) {
-		for (TCoord ty = ptrc->top; ty < ptrc->bottom; ty++) {
-			for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++, pbTrMap++) {
-				// Fogged?
+            if (IsFogOpaque(*pbFogMap)) {
+                pbmDst->Fill(tx * m_nScale, ty * m_nScale, m_nScale, m_nScale, m_clrBlack);
+                continue;
+            }
 
-				if (IsFogOpaque(*pbFogMap)) {
-					*pbDst++ = m_clrBlack;
-					continue;
-				}
+            // Not fogged; remember to redraw the minimap to the screen next timer
 
-				// Not fogged; remember to redraw the minimap to the screen next timer
+            m_wfMm |= kfMmRedraw;
 
-				m_wfMm |= kfMmRedraw;
+            // Unit gob?
 
-				// Unit gob?
+            UnitGob *punt = ggobm.GetUnitGob(tx, ty);
+            if (punt != NULL) {
+                dword wf = punt->GetFlags();
+                if ((wf & (kfGobMobileUnit | kfGobActive)) != (kfGobMobileUnit))  {
+                    Color clr;
+                    if (wf & kfGobSelected) {
+                        clr = m_clrWhite;
+                    } else {
+                        clr = m_aclrSide[punt->GetSide()];
+                    }
 
-				UnitGob *punt = ggobm.GetUnitGob(tx, ty);
+                    pbmDst->Fill(tx * m_nScale, ty * m_nScale, m_nScale, m_nScale, clr);
+                    continue;
+                }
+            }
 
-				// don't show inactive munts
+            // Wall?
 
-				if (punt != NULL) {
-					dword wf = punt->GetFlags();
-					if ((wf & (kfGobMobileUnit | kfGobActive)) != (kfGobMobileUnit))  {
-						if (wf & kfGobSelected) {
-							*pbDst++ = m_clrWhite;
-						} else {
-							*pbDst++ = m_aclrSide[punt->GetSide()];
-						}
-						continue;
-					}
-				}
+            if (HasWall(*pbTrMap)) {
+                pbmDst->Fill(tx * m_nScale, ty * m_nScale, m_nScale, m_nScale, m_clrWall);
+                continue;
+            }
 
-                // Wall?
+            // Galaxite?
 
-				if (HasWall(*pbTrMap)) {
-					*pbDst++ = m_clrWall;
-					continue;
-				}
+            if (HasGalaxite(*pbFogMap)) {
+                pbmDst->Fill(tx * m_nScale, ty * m_nScale, m_nScale, m_nScale, m_clrGalaxite);
+                continue;
+            }
 
-				// Galaxite?
+            // Tile
 
-				if (HasGalaxite(*pbFogMap)) {
-					*pbDst++ = m_clrGalaxite;
-					continue;
-				}
-
-				// Tile
-
-				int nTile = (BigWord(*pwTileMap) & 0x7fc);
-				*pbDst++ = m_pbTileData[nTile >> 2];
-				continue;
-			}
-			pwTileMap += ctReturn;
-			pbFogMap += ctReturn;
-            pbTrMap += ctReturn;
-			pbDst += cbDstReturn;
-		}
-	} else if (m_nScale == 2) {
-		for (TCoord ty = ptrc->top; ty < ptrc->bottom; ty++) {
-			for (TCoord tx = ptrc->left; tx < ptrc->right; tx++, pbFogMap++, pwTileMap++, pbTrMap++) {
-				// Fogged?
-
-				if (IsFogOpaque(*pbFogMap)) {
-					*pbDst++ = m_clrBlack;
-					*pbDst++ = m_clrBlack;
-					*(pbDst + m_cbRowBytes - 2) = m_clrBlack;
-					*(pbDst + m_cbRowBytes - 1) = m_clrBlack;
-					continue;
-				}
-
-				// Not fogged; remember to redraw the minimap to the screen next timer
-
-				m_wfMm |= kfMmRedraw;
-
-				// Unit gob?
-
-				UnitGob *punt = ggobm.GetUnitGob(tx, ty);
-				if (punt != NULL) {
-					dword wf = punt->GetFlags();
-					if ((wf & (kfGobMobileUnit | kfGobActive)) != (kfGobMobileUnit))  {
-						dword clr;
-						if (wf & kfGobSelected) {
-							clr = m_clrWhite;
-						} else {
-							clr = m_aclrSide[punt->GetSide()];
-						}
-
-						*pbDst++ = clr;
-						*pbDst++ = clr;
-						*(pbDst + m_cbRowBytes - 2) = clr;
-						*(pbDst + m_cbRowBytes - 1) = clr;
-						continue;
-					}
-				}
-
-                // Wall?
-
-                if (HasWall(*pbTrMap)) {
-					*pbDst++ = m_clrWall;
-					*pbDst++ = m_clrWall;
-					*(pbDst + m_cbRowBytes - 2) = m_clrWall;
-					*(pbDst + m_cbRowBytes - 1) = m_clrWall;
-					continue;
-				}
-
-				// Galaxite?
-
-				if (HasGalaxite(*pbFogMap)) {
-					*pbDst++ = m_clrGalaxite;
-					*pbDst++ = m_clrGalaxite;
-					*(pbDst + m_cbRowBytes - 2) = m_clrGalaxite;
-					*(pbDst + m_cbRowBytes - 1) = m_clrGalaxite;
-					continue;
-				}
-
-				// Tile
-
-				int nTile = (BigWord(*pwTileMap) & 0x7fc);
-				dword pbSrc = m_pbTileData[nTile];
-				*pbDst++ = pbSrc;
-				*pbDst++ = pbSrc;
-				*(pbDst + m_cbRowBytes - 2) = pbSrc;
-				*(pbDst + m_cbRowBytes - 1) = pbSrc;
-				continue;
-			}
-			pwTileMap += ctReturn;
-			pbFogMap += ctReturn;
-            pbTrMap += ctReturn;
-			pbDst += cbDstReturn + m_cbRowBytes;
-		}
-	}
+            int nTile = (BigWord(*pwTileMap) & 0x7fc);
+            dword pbSrc = m_pbTileData[m_nScale == 1 ? nTile >> 2 : nTile];
+            pbmDst->Fill(tx * m_nScale, ty * m_nScale, m_nScale, m_nScale, pbSrc);
+            continue;
+        }
+        pwTileMap += ctReturn;
+        pbFogMap += ctReturn;
+        pbTrMap += ctReturn;
+    }
 }
 
 } // namespace wi

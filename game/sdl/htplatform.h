@@ -121,25 +121,19 @@ public:
     void ResetScrollOffset();
     SpriteManager *GetSpriteManager();
     void SetFormMgrs(FormMgr *pfrmmSim, FormMgr *pfrmmInput);
-    void RenderGameSurface();
-    float Density();
     void SetShouldRender(bool fsr);
+    SDL_Renderer *Renderer();
 
 private:
     int m_imode;
     ModeInfo m_amodeInfo[kcmodesMax];
     int m_cmodes;
-
     int m_cx;
     int m_cy;
+    DibBitmap *m_pbm;
     DibBitmap *m_pbmClip;
-
     SDL_Window *m_window;
     SDL_Renderer *m_renderer;
-    SDL_Texture *m_texture;
-    DibBitmap *m_display;
-
-    float m_density;
     bool m_fShouldRender;
 };
 

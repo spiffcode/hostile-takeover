@@ -44,7 +44,7 @@ private:
     dword hash_;
     int cx_, cy_;
     int xOrigin_, yOrigin_;
-    DibBitmap *surface_;
+    DibBitmap *pbm_;
     SpriteManager *psprm_;
     float nScaleStart_, nScaleEnd_;
     long msAnimateStart_;

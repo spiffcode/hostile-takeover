@@ -32,10 +32,8 @@ Display::Display()
 
     m_window = NULL;
     m_renderer = NULL;
-    m_texture = NULL;
-    m_display = NULL;
+    m_pbm = NULL;
 
-    m_density = 0;
     m_fShouldRender = false;
 }
 
@@ -44,15 +42,13 @@ Display::~Display()
 	delete m_pbmClip;
 	m_pbmClip = NULL;
 
-    delete m_display;
-    m_display = NULL;
+    delete m_pbm;
+    m_pbm = NULL;
 
     SDL_DestroyWindow(m_window);
     m_window = NULL;
     SDL_DestroyRenderer(m_renderer);
     m_renderer = NULL;
-    SDL_DestroyTexture(m_texture);
-    m_texture = NULL;
 }
 
 bool Display::Init()
@@ -68,6 +64,7 @@ bool Display::Init()
 	// Absolutely do not mess with SDL_FULLSCREEN if there is any chance the app
 	// will crash or stop at a breakpoint. If it does you will be lost in full
 	// screen mode! (ssh from another machine and kill the Xcode process)
+
     videoflags = SDL_WINDOW_ALLOW_HIGHDPI | SDL_WINDOW_SHOWN;
     #if defined(__IPHONEOS__) || defined(__ANDROID__)
     videoflags = videoflags | SDL_WINDOW_BORDERLESS;
@@ -75,13 +72,14 @@ bool Display::Init()
     #endif
 
     // Get surface properties
+
     SurfaceProperties props;
     HostHelpers::GetSurfaceProperties(&props);
     m_cx = props.cxWidth;
     m_cy = props.cyHeight;
-    m_density = props.density;
 
     // Set appropriate GL attributes
+
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
     SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
@@ -94,19 +92,11 @@ bool Display::Init()
         return false;
     }
 
-    // Create renderer
-    m_renderer = SDL_CreateRenderer(m_window, 0, SDL_RENDERER_TARGETTEXTURE);
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_TARGETTEXTURE | SDL_RENDERER_ACCELERATED);
     this->SetShouldRender(true);
 
     // Keep the screen size around
-    s_siz.cx = m_cx;
-    s_siz.cy = m_cy;
 
-    // Create texture and display
-    m_display = CreateDibBitmap(NULL, m_cx, m_cy);
-    m_texture = SDL_CreateTexture(m_renderer, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, m_cx, m_cy);
-
-    // Keep the screen size around
     s_siz.cx = m_cx;
     s_siz.cy = m_cy;
 
@@ -193,12 +183,12 @@ bool Display::SetMode(int imode)
 
 	ModeInfo *pmode = &m_amodeInfo[imode];
 
-    DibBitmap *pbmFront = CreateDibBitmap(NULL, m_cx, m_cy);
-	if (pbmFront == NULL) {
+    DibBitmap *pbm = CreateDibBitmap(NULL, m_cx, m_cy);
+	if (pbm == NULL) {
 		return NULL;
 	}
-	delete m_display;
-	m_display = pbmFront;
+	delete m_pbm;
+	m_pbm = pbm;
 	m_imode = imode;
 
 	return true;
@@ -214,12 +204,12 @@ void Display::DrawFrameInclusive(Rect *prc)
 
 DibBitmap *Display::GetBackDib()
 {
-    return m_display;
+    return m_pbm;
 }
 
 DibBitmap *Display::GetFrontDib()
 {
-    return m_display;
+    return m_pbm;
 }
 
 DibBitmap *Display::GetClippingDib()
@@ -243,25 +233,18 @@ void Display::FrameStart()
 void Display::FrameComplete(int cfrmm, UpdateMap **apupd, Rect *arc,
         bool fScrolled)
 {
-    RenderGameSurface();
-}
-
-void Display::RenderGameSurface() {
     if (!m_fShouldRender)
         return;
 
-    // Update the texture
-
-    SDL_UpdateTexture(m_texture, NULL, m_display->GetBits(), m_display->GetPitch());
-
     // Draw any sprites onto the texture
-    SDL_SetRenderTarget(m_renderer, m_texture);
+
+    SDL_SetRenderTarget(m_renderer, m_pbm->Texture());
     s_psprm->DrawSprites(m_renderer, s_siz);
-    SDL_SetRenderTarget(m_renderer, NULL);
 
     // Present the renderer to the screen
-    SDL_RenderClear(m_renderer);
-    SDL_RenderCopy(m_renderer, m_texture, NULL, NULL);
+
+    SDL_SetRenderTarget(m_renderer, NULL);
+    SDL_RenderCopy(m_renderer, m_pbm->Texture(), NULL, NULL);
     SDL_RenderPresent(m_renderer);
 }
 
@@ -286,12 +269,12 @@ void Display::SetFormMgrs(FormMgr *pfrmmSimUI, FormMgr *pfrmmInput)
 #endif
 }
 
-float Display::Density() {
-    return m_density;
-}
-
 void Display::SetShouldRender(bool fsr) {
     m_fShouldRender = fsr;
+}
+
+SDL_Renderer *Display::Renderer() {
+    return m_renderer;
 }
 
 } // namespace wi
