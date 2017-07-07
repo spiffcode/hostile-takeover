@@ -40,7 +40,7 @@ bool HostHelpers::Init() {
     sprintf(gszMissionPackInfosDir, "%s/Library/MissionPackInfos", pszHomeDir);
     sprintf(gszSaveGamesDir, "%s/Library/SaveGames", pszHomeDir);
     sprintf(gszCompletesDir, "%s/Library/Completes", pszHomeDir);
-    sprintf(gszPrefsFilename, "%s/Library/prefs.bin", pszHomeDir);
+    sprintf(gszPrefsFilename, "%s/Library/prefs.json", pszHomeDir);
 
     // Make the directories under Library
     mkdir(gszMissionPacksDir, 0755);

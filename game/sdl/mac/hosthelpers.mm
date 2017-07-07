@@ -38,7 +38,7 @@ bool HostHelpers::Init() {
     sprintf(gszMissionPackInfosDir, "%s/HostileTakeover/MissionPackInfos", pszApplicationSupportDir);
     sprintf(gszSaveGamesDir, "%s/HostileTakeover/SaveGames", pszApplicationSupportDir);
     sprintf(gszCompletesDir, "%s/HostileTakeover/Completes", pszApplicationSupportDir);
-    sprintf(gszPrefsFilename, "%s/HostileTakeover/prefs.bin", pszApplicationSupportDir);
+    sprintf(gszPrefsFilename, "%s/HostileTakeover/prefs.json", pszApplicationSupportDir);
 
     [[NSFileManager defaultManager] createDirectoryAtPath:[NSString stringWithFormat:@"%@/HostileTakeover", applicationSupportDir] withIntermediateDirectories:YES attributes:nil error:nil];
 
