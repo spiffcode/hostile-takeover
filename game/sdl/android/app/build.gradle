@@ -1,0 +1,98 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion '25.0.3'
+    defaultConfig {
+        applicationId "com.spiffcode.ht"
+        minSdkVersion 12
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.7"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                cppFlags '-Wno-write-strings', '-fsigned-char', '-w',
+                        '-DSDL', '-DMULTIPLAYER', '-DTRACKSTATE'
+                arguments '-DANDROID_PLATFORM=android-19'
+            }
+        }
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi', 'armeabi-v7a', 'x86', 'x86_64', 'mips', 'mips64'
+            stl 'gnustl_static'
+        }
+    }
+    signingConfigs {
+        release {
+            if (project.hasProperty("AndroidProject.signing")
+                    && new File(project.property("AndroidProject.signing").toString()).exists()) {
+                def Properties props = new Properties()
+                def propFile = new File(project.property("AndroidProject.signing").toString())
+                if (propFile.canRead()) {
+                    props.load(new FileInputStream(propFile))
+                    if (props != null && props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+                            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+                        storeFile = file(props['STORE_FILE'])
+                        storePassword = props['STORE_PASSWORD']
+                        keyAlias = props['KEY_ALIAS']
+                        keyPassword = props['KEY_PASSWORD']
+                    } else {
+                        println 'androidsigning.properties found but some entries are missing'
+                        signingConfig = null
+                    }
+                } else {
+                    println 'androidsigning.properties file not found'
+                    signingConfig = null
+                }
+            }
+        }
+    }
+    buildTypes {
+        release {
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            externalNativeBuild {
+                cmake.cppFlags '-DDEV_BUILD', '-DDEBUG_LOGGING', '-DDEBUG -DLOGGING'
+            }
+            debuggable true
+            jniDebuggable true
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs '../../libs/SDL2/android/'
+            jniLibs.srcDirs '../../libs/SDL2_image/android/'
+            java.srcDirs '../../libs/SDL2_src/android-project/src'
+            assets.srcDirs 'build/assets'
+        }
+    }
+}
+
+task syncSFX(type: Sync) {
+    from '../../../'
+    into "${buildDir}/assets/"
+    include 'htsfx.pdb'
+}
+task syncData(type: Sync) {
+    from '../../../../data/htdata2432'
+    into "${buildDir}/assets/htdata2432"
+}
+preBuild.dependsOn(syncSFX)
+preBuild.dependsOn(syncData)
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+}
