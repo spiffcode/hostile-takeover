@@ -1,8 +1,0 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"  
-    android:id="@+id/rowTextView"   
-	android:layout_width="fill_parent"   
-	android:layout_height="wrap_content"  
-	android:padding="0dp"  
-	android:textSize="13sp"
-	android:textColor="#000000" >  
-</TextView>
